@@ -1,0 +1,59 @@
+{
+  "name": "@abhay557/indian-fakedata",
+  "version": "2.0.0",
+  "description": "A generator for realistic Indian demographic data based on Census 2011 statistics.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "indian-fakedata": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "cli": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "tsx scripts/demo.ts",
+    "compile-census": "tsx scripts/compile-census.ts",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "fake-data",
+    "synthetic-data",
+    "demographic",
+    "census",
+    "india",
+    "abhay557",
+    "mock-data",
+    "testing",
+    "ai-training",
+    "data-generation",
+    "population-simulator"
+  ],
+  "author": "Abhay Mourya",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7",
+    "xlsx": "^0.18.5"
+  }
+}
