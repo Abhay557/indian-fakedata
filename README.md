@@ -18,6 +18,27 @@ Unlike standard tools that create impossible combinations (like a Sikh named *Mo
 * **No Dependencies**: Built entirely using native standard libraries to keep things extremely fast and lightweight .
 * **Deterministic**: Generates the exact same profiles for identical seed numbers .
 
+##  Data Sources & Real-World Data Accuracy
+
+Every demographic profile, name distribution, and asset weighting in this library is calibrated against public survey data:
+
+1. **Census of India 2011 (D-Series & C-Series Tables):** Core distributions for religion, state-by-state population metrics, and mother tongue/linguistic frequencies.
+2. **National Family Health Survey (NFHS-5):** Calibrated parameters for state-wise dietary preferences, body mass index (BMI), blood groups, and height/weight correlations by age.
+3. **Ministry of Micro, Small and Medium Enterprises (MSME Census):** Community-level occupational sectors, vocational rates, and industry divisions.
+4. **UIDAI & RTO Registration Records:** Structural syntax formatting for Aadhaar, Voter ID, PAN card, bank IFSC records, and RTO vehicle registrations by state.
+5. **CSDS/Lokniti National Election Studies:** Statistical biases for political leanings and religiosity index.
+
+---
+
+##  The Data Layers
+
+`indian-fakedata` generates data across four progressive layers of demographic depth:
+
+* **Layer 1: Core Demographics:** Links state, gender, and religion to caste/community, realistic first/last names, languages, biological markers, and street address.
+* **Layer 2: Socio-Economic Outcomes:** Simulates credit scores (CIBIL-observant), health risk scores, functional literacy levels, and employment vulnerabilities using a configurable historic bias dial (`bias_level` from `0.0` to `1.0`).
+* **Layer 3: Narrative Documents:** Generates realistic text corpuses—such as personal loan applications, hospital OPD record files, Hinglish WhatsApp chats, and school admissions forms.
+* **Layer 4: Agent Persona Prompts:** Builds LLM-ready structured prompts, worldview beliefs, stress responses, and memory seeds—ideal for multi-agent simulation frameworks.
+
 ---
 
 ## Python Edition 
@@ -148,5 +169,7 @@ npx Indian-FakeData -c 50000 -f jsonl -o data.jsonl --enrich --bias 0.3
 ---
 
 ## License 
-
 MIT © Abhay Mourya 
+
+
+# Data Source
