@@ -8,7 +8,7 @@ Unlike standard tools that create impossible combinations (like a Sikh named *Mo
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/) 
 [![Node](https://img.shields.io/badge/Node-18+-brightgreen.svg)](https://nodejs.org) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) 
-
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VWYsjM0f6CxEi7pZ6uOa1i9Hfh7tsH8s?usp=sharing)
 ---
 
 ## Core Features
