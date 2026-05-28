@@ -170,6 +170,3 @@ npx Indian-FakeData -c 50000 -f jsonl -o data.jsonl --enrich --bias 0.3
 
 ## License 
 MIT © Abhay Mourya 
-
-
-# Data Source
