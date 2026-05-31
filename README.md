@@ -10,7 +10,163 @@ Unlike standard tools that create impossible combinations (like a Sikh named *Mo
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VWYsjM0f6CxEi7pZ6uOa1i9Hfh7tsH8s?usp=sharing)
 ---
+---
+## Output Sample (one profile)
+```json
+[
+  {
+    "id": "37160375-7333-4751-8220-442333533521",
+    "firstName": "Sonam",
+    "lastName": "Trivedi",
+    "fatherName": "Piyush Trivedi",
+    "motherName": "Ruksar Sharma",
+    "spouseName": null,
+    "gender": "female",
+    "age": 21,
+    "dateOfBirth": "2005-02-13",
+    "bloodGroup": "B+",
+    "heightCm": 139.1,
+    "weightKg": 48.6,
+    "bmi": 25.1,
+    "aadhaarNumber": "333431204238",
+    "panNumber": "IBHPT2060D",
+    "voterIdNumber": "MPH1031102",
+    "phoneNumber": "7411314102",
+    "email": "sonamtrivedi359@gmail.com",
+    "state": "Madhya Pradesh",
+    "stateCode": "MP",
+    "district": "Dewas",
+    "areaType": "urban",
+    "addressLine": "168/A, MG Road, Dewas",
+    "locality": "MG Road",
+    "pinCode": "450673",
+    "religion": "Hindu",
+    "caste": "Brahmin",
+    "socialCategory": "General",
+    "motherTongue": "Hindi",
+    "secondLanguage": null,
+    "education": "illiterate",
+    "occupation": "agricultural_labourer",
+    "employmentSector": "self_employed",
+    "maritalStatus": "never_married",
+    "annualIncomeINR": 12000,
+    "monthlyExpenditureINR": 1000,
+    "numberOfChildren": 0,
+    "dietaryPreference": "vegetarian",
+    "disability": "none",
+    "isMigrant": true,
+    "migrationOriginState": "Bihar",
+    "bankIFSC": "PUNB0442244",
+    "bankName": "Punjab National Bank",
+    "bankAccountNumber": "34140233013",
+    "rationCardType": "AAY",
+    "healthInsurance": "pmjay",
+    "landOwnershipAcres": 0,
+    "vehicleRegistration": null,
+    "vehicleType": "none",
+    "hasInternetAccess": true,
+    "hasSmartphone": true,
+    "usesSocialMedia": true,
+    "upiId": "7411314102@okicici",
+    "personality": {
+      "openness": 41,
+      "conscientiousness": 46,
+      "extraversion": 65,
+      "agreeableness": 37,
+      "neuroticism": 75
+    },
+    "politicalLeaning": "nationalist_right",
+    "religiosity": "very_religious",
+    "cognitiveProfile": {
+      "aptitudeScore": 1,
+      "numeracyScore": 5,
+      "literacyScore": 23,
+      "digitalLiteracyScore": 2,
+      "financialLiteracyScore": 5
+    },
+    "interests": {
+      "primarySport": "cricket",
+      "petPreference": "cats",
+      "entertainment": [
+        "Bollywood",
+        "TV Serials",
+        "YouTube",
+        "OTT/Netflix",
+        "Gaming",
+        "Devotional Music"
+      ],
+      "readingHabit": "rare",
+      "musicPreference": "Bollywood",
+      "preferredSocialMedia": "WhatsApp"
+    },
+    "habits": {
+      "tobaccoUse": "none",
+      "alcoholUse": "none",
+      "exerciseFrequency": "occasional",
+      "avgSleepHours": 6.6,
+      "cooksAtHome": true,
+      "chronotype": "moderate"
+    },
+    "educationDetails": {
+      "fieldOfStudy": null,
+      "institutionType": "none",
+      "mediumOfInstruction": "Hindi",
+      "qualificationYear": null,
+      "competitiveExamPercentile": null
+    },
+    "culturalProfile": {
+      "entrepreneurialScore": 14,
+      "academicOrientation": 78,
+      "artisticInclination": 74,
+      "militaryTradition": 23,
+      "agriculturalRootedness": 11,
+      "artisanTradition": 33,
+      "bureaucraticOrientation": 51,
+      "socialActivism": 21,
+      "communityBonding": 72,
+      "migrationTendency": 31,
+      "careerPreference": "military_police",
+      "familyStructure": "joint_family",
+      "savingsOrientation": 66,
+      "riskAppetite": 32
+    },
+    "householdSize": 1,
+    "householdAssets": {
+      "hasRadioTransistor": false,
+      "hasTelevision": true,
+      "hasComputer": false,
+      "hasPhone": true,
+      "hasBicycle": true,
+      "hasScooter": false,
+      "hasCar": false,
+      "bankingService": true,
+      "treatedWaterSource": true,
+      "latrineFacility": true,
+      "numberOfRooms": 4,
+      "roofMaterial": "concrete",
+      "wallMaterial": "burnt_brick",
+      "cookingFuel": "lpg",
+      "lightingSource": "electricity",
+      "drinkingWaterSource": "tap_treated"
+    },
+    "probabilityMetrics": {
+      "nationalReligionFreq": 0.803301791826052,
+      "stateGivenReligionProb": 0.06905490870896373,
+      "casteGivenContextProb": 0.09090909090909091,
+      "lastNameGivenCasteProb": 0.05333333333333334,
+      "socialCategoryProb": 0,
+      "educationProb": 0.14667365112624411,
+      "occupationProb": 0.25,
+      "jointProbability": 9.862146408294112e-06
+    },
+    "generatedAt": "2026-05-31T16:47:28.399797",
+    "seed": 4110291396
+  }
+]
 
+
+```
+---
 ## Core Features
 
 * **Linked Census Data**: Correctly links Religion -> State -> Caste -> Gender -> Education -> Job -> Assets .
