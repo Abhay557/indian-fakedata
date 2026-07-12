@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "indian-fakedata"
-version = "1.0.0"
+version = "1.0.1"
 description = "A lightweight generator for realistic Indian demographic data based on Census 2011 statistics."
 readme = "README.md"
 authors = [

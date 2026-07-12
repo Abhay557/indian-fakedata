@@ -153,7 +153,9 @@ def main():
     if args.output:
         out_file = open(args.output, "w", encoding="utf-8")
     else:
-        out_file = sys.stdout
+        # Wrap stdout in UTF-8 to avoid UnicodeEncodeError on Windows (cp1252)
+        import io
+        out_file = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
     # Choose correct generator stream
     if is_enriched:

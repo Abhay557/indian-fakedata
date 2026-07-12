@@ -217,12 +217,49 @@ export function resolveTreePath(
   };
 }
 
-// ─────────────────────────────────────────────────────────────
-// Socioeconomic Layer Resolution
-// ─────────────────────────────────────────────────────────────
+/**
+ * Apply age-based constraints to education level.
+ * Returns the corrected education level that is plausible for the given age.
+ */
+function applyAgeEducationMask(age: number, education: EducationLevel): EducationLevel {
+  const EDU_ORDER: EducationLevel[] = [
+    'illiterate', 'literate_below_primary', 'primary', 'middle',
+    'secondary', 'higher_secondary', 'graduate', 'postgraduate',
+    'technical_diploma', 'professional_degree'
+  ];
+
+  if (age < 6) return 'illiterate';
+
+  let maxLevel: EducationLevel;
+  if (age <= 10) maxLevel = 'primary';
+  else if (age <= 13) maxLevel = 'middle';
+  else if (age <= 15) maxLevel = 'secondary';
+  else if (age <= 17) maxLevel = 'higher_secondary';
+  else return education; // adults: no restriction
+
+  const maxIdx = EDU_ORDER.indexOf(maxLevel);
+  const curIdx = EDU_ORDER.indexOf(education);
+  if (curIdx < 0) return education; // unknown level, pass through
+  if (curIdx > maxIdx) return EDU_ORDER[maxIdx];
+  return education;
+}
+
+/**
+ * Apply age-based constraints to occupation.
+ * Children under 15 must be non_worker. Ages 15-17 can't do heavy labor.
+ */
+function applyAgeOccupationMask(age: number, occupation: OccupationalSector): OccupationalSector {
+  if (age < 15) return 'non_worker';
+  if (age < 18 && ['cultivator', 'agricultural_labourer', 'household_industry'].includes(occupation)) {
+    return 'non_worker';
+  }
+  return occupation;
+}
 
 /**
  * Resolves the socioeconomic layers conditioned on the demographic path.
+ * Age is sampled FIRST so that education and occupation can be masked
+ * for age-plausibility (e.g., a 2-year-old cannot be a graduate).
  */
 export function resolveSocioeconomicLayers(
   db: CompiledDatabase,
@@ -242,7 +279,15 @@ export function resolveSocioeconomicLayers(
 } {
   const stateData = db.states[path.stateId];
 
-  // ── Education ─────────────────────────────────────────
+  // ── Age (sampled FIRST — everything else depends on it) ──
+  let age: number;
+  if (constraints.ageRange) {
+    age = ageSample(rng, constraints.ageRange.min, constraints.ageRange.max);
+  } else {
+    age = ageSample(rng);
+  }
+
+  // ── Education (with age mask) ─────────────────────────
   let education: EducationLevel;
   let educationProb: number;
   
@@ -262,7 +307,10 @@ export function resolveSocioeconomicLayers(
     educationProb = result.probability;
   }
 
-  // ── Occupation ────────────────────────────────────────
+  // Apply age mask: clamp education to what is plausible for this age
+  education = applyAgeEducationMask(age, education);
+
+  // ── Occupation (with age mask) ────────────────────────
   let occupation: OccupationalSector;
   let occupationProb: number;
   
@@ -281,13 +329,8 @@ export function resolveSocioeconomicLayers(
     occupationProb = result.probability;
   }
 
-  // ── Age ───────────────────────────────────────────────
-  let age: number;
-  if (constraints.ageRange) {
-    age = ageSample(rng, constraints.ageRange.min, constraints.ageRange.max);
-  } else {
-    age = ageSample(rng);
-  }
+  // Apply age mask: children cannot be workers
+  occupation = applyAgeOccupationMask(age, occupation);
 
   // ── Marital Status (conditioned on age) ───────────────
   let maritalStatus: MaritalStatus;
@@ -300,13 +343,18 @@ export function resolveSocioeconomicLayers(
   // ── Household Size ────────────────────────────────────
   const householdSize = householdSizeSample(rng, path.areaType);
 
-  // ── Income ────────────────────────────────────────────
-  const income = incomeSample(rng, {
+  // ── Income (conditioned on age-corrected education and occupation) ──
+  let income = incomeSample(rng, {
     areaType: path.areaType,
     education,
     occupation,
     state: path.stateId
   });
+
+  // Children don't earn independently
+  if (age < 15) {
+    income = Math.max(10000, Math.floor(income / 4));
+  }
 
   // ── Household Assets ──────────────────────────────────
   const householdAssets = sampleHouseholdAssets(

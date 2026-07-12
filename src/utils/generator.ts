@@ -180,7 +180,7 @@ function generateSingleProfile(
 
   // ── Step 5: Identity Documents ────────────────────────
   const aadhaarNumber = generateAadhaar(rng);
-  const panNumber = generatePAN(lastName, rng);
+  const panNumber = socio.age >= 18 ? generatePAN(lastName, rng) : '';
   const voterIdNumber = socio.age >= 18 ? generateVoterID(path.stateId, rng) : '';
   const phoneNumber = generatePhoneNumber(path.stateId, rng);
   const email = generateEmail(firstName, lastName, rng);

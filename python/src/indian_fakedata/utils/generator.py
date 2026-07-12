@@ -101,7 +101,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
 
     # Step 5: Identity Documents
     aadhaar = generate_aadhaar(rng)
-    pan = generate_pan(last_name, rng)
+    pan = generate_pan(last_name, rng) if socio["age"] >= 18 else ""
     voter_id = generate_voter_id(path["stateId"], rng) if socio["age"] >= 18 else ""
     phone = generate_phone_number(path["stateId"], rng)
     email = generate_email(first_name, last_name, rng)

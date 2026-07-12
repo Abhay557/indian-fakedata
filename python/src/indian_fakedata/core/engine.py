@@ -408,15 +408,79 @@ def resolve_tree_path(db, constraints, rng):
         "probMetrics": prob_metrics
     }
 
+def _apply_age_education_mask(age, education):
+    """
+    Apply age-based constraints to education level.
+    Returns the corrected education level that is plausible for the given age.
+
+    Age bands (based on Indian education system):
+      0-5:   Must be illiterate (pre-school)
+      6-10:  At most primary
+      11-13: At most middle
+      14-15: At most secondary
+      16-17: At most higher_secondary
+      18+:   No restriction
+    """
+    EDU_ORDER = [
+        "illiterate", "literate_below_primary", "primary", "middle",
+        "secondary", "higher_secondary", "graduate", "postgraduate",
+        "technical_diploma", "professional_degree"
+    ]
+
+    if age < 6:
+        return "illiterate"
+
+    if age <= 10:
+        max_level = "primary"  # index 2
+    elif age <= 13:
+        max_level = "middle"  # index 3
+    elif age <= 15:
+        max_level = "secondary"  # index 4
+    elif age <= 17:
+        max_level = "higher_secondary"  # index 5
+    else:
+        return education  # adults: no restriction
+
+    max_idx = EDU_ORDER.index(max_level)
+    cur_idx = EDU_ORDER.index(education) if education in EDU_ORDER else 0
+    if cur_idx > max_idx:
+        return EDU_ORDER[max_idx]
+    return education
+
+
+def _apply_age_occupation_mask(age, occupation):
+    """
+    Apply age-based constraints to occupation.
+    Children under 6 must be non_worker.
+    Children 6-14 should be non_worker (child labor laws).
+    Ages 15-17 can do limited work but not heavy labor.
+    """
+    if age < 15:
+        return "non_worker"
+    if age < 18 and occupation in ("cultivator", "agricultural_labourer", "household_industry"):
+        return "non_worker"
+    return occupation
+
+
 def resolve_socioeconomic_layers(db, path, constraints, rng):
     """
     Resolves the socioeconomic layers conditioned on the demographic path.
+    Age is sampled FIRST so that education and occupation can be masked
+    for age-plausibility (e.g., a 2-year-old cannot be a graduate).
     """
     state_id = path["stateId"]
     states_db = db.get("states", {})
     state_data = states_db.get(state_id)
 
-    # -- Education --
+    # -- Age (sampled FIRST — everything else depends on it) --
+    age = None
+    constraint_age_range = constraints.get("ageRange")
+    if constraint_age_range:
+        age = age_sample(rng, constraint_age_range.get("min", 0), constraint_age_range.get("max", 100))
+    else:
+        age = age_sample(rng)
+
+    # -- Education (with age mask) --
     education = None
     education_prob = 1.0
 
@@ -431,7 +495,10 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
         fallback = get_default_education_dist(path["areaType"], path["socialCategory"])
         education, education_prob = weighted_sample_from_record(fallback, rng)
 
-    # -- Occupation --
+    # Apply age mask: clamp education to what is plausible for this age
+    education = _apply_age_education_mask(age, education)
+
+    # -- Occupation (with age mask) --
     occupation = None
     occupation_prob = 1.0
 
@@ -446,13 +513,8 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
         fallback = get_default_occupation_dist(path["gender"], path["areaType"])
         occupation, occupation_prob = weighted_sample_from_record(fallback, rng)
 
-    # -- Age --
-    age = None
-    constraint_age_range = constraints.get("ageRange")
-    if constraint_age_range:
-        age = age_sample(rng, constraint_age_range.get("min", 0), constraint_age_range.get("max", 100))
-    else:
-        age = age_sample(rng)
+    # Apply age mask: children cannot be workers
+    occupation = _apply_age_occupation_mask(age, occupation)
 
     # -- Marital Status --
     marital_status = None
@@ -465,13 +527,17 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
     # -- Household Size --
     household_size = household_size_sample(rng, path["areaType"])
 
-    # -- Income --
+    # -- Income (conditioned on age-corrected education and occupation) --
     income = income_sample(rng, {
         "areaType": path["areaType"],
         "education": education,
         "occupation": occupation,
         "state": path["stateId"]
     })
+
+    # Children don't earn independently
+    if age < 15:
+        income = max(10000, income // 4)
 
     # -- Household Assets --
     household_assets = sample_household_assets(
