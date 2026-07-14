@@ -1,6 +1,6 @@
 # Indian Fake Data Generator
 
-A library that generates culturally accurate, statistically consistent mock Indian demographic profiles backed by **Census 2011** data using attention-like context masking.
+A library that generates culturally accurate, statistically consistent mock Indian demographic profiles backed by **Census 2011** data.
 
 This repository provides **two native implementations**:
 1. A **Node.js / TypeScript** package (`@abhay557/indian-fakedata`)
