@@ -4742,7 +4742,7 @@
           "socialCategory": "ST"
         },
         {
-          "id": "santhal_sk",
+          "id": "kami_sk",
           "label": "Kami (SC)",
           "weight": 2,
           "socialCategory": "SC"
@@ -29888,7 +29888,7 @@
         "gender": "unisex"
       }
     ],
-    "santhal_sk": [
+    "kami_sk": [
       {
         "name": "Kami",
         "weight": 20,
@@ -29943,17 +29943,17 @@
       "Agra",
       "Varanasi",
       "Meerut",
-      "Allahabad",
+      "Prayagraj",
       "Bareilly",
       "Aligarh",
       "Moradabad",
       "Gorakhpur",
       "Saharanpur",
-      "Noida",
+      "Gautam Buddha Nagar",
       "Mathura",
       "Jhansi",
       "Firozabad",
-      "Faizabad",
+      "Ayodhya",
       "Sultanpur",
       "Bahraich",
       "Sitapur",
@@ -29964,7 +29964,7 @@
       "Bijnor"
     ],
     "maharashtra": [
-      "Mumbai",
+      "Mumbai City",
       "Pune",
       "Nagpur",
       "Thane",
@@ -29993,37 +29993,36 @@
       "Muzaffarpur",
       "Purnia",
       "Darbhanga",
-      "Bihar Sharif",
-      "Arrah",
+      "Nalanda",
+      "Bhojpur",
       "Begusarai",
       "Katihar",
       "Munger",
-      "Chhapra",
+      "Saran",
       "Samastipur",
-      "Hajipur",
-      "Sasaram",
-      "Dehri",
+      "Vaishali",
+      "Rohtas",
       "Siwan",
-      "Motihari",
+      "East Champaran",
       "Nawada"
     ],
     "west_bengal": [
       "Kolkata",
       "Howrah",
-      "Durgapur",
-      "Asansol",
-      "Siliguri",
-      "Bardhaman",
+      "Purba Bardhaman",
+      "Paschim Bardhaman",
       "Malda",
-      "Baharampur",
-      "Habra",
-      "Kharagpur",
-      "Shantipur",
-      "Kalyani",
-      "Medinipur",
+      "Murshidabad",
+      "Nadia",
+      "Paschim Medinipur",
+      "Purba Medinipur",
       "Jalpaiguri",
       "Darjeeling",
-      "Cooch Behar"
+      "Cooch Behar",
+      "Hooghly",
+      "North 24 Parganas",
+      "South 24 Parganas",
+      "Birbhum"
     ],
     "tamil_nadu": [
       "Chennai",
@@ -30044,22 +30043,22 @@
       "Nilgiris"
     ],
     "karnataka": [
-      "Bengaluru",
+      "Bengaluru Urban",
       "Mysuru",
-      "Hubli-Dharwad",
-      "Mangaluru",
-      "Belgaum",
-      "Gulbarga",
+      "Dharwad",
+      "Dakshina Kannada",
+      "Belagavi",
+      "Kalaburagi",
       "Davanagere",
-      "Bellary",
-      "Bijapur",
-      "Shimoga",
-      "Tumkur",
+      "Ballari",
+      "Vijayapura",
+      "Shivamogga",
+      "Tumakuru",
       "Raichur",
       "Hassan",
       "Udupi",
       "Mandya",
-      "Chikmagalur"
+      "Chikkamagaluru"
     ],
     "kerala": [
       "Thiruvananthapuram",
@@ -30123,7 +30122,7 @@
       "Satna",
       "Ratlam",
       "Rewa",
-      "Murwara",
+      "Katni",
       "Singrauli",
       "Burhanpur",
       "Khandwa",
@@ -30131,19 +30130,19 @@
     ],
     "andhra_pradesh": [
       "Visakhapatnam",
-      "Vijayawada",
+      "Krishna",
       "Guntur",
       "Nellore",
       "Kurnool",
-      "Rajahmundry",
+      "East Godavari",
       "Kakinada",
       "Tirupati",
       "Anantapur",
       "Kadapa",
       "Eluru",
-      "Ongole",
-      "Machilipatnam",
-      "Chittoor"
+      "Prakasam",
+      "Chittoor",
+      "West Godavari"
     ],
     "telangana": [
       "Hyderabad",
@@ -30151,13 +30150,13 @@
       "Nizamabad",
       "Karimnagar",
       "Khammam",
-      "Ramagundam",
+      "Peddapalli",
       "Mahbubnagar",
       "Nalgonda",
       "Adilabad",
       "Suryapet",
       "Siddipet",
-      "Miryalaguda"
+      "Vikarabad"
     ],
     "punjab": [
       "Ludhiana",
@@ -30165,10 +30164,10 @@
       "Jalandhar",
       "Patiala",
       "Bathinda",
-      "Mohali",
+      "Sahibzada Ajit Singh Nagar",
       "Pathankot",
       "Hoshiarpur",
-      "Batala",
+      "Gurdaspur",
       "Moga",
       "Firozpur",
       "Kapurthala",
@@ -30176,7 +30175,7 @@
       "Barnala"
     ],
     "haryana": [
-      "Gurgaon",
+      "Gurugram",
       "Faridabad",
       "Hisar",
       "Panipat",
@@ -30192,35 +30191,35 @@
       "Rewari"
     ],
     "odisha": [
-      "Bhubaneswar",
+      "Khordha",
       "Cuttack",
-      "Rourkela",
-      "Berhampur",
+      "Sundargarh",
+      "Ganjam",
       "Sambalpur",
       "Puri",
       "Balasore",
-      "Baripada",
+      "Mayurbhanj",
       "Bhadrak",
       "Jharsuguda",
-      "Jeypore",
-      "Koraput"
+      "Koraput",
+      "Kandhamal"
     ],
     "assam": [
-      "Guwahati",
-      "Silchar",
+      "Kamrup Metropolitan",
+      "Cachar",
       "Dibrugarh",
       "Nagaon",
       "Tinsukia",
       "Jorhat",
       "Bongaigaon",
       "Dhubri",
-      "Tezpur",
+      "Sonitpur",
       "Goalpara",
       "Karimganj"
     ],
     "jharkhand": [
       "Ranchi",
-      "Jamshedpur",
+      "East Singhbhum",
       "Dhanbad",
       "Bokaro",
       "Deoghar",
@@ -30228,49 +30227,48 @@
       "Giridih",
       "Ramgarh",
       "Dumka",
-      "Phusro"
+      "Palamu"
     ],
     "chhattisgarh": [
       "Raipur",
-      "Bhilai",
+      "Durg",
       "Bilaspur",
       "Korba",
-      "Durg",
       "Rajnandgaon",
       "Raigarh",
-      "Jagdalpur",
-      "Ambikapur"
+      "Bastar",
+      "Surguja",
+      "Kanker"
     ],
     "uttarakhand": [
       "Dehradun",
       "Haridwar",
-      "Roorkee",
-      "Haldwani",
-      "Rudrapur",
-      "Kashipur",
-      "Rishikesh",
       "Nainital",
       "Almora",
-      "Mussoorie"
+      "Udham Singh Nagar",
+      "Pauri Garhwal",
+      "Tehri Garhwal",
+      "Chamoli",
+      "Pithoragarh",
+      "Uttarkashi",
+      "Rudraprayag",
+      "Champawat"
     ],
     "himachal_pradesh": [
       "Shimla",
       "Solan",
-      "Dharamshala",
+      "Kangra",
       "Mandi",
       "Kullu",
       "Bilaspur",
       "Hamirpur",
       "Una",
-      "Palampur",
-      "Manali"
+      "Chamba",
+      "Sirmaur"
     ],
     "goa": [
-      "Panaji",
-      "Vasco da Gama",
-      "Margao",
-      "Mapusa",
-      "Ponda"
+      "North Goa",
+      "South Goa"
     ],
     "delhi": [
       "New Delhi",
@@ -30291,7 +30289,6 @@
       "Anantnag",
       "Baramulla",
       "Udhampur",
-      "Sopore",
       "Kathua",
       "Pulwama",
       "Kupwara",
@@ -30299,26 +30296,33 @@
       "Leh"
     ],
     "tripura": [
-      "Agartala",
-      "Dharmanagar",
-      "Udaipur",
-      "Kailashahar",
-      "Belonia",
-      "Sabroom"
+      "West Tripura",
+      "North Tripura",
+      "South Tripura",
+      "Dhalai",
+      "Gomati",
+      "Unakoti",
+      "Khowai",
+      "Sepahijala"
     ],
     "meghalaya": [
-      "Shillong",
-      "Tura",
-      "Jowai",
-      "Nongpoh",
-      "Williamnagar"
+      "East Khasi Hills",
+      "West Khasi Hills",
+      "East Garo Hills",
+      "West Garo Hills",
+      "Ri Bhoi",
+      "Jaintia Hills",
+      "South Garo Hills"
     ],
     "manipur": [
-      "Imphal",
+      "Imphal West",
+      "Imphal East",
       "Thoubal",
       "Bishnupur",
       "Churachandpur",
-      "Ukhrul"
+      "Ukhrul",
+      "Senapati",
+      "Chandel"
     ],
     "nagaland": [
       "Kohima",
@@ -30336,19 +30340,18 @@
       "Kolasib"
     ],
     "arunachal_pradesh": [
-      "Itanagar",
-      "Naharlagun",
-      "Pasighat",
+      "Papum Pare",
+      "West Siang",
+      "East Siang",
       "Tawang",
-      "Ziro",
-      "Bomdila"
+      "Lower Subansiri",
+      "West Kameng"
     ],
     "sikkim": [
-      "Gangtok",
-      "Namchi",
-      "Mangan",
-      "Geyzing",
-      "Rangpo"
+      "East Sikkim",
+      "West Sikkim",
+      "North Sikkim",
+      "South Sikkim"
     ],
     "chandigarh": [
       "Chandigarh"
@@ -30360,21 +30363,19 @@
       "Yanam"
     ],
     "andaman_nicobar": [
-      "Port Blair",
-      "Bamboo Flat",
-      "Garacharma"
+      "South Andaman",
+      "North & Middle Andaman",
+      "Nicobar"
     ],
     "dadra_nagar_haveli": [
-      "Silvassa"
+      "Dadra & Nagar Haveli"
     ],
     "daman_diu": [
       "Daman",
       "Diu"
     ],
     "lakshadweep": [
-      "Kavaratti",
-      "Agatti",
-      "Minicoy"
+      "Lakshadweep"
     ]
   }
 }

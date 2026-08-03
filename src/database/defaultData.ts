@@ -8,6 +8,17 @@
  * 
  * Coverage: All 36 States/UTs, 6 major religions, 355 caste entries,
  * ~4600 first names, 48 surnames.
+ *
+ * Accuracy notes:
+ * - State populations, sex ratios, literacy and SC/ST proportions are
+ *   from Census 2011.
+ * - Religion national proportions are from Census 2011 (Table C-01).
+ * - Per-state religion conditionals are hand-calibrated approximations
+ *   (they do not sum to 1.0 and are NOT a census table).
+ * - Education/occupation distributions are hand-calibrated
+ *   approximations for realistic-looking output.
+ * - Districts are real district names but only a representative subset
+ *   per state (not exhaustive).
  */
 
 import type {
@@ -24,7 +35,9 @@ import type {
 import { compiledNames } from './namesData.js';
 
 // ═════════════════════════════════════════════════════════════
-// RELIGION DATA (Census 2011 - Table C-01)
+// RELIGION DATA
+// nationalProportion: Census 2011 - Table C-01
+// stateConditionals: hand-calibrated approximations (not census)
 // ═════════════════════════════════════════════════════════════
 
 const religions: Record<string, ReligionCensusData> = {
@@ -860,7 +873,7 @@ const casteMap: Record<string, Record<string, CasteEntry[]>> = {
       { id: 'rai_sk', label: 'Rai', weight: 6.0, socialCategory: 'ST' },
       { id: 'limbu_sk', label: 'Limbu', weight: 4.0, socialCategory: 'ST' },
       { id: 'tamang_sk', label: 'Tamang', weight: 4.0, socialCategory: 'ST' },
-      { id: 'santhal_sk', label: 'Kami (SC)', weight: 2.0, socialCategory: 'SC' }
+      { id: 'kami_sk', label: 'Kami (SC)', weight: 2.0, socialCategory: 'SC' }
     ]
   },
   muslim: {
@@ -1205,7 +1218,7 @@ const surnames: Record<string, NameEntry[]> = {
   tamang_sk: [
     { name: 'Tamang', weight: 30, gender: 'unisex' }
   ],
-  santhal_sk: [
+  kami_sk: [
     { name: 'Kami', weight: 20, gender: 'unisex' },
     { name: 'Biswakarma', weight: 15, gender: 'unisex' }
   ],
@@ -1226,42 +1239,42 @@ const surnames: Record<string, NameEntry[]> = {
 // ═════════════════════════════════════════════════════════════
 
 const districts: Record<string, string[]> = {
-  uttar_pradesh: ['Lucknow', 'Kanpur Nagar', 'Ghaziabad', 'Agra', 'Varanasi', 'Meerut', 'Allahabad', 'Bareilly', 'Aligarh', 'Moradabad', 'Gorakhpur', 'Saharanpur', 'Noida', 'Mathura', 'Jhansi', 'Firozabad', 'Faizabad', 'Sultanpur', 'Bahraich', 'Sitapur', 'Rae Bareli', 'Unnao', 'Hardoi', 'Shahjahanpur', 'Bijnor'],
-  maharashtra: ['Mumbai', 'Pune', 'Nagpur', 'Thane', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur', 'Amravati', 'Nanded', 'Sangli', 'Jalgaon', 'Akola', 'Latur', 'Dhule', 'Ahmednagar', 'Chandrapur', 'Parbhani', 'Jalna', 'Ratnagiri', 'Satara'],
-  bihar: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur', 'Purnia', 'Darbhanga', 'Bihar Sharif', 'Arrah', 'Begusarai', 'Katihar', 'Munger', 'Chhapra', 'Samastipur', 'Hajipur', 'Sasaram', 'Dehri', 'Siwan', 'Motihari', 'Nawada'],
-  west_bengal: ['Kolkata', 'Howrah', 'Durgapur', 'Asansol', 'Siliguri', 'Bardhaman', 'Malda', 'Baharampur', 'Habra', 'Kharagpur', 'Shantipur', 'Kalyani', 'Medinipur', 'Jalpaiguri', 'Darjeeling', 'Cooch Behar'],
+  uttar_pradesh: ['Lucknow', 'Kanpur Nagar', 'Ghaziabad', 'Agra', 'Varanasi', 'Meerut', 'Prayagraj', 'Bareilly', 'Aligarh', 'Moradabad', 'Gorakhpur', 'Saharanpur', 'Gautam Buddha Nagar', 'Mathura', 'Jhansi', 'Firozabad', 'Ayodhya', 'Sultanpur', 'Bahraich', 'Sitapur', 'Rae Bareli', 'Unnao', 'Hardoi', 'Shahjahanpur', 'Bijnor'],
+  maharashtra: ['Mumbai City', 'Pune', 'Nagpur', 'Thane', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur', 'Amravati', 'Nanded', 'Sangli', 'Jalgaon', 'Akola', 'Latur', 'Dhule', 'Ahmednagar', 'Chandrapur', 'Parbhani', 'Jalna', 'Ratnagiri', 'Satara'],
+  bihar: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur', 'Purnia', 'Darbhanga', 'Nalanda', 'Bhojpur', 'Begusarai', 'Katihar', 'Munger', 'Saran', 'Samastipur', 'Vaishali', 'Rohtas', 'Siwan', 'East Champaran', 'Nawada'],
+  west_bengal: ['Kolkata', 'Howrah', 'Purba Bardhaman', 'Paschim Bardhaman', 'Malda', 'Murshidabad', 'Nadia', 'Paschim Medinipur', 'Purba Medinipur', 'Jalpaiguri', 'Darjeeling', 'Cooch Behar', 'Hooghly', 'North 24 Parganas', 'South 24 Parganas', 'Birbhum'],
   tamil_nadu: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem', 'Tirunelveli', 'Erode', 'Vellore', 'Thoothukudi', 'Dindigul', 'Thanjavur', 'Tiruvannamalai', 'Kanchipuram', 'Cuddalore', 'Ramanathapuram', 'Nilgiris'],
-  karnataka: ['Bengaluru', 'Mysuru', 'Hubli-Dharwad', 'Mangaluru', 'Belgaum', 'Gulbarga', 'Davanagere', 'Bellary', 'Bijapur', 'Shimoga', 'Tumkur', 'Raichur', 'Hassan', 'Udupi', 'Mandya', 'Chikmagalur'],
+  karnataka: ['Bengaluru Urban', 'Mysuru', 'Dharwad', 'Dakshina Kannada', 'Belagavi', 'Kalaburagi', 'Davanagere', 'Ballari', 'Vijayapura', 'Shivamogga', 'Tumakuru', 'Raichur', 'Hassan', 'Udupi', 'Mandya', 'Chikkamagaluru'],
   kerala: ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Thrissur', 'Kollam', 'Palakkad', 'Alappuzha', 'Kannur', 'Kottayam', 'Malappuram', 'Pathanamthitta', 'Idukki', 'Wayanad', 'Kasaragod'],
   rajasthan: ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota', 'Bikaner', 'Ajmer', 'Bhilwara', 'Alwar', 'Sikar', 'Pali', 'Barmer', 'Tonk', 'Nagaur', 'Chittorgarh', 'Jaisalmer', 'Jhunjhunu'],
   gujarat: ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar', 'Jamnagar', 'Junagadh', 'Gandhinagar', 'Anand', 'Navsari', 'Morbi', 'Bharuch', 'Valsad', 'Mehsana', 'Kutch'],
-  madhya_pradesh: ['Indore', 'Bhopal', 'Jabalpur', 'Gwalior', 'Ujjain', 'Sagar', 'Dewas', 'Satna', 'Ratlam', 'Rewa', 'Murwara', 'Singrauli', 'Burhanpur', 'Khandwa', 'Chhindwara'],
-  andhra_pradesh: ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore', 'Kurnool', 'Rajahmundry', 'Kakinada', 'Tirupati', 'Anantapur', 'Kadapa', 'Eluru', 'Ongole', 'Machilipatnam', 'Chittoor'],
-  telangana: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam', 'Ramagundam', 'Mahbubnagar', 'Nalgonda', 'Adilabad', 'Suryapet', 'Siddipet', 'Miryalaguda'],
-  punjab: ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Bathinda', 'Mohali', 'Pathankot', 'Hoshiarpur', 'Batala', 'Moga', 'Firozpur', 'Kapurthala', 'Sangrur', 'Barnala'],
-  haryana: ['Gurgaon', 'Faridabad', 'Hisar', 'Panipat', 'Karnal', 'Sonipat', 'Yamunanagar', 'Rohtak', 'Ambala', 'Bhiwani', 'Jind', 'Kaithal', 'Sirsa', 'Rewari'],
-  odisha: ['Bhubaneswar', 'Cuttack', 'Rourkela', 'Berhampur', 'Sambalpur', 'Puri', 'Balasore', 'Baripada', 'Bhadrak', 'Jharsuguda', 'Jeypore', 'Koraput'],
-  assam: ['Guwahati', 'Silchar', 'Dibrugarh', 'Nagaon', 'Tinsukia', 'Jorhat', 'Bongaigaon', 'Dhubri', 'Tezpur', 'Goalpara', 'Karimganj'],
-  jharkhand: ['Ranchi', 'Jamshedpur', 'Dhanbad', 'Bokaro', 'Deoghar', 'Hazaribagh', 'Giridih', 'Ramgarh', 'Dumka', 'Phusro'],
-  chhattisgarh: ['Raipur', 'Bhilai', 'Bilaspur', 'Korba', 'Durg', 'Rajnandgaon', 'Raigarh', 'Jagdalpur', 'Ambikapur'],
-  uttarakhand: ['Dehradun', 'Haridwar', 'Roorkee', 'Haldwani', 'Rudrapur', 'Kashipur', 'Rishikesh', 'Nainital', 'Almora', 'Mussoorie'],
-  himachal_pradesh: ['Shimla', 'Solan', 'Dharamshala', 'Mandi', 'Kullu', 'Bilaspur', 'Hamirpur', 'Una', 'Palampur', 'Manali'],
-  goa: ['Panaji', 'Vasco da Gama', 'Margao', 'Mapusa', 'Ponda'],
+  madhya_pradesh: ['Indore', 'Bhopal', 'Jabalpur', 'Gwalior', 'Ujjain', 'Sagar', 'Dewas', 'Satna', 'Ratlam', 'Rewa', 'Katni', 'Singrauli', 'Burhanpur', 'Khandwa', 'Chhindwara'],
+  andhra_pradesh: ['Visakhapatnam', 'Krishna', 'Guntur', 'Nellore', 'Kurnool', 'East Godavari', 'Kakinada', 'Tirupati', 'Anantapur', 'Kadapa', 'Eluru', 'Prakasam', 'Chittoor', 'West Godavari'],
+  telangana: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam', 'Peddapalli', 'Mahbubnagar', 'Nalgonda', 'Adilabad', 'Suryapet', 'Siddipet', 'Vikarabad'],
+  punjab: ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Bathinda', 'Sahibzada Ajit Singh Nagar', 'Pathankot', 'Hoshiarpur', 'Gurdaspur', 'Moga', 'Firozpur', 'Kapurthala', 'Sangrur', 'Barnala'],
+  haryana: ['Gurugram', 'Faridabad', 'Hisar', 'Panipat', 'Karnal', 'Sonipat', 'Yamunanagar', 'Rohtak', 'Ambala', 'Bhiwani', 'Jind', 'Kaithal', 'Sirsa', 'Rewari'],
+  odisha: ['Khordha', 'Cuttack', 'Sundargarh', 'Ganjam', 'Sambalpur', 'Puri', 'Balasore', 'Mayurbhanj', 'Bhadrak', 'Jharsuguda', 'Koraput', 'Kandhamal'],
+  assam: ['Kamrup Metropolitan', 'Cachar', 'Dibrugarh', 'Nagaon', 'Tinsukia', 'Jorhat', 'Bongaigaon', 'Dhubri', 'Sonitpur', 'Goalpara', 'Karimganj'],
+  jharkhand: ['Ranchi', 'East Singhbhum', 'Dhanbad', 'Bokaro', 'Deoghar', 'Hazaribagh', 'Giridih', 'Ramgarh', 'Dumka', 'Palamu'],
+  chhattisgarh: ['Raipur', 'Durg', 'Bilaspur', 'Korba', 'Rajnandgaon', 'Raigarh', 'Bastar', 'Surguja', 'Kanker'],
+  uttarakhand: ['Dehradun', 'Haridwar', 'Nainital', 'Almora', 'Udham Singh Nagar', 'Pauri Garhwal', 'Tehri Garhwal', 'Chamoli', 'Pithoragarh', 'Uttarkashi', 'Rudraprayag', 'Champawat'],
+  himachal_pradesh: ['Shimla', 'Solan', 'Kangra', 'Mandi', 'Kullu', 'Bilaspur', 'Hamirpur', 'Una', 'Chamba', 'Sirmaur'],
+  goa: ['North Goa', 'South Goa'],
   delhi: ['New Delhi', 'Central Delhi', 'South Delhi', 'North Delhi', 'East Delhi', 'West Delhi', 'North East Delhi', 'North West Delhi', 'South East Delhi', 'South West Delhi', 'Shahdara'],
-  jammu_kashmir: ['Srinagar', 'Jammu', 'Anantnag', 'Baramulla', 'Udhampur', 'Sopore', 'Kathua', 'Pulwama', 'Kupwara', 'Kulgam', 'Leh'],
-  tripura: ['Agartala', 'Dharmanagar', 'Udaipur', 'Kailashahar', 'Belonia', 'Sabroom'],
-  meghalaya: ['Shillong', 'Tura', 'Jowai', 'Nongpoh', 'Williamnagar'],
-  manipur: ['Imphal', 'Thoubal', 'Bishnupur', 'Churachandpur', 'Ukhrul'],
+  jammu_kashmir: ['Srinagar', 'Jammu', 'Anantnag', 'Baramulla', 'Udhampur', 'Kathua', 'Pulwama', 'Kupwara', 'Kulgam', 'Leh'],
+  tripura: ['West Tripura', 'North Tripura', 'South Tripura', 'Dhalai', 'Gomati', 'Unakoti', 'Khowai', 'Sepahijala'],
+  meghalaya: ['East Khasi Hills', 'West Khasi Hills', 'East Garo Hills', 'West Garo Hills', 'Ri Bhoi', 'Jaintia Hills', 'South Garo Hills'],
+  manipur: ['Imphal West', 'Imphal East', 'Thoubal', 'Bishnupur', 'Churachandpur', 'Ukhrul', 'Senapati', 'Chandel'],
   nagaland: ['Kohima', 'Dimapur', 'Mokokchung', 'Tuensang', 'Wokha', 'Mon'],
   mizoram: ['Aizawl', 'Lunglei', 'Champhai', 'Serchhip', 'Kolasib'],
-  arunachal_pradesh: ['Itanagar', 'Naharlagun', 'Pasighat', 'Tawang', 'Ziro', 'Bomdila'],
-  sikkim: ['Gangtok', 'Namchi', 'Mangan', 'Geyzing', 'Rangpo'],
+  arunachal_pradesh: ['Papum Pare', 'West Siang', 'East Siang', 'Tawang', 'Lower Subansiri', 'West Kameng'],
+  sikkim: ['East Sikkim', 'West Sikkim', 'North Sikkim', 'South Sikkim'],
   chandigarh: ['Chandigarh'],
   puducherry: ['Puducherry', 'Karaikal', 'Mahe', 'Yanam'],
-  andaman_nicobar: ['Port Blair', 'Bamboo Flat', 'Garacharma'],
-  dadra_nagar_haveli: ['Silvassa'],
+  andaman_nicobar: ['South Andaman', 'North & Middle Andaman', 'Nicobar'],
+  dadra_nagar_haveli: ['Dadra & Nagar Haveli'],
   daman_diu: ['Daman', 'Diu'],
-  lakshadweep: ['Kavaratti', 'Agatti', 'Minicoy']
+  lakshadweep: ['Lakshadweep']
 };
 
 // ═════════════════════════════════════════════════════════════
