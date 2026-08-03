@@ -10,7 +10,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 
 ---
 
-## Output Sample (one profile)
+## Output Sample (one profile, `seed = 7`)
 
 ```json
 {
@@ -28,74 +28,78 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "weightKg": 65.9,
   "bmi": 28.2,
   "aadhaarNumber": "500233102039",
-  "panNumber": "EKIPS1361G",
-  "voterIdNumber": "MHR3140140",
-  "phoneNumber": "7513110431",
-  "email": "pushpasharma328@gmail.com",
+  "panNumber": "EKIPS1361D",
+  "voterIdNumber": "MHR0314014",
+  "phoneNumber": "7501311043",
+  "email": "pushpasharma352@gmail.com",
   "state": "Maharashtra",
   "stateCode": "MH",
-  "district": "Aurangabad",
+  "district": "Solapur",
   "areaType": "urban",
-  "addressLine": "469/A, Adarsh Colony, Aurangabad",
-  "locality": "Adarsh Colony",
-  "pinCode": "418683",
+  "addressLine": "245/D, MG Road, Solapur",
+  "locality": "MG Road",
+  "pinCode": "412519",
   "religion": "Hindu",
   "caste": "Deshastha Brahmin",
   "socialCategory": "General",
   "motherTongue": "Marathi",
-  "secondLanguage": "English",
+  "secondLanguage": "Hindi",
   "education": "secondary",
   "occupation": "agricultural_labourer",
   "employmentSector": "self_employed",
   "maritalStatus": "married",
   "annualIncomeINR": 194000,
-  "monthlyExpenditureINR": 15300,
+  "monthlyExpenditureINR": 15600,
   "numberOfChildren": 1,
-  "dietaryPreference": "non_vegetarian",
+  "dietaryPreference": "vegetarian",
   "disability": "none",
   "isMigrant": true,
-  "migrationOriginState": "Kerala",
-  "bankIFSC": "PUNB0314300",
-  "bankName": "Punjab National Bank",
-  "bankAccountNumber": "03131130413",
+  "migrationOriginState": "Andhra Pradesh",
+  "bankIFSC": "SBIN0331430",
+  "bankName": "State Bank of India",
+  "bankAccountNumber": "00313113041",
   "rationCardType": "APL",
   "healthInsurance": "none",
   "landOwnershipAcres": 0,
-  "vehicleRegistration": "MH 01 BG 3908",
+  "vehicleRegistration": "MH 02 BB 2481",
   "vehicleType": "four_wheeler",
   "hasInternetAccess": true,
   "hasSmartphone": true,
   "usesSocialMedia": true,
   "upiId": "pushpa@okicici",
   "personality": {
-    "openness": 53,
-    "conscientiousness": 47,
-    "extraversion": 53,
-    "agreeableness": 46,
-    "neuroticism": 74
+    "openness": 54,
+    "conscientiousness": 62,
+    "extraversion": 60,
+    "agreeableness": 70,
+    "neuroticism": 58
   },
   "politicalLeaning": "nationalist_right",
   "religiosity": "very_religious",
   "cognitiveProfile": {
-    "aptitudeScore": 40,
-    "numeracyScore": 37,
+    "aptitudeScore": 74,
+    "numeracyScore": 68,
     "literacyScore": 75,
-    "digitalLiteracyScore": 45,
-    "financialLiteracyScore": 93
+    "digitalLiteracyScore": 53,
+    "financialLiteracyScore": 71
   },
   "interests": {
     "primarySport": "cricket",
-    "petPreference": "fish",
+    "petPreference": "birds",
     "entertainment": [
-      "Bollywood", "TV Serials", "Cricket Matches", "News",
-      "YouTube", "OTT/Netflix", "Devotional Music"
+      "Bollywood",
+      "TV Serials",
+      "Cricket Matches",
+      "News",
+      "YouTube",
+      "OTT/Netflix"
     ],
-    "readingHabit": "rare",
+    "readingHabit": "occasional",
     "musicPreference": "Bollywood",
     "preferredSocialMedia": "WhatsApp"
   },
   "habits": {
-    "tobaccoUse": "none",
+    "tobaccoUse": "smoking",
     "alcoholUse": "none",
     "exerciseFrequency": "weekly",
     "avgSleepHours": 9.3,
@@ -145,20 +149,19 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "drinkingWaterSource": "tap_treated"
   },
   "probabilityMetrics": {
-    "nationalReligionFreq": 0.8033,
-    "stateGivenReligionProb": 0.1032,
-    "casteGivenContextProb": 0.0423,
-    "lastNameGivenCasteProb": 0.2000,
-    "socialCategoryProb": 0,
-    "educationProb": 0.2189,
-    "occupationProb": 0.1800,
-    "jointProbability": 2.76e-05
+    "nationalReligionFreq": 0.803301791826052,
+    "stateGivenReligionProb": 0.10324714506000403,
+    "casteGivenContextProb": 0.04225352112676056,
+    "lastNameGivenCasteProb": 0.2,
+    "socialCategoryProb": 0.35211267605633797,
+    "educationProb": 0.21890547263681592,
+    "occupationProb": 0.18000000000000002,
+    "jointProbability": 2.7617147096522784e-05
   },
-  "generatedAt": "2026-07-12T21:56:35.146855",
+  "generatedAt": "2026-08-03T21:45:13.883314",
   "seed": 7
 }
 ```
-
 ---
 
 ## Installation
@@ -280,13 +283,19 @@ See **[TUTORIAL.md](../TUTORIAL.md)** for full code examples in TypeScript and P
 
 ## Data Sources & Real-World Accuracy
 
-Every demographic profile, name distribution, and asset weighting is calibrated against public survey data:
+The generator is calibrated against publicly available survey data. The
+bundled distributions are **approximations derived from published reports**,
+not raw census tables — actual census microdata (`../team/data/*.xlsx`) is
+provided for reference but is not compiled into the package at build time.
 
-1. **Census of India 2011 (D-Series & C-Series Tables):** Core distributions for religion, state-by-state population metrics, and mother tongue frequencies.
-2. **National Family Health Survey (NFHS-5):** State-wise dietary preferences, BMI, blood groups, height/weight by age.
+1. **Census of India 2011 (D-Series & C-Series Tables):** Reference material for religion shares, state populations, and mother tongue frequencies; distributions are hand-calibrated approximations.
+2. **National Family Health Survey (NFHS-5):** Dietary preferences, BMI, blood groups, height/weight-by-age published statistics.
 3. **MSME Census:** Community-level occupational sectors, vocational rates, industry divisions.
-4. **UIDAI & RTO Records:** Structural syntax for Aadhaar, Voter ID, PAN, IFSC, and RTO registrations.
+4. **UIDAI & RTO Records:** Structural syntax for Aadhaar, Voter ID, PAN, IFSC, and RTO registrations (Aadhaar uses a true Verhoeff checksum; PAN's 10th character is self-consistent but **not** the official check digit).
 5. **CSDS/Lokniti Election Studies:** Political leanings and religiosity index biases.
+
+> **Note:** All data is synthetic mock data. Names, IDs, and numbers are randomly
+> generated and do not correspond to any real individuals.
 
 ---
 

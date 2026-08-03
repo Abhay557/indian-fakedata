@@ -452,6 +452,9 @@ const statePinRanges: Record<string, [number, number]> = {
 };
 
 export function generatePinCode(stateId: string, rng: SeededRNG): string {
+  // NOTE: PIN is drawn uniformly from the state's overall range only.
+  // It is state-plausible but NOT guaranteed to match the district, since a
+  // full district -> PIN dataset is not bundled.
   const range = statePinRanges[stateId] ?? [100001, 999999];
   const pin = Math.floor(rng.next() * (range[1] - range[0])) + range[0];
   return String(pin).padStart(6, '0');

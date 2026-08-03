@@ -351,7 +351,9 @@ STATE_PIN_RANGES = {
 
 
 def generate_pin_code(state_id, rng):
-    """Generate a PIN code mapped to the state."""
+    """Generate a PIN code mapped to the state.
+    NOTE: drawn uniformly from the state's overall range only — state-plausible,
+    not guaranteed to match the district (no district->PIN dataset bundled)."""
     pin_range = STATE_PIN_RANGES.get(state_id, (100001, 999999))
     pin = int(math.floor(rng.next() * (pin_range[1] - pin_range[0]))) + pin_range[0]
     return str(pin).zfill(6)
