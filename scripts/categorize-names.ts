@@ -65,14 +65,18 @@ function classifyReligion(name: string, isMale: boolean): keyof NamesDB {
   
   // 2. Muslim Rules
   const muslimRoots = [
-    'mohammed', 'mohammad', 'muhammad', 'ahmad', 'ahmed', 'ali', 'ibrahim', 'imran', 'arshad', 'farhan',
+    'mohammed', 'mohammad', 'muhammad', 'mohd', 'ahmad', 'ahmed', 'ali', 'ibrahim', 'imran', 'arshad', 'farhan',
     'waseem', 'nadeem', 'salman', 'irfan', 'asif', 'shahid', 'riyaz', 'zaid', 'aamir', 'faisal', 'hamza',
     'bilal', 'usman', 'junaid', 'altaf', 'shakeel', 'rizwan', 'fatima', 'aisha', 'zainab', 'mariam', 'sana',
     'nazia', 'shabnam', 'rukhsar', 'yasmin', 'nafisa', 'salma', 'rehana', 'hina', 'amreen', 'sadiya', 'noor',
     'sara', 'ayesha', 'rahman', 'khan', 'syed', 'ansari', 'iqbal', 'latif', 'hafiz', 'tariq', 'farooq',
     'sajad', 'mushtaq', 'ghulam', 'javed', 'bashir', 'nighat', 'shafiqa', 'shameema', 'naseema', 'dilshada',
     'rukhsana', 'habeeb', 'anas', 'mujeeb', 'ashraf', 'shihab', 'noushad', 'amina', 'safeera', 'shamna',
-    'jasna', 'bushra'
+    'jasna', 'bushra', 'sheikh', 'nusrat', 'sultana', 'zarina', 'sameer', 'akram', 'anwar', 'rashid',
+    'naseem', 'mustafa', 'islam', 'abdulla', 'abdullah', 'abdul', 'rafiq', 'mehraj', 'gulnaz', 'salama',
+    'suleman', 'salaman', 'faizan', 'adnan', 'rehman', 'kasim', 'vasim', 'ajahar', 'kausar', 'haseena',
+    'saima', 'azhar', 'mazhar', 'hasim', 'aasim', 'mehrunisha', 'rabia', 'zoya', 'samira', 'nadia',
+    'sadia', 'farhana', 'nazneen', 'rehman', 'suleman', 'mubeen', 'sameer', 'fahmida', 'parveen', 'siddiqui'
   ];
   if (muslimRoots.some(r => lower.includes(r))) {
     return 'muslim';

@@ -3,7 +3,8 @@
  * 
  * Generates realistic Indian identity documents, phone numbers,
  * email addresses, and financial identifiers. All formats follow
- * real-world patterns with valid checksums where applicable.
+ * real-world structural patterns (Aadhaar uses a valid Verhoeff checksum;
+ * others mimic official layouts).
  */
 
 import type { SeededRNG, BloodGroup, Gender } from '../types.js';
@@ -63,13 +64,14 @@ export function formatAadhaar(aadhaar: string): string {
 // ─────────────────────────────────────────────────────────────
 
 /**
- * Generate a valid PAN card number.
- * Format: AAAAA9999A
- * - Chars 1-3: Random letters (AAA-ZZZ)
- * - Char 4: Entity type (P=Person, C=Company, H=HUF)
- * - Char 5: First letter of last name
- * - Chars 6-9: Sequential number (0001-9999)
- * - Char 10: Alphabetic check digit
+ * Generate a PAN number with the correct layout: AAAAA9999A.
+ * - Chars 1-3: Random letters
+ * - Char 4: Entity type (P = person)
+ * - Char 5: First letter of the last name
+ * - Chars 6-9: Random sequence number
+ * - Char 10: Alphabetic character (chosen deterministically from the first
+ *   9 characters so the number is self-consistent, but this is NOT the
+ *   official Income Tax check-digit algorithm, which is not published)
  */
 export function generatePAN(lastName: string, rng: SeededRNG): string {
   const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -79,7 +81,15 @@ export function generatePAN(lastName: string, rng: SeededRNG): string {
   const entityType = 'P'; // Person
   const lastNameChar = (lastName.charAt(0) || 'A').toUpperCase();
   const num = String(Math.floor(rng.next() * 9999) + 1).padStart(4, '0');
-  const checkChar = alpha[Math.floor(rng.next() * 26)];
+
+  // Self-consistent (but unofficial) check character derived from the first 9 chars.
+  const seed = `${c1}${c2}${c3}${entityType}${lastNameChar}${num}`;
+  let sum = 0;
+  for (let i = 0; i < seed.length; i++) {
+    sum = (sum * 31 + seed.charCodeAt(i)) % 9973;
+  }
+  const checkChar = alpha[sum % 26];
+
   return `${c1}${c2}${c3}${entityType}${lastNameChar}${num}${checkChar}`;
 }
 
@@ -88,9 +98,10 @@ export function generatePAN(lastName: string, rng: SeededRNG): string {
 // ─────────────────────────────────────────────────────────────
 
 /**
- * Generate a Voter ID number.
- * Format: ABC1234567 (3 letters + 7 digits)
- * First 3 letters are state-based.
+ * Generate a Voter ID (EPIC-style) number.
+ * Format: ABC1234567 (3 letters + 7 digits).
+ * The 3-letter prefix is an informal per-state tag — not an official
+ * Election Commission code, so generated numbers won't pass official checks.
  */
 const stateVoterPrefixes: Record<string, string[]> = {
   andhra_pradesh: ['YAT', 'YSR', 'YAP'], arunachal_pradesh: ['SLA', 'SLI'],
@@ -126,7 +137,9 @@ export function generateVoterID(stateId: string, rng: SeededRNG): string {
 // Phone Number (10-digit with state-based operator prefix)
 // ─────────────────────────────────────────────────────────────
 
-// Mobile number prefixes by telecom circle (state)
+// Mobile number prefixes by telecom circle (state).
+// Only valid mobile series (first digit 6–9) are used; landline STD codes
+// (e.g. 033, 194, 172) are excluded because they can never start a mobile number.
 const stateMobilePrefixes: Record<string, string[]> = {
   andhra_pradesh: ['900', '901', '940', '944', '984', '903'],
   assam: ['700', '701', '860', '913'],
@@ -137,32 +150,32 @@ const stateMobilePrefixes: Record<string, string[]> = {
   gujarat: ['709', '799', '942', '982', '630'],
   haryana: ['896', '897', '812', '813'],
   himachal_pradesh: ['941', '816', '817'],
-  jammu_kashmir: ['622', '797', '194'],
+  jammu_kashmir: ['622', '797'],
   jharkhand: ['771', '862', '863'],
   karnataka: ['720', '721', '944', '984', '630'],
   kerala: ['730', '731', '944', '984', '949'],
   madhya_pradesh: ['740', '741', '770', '827'],
   maharashtra: ['750', '751', '820', '821', '902', '903'],
-  manipur: ['870', '389'],
-  meghalaya: ['871', '364'],
-  mizoram: ['872', '389'],
-  nagaland: ['873', '370'],
-  odisha: ['760', '761', '943', '674'],
+  manipur: ['870'],
+  meghalaya: ['871'],
+  mizoram: ['872'],
+  nagaland: ['873'],
+  odisha: ['760', '761', '943'],
   punjab: ['780', '781', '988', '628'],
   rajasthan: ['790', '791', '941', '982'],
-  sikkim: ['759', '350'],
+  sikkim: ['759'],
   tamil_nadu: ['800', '801', '944', '984', '630'],
   telangana: ['900', '910', '990', '630'],
-  tripura: ['874', '381'],
+  tripura: ['874'],
   uttar_pradesh: ['810', '811', '839', '905', '906', '941'],
-  uttarakhand: ['830', '831', '135'],
-  west_bengal: ['840', '841', '903', '033'],
-  chandigarh: ['781', '172'],
-  puducherry: ['944', '413'],
-  andaman_nicobar: ['319', '914'],
-  dadra_nagar_haveli: ['260', '912'],
-  daman_diu: ['260', '912'],
-  lakshadweep: ['489', '912']
+  uttarakhand: ['830', '831'],
+  west_bengal: ['840', '841', '903'],
+  chandigarh: ['781'],
+  puducherry: ['944'],
+  andaman_nicobar: ['914'],
+  dadra_nagar_haveli: ['912'],
+  daman_diu: ['912'],
+  lakshadweep: ['912']
 };
 
 export function generatePhoneNumber(stateId: string, rng: SeededRNG): string {

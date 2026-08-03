@@ -33,7 +33,7 @@ _db_loader = DatabaseLoader()
 load_database = _db_loader.load_database
 from indian_fakedata.utils.exporter import format_profiles, save_profiles
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Abhay Mourya"
 
 __all__ = [

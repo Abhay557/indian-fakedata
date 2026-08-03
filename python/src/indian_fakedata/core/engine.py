@@ -368,7 +368,16 @@ def resolve_tree_path(db, constraints, rng):
 
     if constraints.get("socialCategory"):
         social_category = constraints["socialCategory"]
-        
+
+    # Social category probability: share of caste weight (within this
+    # religion+state context) that belongs to the resolved social category.
+    context_castes = get_castes_for_context(db, religion_id, state_id)
+    total_caste_weight = sum(c.get("weight", 0) for c in context_castes)
+    prob_metrics["socialCategoryProb"] = (
+        sum(c.get("weight", 0) for c in context_castes if c.get("socialCategory") == social_category) / total_caste_weight
+        if total_caste_weight > 0 else 0
+    )
+
     prob_metrics["casteGivenContextProb"] = caste_prob
 
     # -- Layer 4: Area Type --
@@ -462,6 +471,42 @@ def _apply_age_occupation_mask(age, occupation):
     return occupation
 
 
+def _min_age_for_education(education):
+    """
+    Minimum age at which an education level becomes plausible.
+    Mirrors the age bands in _apply_age_education_mask().
+    """
+    EDU_ORDER = [
+        "illiterate", "literate_below_primary", "primary", "middle",
+        "secondary", "higher_secondary", "graduate", "postgraduate",
+        "technical_diploma", "professional_degree"
+    ]
+    idx = EDU_ORDER.index(education) if education in EDU_ORDER else 0
+    if idx <= 1:
+        return 0   # illiterate, literate_below_primary
+    if idx == 2:
+        return 6   # primary
+    if idx == 3:
+        return 11  # middle
+    if idx == 4:
+        return 14  # secondary
+    if idx == 5:
+        return 16  # higher_secondary
+    return 18      # graduate and above
+
+
+def _min_age_for_occupation(occupation):
+    """
+    Minimum age at which an occupation becomes plausible.
+    Mirrors the age bands in _apply_age_occupation_mask().
+    """
+    if occupation == "non_worker":
+        return 0
+    if occupation in ("cultivator", "agricultural_labourer", "household_industry"):
+        return 18
+    return 15  # other_worker
+
+
 def resolve_socioeconomic_layers(db, path, constraints, rng):
     """
     Resolves the socioeconomic layers conditioned on the demographic path.
@@ -475,10 +520,9 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
     # -- Age (sampled FIRST — everything else depends on it) --
     age = None
     constraint_age_range = constraints.get("ageRange")
-    if constraint_age_range:
-        age = age_sample(rng, constraint_age_range.get("min", 0), constraint_age_range.get("max", 100))
-    else:
-        age = age_sample(rng)
+    age_lo = constraint_age_range.get("min", 0) if constraint_age_range else 0
+    age_hi = constraint_age_range.get("max", 100) if constraint_age_range else 100
+    age = age_sample(rng, age_lo, age_hi)
 
     # -- Education (with age mask) --
     education = None
@@ -495,9 +539,6 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
         fallback = get_default_education_dist(path["areaType"], path["socialCategory"])
         education, education_prob = weighted_sample_from_record(fallback, rng)
 
-    # Apply age mask: clamp education to what is plausible for this age
-    education = _apply_age_education_mask(age, education)
-
     # -- Occupation (with age mask) --
     occupation = None
     occupation_prob = 1.0
@@ -513,8 +554,39 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
         fallback = get_default_occupation_dist(path["gender"], path["areaType"])
         occupation, occupation_prob = weighted_sample_from_record(fallback, rng)
 
-    # Apply age mask: children cannot be workers
-    occupation = _apply_age_occupation_mask(age, occupation)
+    # -- Age <-> constraint reconciliation --
+    # A hard education/occupation constraint must not be silently masked away
+    # by the age-plausibility masks. Re-draw age until it fits the constraint
+    # (or pin the age to the minimum that could satisfy it).
+    if constraint_edu or constraint_occ:
+        def fits(a):
+            return (
+                (not constraint_edu or _apply_age_education_mask(a, constraint_edu) == constraint_edu)
+                and (not constraint_occ or _apply_age_occupation_mask(a, constraint_occ) == constraint_occ)
+            )
+
+        for _ in range(50):
+            if fits(age):
+                break
+            age = age_sample(rng, age_lo, age_hi)
+        if not fits(age):
+            min_needed = 0
+            if constraint_edu:
+                min_needed = max(min_needed, _min_age_for_education(constraint_edu))
+            if constraint_occ:
+                min_needed = max(min_needed, _min_age_for_occupation(constraint_occ))
+            age = min(age_hi, max(age_lo, min_needed))
+
+        # Apply masks only when NOT constrained, so constraints always win.
+        if not constraint_edu:
+            education = _apply_age_education_mask(age, education)
+        if not constraint_occ:
+            occupation = _apply_age_occupation_mask(age, occupation)
+    else:
+        # Apply age mask: clamp education to what is plausible for this age
+        education = _apply_age_education_mask(age, education)
+        # Apply age mask: children cannot be workers
+        occupation = _apply_age_occupation_mask(age, occupation)
 
     # -- Marital Status --
     marital_status = None

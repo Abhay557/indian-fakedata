@@ -177,6 +177,16 @@ export function resolveTreePath(
   if (constraints.socialCategory) {
     socialCategory = constraints.socialCategory;
   }
+
+  // ── Social category probability ───────────────────────
+  // Share of caste weight (within this religion+state context) that belongs
+  // to the resolved social category. This is a real computable probability,
+  // not a fixed placeholder.
+  const contextCastes = getCastesForContext(db, religionId, stateId);
+  const totalCasteWeight = contextCastes.reduce((s, c) => s + c.weight, 0);
+  probMetrics.socialCategoryProb = totalCasteWeight > 0
+    ? contextCastes.filter(c => c.socialCategory === socialCategory).reduce((s, c) => s + c.weight, 0) / totalCasteWeight
+    : 0;
   
   probMetrics.casteGivenContextProb = casteProb;
 
@@ -245,6 +255,35 @@ function applyAgeEducationMask(age: number, education: EducationLevel): Educatio
 }
 
 /**
+ * Minimum age at which an education level becomes plausible.
+ * Mirrors the age bands in applyAgeEducationMask().
+ */
+function minAgeForEducation(education: EducationLevel): number {
+  const EDU_ORDER: EducationLevel[] = [
+    'illiterate', 'literate_below_primary', 'primary', 'middle',
+    'secondary', 'higher_secondary', 'graduate', 'postgraduate',
+    'technical_diploma', 'professional_degree'
+  ];
+  const idx = EDU_ORDER.indexOf(education);
+  if (idx <= 1) return 0;   // illiterate, literate_below_primary
+  if (idx === 2) return 6;  // primary
+  if (idx === 3) return 11; // middle
+  if (idx === 4) return 14; // secondary
+  if (idx === 5) return 16; // higher_secondary
+  return 18;                // graduate and above
+}
+
+/**
+ * Minimum age at which an occupation becomes plausible.
+ * Mirrors the age bands in applyAgeOccupationMask().
+ */
+function minAgeForOccupation(occupation: OccupationalSector): number {
+  if (occupation === 'non_worker') return 0;
+  if (['cultivator', 'agricultural_labourer', 'household_industry'].includes(occupation)) return 18;
+  return 15; // other_worker
+}
+
+/**
  * Apply age-based constraints to occupation.
  * Children under 15 must be non_worker. Ages 15-17 can't do heavy labor.
  */
@@ -280,12 +319,9 @@ export function resolveSocioeconomicLayers(
   const stateData = db.states[path.stateId];
 
   // ── Age (sampled FIRST — everything else depends on it) ──
-  let age: number;
-  if (constraints.ageRange) {
-    age = ageSample(rng, constraints.ageRange.min, constraints.ageRange.max);
-  } else {
-    age = ageSample(rng);
-  }
+  const ageLo = constraints.ageRange?.min ?? 0;
+  const ageHi = constraints.ageRange?.max ?? 100;
+  let age: number = ageSample(rng, ageLo, ageHi);
 
   // ── Education (with age mask) ─────────────────────────
   let education: EducationLevel;
@@ -307,9 +343,6 @@ export function resolveSocioeconomicLayers(
     educationProb = result.probability;
   }
 
-  // Apply age mask: clamp education to what is plausible for this age
-  education = applyAgeEducationMask(age, education);
-
   // ── Occupation (with age mask) ────────────────────────
   let occupation: OccupationalSector;
   let occupationProb: number;
@@ -329,8 +362,38 @@ export function resolveSocioeconomicLayers(
     occupationProb = result.probability;
   }
 
-  // Apply age mask: children cannot be workers
-  occupation = applyAgeOccupationMask(age, occupation);
+  // ── Age ↔ constraint reconciliation ───────────────────
+  // A hard education/occupation constraint must not be silently masked away
+  // by the age-plausibility masks. Re-draw age until it fits the constraint
+  // (or the allowed range makes the constraint impossible, in which case the
+  // age is pinned to the minimum that could satisfy it).
+  if (constraints.education || constraints.occupation) {
+    const edu = constraints.education as EducationLevel | undefined;
+    const occ = constraints.occupation as OccupationalSector | undefined;
+    const fits = (a: number) =>
+      (!edu || applyAgeEducationMask(a, edu) === edu) &&
+      (!occ || applyAgeOccupationMask(a, occ) === occ);
+
+    for (let i = 0; i < 50 && !fits(age); i++) {
+      age = ageSample(rng, ageLo, ageHi);
+    }
+    if (!fits(age)) {
+      const minNeeded = Math.max(
+        edu ? minAgeForEducation(edu) : 0,
+        occ ? minAgeForOccupation(occ) : 0
+      );
+      age = Math.min(ageHi, Math.max(ageLo, minNeeded));
+    }
+
+    // Apply masks only when NOT constrained, so constraints always win.
+    if (!edu) education = applyAgeEducationMask(age, education);
+    if (!occ) occupation = applyAgeOccupationMask(age, occupation);
+  } else {
+    // Apply age mask: clamp education to what is plausible for this age
+    education = applyAgeEducationMask(age, education);
+    // Apply age mask: children cannot be workers
+    occupation = applyAgeOccupationMask(age, occupation);
+  }
 
   // ── Marital Status (conditioned on age) ───────────────
   let maritalStatus: MaritalStatus;

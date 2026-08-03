@@ -83,6 +83,10 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     father_name = f"{father_first} {last_name}"
 
     mother_first, _ = select_first_name(db, path["religionId"], path["stateId"], "female", rng)
+    for _ in range(5):
+        if mother_first != first_name:
+            break
+        mother_first, _ = select_first_name(db, path["religionId"], path["stateId"], "female", rng)
     mother_last, _ = select_surname(db, path["casteId"], "female", rng)
     mother_name = f"{mother_first} {mother_last}"
 
@@ -90,6 +94,10 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     if socio.get("maritalStatus") in ("married", "widowed"):
         spouse_gender = "female" if path["gender"] == "male" else "male"
         spouse_first, _ = select_first_name(db, path["religionId"], path["stateId"], spouse_gender, rng)
+        for _ in range(5):
+            if spouse_first != first_name:
+                break
+            spouse_first, _ = select_first_name(db, path["religionId"], path["stateId"], spouse_gender, rng)
         spouse_name = f"{spouse_first} {last_name}"
 
     # Step 4: Date of Birth & Biometrics

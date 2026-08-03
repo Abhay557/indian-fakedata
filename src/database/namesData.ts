@@ -10,11 +10,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
     "default": {
       "male": [
         {
-          "name": "Mohd",
-          "weight": 20,
-          "gender": "male"
-        },
-        {
           "name": "Deepak",
           "weight": 20,
           "gender": "male"
@@ -480,11 +475,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Sameer",
-          "weight": 16,
-          "gender": "male"
-        },
-        {
           "name": "Amir",
           "weight": 16,
           "gender": "male"
@@ -760,11 +750,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Akram",
-          "weight": 10,
-          "gender": "male"
-        },
-        {
           "name": "Chandra",
           "weight": 10,
           "gender": "male"
@@ -940,27 +925,12 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Kasim",
-          "weight": 8,
-          "gender": "male"
-        },
-        {
           "name": "Ankush",
           "weight": 8,
           "gender": "male"
         },
         {
-          "name": "Anwar",
-          "weight": 8,
-          "gender": "male"
-        },
-        {
           "name": "Tara",
-          "weight": 8,
-          "gender": "male"
-        },
-        {
-          "name": "Vasim",
           "weight": 8,
           "gender": "male"
         },
@@ -1022,11 +992,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         {
           "name": "Umar",
           "weight": 8,
-          "gender": "male"
-        },
-        {
-          "name": "Rashid",
-          "weight": 7,
           "gender": "male"
         },
         {
@@ -1116,11 +1081,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Devendra",
-          "weight": 7,
-          "gender": "male"
-        },
-        {
-          "name": "Wasim",
           "weight": 7,
           "gender": "male"
         },
@@ -1245,11 +1205,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Sheikh",
-          "weight": 6,
-          "gender": "male"
-        },
-        {
           "name": "Santram",
           "weight": 6,
           "gender": "male"
@@ -1366,11 +1321,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Sant",
-          "weight": 5,
-          "gender": "male"
-        },
-        {
-          "name": "Naseem",
           "weight": 5,
           "gender": "male"
         },
@@ -1595,11 +1545,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Mustafa",
-          "weight": 4,
-          "gender": "male"
-        },
-        {
           "name": "Shahnawaz",
           "weight": 4,
           "gender": "male"
@@ -1666,11 +1611,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Paras",
-          "weight": 4,
-          "gender": "male"
-        },
-        {
-          "name": "Islam",
           "weight": 4,
           "gender": "male"
         },
@@ -2300,11 +2240,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Abdulla",
-          "weight": 3,
-          "gender": "male"
-        },
-        {
           "name": "Birbal",
           "weight": 3,
           "gender": "male"
@@ -2491,11 +2426,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Siraj",
-          "weight": 3,
-          "gender": "male"
-        },
-        {
-          "name": "Nasim",
           "weight": 3,
           "gender": "male"
         },
@@ -2855,11 +2785,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Azhar",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
           "name": "Tufail",
           "weight": 2,
           "gender": "male"
@@ -3125,11 +3050,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Rafiq",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
           "name": "Begraj",
           "weight": 2,
           "gender": "male"
@@ -3341,11 +3261,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Nankesh",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
-          "name": "Hasim",
           "weight": 2,
           "gender": "male"
         },
@@ -3941,11 +3856,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Joni",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
-          "name": "Mazhar",
           "weight": 2,
           "gender": "male"
         },
@@ -4695,11 +4605,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Ajahar",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
           "name": "Sandhaya",
           "weight": 1,
           "gender": "male"
@@ -4721,11 +4626,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Parash",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Mehraj",
           "weight": 1,
           "gender": "male"
         },
@@ -5150,11 +5050,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Same",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
           "name": "Tajuddin",
           "weight": 1,
           "gender": "male"
@@ -5425,11 +5320,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Anwari",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
           "name": "Shyamlal",
           "weight": 1,
           "gender": "male"
@@ -5451,11 +5341,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Indu",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Sheikhsai",
           "weight": 1,
           "gender": "male"
         },
@@ -5665,11 +5550,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Abdullah",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
           "name": "Bram",
           "weight": 1,
           "gender": "male"
@@ -5696,11 +5576,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Lawrence",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Mohdamir",
           "weight": 1,
           "gender": "male"
         },
@@ -7121,11 +6996,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Dabu",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Aasim",
           "weight": 1,
           "gender": "male"
         },
@@ -8842,11 +8712,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Rashida",
-          "weight": 7,
-          "gender": "female"
-        },
-        {
           "name": "Kajol",
           "weight": 7,
           "gender": "female"
@@ -9277,11 +9142,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Nusrat",
-          "weight": 5,
-          "gender": "female"
-        },
-        {
           "name": "Bina",
           "weight": 5,
           "gender": "female"
@@ -9303,11 +9163,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Ashu",
-          "weight": 5,
-          "gender": "female"
-        },
-        {
-          "name": "Saima",
           "weight": 5,
           "gender": "female"
         },
@@ -9488,16 +9343,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Dimple",
-          "weight": 4,
-          "gender": "female"
-        },
-        {
-          "name": "Nasim",
-          "weight": 4,
-          "gender": "female"
-        },
-        {
-          "name": "Haseena",
           "weight": 4,
           "gender": "female"
         },
@@ -9842,11 +9687,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Nasima",
-          "weight": 3,
-          "gender": "female"
-        },
-        {
           "name": "Rajesh",
           "weight": 3,
           "gender": "female"
@@ -10063,11 +9903,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Unknown",
-          "weight": 3,
-          "gender": "female"
-        },
-        {
-          "name": "Sultana",
           "weight": 3,
           "gender": "female"
         },
@@ -10697,11 +10532,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Naseem",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
           "name": "Chotti",
           "weight": 2,
           "gender": "female"
@@ -11277,11 +11107,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Zarina",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
           "name": "Sufiya",
           "weight": 2,
           "gender": "female"
@@ -11303,11 +11128,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Foranti",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
-          "name": "Gulnaz",
           "weight": 2,
           "gender": "female"
         },
@@ -11732,11 +11552,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Salama",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
           "name": "Kailashi",
           "weight": 2,
           "gender": "female"
@@ -11923,11 +11738,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Krashana",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
-          "name": "Mehrunisha",
           "weight": 2,
           "gender": "female"
         },
@@ -13572,11 +13382,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Habiba",
-          "weight": 1,
-          "gender": "female"
-        },
-        {
           "name": "Phalguni",
           "weight": 1,
           "gender": "female"
@@ -13738,11 +13543,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Shanawazheena",
-          "weight": 1,
-          "gender": "female"
-        },
-        {
-          "name": "Mohd",
           "weight": 1,
           "gender": "female"
         },
@@ -14787,11 +14587,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Akram",
-          "weight": 1,
-          "gender": "female"
-        },
-        {
           "name": "Mholani",
           "weight": 1,
           "gender": "female"
@@ -15013,11 +14808,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         }
       ],
       "other": [
-        {
-          "name": "Mohd",
-          "weight": 20,
-          "gender": "unisex"
-        },
         {
           "name": "Deepak",
           "weight": 20,
@@ -15483,11 +15273,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Suleman",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
           "name": "Jeevan",
           "weight": 2,
           "gender": "male"
@@ -15578,16 +15363,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "male"
         },
         {
-          "name": "Faizan",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
-          "name": "Adnan",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
           "name": "Tarjan",
           "weight": 1,
           "gender": "male"
@@ -15619,11 +15394,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Ketan",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Rehman",
           "weight": 1,
           "gender": "male"
         },
@@ -16044,11 +15814,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Lukman",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Salaman",
           "weight": 1,
           "gender": "male"
         },
@@ -16907,11 +16672,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Sumit",
-          "weight": 20,
-          "gender": "male"
-        },
-        {
-          "name": "Abdul",
           "weight": 20,
           "gender": "male"
         },
@@ -18612,11 +18372,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
     "default": {
       "male": [
         {
-          "name": "Lalit",
-          "weight": 20,
-          "gender": "male"
-        },
-        {
           "name": "Imran",
           "weight": 20,
           "gender": "male"
@@ -18693,11 +18448,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Kali",
-          "weight": 6,
-          "gender": "male"
-        },
-        {
-          "name": "Abhinav",
           "weight": 6,
           "gender": "male"
         },
@@ -18818,16 +18568,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Abhinay",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
-          "name": "Kalicharan",
-          "weight": 2,
-          "gender": "male"
-        },
-        {
-          "name": "Brahmanand",
           "weight": 2,
           "gender": "male"
         },
@@ -19028,11 +18768,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Khalidur",
-          "weight": 1,
-          "gender": "male"
-        },
-        {
-          "name": "Deepali",
           "weight": 1,
           "gender": "male"
         },
@@ -19254,11 +18989,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Deepali",
-          "weight": 8,
-          "gender": "female"
-        },
-        {
           "name": "Yasmin",
           "weight": 8,
           "gender": "female"
@@ -19279,11 +19009,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Rupali",
-          "weight": 6,
-          "gender": "female"
-        },
-        {
           "name": "Noorjahan",
           "weight": 5,
           "gender": "female"
@@ -19300,11 +19025,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Naseema",
-          "weight": 4,
-          "gender": "female"
-        },
-        {
-          "name": "Dipali",
           "weight": 4,
           "gender": "female"
         },
@@ -19335,11 +19055,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Amreen",
-          "weight": 3,
-          "gender": "female"
-        },
-        {
-          "name": "Babali",
           "weight": 3,
           "gender": "female"
         },
@@ -19425,11 +19140,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Veshali",
-          "weight": 2,
-          "gender": "female"
-        },
-        {
-          "name": "Depali",
           "weight": 2,
           "gender": "female"
         },
@@ -19525,11 +19235,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         },
         {
           "name": "Alina",
-          "weight": 1,
-          "gender": "female"
-        },
-        {
-          "name": "Sabenoortamanna",
           "weight": 1,
           "gender": "female"
         },
@@ -19904,11 +19609,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
           "gender": "female"
         },
         {
-          "name": "Roopali",
-          "weight": 1,
-          "gender": "female"
-        },
-        {
           "name": "Noori",
           "weight": 1,
           "gender": "female"
@@ -19920,11 +19620,6 @@ export const compiledNames: Record<string, Record<string, Record<Gender, NameEnt
         }
       ],
       "other": [
-        {
-          "name": "Lalit",
-          "weight": 20,
-          "gender": "unisex"
-        },
         {
           "name": "Imran",
           "weight": 20,

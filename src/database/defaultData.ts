@@ -6,8 +6,8 @@
  * directory is provided, and as the base layer that compiled census
  * data merges into.
  * 
- * Coverage: All 36 States/UTs, 6 major religions, 200+ castes,
- * 2000+ first names, 500+ surnames.
+ * Coverage: All 36 States/UTs, 6 major religions, 355 caste entries,
+ * ~4600 first names, 48 surnames.
  */
 
 import type {

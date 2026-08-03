@@ -157,8 +157,12 @@ function generateSingleProfile(
   const { name: fatherFirstName } = selectFirstName(db, path.religionId, path.stateId, 'male', rng);
   const fatherName = `${fatherFirstName} ${lastName}`;
 
-  // Mother's name (female name from same religion+state)
-  const { name: motherFirstName } = selectFirstName(db, path.religionId, path.stateId, 'female', rng);
+  // Mother's name (female name from same religion+state).
+  // Avoids the same first name as the profile itself (common with random sampling).
+  let motherFirstName = selectFirstName(db, path.religionId, path.stateId, 'female', rng).name;
+  for (let i = 0; i < 5 && motherFirstName === firstName; i++) {
+    motherFirstName = selectFirstName(db, path.religionId, path.stateId, 'female', rng).name;
+  }
   // Mother's maiden surname (potentially different caste for realism)
   const { name: motherLastName } = selectSurname(db, path.casteId, 'female', rng);
   const motherName = `${motherFirstName} ${motherLastName}`;
@@ -167,7 +171,10 @@ function generateSingleProfile(
   let spouseName: string | undefined;
   if (socio.maritalStatus === 'married' || socio.maritalStatus === 'widowed') {
     const spouseGender: Gender = path.gender === 'male' ? 'female' : 'male';
-    const { name: spouseFirst } = selectFirstName(db, path.religionId, path.stateId, spouseGender, rng);
+    let spouseFirst = selectFirstName(db, path.religionId, path.stateId, spouseGender, rng).name;
+    for (let i = 0; i < 5 && spouseFirst === firstName; i++) {
+      spouseFirst = selectFirstName(db, path.religionId, path.stateId, spouseGender, rng).name;
+    }
     spouseName = `${spouseFirst} ${lastName}`;
   }
 

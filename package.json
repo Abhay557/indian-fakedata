@@ -27,7 +27,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "demo": "tsx scripts/demo.ts",
-    "compile-census": "tsx scripts/compile-census.ts",
+    "download-census": "node scripts/download-census.js",
     "lint": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },

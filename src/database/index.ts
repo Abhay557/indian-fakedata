@@ -8,18 +8,44 @@
  * Also handles merging custom data with defaults.
  */
 
+import fs from 'fs';
+import path from 'path';
+
 import type { CompiledDatabase } from '../types.js';
 import { getDefaultDatabase } from './defaultData.js';
 
 /**
  * Load the complete compiled database.
  * If a custom data directory is provided, attempts to load and merge
- * custom JSON files with the built-in defaults.
+ * custom JSON files (states.json, religions.json, casteMap.json,
+ * firstNames.json, surnames.json, districts.json) with the built-in defaults.
  */
 export function loadDatabase(dataDir?: string): CompiledDatabase {
   const db = getDefaultDatabase();
 
-  return db;
+  if (!dataDir || !fs.existsSync(dataDir)) return db;
+
+  const custom: Partial<CompiledDatabase> = {};
+  const files: Array<[string, keyof CompiledDatabase]> = [
+    ['states', 'states'],
+    ['religions', 'religions'],
+    ['casteMap', 'casteMap'],
+    ['firstNames', 'firstNames'],
+    ['surnames', 'surnames'],
+    ['districts', 'districts'],
+  ];
+
+  for (const [fileName, key] of files) {
+    const filePath = path.join(dataDir, `${fileName}.json`);
+    if (!fs.existsSync(filePath)) continue;
+    try {
+      (custom as Record<string, unknown>)[key] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch (err) {
+      console.warn(`[indian-fakedata] Failed to load custom JSON at ${filePath}:`, (err as Error).message);
+    }
+  }
+
+  return Object.keys(custom).length > 0 ? mergeDatabase(db, custom) : db;
 }
 
 /**

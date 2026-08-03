@@ -5291,11 +5291,6 @@
       "default": {
         "male": [
           {
-            "name": "Mohd",
-            "weight": 20,
-            "gender": "male"
-          },
-          {
             "name": "Deepak",
             "weight": 20,
             "gender": "male"
@@ -5761,11 +5756,6 @@
             "gender": "male"
           },
           {
-            "name": "Sameer",
-            "weight": 16,
-            "gender": "male"
-          },
-          {
             "name": "Amir",
             "weight": 16,
             "gender": "male"
@@ -6041,11 +6031,6 @@
             "gender": "male"
           },
           {
-            "name": "Akram",
-            "weight": 10,
-            "gender": "male"
-          },
-          {
             "name": "Chandra",
             "weight": 10,
             "gender": "male"
@@ -6221,27 +6206,12 @@
             "gender": "male"
           },
           {
-            "name": "Kasim",
-            "weight": 8,
-            "gender": "male"
-          },
-          {
             "name": "Ankush",
             "weight": 8,
             "gender": "male"
           },
           {
-            "name": "Anwar",
-            "weight": 8,
-            "gender": "male"
-          },
-          {
             "name": "Tara",
-            "weight": 8,
-            "gender": "male"
-          },
-          {
-            "name": "Vasim",
             "weight": 8,
             "gender": "male"
           },
@@ -6303,11 +6273,6 @@
           {
             "name": "Umar",
             "weight": 8,
-            "gender": "male"
-          },
-          {
-            "name": "Rashid",
-            "weight": 7,
             "gender": "male"
           },
           {
@@ -6397,11 +6362,6 @@
           },
           {
             "name": "Devendra",
-            "weight": 7,
-            "gender": "male"
-          },
-          {
-            "name": "Wasim",
             "weight": 7,
             "gender": "male"
           },
@@ -6526,11 +6486,6 @@
             "gender": "male"
           },
           {
-            "name": "Sheikh",
-            "weight": 6,
-            "gender": "male"
-          },
-          {
             "name": "Santram",
             "weight": 6,
             "gender": "male"
@@ -6647,11 +6602,6 @@
           },
           {
             "name": "Sant",
-            "weight": 5,
-            "gender": "male"
-          },
-          {
-            "name": "Naseem",
             "weight": 5,
             "gender": "male"
           },
@@ -6876,11 +6826,6 @@
             "gender": "male"
           },
           {
-            "name": "Mustafa",
-            "weight": 4,
-            "gender": "male"
-          },
-          {
             "name": "Shahnawaz",
             "weight": 4,
             "gender": "male"
@@ -6947,11 +6892,6 @@
           },
           {
             "name": "Paras",
-            "weight": 4,
-            "gender": "male"
-          },
-          {
-            "name": "Islam",
             "weight": 4,
             "gender": "male"
           },
@@ -7581,11 +7521,6 @@
             "gender": "male"
           },
           {
-            "name": "Abdulla",
-            "weight": 3,
-            "gender": "male"
-          },
-          {
             "name": "Birbal",
             "weight": 3,
             "gender": "male"
@@ -7772,11 +7707,6 @@
           },
           {
             "name": "Siraj",
-            "weight": 3,
-            "gender": "male"
-          },
-          {
-            "name": "Nasim",
             "weight": 3,
             "gender": "male"
           },
@@ -8136,11 +8066,6 @@
             "gender": "male"
           },
           {
-            "name": "Azhar",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
             "name": "Tufail",
             "weight": 2,
             "gender": "male"
@@ -8406,11 +8331,6 @@
             "gender": "male"
           },
           {
-            "name": "Rafiq",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
             "name": "Begraj",
             "weight": 2,
             "gender": "male"
@@ -8622,11 +8542,6 @@
           },
           {
             "name": "Nankesh",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
-            "name": "Hasim",
             "weight": 2,
             "gender": "male"
           },
@@ -9222,11 +9137,6 @@
           },
           {
             "name": "Joni",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
-            "name": "Mazhar",
             "weight": 2,
             "gender": "male"
           },
@@ -9976,11 +9886,6 @@
             "gender": "male"
           },
           {
-            "name": "Ajahar",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
             "name": "Sandhaya",
             "weight": 1,
             "gender": "male"
@@ -10002,11 +9907,6 @@
           },
           {
             "name": "Parash",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Mehraj",
             "weight": 1,
             "gender": "male"
           },
@@ -10431,11 +10331,6 @@
             "gender": "male"
           },
           {
-            "name": "Same",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
             "name": "Tajuddin",
             "weight": 1,
             "gender": "male"
@@ -10706,11 +10601,6 @@
             "gender": "male"
           },
           {
-            "name": "Anwari",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
             "name": "Shyamlal",
             "weight": 1,
             "gender": "male"
@@ -10732,11 +10622,6 @@
           },
           {
             "name": "Indu",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Sheikhsai",
             "weight": 1,
             "gender": "male"
           },
@@ -10946,11 +10831,6 @@
             "gender": "male"
           },
           {
-            "name": "Abdullah",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
             "name": "Bram",
             "weight": 1,
             "gender": "male"
@@ -10977,11 +10857,6 @@
           },
           {
             "name": "Lawrence",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Mohdamir",
             "weight": 1,
             "gender": "male"
           },
@@ -12402,11 +12277,6 @@
           },
           {
             "name": "Dabu",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Aasim",
             "weight": 1,
             "gender": "male"
           },
@@ -14123,11 +13993,6 @@
             "gender": "female"
           },
           {
-            "name": "Rashida",
-            "weight": 7,
-            "gender": "female"
-          },
-          {
             "name": "Kajol",
             "weight": 7,
             "gender": "female"
@@ -14558,11 +14423,6 @@
             "gender": "female"
           },
           {
-            "name": "Nusrat",
-            "weight": 5,
-            "gender": "female"
-          },
-          {
             "name": "Bina",
             "weight": 5,
             "gender": "female"
@@ -14584,11 +14444,6 @@
           },
           {
             "name": "Ashu",
-            "weight": 5,
-            "gender": "female"
-          },
-          {
-            "name": "Saima",
             "weight": 5,
             "gender": "female"
           },
@@ -14769,16 +14624,6 @@
           },
           {
             "name": "Dimple",
-            "weight": 4,
-            "gender": "female"
-          },
-          {
-            "name": "Nasim",
-            "weight": 4,
-            "gender": "female"
-          },
-          {
-            "name": "Haseena",
             "weight": 4,
             "gender": "female"
           },
@@ -15123,11 +14968,6 @@
             "gender": "female"
           },
           {
-            "name": "Nasima",
-            "weight": 3,
-            "gender": "female"
-          },
-          {
             "name": "Rajesh",
             "weight": 3,
             "gender": "female"
@@ -15344,11 +15184,6 @@
           },
           {
             "name": "Unknown",
-            "weight": 3,
-            "gender": "female"
-          },
-          {
-            "name": "Sultana",
             "weight": 3,
             "gender": "female"
           },
@@ -15978,11 +15813,6 @@
             "gender": "female"
           },
           {
-            "name": "Naseem",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
             "name": "Chotti",
             "weight": 2,
             "gender": "female"
@@ -16558,11 +16388,6 @@
             "gender": "female"
           },
           {
-            "name": "Zarina",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
             "name": "Sufiya",
             "weight": 2,
             "gender": "female"
@@ -16584,11 +16409,6 @@
           },
           {
             "name": "Foranti",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
-            "name": "Gulnaz",
             "weight": 2,
             "gender": "female"
           },
@@ -17013,11 +16833,6 @@
             "gender": "female"
           },
           {
-            "name": "Salama",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
             "name": "Kailashi",
             "weight": 2,
             "gender": "female"
@@ -17204,11 +17019,6 @@
           },
           {
             "name": "Krashana",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
-            "name": "Mehrunisha",
             "weight": 2,
             "gender": "female"
           },
@@ -18853,11 +18663,6 @@
             "gender": "female"
           },
           {
-            "name": "Habiba",
-            "weight": 1,
-            "gender": "female"
-          },
-          {
             "name": "Phalguni",
             "weight": 1,
             "gender": "female"
@@ -19019,11 +18824,6 @@
           },
           {
             "name": "Shanawazheena",
-            "weight": 1,
-            "gender": "female"
-          },
-          {
-            "name": "Mohd",
             "weight": 1,
             "gender": "female"
           },
@@ -20068,11 +19868,6 @@
             "gender": "female"
           },
           {
-            "name": "Akram",
-            "weight": 1,
-            "gender": "female"
-          },
-          {
             "name": "Mholani",
             "weight": 1,
             "gender": "female"
@@ -20294,11 +20089,6 @@
           }
         ],
         "other": [
-          {
-            "name": "Mohd",
-            "weight": 20,
-            "gender": "unisex"
-          },
           {
             "name": "Deepak",
             "weight": 20,
@@ -20764,11 +20554,6 @@
             "gender": "male"
           },
           {
-            "name": "Suleman",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
             "name": "Jeevan",
             "weight": 2,
             "gender": "male"
@@ -20859,16 +20644,6 @@
             "gender": "male"
           },
           {
-            "name": "Faizan",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
-            "name": "Adnan",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
             "name": "Tarjan",
             "weight": 1,
             "gender": "male"
@@ -20900,11 +20675,6 @@
           },
           {
             "name": "Ketan",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Rehman",
             "weight": 1,
             "gender": "male"
           },
@@ -21325,11 +21095,6 @@
           },
           {
             "name": "Lukman",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Salaman",
             "weight": 1,
             "gender": "male"
           },
@@ -22188,11 +21953,6 @@
           },
           {
             "name": "Sumit",
-            "weight": 20,
-            "gender": "male"
-          },
-          {
-            "name": "Abdul",
             "weight": 20,
             "gender": "male"
           },
@@ -23893,11 +23653,6 @@
       "default": {
         "male": [
           {
-            "name": "Lalit",
-            "weight": 20,
-            "gender": "male"
-          },
-          {
             "name": "Imran",
             "weight": 20,
             "gender": "male"
@@ -23974,11 +23729,6 @@
           },
           {
             "name": "Kali",
-            "weight": 6,
-            "gender": "male"
-          },
-          {
-            "name": "Abhinav",
             "weight": 6,
             "gender": "male"
           },
@@ -24099,16 +23849,6 @@
           },
           {
             "name": "Abhinay",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
-            "name": "Kalicharan",
-            "weight": 2,
-            "gender": "male"
-          },
-          {
-            "name": "Brahmanand",
             "weight": 2,
             "gender": "male"
           },
@@ -24309,11 +24049,6 @@
           },
           {
             "name": "Khalidur",
-            "weight": 1,
-            "gender": "male"
-          },
-          {
-            "name": "Deepali",
             "weight": 1,
             "gender": "male"
           },
@@ -24535,11 +24270,6 @@
             "gender": "female"
           },
           {
-            "name": "Deepali",
-            "weight": 8,
-            "gender": "female"
-          },
-          {
             "name": "Yasmin",
             "weight": 8,
             "gender": "female"
@@ -24560,11 +24290,6 @@
             "gender": "female"
           },
           {
-            "name": "Rupali",
-            "weight": 6,
-            "gender": "female"
-          },
-          {
             "name": "Noorjahan",
             "weight": 5,
             "gender": "female"
@@ -24581,11 +24306,6 @@
           },
           {
             "name": "Naseema",
-            "weight": 4,
-            "gender": "female"
-          },
-          {
-            "name": "Dipali",
             "weight": 4,
             "gender": "female"
           },
@@ -24616,11 +24336,6 @@
           },
           {
             "name": "Amreen",
-            "weight": 3,
-            "gender": "female"
-          },
-          {
-            "name": "Babali",
             "weight": 3,
             "gender": "female"
           },
@@ -24706,11 +24421,6 @@
           },
           {
             "name": "Veshali",
-            "weight": 2,
-            "gender": "female"
-          },
-          {
-            "name": "Depali",
             "weight": 2,
             "gender": "female"
           },
@@ -24806,11 +24516,6 @@
           },
           {
             "name": "Alina",
-            "weight": 1,
-            "gender": "female"
-          },
-          {
-            "name": "Sabenoortamanna",
             "weight": 1,
             "gender": "female"
           },
@@ -25185,11 +24890,6 @@
             "gender": "female"
           },
           {
-            "name": "Roopali",
-            "weight": 1,
-            "gender": "female"
-          },
-          {
             "name": "Noori",
             "weight": 1,
             "gender": "female"
@@ -25201,11 +24901,6 @@
           }
         ],
         "other": [
-          {
-            "name": "Lalit",
-            "weight": 20,
-            "gender": "unisex"
-          },
           {
             "name": "Imran",
             "weight": 20,
