@@ -193,6 +193,7 @@ Run with no arguments to display the full help menu.
 | `--format <fmt>` | `-f` | Output format: `json`, `jsonl`, `csv` | `json` |
 | `--seed <value>` | `-s` | Reproducibility seed (number or string, e.g. `011`) | random |
 | `--no-metrics` | | Exclude probability metrics from output | included |
+| `--family` | | Generate a full household (head + spouse + parents + children + siblings) from one seed; json/jsonl only | off |
 | `--help` | `-h` | Show help screen | |
 
 ### Demographic Constraints
@@ -246,6 +247,9 @@ indian-fakedata -c 500 --persona -f jsonl -o agents.jsonl
 
 # Single detailed profile, pretty-printed
 indian-fakedata -c 1 --enrich --bias 0.0 --seed 42
+
+# Full family from one seed
+indian-fakedata --family --seed 011 -f jsonl -o family.jsonl
 ```
 
 ---
