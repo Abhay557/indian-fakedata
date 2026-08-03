@@ -10,15 +10,33 @@ import math
 import time
 import random
 
+def normalize_seed(seed):
+    """
+    Converts a numeric or string seed into a stable 32-bit uint32.
+    String seeds (e.g. "011") are hashed with FNV-1a so the same
+    string always reproduces the same person/family.
+    """
+    if seed is None:
+        return (int(time.time() * 1000) ^ random.randint(0, 0xFFFFFFFF)) & 0xFFFFFFFF
+    if isinstance(seed, (int, float)):
+        return int(seed) & 0xFFFFFFFF
+    # FNV-1a 32-bit hash for strings
+    hash_val = 0x811C9DC5
+    for ch in str(seed):
+        hash_val ^= ord(ch)
+        hash_val = (hash_val * 0x01000193) & 0xFFFFFFFF
+    return hash_val & 0xFFFFFFFF
+
 def create_rng(initial_seed=None):
     """
     Creates a seeded PRNG using the Mulberry32 algorithm.
     Produces high-quality 32-bit pseudo-random numbers.
+    Accepts numeric or string seeds ("011" is hashed deterministically).
     """
     if initial_seed is None:
-        initial_seed = int(time.time() * 1000) ^ random.randint(0, 0xFFFFFFFF)
-        
-    state = initial_seed & 0xFFFFFFFF
+        initial_seed = (int(time.time() * 1000) ^ random.randint(0, 0xFFFFFFFF)) & 0xFFFFFFFF
+
+    state = normalize_seed(initial_seed)
     original_seed = state
     
     def to_s32(val):

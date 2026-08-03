@@ -24,6 +24,12 @@ export { simulateOutcomes } from './utils/outcomes.js';
 export { generateNarrative, generateAllNarratives } from './utils/narrative.js';
 export { generateAgentPersona } from './utils/agent.js';
 
+// ── User / Family / Persona API ──────────────────────────────
+export { generateUser, generateUsers, generatePersona } from './utils/user.js';
+export { generateFamily } from './utils/relations.js';
+export type { UserOptions, UsersOptions } from './utils/user.js';
+export type { FamilyOptions, FamilyUnit } from './utils/relations.js';
+
 // ── Core Type Exports ────────────────────────────────────────
 export type {
   DemographicProfile,

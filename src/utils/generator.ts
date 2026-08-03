@@ -24,7 +24,7 @@ import type {
   Gender
 } from '../types.js';
 
-import { createRNG } from '../core/sampler.js';
+import { createRNG, normalizeSeed } from '../core/sampler.js';
 import { resolveTreePath, resolveSocioeconomicLayers } from '../core/engine.js';
 import { loadDatabase } from '../database/index.js';
 import {
@@ -151,7 +151,10 @@ function generateSingleProfile(
 
   // ── Step 3: Generate names (self + family) ────────────
   const { name: firstName } = selectFirstName(db, path.religionId, path.stateId, path.gender, rng);
-  const { name: lastName, probability: surnameProb } = selectSurname(db, path.casteId, path.gender, rng);
+  const { name: selectedLastName, probability: selectedSurnameProb } = selectSurname(db, path.casteId, path.gender, rng);
+  // Allow family/relational generation to pin the surname explicitly
+  const lastName = constraints.surname ?? selectedLastName;
+  const surnameProb = constraints.surname ? 1.0 : selectedSurnameProb;
 
   // Father's name (male name from same religion+state)
   const { name: fatherFirstName } = selectFirstName(db, path.religionId, path.stateId, 'male', rng);
@@ -528,7 +531,7 @@ export function generateEnriched(
   } = options;
 
   const profiles = generate(baseOptions);
-  const seed = baseOptions.seed ?? Date.now();
+  const seed = normalizeSeed(baseOptions.seed ?? Date.now());
   const rng = createRNG(seed + 999999); // Separate RNG stream for enrichment
 
   return profiles.map(profile => {
@@ -579,7 +582,7 @@ export function* generateEnrichedStream(
     ...baseOptions
   } = options;
 
-  const seed = baseOptions.seed ?? Date.now();
+  const seed = normalizeSeed(baseOptions.seed ?? Date.now());
   const rng = createRNG(seed + 999999);
 
   for (const profile of generateStream({ ...baseOptions, count })) {

@@ -13,6 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import { generateStream, generateEnrichedStream } from './utils/generator.js';
+import { generateFamily } from './utils/relations.js';
 import { flattenObject, escapeCSVValue } from './utils/cli-stream.js';
 
 // ── Validation constants ───────────────────────────────────────────
@@ -42,7 +43,7 @@ const C = {
 
 function printHelp() {
   console.log(`
-  ${C.bold}${C.cyan}Indian Synthetic Population Simulator CLI${C.reset}
+  ${C.bold}${C.cyan}Indian Synthetic Fake Data Generator CLI${C.reset}
   Generates culturally accurate, statistically consistent Indian demographic profiles
   backed by Census 2011 data using attention-like context masking.
 
@@ -53,8 +54,10 @@ function printHelp() {
     -c, --count <n>        Number of profiles to generate ${C.dim}(default: 100)${C.reset}
     -o, --output <path>    File path to save output ${C.dim}(default: stdout)${C.reset}
     -f, --format <fmt>     Output format: json, jsonl, csv ${C.dim}(default: json)${C.reset}
-    -s, --seed <number>    Reproducibility seed for RNG
+    -s, --seed <value>     Reproducibility seed (number or string, e.g. "011")
     --no-metrics           Exclude probability metrics from output
+    --family               Generate a full family (head + spouse + parents +
+                           children + siblings) from a single seed
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -105,6 +108,9 @@ function printHelp() {
 
     ${C.dim}# One complete profile, pretty-printed${C.reset}
     indian-fakedata -c 1 --enrich --bias 0.0 --seed 42
+
+    ${C.dim}# A full family from a string seed${C.reset}
+    indian-fakedata --family --seed 011
   `);
 }
 
@@ -171,10 +177,11 @@ async function main() {
   let count = 100;
   let format = 'json';
   let outputPath: string | null = null;
-  let seed: number | undefined = undefined;
+  let seed: number | string | undefined = undefined;
   let includeProbabilityMetrics = true;
   let minAge: number | undefined = undefined;
   let maxAge: number | undefined = undefined;
+  let familyMode = false;
 
   // enrichment flags
   let includeOutcomes = false;
@@ -216,12 +223,13 @@ async function main() {
       i++;
 
     } else if (arg === '-s' || arg === '--seed') {
-      seed = parseInt(getArgValue(i), 10);
-      if (isNaN(seed)) {
-        console.error(`${C.red}Error:${C.reset} --seed must be a valid integer.`);
-        process.exit(1);
-      }
+      const val = getArgValue(i);
+      const parsed = parseInt(val, 10);
+      seed = (Number.isInteger(parsed) && String(parsed) === val) ? parsed : val;
       i++;
+
+    } else if (arg === '--family') {
+      familyMode = true;
 
     } else if (arg === '--no-metrics') {
       includeProbabilityMetrics = false;
@@ -369,6 +377,29 @@ async function main() {
 
   try {
     let i = 0;
+
+    // ── Family mode (relational household from one seed) ─────────
+    if (familyMode) {
+      if (format === 'csv') {
+        console.error(`${C.red}Error:${C.reset} --family only supports json/jsonl output.`);
+        process.exit(1);
+      }
+      const family = generateFamily({
+        seed,
+        constraints,
+        includeProbabilityMetrics
+      });
+      const members: any[] = [family.head];
+      if (family.spouse) members.push(family.spouse);
+      if (family.parents.father) members.push(family.parents.father);
+      if (family.parents.mother) members.push(family.parents.mother);
+      members.push(...family.children, ...family.siblings);
+      const output = { head: family.head, spouse: family.spouse, parents: family.parents, children: family.children, siblings: family.siblings };
+      writeStream.write(format === 'json' ? JSON.stringify(output, null, 2) : JSON.stringify(output) + '\n');
+      if (outputPath) (writeStream as fs.WriteStream).end();
+      process.stderr.write(`\n${C.green}[Done]${C.reset} Family of ${members.length} members (head: ${family.head.firstName} ${family.head.lastName}, ${family.head.state}).\n`);
+      return;
+    }
 
     // ── JSON array output ──────────────────────────────────────────
     if (format === 'json') {

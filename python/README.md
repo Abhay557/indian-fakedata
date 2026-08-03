@@ -191,7 +191,7 @@ Run with no arguments to display the full help menu.
 | `--count <n>` | `-c` | Number of profiles to generate | `100` |
 | `--output <path>` | `-o` | File path to save output | stdout |
 | `--format <fmt>` | `-f` | Output format: `json`, `jsonl`, `csv` | `json` |
-| `--seed <number>` | `-s` | Reproducibility seed for RNG | random |
+| `--seed <value>` | `-s` | Reproducibility seed (number or string, e.g. `011`) | random |
 | `--no-metrics` | | Exclude probability metrics from output | included |
 | `--help` | `-h` | Show help screen | |
 
@@ -262,6 +262,10 @@ from indian_fakedata import (
     generate_narrative,
     generate_all_narratives,
     generate_agent_persona,
+    generate_user,
+    generate_users,
+    generate_family,
+    generate_persona,
     save_profiles_to_file,
     format_profiles
 )
@@ -275,6 +279,14 @@ enriched = generate_enriched(count=5, include_outcomes=True, include_agent_perso
 # 3. Stream Generation (for large datasets)
 for profile in generate_stream(count=10000):
     pass # Process one by one without memory issues
+
+# 4. User / Family / Persona (faker-style)
+user = generate_user(seed=7)                      # one profile, string seeds OK
+users = generate_users(count=5, seed="011")       # many users from one seed
+dev = generate_user(highly_educated=True, gender="female",
+                    constraints={"state": "Karnataka"})
+family = generate_family(seed="011")              # spouse, parents, children, siblings
+out = generate_persona(seed="011")                # {"user": ..., "persona": ...}
 ```
 
 See **[TUTORIAL.md](../TUTORIAL.md)** for full code examples in TypeScript and Python.

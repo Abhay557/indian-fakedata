@@ -415,14 +415,16 @@ export interface GenerationConstraints {
   occupation?: OccupationalSector;
   /** Fix marital status */
   maritalStatus?: MaritalStatus;
+  /** Fix the surname (family name). Useful for family/relational generation */
+  surname?: string;
 }
 
 /** Options for the generator */
 export interface GeneratorOptions {
   /** Number of profiles to generate (default: 1) */
   count?: number;
-  /** Reproducibility seed (optional, auto-generated if not set) */
-  seed?: number;
+  /** Reproducibility seed (optional, auto-generated if not set). Numeric or string ("011") */
+  seed?: number | string;
   /** User constraints */
   constraints?: GenerationConstraints;
   /** If true, include full probability metrics in output (default: true) */

@@ -212,8 +212,9 @@ Run with no arguments to display the full help menu.
 | `--count <n>` | `-c` | Number of profiles to generate | `100` |
 | `--output <path>` | `-o` | File path to save output | stdout |
 | `--format <fmt>` | `-f` | Output format: `json`, `jsonl`, `csv` | `json` |
-| `--seed <number>` | `-s` | Reproducibility seed for RNG | random |
+| `--seed <value>` | `-s` | Reproducibility seed (number or string, e.g. `011`) | random |
 | `--no-metrics` | | Exclude probability metrics from output | included |
+| `--family` | | Generate a full family (head + spouse + parents + children + siblings) from one seed | off |
 | `--help` | `-h` | Show help screen | |
 
 ### Demographic Constraints
@@ -264,7 +265,46 @@ indian-fakedata -c 5000 --outcomes --bias 0.5 --socialCategory SC -f jsonl -o sc
 
 ## Programmatic API
 
-### Node.js / TypeScript
+### User / Family / Persona (faker-style)
+
+Both runtimes expose ergonomic entry points built on top of `generate`:
+
+```typescript
+import { generateUser, generateUsers, generateFamily, generatePersona } from '@abhay557/indian-fakedata';
+
+// One user — same shape as the "Output Sample" above. Seed may be a
+// number (7) or string ('011'); string seeds are hashed deterministically.
+const user = generateUser({ seed: 7 });
+
+// Many users driven by a single seed
+const users = generateUsers({ count: 5, seed: '011' });
+
+// A highly educated female IT professional from Karnataka
+const dev = generateUser({ highlyEducated: true, gender: 'female', constraints: { state: 'Karnataka' } });
+
+// Full relational household from one seed — spouse, parents, children,
+// siblings all share the head's state/religion/caste/surname and keep
+// age-consistent relationships. Fully reproducible for the same seed.
+const family = generateFamily({ seed: '011' });
+family.spouse?.lastName;   // === family.head.lastName
+family.children.map(c => c.age); // younger than head
+
+// User + LLM-ready agent persona (system prompt, beliefs, memory seeds)
+const { user: u, persona } = generatePersona({ seed: '011' });
+persona.systemPrompt; // ready to inject into any LLM system role
+```
+
+```python
+from indian_fakedata import generate_user, generate_users, generate_family, generate_persona
+
+user = generate_user(seed=7)
+users = generate_users(count=5, seed="011")
+dev = generate_user(highly_educated=True, gender="female", constraints={"state": "Karnataka"})
+family = generate_family(seed="011")
+out = generate_persona(seed="011")
+```
+
+### Core Node.js / TypeScript
 ```typescript
 import { generate, generateEnriched } from '@abhay557/indian-fakedata';
 
@@ -272,7 +312,7 @@ const profiles = generate({ count: 10 });
 const enriched = generateEnriched({ count: 5, includeOutcomes: true });
 ```
 
-### Python
+### Core Python
 ```python
 from indian_fakedata import generate, generate_enriched
 

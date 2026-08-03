@@ -13,11 +13,28 @@ import type { SeededRNG, NameEntry } from '../types.js';
 // ─────────────────────────────────────────────────────────────
 
 /**
+ * Converts a numeric or string seed into a stable 32-bit uint32.
+ * String seeds (e.g. "011") are hashed with FNV-1a so the same
+ * string always reproduces the same person/family.
+ */
+export function normalizeSeed(seed: number | string | undefined): number {
+  if (seed === undefined || seed === null) return (Date.now() ^ (Math.random() * 0xFFFFFFFF)) >>> 0;
+  if (typeof seed === 'number') return seed >>> 0;
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < seed.length; i++) {
+    hash ^= seed.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+}
+
+/**
  * Creates a seeded PRNG using the Mulberry32 algorithm.
  * Produces high-quality 32-bit pseudo-random numbers.
+ * Accepts numeric or string seeds ("011" is hashed deterministically).
  */
-export function createRNG(initialSeed?: number): SeededRNG {
-  let state = initialSeed ?? (Date.now() ^ (Math.random() * 0xFFFFFFFF)) >>> 0;
+export function createRNG(initialSeed?: number | string): SeededRNG {
+  let state = normalizeSeed(initialSeed);
   const originalSeed = state;
 
   function next(): number {

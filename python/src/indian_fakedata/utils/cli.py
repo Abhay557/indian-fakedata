@@ -37,8 +37,10 @@ def print_help():
     -c, --count <n>        Number of profiles to generate {C["dim"]}(default: 100){C["reset"]}
     -o, --output <path>    File path to save output {C["dim"]}(default: stdout){C["reset"]}
     -f, --format <fmt>     Output format: json, jsonl, csv {C["dim"]}(default: json){C["reset"]}
-    -s, --seed <number>    Reproducibility seed for RNG
+    -s, --seed <value>    Reproducibility seed (number or string, e.g. "011")
     --no-metrics           Exclude probability metrics from output
+    --family               Generate a full family (head + spouse + parents +
+                           children + siblings) from a single seed
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -90,8 +92,9 @@ def main():
     parser.add_argument("-c", "--count", type=int, default=100)
     parser.add_argument("-o", "--output", type=str, default=None)
     parser.add_argument("-f", "--format", type=str, default="json", choices=["json", "jsonl", "csv"])
-    parser.add_argument("-s", "--seed", type=int, default=None)
+    parser.add_argument("-s", "--seed", type=str, default=None)
     parser.add_argument("--no-metrics", action="store_true")
+    parser.add_argument("--family", action="store_true")
 
     # Constraints
     parser.add_argument("--religion", type=str, default=None)
@@ -156,6 +159,25 @@ def main():
         # Wrap stdout in UTF-8 to avoid UnicodeEncodeError on Windows (cp1252)
         import io
         out_file = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+
+    # ── Family mode (relational household from one seed) ───────────
+    if args.family:
+        if args.format == "csv":
+            print("Error: --family only supports json/jsonl output.", file=sys.stderr)
+            sys.exit(1)
+        from indian_fakedata.utils.family import generate_family
+        family = generate_family(
+            seed=args.seed,
+            constraints=constraints,
+            include_probability_metrics=include_probability_metrics
+        )
+        if args.format == "json":
+            out_file.write(json.dumps(family, indent=2, ensure_ascii=False))
+        else:
+            out_file.write(json.dumps(family, ensure_ascii=False) + "\n")
+        if args.output:
+            out_file.close()
+        return
 
     # Choose correct generator stream
     if is_enriched:

@@ -26,6 +26,10 @@ from indian_fakedata.utils.outcomes import simulate_outcomes
 from indian_fakedata.utils.narrative import generate_narrative, generate_all_narratives
 from indian_fakedata.utils.agent import generate_agent_persona
 
+# User / Family / Persona API
+from indian_fakedata.utils.user import generate_user, generate_users, generate_persona
+from indian_fakedata.utils.family import generate_family
+
 # Utility Exports
 from indian_fakedata.core.sampler import create_rng, weighted_sample, weighted_sample_from_record
 from indian_fakedata.database.loader import DatabaseLoader
@@ -48,6 +52,11 @@ __all__ = [
     "generate_narrative",
     "generate_all_narratives",
     "generate_agent_persona",
+    # User / Family / Persona
+    "generate_user",
+    "generate_users",
+    "generate_persona",
+    "generate_family",
     # Utilities
     "create_rng",
     "weighted_sample",

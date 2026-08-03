@@ -77,7 +77,10 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
 
     # Step 3: Generate names
     first_name, _ = select_first_name(db, path["religionId"], path["stateId"], path["gender"], rng)
-    last_name, surname_prob = select_surname(db, path["casteId"], path["gender"], rng)
+    selected_last_name, selected_surname_prob = select_surname(db, path["casteId"], path["gender"], rng)
+    # Allow family/relational generation to pin the surname explicitly
+    last_name = constraints.get("surname") or selected_last_name
+    surname_prob = 1.0 if constraints.get("surname") else selected_surname_prob
 
     father_first, _ = select_first_name(db, path["religionId"], path["stateId"], "male", rng)
     father_name = f"{father_first} {last_name}"

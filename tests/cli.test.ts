@@ -70,4 +70,22 @@ describe('CLI Integration Tests', () => {
     expect(lines.length).toBe(10);
     expect(JSON.parse(lines[0]).id).toBeDefined();
   });
+
+  it('should accept a string seed (e.g. 011)', () => {
+    const outPath = path.join(outputDir, 'seed011.json');
+    execSync(`npx tsx src/cli.ts -c 2 -o "${outPath}" -f json --seed 011`, { stdio: 'pipe' });
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    expect(content.length).toBe(2);
+    expect(content[0].firstName).toBeDefined();
+  });
+
+  it('should run CLI in family mode with a string seed', () => {
+    const outPath = path.join(outputDir, 'family011.json');
+    execSync(`npx tsx src/cli.ts --family --seed 011 -o "${outPath}" -f json`, { stdio: 'pipe' });
+    const family = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    expect(family.head.firstName).toBeDefined();
+    expect(Array.isArray(family.children)).toBe(true);
+    expect(Array.isArray(family.siblings)).toBe(true);
+    expect(family.parents).toBeDefined();
+  });
 });
