@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="playground.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>Live Playground</h1>
+    <p>Generate a real profile right in your browser. The TypeScript
+    implementation is bundled and runs locally — no server involved.</p>
+
+    <div class="controls">
+      <div class="field">
+        <label for="seed">Seed</label>
+        <input id="seed" type="text" placeholder="e.g. 7 or 011" value="011">
+      </div>
+      <div class="field">
+        <label for="count">Count</label>
+        <input id="count" type="number" min="1" max="25" value="1">
+      </div>
+      <div class="field">
+        <label for="state">State</label>
+        <input id="state" type="text" placeholder="blank = any">
+      </div>
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="">Any</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="religion">Religion</label>
+        <select id="religion">
+          <option value="">Any</option>
+          <option>Hindu</option>
+          <option>Muslim</option>
+          <option>Christian</option>
+          <option>Sikh</option>
+          <option>Buddhist</option>
+          <option>Jain</option>
+        </select>
+      </div>
+      <div class="field checkbox">
+        <input id="family" type="checkbox">
+        <label for="family">Family (household)</label>
+      </div>
+      <button id="generate">Generate</button>
+    </div>
+
+    <div id="error" class="error" hidden></div>
+
+    <div class="tabs">
+      <button data-tab="ts" class="active">TypeScript (live)</button>
+      <button data-tab="py">Python (pre-computed)</button>
+    </div>
+    <pre id="output" class="output"><code>Press Generate to create a profile.</code></pre>
+
+    <div class="note">
+      <strong>Runtime caveat:</strong> the TypeScript and Python implementations
+      are each independently deterministic. The same seed reproduces the same
+      person <em>within one implementation</em>, but the two runtimes draw RNG
+      streams differently — so <code>seed = 7</code> here (TS) will not match
+      the Python README sample (Pushpa Sharma) exactly.
+    </div>
+
+    <h2>Python pre-computed samples</h2>
+    <table>
+      <tr><th>Seed</th><th>Profile</th></tr>
+      <tr><td><code>7</code></td><td><a href="samples/python-7.json" target="_blank">view JSON</a></td></tr>
+      <tr><td><code>11</code></td><td><a href="samples/python-11.json" target="_blank">view JSON</a></td></tr>
+      <tr><td><code>13</code></td><td><a href="samples/python-13.json" target="_blank">view JSON</a></td></tr>
+    </table>
+  </main>
+  <script src="assets/layout.js"></script>
+  <script src="assets/playground.js"></script>
+</body>
+</html>

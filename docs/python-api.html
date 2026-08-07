@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python API — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="python-api.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>Python API</h1>
+
+    <pre><code>pip install indian-fakedata</code></pre>
+    <p>Requires Python 3.8+. Zero runtime dependencies. The whole database is
+    bundled (JSON) — no downloads, works offline.</p>
+
+    <h2>Core generation</h2>
+    <pre><code>from indian_fakedata import (
+    generate,
+    generate_stream,
+    get_distribution_summary,
+)
+
+# Generate 5 profiles
+profiles = generate(count=5)
+
+# Seeded + constrained
+tn = generate(
+    count=3,
+    seed="011",                     # numbers or strings
+    constraints={
+        "state": "Tamil Nadu",
+        "gender": "female",
+        "areaType": "rural",
+        "minAge": 18,
+        "maxAge": 45,
+    },
+)
+
+# Memory-efficient stream
+for p in generate_stream(count=100000):
+    pass  # process one by one
+
+# Distribution summary
+summary = get_distribution_summary()</code></pre>
+
+    <h3><code>generate()</code> parameters</h3>
+    <table>
+      <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>count</code></td><td><code>int</code></td><td>Number of profiles (default <code>1</code>)</td></tr>
+      <tr><td><code>seed</code></td><td><code>int | str</code></td><td>Reproducibility seed (default random)</td></tr>
+      <tr><td><code>constraints</code></td><td><code>dict</code></td><td>Demographic filters (below)</td></tr>
+      <tr><td><code>include_probability_metrics</code></td><td><code>bool</code></td><td>Include probability chain (default <code>True</code>)</td></tr>
+    </table>
+    <p>Constraint keys are camelCase: <code>state</code>, <code>gender</code>,
+    <code>religion</code>, <code>caste</code>, <code>socialCategory</code>,
+    <code>areaType</code>, <code>minAge</code>, <code>maxAge</code>,
+    <code>education</code>, <code>occupation</code>, <code>maritalStatus</code>,
+    <code>surname</code>.</p>
+
+    <h2>Enrichment API</h2>
+    <pre><code>from indian_fakedata import (
+    generate_enriched,
+    generate_enriched_stream,
+    simulate_outcomes,
+    generate_narrative,
+    generate_all_narratives,
+    generate_agent_persona,
+)
+
+enriched = generate_enriched(
+    count=1,
+    include_outcomes=True,       # Layer 2
+    narrative_types=["all"],     # Layer 3
+    include_agent_persona=True,  # Layer 4
+    bias_level=0.3,
+)[0]
+
+print(enriched["profile"]["firstName"], enriched["outcomes"]["credit"]["creditScore"])
+print(enriched["agentPersona"]["systemPrompt"])</code></pre>
+
+    <h2>User / Family / Persona (faker-style)</h2>
+    <pre><code>from indian_fakedata import generate_user, generate_users, generate_family, generate_persona
+
+# One profile (README sample shape)
+user = generate_user(seed=7)
+
+# Many users from one seed
+users = generate_users(count=5, seed="011")
+
+# Shortcut flags
+dev = generate_user(
+    highly_educated=True,
+    gender="female",
+    marital_status="married",
+    constraints={"state": "Karnataka"},
+)
+
+# Whole household: spouse, parents, children, siblings
+family = generate_family(seed="011")
+
+# User + LLM-ready persona
+out = generate_persona(seed="011")
+user, persona = out["user"], out["persona"]</code></pre>
+
+    <h2>Exporters</h2>
+    <pre><code>from indian_fakedata import generate_enriched, save_profiles, format_profiles
+
+dataset = generate_enriched(count=50, include_outcomes=True)
+
+save_profiles(dataset, "./output.json", "json")
+save_profiles(dataset, "./output.jsonl", "jsonl")
+save_profiles(dataset, "./output.csv", "csv")  # flattened automatically
+csv_string = format_profiles(dataset, "csv")</code></pre>
+
+    <h2>Custom data</h2>
+    <pre><code>from indian_fakedata import load_database
+
+# Merge custom JSON files (states.json, religions.json, casteMap.json,
+# firstNames.json, surnames.json, districts.json) from a directory
+db = load_database("./my-data-dir")</code></pre>
+
+    <h2>Module contents</h2>
+    <p><code>generate</code>, <code>generate_stream</code>,
+    <code>get_distribution_summary</code>, <code>generate_enriched</code>,
+    <code>generate_enriched_stream</code>, <code>simulate_outcomes</code>,
+    <code>generate_narrative</code>, <code>generate_all_narratives</code>,
+    <code>generate_agent_persona</code>, <code>generate_user</code>,
+    <code>generate_users</code>, <code>generate_persona</code>,
+    <code>generate_family</code>, <code>create_rng</code>,
+    <code>weighted_sample</code>, <code>weighted_sample_from_record</code>,
+    <code>load_database</code>, <code>format_profiles</code>,
+    <code>save_profiles</code>.</p>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

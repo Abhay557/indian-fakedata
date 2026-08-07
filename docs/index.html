@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Fake Data Generator — Documentation</title>
+  <meta name="description" content="Realistic, statistically consistent synthetic Indian demographic data backed by Census 2011. For Python and Node.js.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="index.html">
+  <div data-layout></div>
+  <main data-content>
+    <section class="hero">
+      <h1>Indian Fake Data Generator</h1>
+      <p class="subtitle">
+        A generator for culturally accurate, statistically consistent mock Indian
+        demographic profiles, backed by Census 2011 data. Two native implementations,
+        identical features and CLI.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="getting-started.html">Get Started</a>
+        <a class="btn secondary" href="playground.html">Try the Playground</a>
+        <a class="btn secondary" href="cli.html">CLI Reference</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <h3>Statistically consistent</h3>
+        <p>Religion, caste, state, language, education and income are correlated.
+        No Sikh named Mohammed Sharma from Mizoram.</p>
+      </div>
+      <div class="feature">
+        <h3>Census 2011 backed</h3>
+        <p>Hand-calibrated approximations from Census 2011, NFHS-5 and survey
+        data, bundled in. No runtime downloads.</p>
+      </div>
+      <div class="feature">
+        <h3>Whole families</h3>
+        <p>Generate a full household from one seed: head, spouse, parents,
+        children and siblings with consistent surnames and ages.</p>
+      </div>
+      <div class="feature">
+        <h3>Seeded and reproducible</h3>
+        <p>Seeds can be numbers or strings (<code>'011'</code>). Same seed, same
+        person, every time.</p>
+      </div>
+      <div class="feature">
+        <h3>Zero dependencies</h3>
+        <p>Both packages are dependency-free. Node 18+ or Python 3.8+, works
+        offline.</p>
+      </div>
+      <div class="feature">
+        <h3>AI-training ready</h3>
+        <p>Optional layers add credit scores, narratives (loan applications,
+        Hinglish chats) and LLM agent personas.</p>
+      </div>
+    </section>
+
+    <h2>Sample profile — <code>seed = 7</code> (Python implementation)</h2>
+    <div class="note">
+      <strong>Note:</strong> the TypeScript implementation is independently
+      deterministic. The same seed is reproducible within one implementation,
+      but the two runtimes draw RNG streams differently.
+    </div>
+    <pre><code>{
+  "id": "33553413-2014-4616-9361-511204427271",
+  "firstName": "Pushpa",
+  "lastName": "Sharma",
+  "fatherName": "Santosh Sharma",
+  "motherName": "Geeta Sharma",
+  "spouseName": "Sanjay Sharma",
+  "gender": "female",
+  "age": 34,
+  "state": "Maharashtra",
+  "district": "Solapur",
+  "areaType": "urban",
+  "religion": "Hindu",
+  "caste": "Deshastha Brahmin",
+  "socialCategory": "General",
+  "motherTongue": "Marathi",
+  "education": "secondary",
+  "occupation": "agricultural_labourer",
+  "maritalStatus": "married",
+  "annualIncomeINR": 194000,
+  "aadhaarNumber": "500233102039",
+  "panNumber": "EKIPS1361D",
+  "phoneNumber": "7501311043",
+  "email": "pushpasharma352@gmail.com"
+}</code></pre>
+
+    <h2>Install</h2>
+    <pre><code>pip install indian-fakedata              # Python 3.8+
+npm install @abhay557/indian-fakedata    # Node.js 18+</code></pre>
+    <p>Both packages are on PyPI and npm, version 2.0.2, with zero runtime
+    dependencies.</p>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>
