@@ -120,7 +120,7 @@ async function run() {
 onMounted(async () => {
   for (const s of ['7', '11', '13']) {
     try {
-      const res = await fetch(`/sample-python-${s}.json`);
+      const res = await fetch(`${import.meta.env.BASE_URL}sample-python-${s}.json`);
       pythonBySeed.value[s] = await res.json();
     } catch {
       pythonBySeed.value[s] = null;

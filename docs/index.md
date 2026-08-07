@@ -17,23 +17,17 @@ hero:
       link: /playground/
 
 features:
-  - icon: 🧬
-    title: Statistically consistent
+  - title: Statistically consistent
     details: Religion, caste, state, language, education and income are correlated — no Sikh named Mohammed Sharma from Mizoram.
-  - icon: 🇮🇳
-    title: Census 2011 backed
+  - title: Census 2011 backed
     details: Hand-calibrated approximations from Census 2011, NFHS-5 and survey data bundled in — no runtime downloads.
-  - icon: 🏠
-    title: Whole families
+  - title: Whole families
     details: Generate a full household from one seed — head, spouse, parents, children and siblings with consistent surnames.
-  - icon: 🎲
-    title: Seeded & reproducible
+  - title: Seeded & reproducible
     details: Seeds can be numbers or strings ('011'). Same seed, same person — every time, in your chosen runtime.
-  - icon: 🪶
-    title: Zero dependencies
+  - title: Zero dependencies
     details: Both packages are dependency-free. Node 18+ or Python 3.8+, works offline.
-  - icon: 🎭
-    title: AI-training ready
+  - title: AI-training ready
     details: Optional layers add credit scores, narratives (loan apps, Hinglish chats) and LLM agent personas.
 ---
 

@@ -10,7 +10,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 
 [![NPM Version](https://img.shields.io/npm/v/@abhay557/indian-fakedata?logo=npm&color=brightgreen)](https://www.npmjs.com/package/@abhay557/indian-fakedata)
 [![PyPI Version](https://img.shields.io/pypi/v/indian-fakedata?logo=pypi&color=blue)](https://pypi.org/project/indian-fakedata/)
-[![Docs](https://img.shields.io/badge/docs-website-blueviolet?logo=readthedocs)](https://abhay557.github.io/indian-fakedata/)
+[![Docs](https://img.shields.io/badge/docs-website-blueviolet?logo=vercel)](https://indian-fakedata.vercel.app)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/) 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/) 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -364,6 +364,16 @@ provided for reference but is not compiled into the package at build time.
 | `npm test` | Run vitest test suite |
 | `npm run demo` | Run demo script |
 | `npm run lint` | Type-check without emitting |
+| `npm run docs:dev` | Start the VitePress docs site locally |
+| `npm run docs:build` | Build the docs site for deployment |
+
+---
+
+## For AI Agents
+
+[`SKILL.md`](SKILL.md) teaches AI coding agents how to correctly use this
+library: install commands, the full API matrix (TS/Python), CLI reference, seed
+semantics, output shape, verification assertions, and common mistakes.
 
 ---
 
