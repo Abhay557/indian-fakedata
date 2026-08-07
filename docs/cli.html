@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI Reference — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="cli.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>CLI Reference</h1>
+
+    <p>Both packages ship an identical <code>indian-fakedata</code> CLI binary.
+    Run with no arguments to display the full help screen.</p>
+    <pre><code># Node.js
+npx @abhay557/indian-fakedata [options]
+
+# Python (or globally installed Node package)
+indian-fakedata [options]</code></pre>
+
+    <h2>Core options</h2>
+    <table>
+      <tr><th>Flag</th><th>Alias</th><th>Description</th><th>Default</th></tr>
+      <tr><td><code>--count &lt;n&gt;</code></td><td><code>-c</code></td><td>Number of profiles to generate</td><td><code>100</code></td></tr>
+      <tr><td><code>--output &lt;path&gt;</code></td><td><code>-o</code></td><td>File path to save output</td><td>stdout</td></tr>
+      <tr><td><code>--format &lt;fmt&gt;</code></td><td><code>-f</code></td><td>Output format: <code>json</code>, <code>jsonl</code>, <code>csv</code></td><td><code>json</code></td></tr>
+      <tr><td><code>--seed &lt;value&gt;</code></td><td><code>-s</code></td><td>Reproducibility seed (number or string, e.g. <code>011</code>)</td><td>random</td></tr>
+      <tr><td><code>--no-metrics</code></td><td></td><td>Exclude probability metrics from output</td><td>included</td></tr>
+      <tr><td><code>--family</code></td><td></td><td>Full household (head + spouse + parents + children + siblings) from one seed; json/jsonl only</td><td>off</td></tr>
+      <tr><td><code>--help</code></td><td><code>-h</code></td><td>Show help screen</td><td></td></tr>
+    </table>
+
+    <h2>Demographic constraints</h2>
+    <table>
+      <tr><th>Flag</th><th>Values</th></tr>
+      <tr><td><code>--religion &lt;string&gt;</code></td><td><code>Hindu</code>, <code>Muslim</code>, <code>Christian</code>, <code>Sikh</code>, <code>Buddhist</code>, <code>Jain</code></td></tr>
+      <tr><td><code>--state &lt;string&gt;</code></td><td>e.g. <code>Maharashtra</code>, <code>Tamil Nadu</code>, <code>Punjab</code></td></tr>
+      <tr><td><code>--gender &lt;gender&gt;</code></td><td><code>male</code>, <code>female</code>, <code>other</code></td></tr>
+      <tr><td><code>--caste &lt;string&gt;</code></td><td>e.g. <code>Brahmin</code>, <code>Maratha</code>, <code>Jat</code></td></tr>
+      <tr><td><code>--socialCategory &lt;cat&gt;</code></td><td><code>SC</code>, <code>ST</code>, <code>OBC</code>, <code>General</code></td></tr>
+      <tr><td><code>--areaType &lt;type&gt;</code></td><td><code>urban</code>, <code>rural</code></td></tr>
+      <tr><td><code>--minAge &lt;n&gt;</code></td><td>Minimum age (0–100)</td></tr>
+      <tr><td><code>--maxAge &lt;n&gt;</code></td><td>Maximum age (0–100)</td></tr>
+      <tr><td><code>--education &lt;level&gt;</code></td><td><code>illiterate</code>, <code>primary</code>, <code>secondary</code>, <code>graduate</code>, etc.</td></tr>
+      <tr><td><code>--occupation &lt;sector&gt;</code></td><td><code>cultivator</code>, <code>other_worker</code>, <code>non_worker</code>, etc.</td></tr>
+      <tr><td><code>--maritalStatus &lt;status&gt;</code></td><td><code>never_married</code>, <code>married</code>, <code>widowed</code>, etc.</td></tr>
+    </table>
+
+    <h2>Enrichment layers</h2>
+    <table>
+      <tr><th>Flag</th><th>Description</th></tr>
+      <tr><td><code>--enrich</code></td><td>Enable ALL enrichment layers (outcomes + narrative:all + persona)</td></tr>
+      <tr><td><code>--outcomes</code></td><td>[Layer 2] Add credit score, health risk, employment outcome, education attainment</td></tr>
+      <tr><td><code>--bias &lt;0-1&gt;</code></td><td>Bias dial for outcome simulation. <code>0.0</code> = pure meritocracy, <code>1.0</code> = max historical discrimination. Default <code>0.3</code> (calibrated to CMIE/CIBIL observed gaps)</td></tr>
+      <tr><td><code>--narrative &lt;type&gt;</code></td><td>[Layer 3] <code>loan_application</code>, <code>medical_consultation</code>, <code>school_enrollment</code>, <code>ration_card_application</code>, <code>hinglish_conversation</code>, <code>all</code>. Repeat for multiple types</td></tr>
+      <tr><td><code>--persona</code></td><td>[Layer 4] LLM-ready agent persona (system prompt, beliefs, memory seeds, behavior rules)</td></tr>
+    </table>
+
+    <h2>Quick examples</h2>
+    <pre><code># 1000 profiles as CSV
+indian-fakedata -c 1000 -f csv -o profiles.csv
+
+# 50K Tamil Nadu Hindus as JSONL
+indian-fakedata -c 50000 -f jsonl -o tn_data.jsonl --state "Tamil Nadu" --religion Hindu
+
+# All enrichment layers with moderate bias
+indian-fakedata -c 100 --enrich --bias 0.3 -f jsonl -o enriched.jsonl
+
+# SC community fairness audit
+indian-fakedata -c 5000 --outcomes --bias 0.5 --socialCategory SC -f jsonl -o sc_bias.jsonl
+
+# LLM training corpus (Hinglish + loan apps)
+indian-fakedata -c 10000 --narrative hinglish_conversation --narrative loan_application -f jsonl -o corpus.jsonl
+
+# Agent personas for multi-agent simulation
+indian-fakedata -c 500 --persona -f jsonl -o agents.jsonl
+
+# Single detailed profile, pretty-printed
+indian-fakedata -c 1 --enrich --bias 0.0 --seed 42
+
+# Full family from one string seed
+indian-fakedata --family --seed 011</code></pre>
+
+    <h2>Notes</h2>
+    <ul>
+      <li><code>--family</code> rejects CSV output (nested structure does not flatten cleanly).</li>
+      <li>String seeds are hashed (FNV-1a); numeric seeds are used directly.</li>
+      <li>Output is UTF-8 everywhere; on Windows, stdout is wrapped to avoid cp1252 errors.</li>
+    </ul>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

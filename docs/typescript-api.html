@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript API — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="typescript-api.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>TypeScript / Node.js API</h1>
+
+    <pre><code>npm install @abhay557/indian-fakedata</code></pre>
+    <p>Requires Node.js 18+. Zero runtime dependencies. ES module, type
+    definitions included.</p>
+
+    <h2>Core generation</h2>
+    <pre><code>import { generate, generateStream, getDistributionSummary } from '@abhay557/indian-fakedata';
+
+// Generate 5 profiles
+const profiles = generate({ count: 5 });
+
+// Seeded + constrained
+const tn = generate({
+  count: 3,
+  seed: '011',                    // numbers or strings
+  constraints: {
+    state: 'Tamil Nadu',
+    gender: 'female',
+    areaType: 'rural',
+    minAge: 18,
+    maxAge: 45,
+  },
+});
+
+// Memory-efficient stream for large datasets
+for (const p of generateStream({ count: 100000 })) {
+  // process one by one
+}
+
+// Distribution summary (national religion frequencies, etc.)
+const summary = getDistributionSummary();</code></pre>
+
+    <h3>GeneratorOptions</h3>
+    <table>
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>count</code></td><td><code>number</code></td><td>Number of profiles (default <code>1</code>)</td></tr>
+      <tr><td><code>seed</code></td><td><code>number | string</code></td><td>Reproducibility seed (default random)</td></tr>
+      <tr><td><code>constraints</code></td><td><code>GenerationConstraints</code></td><td>Demographic filters (below)</td></tr>
+      <tr><td><code>includeProbabilityMetrics</code></td><td><code>boolean</code></td><td>Include probability chain (default <code>true</code>)</td></tr>
+    </table>
+
+    <h3>GenerationConstraints</h3>
+    <table>
+      <tr><th>Field</th><th>Values</th></tr>
+      <tr><td><code>state</code></td><td>e.g. <code>'Maharashtra'</code>, <code>'Tamil Nadu'</code></td></tr>
+      <tr><td><code>gender</code></td><td><code>'male' | 'female' | 'other'</code></td></tr>
+      <tr><td><code>religion</code></td><td><code>'Hindu' | 'Muslim' | 'Christian' | 'Sikh' | 'Buddhist' | 'Jain'</code></td></tr>
+      <tr><td><code>caste</code></td><td>e.g. <code>'Brahmin'</code>, <code>'Maratha'</code>, <code>'Jat'</code></td></tr>
+      <tr><td><code>socialCategory</code></td><td><code>'SC' | 'ST' | 'OBC' | 'General'</code></td></tr>
+      <tr><td><code>areaType</code></td><td><code>'urban' | 'rural'</code></td></tr>
+      <tr><td><code>minAge</code> / <code>maxAge</code></td><td><code>number</code> (0–100)</td></tr>
+      <tr><td><code>education</code></td><td><code>EducationLevel</code> string</td></tr>
+      <tr><td><code>occupation</code></td><td><code>OccupationalSector</code> string</td></tr>
+      <tr><td><code>maritalStatus</code></td><td><code>MaritalStatus</code> string</td></tr>
+      <tr><td><code>surname</code></td><td>Pin an exact surname (used by family generation)</td></tr>
+    </table>
+
+    <h2>Enrichment API</h2>
+    <pre><code>import {
+  generateEnriched,
+  generateEnrichedStream,
+  simulateOutcomes,
+  generateNarrative,
+  generateAllNarratives,
+  generateAgentPersona,
+} from '@abhay557/indian-fakedata';
+
+const enriched = generateEnriched({
+  count: 1,
+  includeOutcomes: true,      // Layer 2: credit score, health risk, wages
+  narrativeTypes: ['all'],    // Layer 3: loan apps, Hinglish chats, OPD records
+  includeAgentPersona: true,  // Layer 4: LLM system prompt and worldview
+  biasLevel: 0.3,             // 0.0 meritocracy to 1.0 max historical bias
+})[0];
+
+console.log(enriched.profile.firstName, enriched.outcomes.credit.creditScore);
+console.log(enriched.agentPersona.systemPrompt);</code></pre>
+
+    <h2>User / Family / Persona (faker-style)</h2>
+    <pre><code>import {
+  generateUser,
+  generateUsers,
+  generateFamily,
+  generatePersona,
+} from '@abhay557/indian-fakedata';
+
+// One profile (README sample shape)
+const user = generateUser({ seed: 7 });
+
+// Many users from one seed
+const users = generateUsers({ count: 5, seed: '011' });
+
+// A highly educated female developer from Karnataka
+const dev = generateUser({
+  highlyEducated: true,
+  gender: 'female',
+  constraints: { state: 'Karnataka' },
+});
+
+// Whole household: spouse, parents, children, siblings
+const family = generateFamily({ seed: '011' });
+// family: { head, spouse?, parents: { father?, mother? }, children: [], siblings: [] }
+
+// User + LLM-ready persona
+const { user: u, persona } = generatePersona({ seed: '011' });
+// persona.systemPrompt, persona.beliefs, persona.memorySeeds, persona.behaviorRules</code></pre>
+
+    <h2>Exporters</h2>
+    <pre><code>import { generateEnriched, saveProfilesToFile, formatProfiles } from '@abhay557/indian-fakedata';
+
+const dataset = generateEnriched({ count: 50, includeOutcomes: true });
+
+saveProfilesToFile(dataset, './output.json', 'json');
+saveProfilesToFile(dataset, './output.jsonl', 'jsonl');
+saveProfilesToFile(dataset, './output.csv', 'csv');  // flattened automatically
+const csvString = formatProfiles(dataset, 'csv');</code></pre>
+
+    <h2>Custom data</h2>
+    <pre><code>import { loadDatabase, getDefaultDatabase } from '@abhay557/indian-fakedata';
+
+// Merge custom JSON files (states.json, religions.json, casteMap.json,
+// firstNames.json, surnames.json, districts.json) from a directory
+const db = loadDatabase('./my-data-dir');</code></pre>
+
+    <h2>Core types</h2>
+    <p><code>DemographicProfile</code>, <code>GeneratorOptions</code>,
+    <code>GenerationConstraints</code>, <code>ProbabilityMetrics</code>,
+    <code>EnrichmentOptions</code>, <code>EnrichedProfile</code>,
+    <code>Gender</code>, <code>EducationLevel</code>,
+    <code>OccupationalSector</code>, <code>MaritalStatus</code>,
+    <code>AreaType</code>, <code>SocialCategory</code>, <code>BloodGroup</code>,
+    <code>DietaryPreference</code>, <code>EmploymentSector</code>,
+    <code>RationCardType</code>, <code>HealthInsuranceType</code>,
+    <code>DisabilityType</code>, <code>PoliticalLeaning</code>,
+    <code>ReligiosityLevel</code>, <code>BigFivePersonality</code>,
+    <code>CognitiveProfile</code>, <code>Interests</code>, <code>Habits</code>,
+    <code>EducationDetails</code>, <code>CulturalProfile</code>,
+    <code>HouseholdAssets</code>, <code>CompiledDatabase</code>,
+    <code>SeededRNG</code>, <code>UserOptions</code>, <code>UsersOptions</code>,
+    <code>FamilyOptions</code>, <code>FamilyUnit</code>,
+    <code>SimulatedOutcomes</code>, <code>NarrativeDocument</code>,
+    <code>AgentPersona</code>.</p>
+
+    <h2>Low-level utilities (advanced)</h2>
+    <p><code>createRNG</code>, <code>weightedSample</code>,
+    <code>weightedSampleFromRecord</code> — for building custom generation
+    logic on the same seeded RNG core.</p>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

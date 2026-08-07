@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="faq.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>FAQ</h1>
+
+    <h2>Which package do I use?</h2>
+    <table>
+      <tr><th>Need</th><th>Install</th></tr>
+      <tr><td>Node.js / TypeScript</td><td><code>npm install @abhay557/indian-fakedata</code></td></tr>
+      <tr><td>Python</td><td><code>pip install indian-fakedata</code></td></tr>
+    </table>
+    <p>Both ship the same CLI (<code>indian-fakedata</code>), the same features,
+    and the same 2.0.2 version number.</p>
+
+    <h2>Do I need a database or internet connection?</h2>
+    <p>No. Both packages are zero-dependency and fully offline. The demographic
+    database is bundled inside the package (TypeScript constants / JSON files).</p>
+
+    <h2>Are these real people?</h2>
+    <p>No. Every record is synthetically generated. Names, IDs, phone numbers
+    and addresses are fabricated and do not correspond to any real individual.
+    Aadhaar numbers use a valid Verhoeff checksum format but are not real.</p>
+
+    <h2>Will the same seed always give the same person?</h2>
+    <p>Yes, <strong>within the same runtime</strong>. <code>seed=7</code>
+    reproduces the README sample (Pushpa Sharma, Maharashtra, Solapur) in
+    Python. The TypeScript and Python implementations draw RNG streams
+    differently, so the same seed gives different (but each reproducible)
+    results across runtimes.</p>
+
+    <h2>Can seeds be strings?</h2>
+    <p>Yes. <code>--seed 7</code> and <code>--seed "011"</code> both work.
+    String seeds are hashed with FNV-1a internally.</p>
+
+    <h2>What does <code>--family</code> do?</h2>
+    <p>Generates a complete household from one seed: head, spouse (if married),
+    parents, children and siblings — all sharing surname, state, religion and
+    caste, with logically ordered ages. CSV output is not supported for
+    families.</p>
+
+    <h2>Why does the sample output show <code>probabilityMetrics</code>?</h2>
+    <p>It exposes the conditional probability chain behind each profile
+    (<code>nationalReligionFreq → stateGivenReligion → ... → jointProbability</code>).
+    Pass <code>--no-metrics</code> (CLI) or
+    <code>includeProbabilityMetrics: false</code> (TS) /
+    <code>include_probability_metrics=False</code> (Python) to hide it.</p>
+
+    <h2>What is the <code>--bias</code> dial?</h2>
+    <p>It controls how strongly historical socio-economic discrimination shapes
+    Layer-2 outcomes (credit score, health, employment). <code>0.0</code> = pure
+    meritocracy, <code>1.0</code> = max historical discrimination, default
+    <code>0.3</code> (calibrated to CMIE/CIBIL observed gaps).</p>
+
+    <h2>Where do the statistics come from?</h2>
+    <p>Census 2011, NFHS-5, MSME census, UIDAI/RTO formats and CSDS election
+    studies. The bundled distributions are <strong>hand-calibrated
+    approximations</strong> of published aggregates — see
+    <a href="data-accuracy.html">Data Accuracy &amp; Sources</a>.</p>
+
+    <h2>Can I use custom names or data?</h2>
+    <p>Yes. <code>loadDatabase(dataDir)</code> (TS) /
+    <code>load_database(data_dir)</code> (Python) merges JSON files named
+    <code>states.json</code>, <code>religions.json</code>, <code>casteMap.json</code>,
+    <code>firstNames.json</code>, <code>surnames.json</code>,
+    <code>districts.json</code> from a directory, taking priority over
+    built-ins.</p>
+
+    <h2>Does it work in the browser?</h2>
+    <p>The TypeScript package can be bundled for the browser (as the
+    <a href="playground.html">Playground</a> demonstrates) — the only Node
+    built-in it touches is <code>fs</code>, used solely by the optional
+    custom-data loader.</p>
+
+    <h2>I found a distribution that looks wrong.</h2>
+    <p>Open an issue on GitHub. Calibration fixes are welcome — the project
+    prefers documented approximations over silent fabrication.</p>
+
+    <h2>License?</h2>
+    <p>MIT. Use it in production, research, or AI training pipelines —
+    attribution appreciated, not required.</p>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

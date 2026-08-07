@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="getting-started.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>Getting Started</h1>
+
+    <p>Two native implementations, identical features and CLI:</p>
+    <table>
+      <tr><th>Runtime</th><th>Package</th><th>Registry</th><th>Requires</th></tr>
+      <tr><td>Node.js / TypeScript</td><td><code>@abhay557/indian-fakedata</code></td><td>npm</td><td>Node 18+</td></tr>
+      <tr><td>Python</td><td><code>indian-fakedata</code></td><td>PyPI</td><td>Python 3.8+</td></tr>
+    </table>
+    <p>Both are dependency-free and work offline. Current version: 2.0.2.</p>
+
+    <h2>Install</h2>
+    <pre><code>npm install @abhay557/indian-fakedata      # TypeScript / Node.js
+pip install indian-fakedata               # Python</code></pre>
+
+    <h2>First run — CLI</h2>
+    <pre><code># Node.js
+npx @abhay557/indian-fakedata -c 1
+
+# Python (or globally installed Node package)
+indian-fakedata -c 1</code></pre>
+    <p>You get one complete profile: identity, biometrics, Aadhaar/PAN/voter
+    IDs, address, religion, caste, language, education, occupation, income,
+    household assets, psychology and more.</p>
+
+    <h3>More examples</h3>
+    <pre><code># 1,000 profiles as CSV
+indian-fakedata -c 1000 -f csv -o profiles.csv
+
+# 50K Tamil Nadu Hindus, JSONL
+indian-fakedata -c 50000 -f jsonl -o tn.jsonl --state "Tamil Nadu" --religion Hindu
+
+# A full family from one seed
+indian-fakedata --family --seed 011</code></pre>
+    <p>Seeds accept <strong>numbers or strings</strong> — <code>-s 7</code> and
+    <code>-s "011"</code> both work, and the same seed always reproduces the
+    same output within a runtime.</p>
+
+    <h2>First run — API</h2>
+    <h3>TypeScript</h3>
+    <pre><code>import { generate } from '@abhay557/indian-fakedata';
+
+const profiles = generate({ count: 5 });
+profiles.forEach(p => {
+  console.log(`[${p.id}] ${p.firstName} ${p.lastName} (${p.gender}, ${p.age})`);
+  console.log(`Location: ${p.district}, ${p.state} | Caste: ${p.caste}`);
+  console.log(`Religion: ${p.religion} | Education: ${p.education}`);
+});</code></pre>
+
+    <h3>Python</h3>
+    <pre><code>from indian_fakedata import generate
+
+profiles = generate(count=5)
+
+for p in profiles:
+    print(f"[{p['id']}] {p['firstName']} {p['lastName']} ({p['gender']}, {p['age']})")
+    print(f"Location: {p['district']}, {p['state']} | Caste: {p['caste']}")
+    print(f"Religion: {p['religion']} | Education: {p['education']}")</code></pre>
+
+    <h2>What next?</h2>
+    <ul>
+      <li><a href="cli.html">CLI Reference</a> — every flag</li>
+      <li><a href="typescript-api.html">TypeScript API</a> / <a href="python-api.html">Python API</a></li>
+      <li><a href="relational-data.html">Relational data: families</a></li>
+      <li><a href="enrichment.html">Enrichment layers</a></li>
+      <li><a href="data-accuracy.html">Data accuracy and sources</a></li>
+    </ul>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

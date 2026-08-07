@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrichment Layers — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="enrichment.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>Enrichment Layers</h1>
+
+    <p>Beyond core demographics, the library offers four progressive depth
+    layers, designed for simulation, fairness audits and AI training data.</p>
+
+    <h2>The 4 layers</h2>
+    <table>
+      <tr><th>Layer</th><th>Name</th><th>Description</th></tr>
+      <tr><td>1</td><td><strong>Core Demographics</strong></td><td>State, gender, religion, caste, names, languages, biological markers, address</td></tr>
+      <tr><td>2</td><td><strong>Socio-Economic Outcomes</strong></td><td>CIBIL credit score, health risk, literacy, employment vulnerability (configurable bias)</td></tr>
+      <tr><td>3</td><td><strong>Narrative Documents</strong></td><td>Loan applications, OPD records, Hinglish WhatsApp chats, school admissions</td></tr>
+      <tr><td>4</td><td><strong>Agent Persona Prompts</strong></td><td>LLM-ready system prompts, worldview beliefs, stress responses, memory seeds</td></tr>
+    </table>
+
+    <h2>Layer 2 — Outcomes</h2>
+    <p>Simulated socio-economic outcomes calibrated to CMIE/CIBIL observed gaps.</p>
+    <pre><code># CLI
+indian-fakedata -c 100 --outcomes
+
+# Python
+from indian_fakedata import generate_enriched
+
+enriched = generate_enriched(count=10, include_outcomes=True, bias_level=0.3)[0]
+credit = enriched["outcomes"]["credit"]["creditScore"]
+health = enriched["outcomes"]["health"]["healthRisk"]</code></pre>
+
+    <h3>The bias dial</h3>
+    <p><code>bias_level</code> (CLI: <code>--bias &lt;0-1&gt;</code>) controls
+    how strongly historical discrimination shapes outcomes:</p>
+    <table>
+      <tr><th>Value</th><th>Meaning</th></tr>
+      <tr><td><code>0.0</code></td><td>Pure meritocracy</td></tr>
+      <tr><td><code>0.3</code></td><td>Default; calibrated to observed CMIE/CIBIL gaps</td></tr>
+      <tr><td><code>1.0</code></td><td>Max historical discrimination</td></tr>
+    </table>
+
+    <h2>Layer 3 — Narratives</h2>
+    <p>Realistic Indian text documents generated from a profile:</p>
+    <table>
+      <tr><th>Type</th><th>Document</th></tr>
+      <tr><td><code>loan_application</code></td><td>Bank loan application text</td></tr>
+      <tr><td><code>medical_consultation</code></td><td>Doctor's OPD consultation record</td></tr>
+      <tr><td><code>school_enrollment</code></td><td>School admission form narrative</td></tr>
+      <tr><td><code>ration_card_application</code></td><td>PDS ration card application</td></tr>
+      <tr><td><code>hinglish_conversation</code></td><td>WhatsApp-style Hinglish chat</td></tr>
+    </table>
+    <pre><code># CLI
+indian-fakedata -c 1000 --narrative loan_application --narrative hinglish_conversation
+
+# Python
+from indian_fakedata import generate, generate_narrative
+
+profile = generate(count=1)[0]
+doc = generate_narrative(profile, "loan_application")
+print(doc["content"])</code></pre>
+
+    <h2>Layer 4 — Agent personas</h2>
+    <p>LLM-ready agent personas: system prompt, identity line, worldview beliefs,
+    economic behavior, stress responses, memory seeds and behavior rules.</p>
+    <pre><code># CLI
+indian-fakedata -c 500 --persona -f jsonl -o agents.jsonl
+
+# Python
+from indian_fakedata import generate_persona
+
+out = generate_persona(seed="011")
+persona = out["persona"]
+
+print(persona["systemPrompt"])     # ready to use as a chat system prompt
+print(persona["beliefs"]["worldview"])
+print(persona["memorySeeds"])      # conversation-starting memories
+print(persona["behaviorRules"])    # what the agent will and will not do</code></pre>
+
+    <h2>Everything at once</h2>
+    <pre><code>indian-fakedata -c 100 --enrich</code></pre>
+    <p><code>--enrich</code> = outcomes + all narrative types + persona.</p>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>

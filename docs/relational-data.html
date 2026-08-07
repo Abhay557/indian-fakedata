@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relational Data (Families) — Indian Fake Data Generator</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="relational-data.html">
+  <div data-layout></div>
+  <main data-content>
+    <h1>Relational Data (Families)</h1>
+
+    <p>Generate an entire household from a <strong>single seed</strong>.</p>
+
+    <pre><code># CLI
+indian-fakedata --family --seed 011 -f jsonl
+
+# Python
+from indian_fakedata import generate_family
+family = generate_family(seed="011")
+
+# TypeScript
+import { generateFamily } from '@abhay557/indian-fakedata';
+const family = generateFamily({ seed: '011' });</code></pre>
+
+    <h2>Output shape</h2>
+    <pre><code>{
+  "head":     { "...profile..." },
+  "spouse":   { "...profile..." },
+  "parents":  { "father": { "...profile..." }, "mother": { "...profile..." } },
+  "children": [ { "...profile..." } ],
+  "siblings": [ { "...profile..." } ]
+}</code></pre>
+    <ul>
+      <li><code>spouse</code> is present only when the head is married.</li>
+      <li><code>parents.father</code> / <code>parents.mother</code> are present when the head's age allows.</li>
+      <li><code>children</code> and <code>siblings</code> are arrays (possibly empty).</li>
+    </ul>
+
+    <h2>Consistency guarantees</h2>
+    <p>Every member of the family is consistent with the head:</p>
+    <ul>
+      <li><strong>Same surname</strong> (children also inherit the father's surname)</li>
+      <li><strong>Same state, district, religion, caste, social category</strong></li>
+      <li><strong>Logically ordered ages</strong> — parents older than the head; children younger; siblings close in age</li>
+      <li><strong>Spouse has opposite gender</strong> to the head</li>
+      <li><strong>Same surname constraint applies</strong> when you pin <code>surname</code> in constraints</li>
+    </ul>
+
+    <h2>Options</h2>
+    <table>
+      <tr><th>Option</th><th>Description</th></tr>
+      <tr><td><code>seed</code></td><td>Number or string seed; default random</td></tr>
+      <tr><td><code>constraints</code></td><td>Same as <code>generate</code> — inherited by the head, then propagated</td></tr>
+      <tr><td><code>includeProbabilityMetrics</code></td><td>Include per-profile probability chains</td></tr>
+    </table>
+
+    <h2>Seeds</h2>
+    <p>Seeds can be numbers or strings. <code>"011"</code> is a string seed —
+    supported by both runtimes. Same seed, same family, within a runtime.</p>
+
+    <h2>Programmatic example</h2>
+    <pre><code>from indian_fakedata import generate_family
+
+family = generate_family(seed="011", constraints={"state": "Punjab"})
+
+head = family["head"]
+print(head["firstName"], head["lastName"], "|", head["state"])
+
+for child in family["children"]:
+    assert child["lastName"] == head["lastName"]
+    assert child["age"] < head["age"]
+
+if family["spouse"]:
+    assert family["spouse"]["gender"] != head["gender"]</code></pre>
+  </main>
+  <script src="assets/layout.js"></script>
+</body>
+</html>
