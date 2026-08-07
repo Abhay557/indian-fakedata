@@ -3,6 +3,10 @@ node_modules/
 dist/
 tests/temp-output/
 
+# VitePress docs build output
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
 # Python
 __pycache__/
 *.py[cod]
