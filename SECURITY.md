@@ -18,9 +18,10 @@ publicly until we have had a chance to address it.
 
 Security fixes are applied to the latest release of each major version.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 2.0.2     | :+: |
+| Version | Supported |
+| ------- | --------- |
+| 2.0.2   | Yes       |
+| 1.0.0   | No        |
 
 Note that the TypeScript package (`@abhay557/indian-fakedata` on npm) and the
 Python package (`indian-fakedata` on PyPI) are versioned and released in lockstep.
