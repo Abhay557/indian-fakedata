@@ -1,5 +1,5 @@
 {
-  "id": "41140634-7671-4177-8274-643567041312",
+  "id": "71177127-4643-4567-8413-126166415002",
   "firstName": "Parul",
   "lastName": "Chatterjee",
   "fatherName": "Mohit Chatterjee",
@@ -59,6 +59,29 @@
     "agreeableness": 44,
     "neuroticism": 71
   },
+  "personalityTraits": {
+    "summary": "An outgoing, people-oriented person who is open-minded, disciplined and assertive. Still finding their footing in life, they feel things deeply and care about those around them.",
+    "strengths": [
+      "creative and curious",
+      "organized and punctual",
+      "stands their ground"
+    ],
+    "weaknesses": [
+      "worries about small things",
+      "needs company to feel energised",
+      "perfectionist, can be rigid"
+    ],
+    "traitLabels": [
+      "open-minded",
+      "disciplined",
+      "outgoing",
+      "assertive",
+      "sensitive"
+    ],
+    "communicationStyle": "direct",
+    "decisionStyle": "analytical",
+    "socialBehavior": "outgoing"
+  },
   "politicalLeaning": "nationalist_right",
   "religiosity": "very_religious",
   "cognitiveProfile": {
@@ -96,6 +119,35 @@
     "mediumOfInstruction": "Bengali",
     "qualificationYear": 2022,
     "competitiveExamPercentile": null
+  },
+  "educationTimeline": [
+    {
+      "level": "primary",
+      "stageName": "Primary School",
+      "institutionName": "Government Primary School, Kolkata",
+      "institutionType": "government",
+      "boardOrUniversity": "West Bengal Board of Secondary Education",
+      "startYear": 2016,
+      "endYear": 2022,
+      "status": "completed",
+      "score": "71.7%"
+    }
+  ],
+  "moviePreferences": {
+    "genres": [
+      "Comedy",
+      "Romance",
+      "Thriller"
+    ],
+    "favoriteLanguages": [
+      "Bengali",
+      "Hindi"
+    ],
+    "anime": false,
+    "animePreferences": null,
+    "favoriteAnimeTitles": null,
+    "primaryPlatform": "television",
+    "watchFrequency": "weekly"
   },
   "culturalProfile": {
     "entrepreneurialScore": 39,
@@ -142,6 +194,6 @@
     "occupationProb": 0.18,
     "jointProbability": 2.252277478504943e-05
   },
-  "generatedAt": "2026-08-07T20:14:02.358279",
+  "generatedAt": "2026-08-16T17:42:24.402838",
   "seed": 13
 }

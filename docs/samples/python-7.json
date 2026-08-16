@@ -1,5 +1,5 @@
 {
-  "id": "33553413-2014-4616-9361-511204427271",
+  "id": "72714162-6024-4710-9512-172321111444",
   "firstName": "Pushpa",
   "lastName": "Sharma",
   "fatherName": "Santosh Sharma",
@@ -59,6 +59,29 @@
     "agreeableness": 70,
     "neuroticism": 58
   },
+  "personalityTraits": {
+    "summary": "An outgoing, people-oriented person who is practical, disciplined and kind-hearted. They feel things deeply and care about those around them.",
+    "strengths": [
+      "prefers familiar routines",
+      "organized and punctual",
+      "compassionate and helpful"
+    ],
+    "weaknesses": [
+      "worries about small things",
+      "needs company to feel energised",
+      "perfectionist, can be rigid"
+    ],
+    "traitLabels": [
+      "practical",
+      "disciplined",
+      "outgoing",
+      "kind-hearted",
+      "sensitive"
+    ],
+    "communicationStyle": "polite_indirect",
+    "decisionStyle": "analytical",
+    "socialBehavior": "outgoing"
+  },
   "politicalLeaning": "nationalist_right",
   "religiosity": "very_religious",
   "cognitiveProfile": {
@@ -97,6 +120,62 @@
     "mediumOfInstruction": "English",
     "qualificationYear": 2008,
     "competitiveExamPercentile": null
+  },
+  "educationTimeline": [
+    {
+      "level": "primary",
+      "stageName": "Primary School",
+      "institutionName": "Infant Jesus, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 1997,
+      "endYear": 2003,
+      "status": "completed",
+      "score": "69.8%"
+    },
+    {
+      "level": "middle",
+      "stageName": "Middle School",
+      "institutionName": "St. Peter's, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 2003,
+      "endYear": 2006,
+      "status": "completed",
+      "score": "86.3%"
+    },
+    {
+      "level": "secondary",
+      "stageName": "Secondary School",
+      "institutionName": "St. Agnes, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 2006,
+      "endYear": 2008,
+      "status": "completed",
+      "score": "78.3%"
+    }
+  ],
+  "moviePreferences": {
+    "genres": [
+      "Comedy",
+      "Romance",
+      "Action"
+    ],
+    "favoriteLanguages": [
+      "Marathi",
+      "Hindi"
+    ],
+    "anime": true,
+    "animePreferences": [
+      "Shonen action"
+    ],
+    "favoriteAnimeTitles": [
+      "Demon Slayer",
+      "One Piece"
+    ],
+    "primaryPlatform": "ott",
+    "watchFrequency": "weekly"
   },
   "culturalProfile": {
     "entrepreneurialScore": 32,
@@ -143,6 +222,6 @@
     "occupationProb": 0.18000000000000002,
     "jointProbability": 2.7617147096522784e-05
   },
-  "generatedAt": "2026-08-07T20:14:02.348450",
+  "generatedAt": "2026-08-16T17:42:24.392755",
   "seed": 7
 }

@@ -1,5 +1,5 @@
 {
-  "id": "02542023-2205-4514-9121-344767653335",
+  "id": "32205514-4121-4344-9676-533350625376",
   "firstName": "Parul",
   "lastName": "Kumari",
   "fatherName": "Rahul Kumari",
@@ -59,6 +59,29 @@
     "agreeableness": 67,
     "neuroticism": 55
   },
+  "personalityTraits": {
+    "summary": "An outgoing, people-oriented person who is practical, easy-going and kind-hearted. Still finding their footing in life, they feel things deeply and care about those around them.",
+    "strengths": [
+      "prefers familiar routines",
+      "adapts to change quickly",
+      "compassionate and helpful"
+    ],
+    "weaknesses": [
+      "worries about small things",
+      "needs company to feel energised",
+      "procrastinates under pressure"
+    ],
+    "traitLabels": [
+      "practical",
+      "easy-going",
+      "outgoing",
+      "kind-hearted",
+      "sensitive"
+    ],
+    "communicationStyle": "polite_indirect",
+    "decisionStyle": "family_consulting",
+    "socialBehavior": "outgoing"
+  },
   "politicalLeaning": "nationalist_right",
   "religiosity": "very_religious",
   "cognitiveProfile": {
@@ -98,6 +121,23 @@
     "mediumOfInstruction": "Hindi",
     "qualificationYear": null,
     "competitiveExamPercentile": null
+  },
+  "educationTimeline": [],
+  "moviePreferences": {
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Action"
+    ],
+    "favoriteLanguages": [
+      "Bhojpuri",
+      "Hindi"
+    ],
+    "anime": false,
+    "animePreferences": null,
+    "favoriteAnimeTitles": null,
+    "primaryPlatform": "television",
+    "watchFrequency": "daily"
   },
   "culturalProfile": {
     "entrepreneurialScore": 39,
@@ -144,6 +184,6 @@
     "occupationProb": 0.58,
     "jointProbability": 0.00045427277846108
   },
-  "generatedAt": "2026-08-07T20:14:02.353577",
+  "generatedAt": "2026-08-16T17:42:24.397608",
   "seed": 11
 }
