@@ -22,7 +22,10 @@ def _flatten_object(obj, prefix=""):
         if isinstance(value, dict):
             result.update(_flatten_object(value, full_key))
         elif isinstance(value, list):
-            result[full_key] = "; ".join(str(v) for v in value)
+            if any(isinstance(v, dict) for v in value):
+                result[full_key] = "; ".join(json.dumps(v) for v in value)
+            else:
+                result[full_key] = "; ".join(str(v) for v in value)
         else:
             result[full_key] = value
 

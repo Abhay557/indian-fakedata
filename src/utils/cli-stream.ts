@@ -21,7 +21,9 @@ export function flattenObject(obj: any, prefix = ''): Record<string, any> {
     if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
       Object.assign(result, flattenObject(value, fullKey));
     } else if (Array.isArray(value)) {
-      result[fullKey] = value.join('; ');
+      result[fullKey] = value.some(v => v && typeof v === 'object')
+        ? value.map(v => JSON.stringify(v)).join('; ')
+        : value.join('; ');
     } else {
       result[fullKey] = value;
     }
