@@ -140,7 +140,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "primary",
       "stageName": "Primary School",
-      "institutionName": "DAV Public School, Solapur",
+      "institutionName": "Infant Jesus, Solapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 1997,
@@ -151,7 +151,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "middle",
       "stageName": "Middle School",
-      "institutionName": "St. Xavier's, Solapur",
+      "institutionName": "St. Peter's, Solapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2003,
@@ -162,7 +162,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "secondary",
       "stageName": "Secondary School",
-      "institutionName": "Delhi Public School, Solapur",
+      "institutionName": "St. Agnes, Solapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2006,

@@ -68,20 +68,75 @@ STATE_BOARD_MAP = {
     'jharkhand': 'JAC Jharkhand Board', 'chhattisgarh': 'CGBSE Chhattisgarh Board',
 }
 
+# Realistic Indian private school names (mission, chain, mandir, English-medium)
 PRIVATE_SCHOOL_POOL = [
-    "St. Xavier's", 'Delhi Public School', 'DAV Public School', 'Ryan International',
-    "St. Joseph's", 'Carmel Convent', 'Sacred Heart', 'Little Flower', 'Mount Carmel',
-    'Vidya Mandir', 'Saraswati Vidyalaya', 'Kendriya Vidyalaya', 'Army Public School',
+    # Christian mission & convent schools
+    "St. Xavier's", "St. Joseph's", "St. Mary's", "St. John's", "St. Paul's",
+    "St. Anne's", "St. George's", "St. Michael's", "St. Peter's", "St. Teresa's",
+    "St. Anthony's", "St. Francis", "St. Patrick's", "St. Stephen's", "St. Agnes",
+    "St. Aloysius", "St. Soldier", "St. Vincent", "St. Albert", "St. Bede",
+    'Carmel Convent', 'Mount Carmel', 'Sacred Heart', 'Holy Cross', 'Holy Family',
+    'Little Flower', 'Infant Jesus', 'Presentation Convent', 'Stella Maris', 'Loyola',
+    'Bishop Cotton', 'Cathedral', 'La Martiniere', 'Campion', 'Christ the King',
+    'Good Shepherd', 'Immaculate Heart', 'Mary Immaculate', 'Nirmala Convent',
+    "St. Joseph's Convent", "St. Mary's Convent",
+    # National chains & trust schools
+    'Delhi Public School', 'DAV Public School', 'DAV Centenary Public School',
+    'Ryan International', 'Kendriya Vidyalaya', 'Army Public School',
+    'Navy Children School', 'Air Force School', 'Amity International',
+    'Apeejay School', 'Bal Bharati Public School', 'Chinmaya Vidyalaya',
+    'Bharatiya Vidya Bhavan', 'Vidya Bharati', 'Ramakrishna Mission',
+    'Vivekananda Kendra Vidyalaya', 'City Montessori', 'Springdales',
+    'Modern School', 'The Shri Ram School', 'Blue Bells Public School',
+    'Birla Vidya Niketan', 'Gitanjali', 'Lakshmipat Singhania',
+    'Seth Anandram Jaipuria', 'Presidency School', 'Shiv Nadar School',
+    'Aditya Birla Public School', 'Doon Public School', 'Sanskriti School',
+    'Tagore International', 'The Heritage School', "Mother's Pride",
+    # Saraswati / Vidya Mandir / gurukul-style
+    'Saraswati Shishu Mandir', 'Saraswati Vidya Mandir', 'Vidya Mandir',
+    'Saraswati Vidyalaya', 'Shishu Niketan', 'Bal Niketan', 'Bal Vidya Mandir',
+    'Gyan Bharti', 'Gyandeep Public School', 'Vidya Sagar', 'Gurukul Public School',
+    'Shanti Niketan', 'Vidya Niketan', 'Navjeevan Public School',
+    'Sunrise Public School', 'Sunshine Public School', 'Greenwood Public School',
+    'Green Valley Public School', 'Golden Public School', 'Oxford Public School',
+    'Cambridge Public School', 'Mount Litera Zee School',
+    # Generic English-medium schools
+    'Modern Public School', 'Holy Public School', 'Mother Teresa Public School',
+    'Guru Nanak Public School', 'Sant Kabir Public School',
+    'Maharaja Agrasen Public School', 'Little Angels', 'Angels Public School',
+    'New Era Public School', 'National Public School', 'City Public School',
+    'S.D. Public School', 'Vijay Public School', 'Krishna Public School',
+    'Satyam International', 'Divine Public School', 'Evergreen Public School',
+    'Alpine Public School', 'Radiance Public School', 'Sunbeam School',
+    'Bharat Public School', 'Jawahar Navodaya Vidyalaya',
 ]
 
+# Realistic Indian private college & university names
 PRIVATE_COLLEGE_POOL = [
-    'SRM Institute', 'Manipal Institute of Technology', 'Amity University',
-    'Christ University', 'Loyola College', "St. Stephen's College", 'Hansraj College',
-    'BITS Pilani', 'VIT Vellore',
+    'SRM Institute of Science and Technology', 'Manipal Institute of Technology',
+    'Amity University', 'Christ University', 'Loyola College',
+    "St. Stephen's College", 'Hansraj College', 'BITS Pilani', 'VIT Vellore',
+    'Symbiosis International University', 'NMIMS University', 'ICFAI University',
+    'JSS College of Arts, Science and Commerce', 'RV College of Engineering',
+    'M.S. Ramaiah Institute of Technology', 'BMS College of Engineering',
+    'PES University', 'Kalinga Institute of Industrial Technology',
+    'Lovely Professional University', 'Thapar Institute of Engineering and Technology',
+    'Sathyabama Institute of Science and Technology',
+    'Saveetha Institute of Medical and Technical Sciences',
+    'KLE Technological University', "St. Joseph's College", 'Madras Christian College',
+    'Fergusson College', 'Elphinstone College', 'Wilson College',
+    "St. Xavier's College", 'Jain University', 'Presidency College',
+    'Stella Maris College', 'Mount Carmel College', 'NITTE University',
+    'D Y Patil University', 'Shiv Nadar University', 'Ashoka University',
+    'OP Jindal Global University', 'Ahmedabad University', 'KJ Somaiya',
+    'SIES College', 'Mithibai College', 'Siksha O Anusandhan University',
 ]
 
 GOVERNMENT_COLLEGE_PREFIXES = [
-    'Government College', 'Government Degree College', 'Regional Engineering College',
+    'Government College', 'Government Degree College',
+    'Government Science College', 'Government Arts and Science College',
+    'Government Engineering College', 'Regional Engineering College',
+    'Government Post Graduate College',
 ]
 
 
