@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "indian-fakedata": "./dist/cli.js"
+    "indian-fakedata": "dist/cli.js"
   },
   "files": [
     "dist",
