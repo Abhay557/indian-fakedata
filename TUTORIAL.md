@@ -26,12 +26,14 @@ const profiles = generate({ count: 5 });
 profiles.forEach(p => {
   console.log(`[${p.id}] ${p.firstName} ${p.lastName} (${p.gender}, ${p.age})`);
   console.log(`Location: ${p.district}, ${p.state} | Caste/Community: ${p.caste}`);
-  console.log(`Religion: ${p.religion} | Education: ${p.education}\n`);
+  console.log(`Religion: ${p.religion} | Education: ${p.education}`);
+  console.log(`Traits: ${p.personalityTraits.traitLabels.join(', ')}`);
+  console.log(`Timeline: ${p.educationTimeline.map(s => `${s.institutionName} (${s.startYear}-${s.endYear})`).join(' -> ')}`);
+  console.log(`Movies: ${p.moviePreferences.genres.join(', ')} | Anime: ${p.moviePreferences.anime}\n`);
 });
 ```
 
-### 
- Python
+###  Python
 ```python
 from indian_fakedata import generate
 
@@ -41,7 +43,10 @@ profiles = generate(count=5)
 for p in profiles:
     print(f"[{p['id']}] {p['firstName']} {p['lastName']} ({p['gender']}, {p['age']})")
     print(f"Location: {p['district']}, {p['state']} | Caste/Community: {p['caste']}")
-    print(f"Religion: {p['religion']} | Education: {p['education']}\n")
+    print(f"Religion: {p['religion']} | Education: {p['education']}")
+    print(f"Traits: {', '.join(p['personalityTraits']['traitLabels'])}")
+    print(f"Timeline: {' -> '.join(f\"{s['institutionName']} ({s['startYear']}-{s['endYear']})\" for s in p['educationTimeline'])}")
+    print(f"Movies: {', '.join(p['moviePreferences']['genres'])} | Anime: {p['moviePreferences']['anime']}\n")
 ```
 
 ---
@@ -117,6 +122,9 @@ console.log(chat?.content);
 
 console.log("\n=== LLM SYSTEM PROMPT (LAYER 4) ===");
 console.log(enriched.agentPersona.systemPrompt);
+
+console.log("\n=== FULL ROLEPLAY PROMPT (v2.0.3) ===");
+console.log(enriched.agentPersona.fullPrompt);
 ```
 
 ###  Python
@@ -143,6 +151,41 @@ print(chat['content'])
 
 print("\n=== LLM SYSTEM PROMPT (LAYER 4) ===")
 print(enriched['agentPersona']['systemPrompt'])
+
+print("\n=== FULL ROLEPLAY PROMPT (v2.0.3) ===")
+print(enriched['agentPersona']['fullPrompt'])
+```
+
+### Persona-only (faker-style, v2.0.3)
+
+Generate just the user + LLM-ready persona (short system prompt and a complete
+self-contained roleplay prompt) without the other enrichment layers:
+
+####  TypeScript
+```typescript
+import { generatePersona } from '@abhay557/indian-fakedata';
+
+const { user, persona } = generatePersona({ seed: '011' });
+
+console.log(user.personalityTraits.summary);
+console.log(user.educationTimeline);   // chronological school/college history
+console.log(user.moviePreferences);    // genres, languages, anime preferences
+console.log(persona.systemPrompt);     // short, ready-to-use system prompt
+console.log(persona.fullPrompt);       // full roleplay prompt for any LLM
+```
+
+####  Python
+```python
+from indian_fakedata import generate_persona
+
+out = generate_persona(seed="011")
+user, persona = out["user"], out["persona"]
+
+print(user["personalityTraits"]["summary"])
+print(user["educationTimeline"])   # chronological school/college history
+print(user["moviePreferences"])    # genres, languages, anime preferences
+print(persona["systemPrompt"])     # short, ready-to-use system prompt
+print(persona["fullPrompt"])       # full roleplay prompt for any LLM
 ```
 
 ---

@@ -102,7 +102,12 @@ family = generate_family(seed="011")
 
 # User + LLM-ready persona
 out = generate_persona(seed="011")
-user, persona = out["user"], out["persona"]</code></pre>
+user, persona = out["user"], out["persona"]
+# persona["systemPrompt"], persona["fullPrompt"], persona["beliefs"],
+# persona["memorySeeds"], persona["behaviorRules"]
+print(user["educationTimeline"])   # chronological school/college history
+print(user["personalityTraits"])   # descriptive traits from Big Five
+print(user["moviePreferences"])    # genres, languages, anime preferences</code></pre>
 
     <h2>Exporters</h2>
     <pre><code>from indian_fakedata import generate_enriched, save_profiles, format_profiles

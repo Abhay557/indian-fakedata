@@ -115,7 +115,11 @@ const family = generateFamily({ seed: '011' });
 
 // User + LLM-ready persona
 const { user: u, persona } = generatePersona({ seed: '011' });
-// persona.systemPrompt, persona.beliefs, persona.memorySeeds, persona.behaviorRules</code></pre>
+// persona.systemPrompt, persona.fullPrompt, persona.beliefs,
+// persona.memorySeeds, persona.behaviorRules
+console.log(user.educationTimeline);   // chronological school/college history
+console.log(user.personalityTraits);   // descriptive traits from Big Five
+console.log(user.moviePreferences);    // genres, languages, anime preferences</code></pre>
 
     <h2>Exporters</h2>
     <pre><code>import { generateEnriched, saveProfilesToFile, formatProfiles } from '@abhay557/indian-fakedata';

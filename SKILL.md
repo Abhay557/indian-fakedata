@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.2** (both). Zero runtime dependencies.
+Current version: **2.0.3** (both). Zero runtime dependencies.
 
 ---
 
@@ -121,12 +121,32 @@ household (children count, assets), lifestyle (diet, habits, interests), and
 psychology (Big Five, cognitive profile, political leaning). `probabilityMetrics`
 shows the chain of probabilities for each draw.
 
+v2.0.3 adds three fields to every profile:
+- `educationTimeline`: chronological school/college stages (`level`,
+  `stageName`, `institutionName`, `boardOrUniversity`, `startYear`, `endYear`,
+  `status`: completed / in_progress / dropped_out, `score`) — institutions are
+  drawn from large realistic pools (118 private schools, 43 colleges) and boards
+  match the state (CBSE/ICSE for private schools, state boards for government).
+- `personalityTraits`: descriptive traits derived deterministically from the Big
+  Five scores — `summary`, `traitLabels` (5), `strengths`, `weaknesses`,
+  `communicationStyle`, `decisionStyle`, `socialBehavior`. No RNG draws.
+- `moviePreferences`: `genres` (2-4 weighted), `favoriteLanguages` (state's
+  regional cinema first), `anime` + `animePreferences` + `favoriteAnimeTitles`
+  (only present when the person is an anime fan), `primaryPlatform`,
+  `watchFrequency`.
+
+The three new generators consume RNG draws appended AFTER all existing draws,
+so every 2.0.2 field for a given seed is unchanged in 2.0.3.
+
 `generateFamily` returns: `{ head, spouse?, parents: { father?, mother? },
 children: [...], siblings: [...] }` — all members share the head's surname,
 caste, religion, and state; ages are logically ordered.
 
 `generatePersona` returns `{ "user": <profile>, "persona": <agent persona with
-systemPrompt, beliefs, memorySeeds, behaviorRules> }`.
+systemPrompt, fullPrompt, beliefs, memorySeeds, behaviorRules> }`. `fullPrompt`
+is a complete self-contained roleplay prompt (identity, education timeline,
+personality traits, movie/anime preferences, habits, beliefs, memory seeds,
+behaviour rules) designed to make an LLM act as this person.
 
 ## 7. Verification (run before declaring success)
 
@@ -144,6 +164,12 @@ assert generate_user(seed=7)["firstName"] == "Pushpa Sharma".split()[0]
 fam = generate_family(seed="011")
 members = [fam["head"]] + [fam["spouse"]] if fam["spouse"] else []
 assert len({m["lastName"] for m in members}) == 1  # same surname
+
+# 4. v2.0.3 enrichment fields
+p = generate_user(seed=7)
+assert "personalityTraits" in p and "educationTimeline" in p and "moviePreferences" in p
+out = generate_persona(seed="011")
+assert "fullPrompt" in out["persona"]
 ```
 
 TypeScript equivalents: `generate`, `generateUser`, `generateFamily` (assert on

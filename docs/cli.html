@@ -54,7 +54,7 @@ indian-fakedata [options]</code></pre>
       <tr><td><code>--outcomes</code></td><td>[Layer 2] Add credit score, health risk, employment outcome, education attainment</td></tr>
       <tr><td><code>--bias &lt;0-1&gt;</code></td><td>Bias dial for outcome simulation. <code>0.0</code> = pure meritocracy, <code>1.0</code> = max historical discrimination. Default <code>0.3</code> (calibrated to CMIE/CIBIL observed gaps)</td></tr>
       <tr><td><code>--narrative &lt;type&gt;</code></td><td>[Layer 3] <code>loan_application</code>, <code>medical_consultation</code>, <code>school_enrollment</code>, <code>ration_card_application</code>, <code>hinglish_conversation</code>, <code>all</code>. Repeat for multiple types</td></tr>
-      <tr><td><code>--persona</code></td><td>[Layer 4] LLM-ready agent persona (system prompt, beliefs, memory seeds, behavior rules)</td></tr>
+      <tr><td><code>--persona</code></td><td>[Layer 4] LLM-ready agent persona (system prompt + full roleplay prompt, beliefs, memory seeds, behavior rules)</td></tr>
     </table>
 
     <h2>Quick examples</h2>
