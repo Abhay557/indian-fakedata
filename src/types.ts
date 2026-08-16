@@ -168,6 +168,68 @@ export interface EducationDetails {
   competitiveExamPercentile?: number;
 }
 
+/** A single stage in a person's education history (chronological) */
+export interface EducationStage {
+  /** Stage level (primary, middle, secondary, ... graduate) */
+  level: EducationLevel;
+  /** Human-readable stage name, e.g. "Higher Secondary School" */
+  stageName: string;
+  /** Plausible institution name (state/district-based) */
+  institutionName: string;
+  /** Institution type */
+  institutionType: EducationDetails['institutionType'];
+  /** Board (school) or university (college) name */
+  boardOrUniversity: string;
+  /** Field of study (higher education only) */
+  fieldOfStudy?: string;
+  /** Higher secondary stream (PCM/PCB/Commerce/Arts) */
+  stream?: 'PCM' | 'PCB' | 'Commerce' | 'Arts' | 'Vocational';
+  /** Start year (approximate) */
+  startYear: number;
+  /** End year (approximate) */
+  endYear: number;
+  /** Performance: "78.4%" or "CGPA 8.6" */
+  score?: string;
+  /** Whether this stage was completed, is ongoing, or was dropped */
+  status: 'completed' | 'in_progress' | 'dropped_out';
+}
+
+/** Descriptive personality traits derived from Big Five scores (AI-friendly) */
+export interface PersonalityTraits {
+  /** One-sentence personality summary */
+  summary: string;
+  /** Strengths (3-4 descriptors) */
+  strengths: string[];
+  /** Weaknesses (2-3 descriptors) */
+  weaknesses: string[];
+  /** Short descriptive labels (5-7 adjectives) */
+  traitLabels: string[];
+  /** How this person talks to others */
+  communicationStyle: 'direct' | 'polite_indirect' | 'expressive' | 'reserved';
+  /** How this person makes decisions */
+  decisionStyle: 'analytical' | 'intuitive' | 'family_consulting' | 'impulsive';
+  /** Social orientation */
+  socialBehavior: 'outgoing' | 'ambivert' | 'introverted';
+}
+
+/** Movie / entertainment preferences (genres, languages, anime) */
+export interface MoviePreferences {
+  /** Favorite movie genres (2-4) */
+  genres: string[];
+  /** Languages this person watches films in */
+  favoriteLanguages: string[];
+  /** Whether this person watches anime */
+  anime: boolean;
+  /** Anime genre preferences (only when anime = true) */
+  animePreferences?: string[];
+  /** Specific anime titles this person likes (only when anime = true) */
+  favoriteAnimeTitles?: string[];
+  /** Where this person watches content */
+  primaryPlatform: 'theatre' | 'ott' | 'television' | 'youtube' | 'none';
+  /** How often they watch movies/shows */
+  watchFrequency: 'daily' | 'weekly' | 'occasional' | 'rare';
+}
+
 /** Community-level cultural traits (religion + caste + state correlated) */
 export interface CulturalProfile {
   /** Business/entrepreneurial orientation (0-100). High: Marwari, Gujarati, Jain, Sindhi, Bania */
@@ -352,6 +414,12 @@ export interface DemographicProfile {
   habits: Habits;
   /** Expanded education details */
   educationDetails: EducationDetails;
+  /** Chronological education history (school → college) */
+  educationTimeline: EducationStage[];
+  /** Descriptive personality traits derived from Big Five scores */
+  personalityTraits: PersonalityTraits;
+  /** Movie/anime viewing preferences */
+  moviePreferences: MoviePreferences;
   /** Community-level cultural traits */
   culturalProfile: CulturalProfile;
 

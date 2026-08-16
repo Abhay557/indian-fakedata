@@ -158,6 +158,109 @@ def generate_personality(gender, age, education, area_type, religiosity, occupat
     }
 
 
+# ── Descriptive traits derived from Big Five (v2.0.3) ──
+# Purely deterministic: derives from the OCEAN scores, so it never
+# disturbs the seeded draw sequence.
+
+_TRAIT_MAP = {
+    'openness': {
+        'high': {'label': 'open-minded', 'strength': 'creative and curious', 'weakness': 'easily distracted by new ideas'},
+        'low': {'label': 'practical', 'strength': 'prefers familiar routines', 'weakness': 'resistant to new ideas'},
+    },
+    'conscientiousness': {
+        'high': {'label': 'disciplined', 'strength': 'organized and punctual', 'weakness': 'perfectionist, can be rigid'},
+        'low': {'label': 'easy-going', 'strength': 'adapts to change quickly', 'weakness': 'procrastinates under pressure'},
+    },
+    'extraversion': {
+        'high': {'label': 'outgoing', 'strength': 'warm and sociable', 'weakness': 'needs company to feel energised'},
+        'low': {'label': 'introspective', 'strength': 'comfortable spending time alone', 'weakness': 'hesitant in large groups'},
+    },
+    'agreeableness': {
+        'high': {'label': 'kind-hearted', 'strength': 'compassionate and helpful', 'weakness': 'has trouble saying no'},
+        'low': {'label': 'assertive', 'strength': 'stands their ground', 'weakness': 'can come across as blunt'},
+    },
+    'neuroticism': {
+        'high': {'label': 'sensitive', 'strength': 'emotionally attuned to others', 'weakness': 'worries about small things'},
+        'low': {'label': 'composed', 'strength': 'stays calm under pressure', 'weakness': 'can seem emotionally distant'},
+    },
+}
+
+
+def generate_personality_traits(personality, age):
+    """Convert Big Five OCEAN scores into descriptive, roleplay-friendly traits."""
+    def pick_traits(score, bucket):
+        return bucket['high'] if score >= 55 else bucket['low']
+
+    o = pick_traits(personality['openness'], _TRAIT_MAP['openness'])
+    c = pick_traits(personality['conscientiousness'], _TRAIT_MAP['conscientiousness'])
+    e = pick_traits(personality['extraversion'], _TRAIT_MAP['extraversion'])
+    a = pick_traits(personality['agreeableness'], _TRAIT_MAP['agreeableness'])
+    n = pick_traits(personality['neuroticism'], _TRAIT_MAP['neuroticism'])
+
+    trait_labels = [o['label'], c['label'], e['label'], a['label'], n['label']]
+
+    # Social behavior from extraversion
+    if personality['extraversion'] >= 60:
+        social_behavior = 'outgoing'
+    elif personality['extraversion'] <= 40:
+        social_behavior = 'introverted'
+    else:
+        social_behavior = 'ambivert'
+
+    # Communication style from agreeableness + extraversion
+    if personality['extraversion'] >= 60 and personality['agreeableness'] <= 45:
+        communication_style = 'direct'
+    elif personality['agreeableness'] >= 60:
+        communication_style = 'polite_indirect'
+    elif personality['extraversion'] >= 55:
+        communication_style = 'expressive'
+    else:
+        communication_style = 'reserved'
+
+    # Decision style from openness + conscientiousness
+    if personality['openness'] >= 60 and personality['conscientiousness'] <= 45:
+        decision_style = 'impulsive'
+    elif personality['conscientiousness'] >= 60:
+        decision_style = 'analytical'
+    elif personality['agreeableness'] >= 60:
+        decision_style = 'family_consulting'
+    else:
+        decision_style = 'intuitive'
+
+    strengths = [o['strength'], c['strength'], a['strength']]
+    weaknesses = [n['weakness'], e['weakness'], c['weakness']]
+
+    if social_behavior == 'outgoing':
+        head = 'An outgoing, people-oriented person'
+    elif social_behavior == 'introverted':
+        head = 'A quiet, introspective person'
+    else:
+        head = 'A balanced, adaptable person'
+    if age < 25:
+        mid = 'Still finding their footing in life, they '
+    elif age > 50:
+        mid = 'With years of life experience, they '
+    else:
+        mid = 'They '
+    if n['strength'] == 'composed':
+        tail = 'generally stay calm and level-headed'
+    else:
+        tail = 'feel things deeply and care about those around them'
+    summary = '%s who is %s, %s and %s. %s%s.' % (
+        head, o['label'], c['label'], a['label'], mid, tail,
+    )
+
+    return {
+        'summary': summary,
+        'strengths': strengths,
+        'weaknesses': weaknesses,
+        'traitLabels': trait_labels,
+        'communicationStyle': communication_style,
+        'decisionStyle': decision_style,
+        'socialBehavior': social_behavior,
+    }
+
+
 # ═══════════════════════════════════════════════════════════════
 # 4. COGNITIVE PROFILE
 # ═══════════════════════════════════════════════════════════════

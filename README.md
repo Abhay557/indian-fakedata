@@ -85,6 +85,29 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "agreeableness": 70,
     "neuroticism": 58
   },
+  "personalityTraits": {
+    "summary": "An outgoing, people-oriented person who is practical, disciplined and kind-hearted. They feel things deeply and care about those around them.",
+    "strengths": [
+      "prefers familiar routines",
+      "organized and punctual",
+      "compassionate and helpful"
+    ],
+    "weaknesses": [
+      "worries about small things",
+      "needs company to feel energised",
+      "perfectionist, can be rigid"
+    ],
+    "traitLabels": [
+      "practical",
+      "disciplined",
+      "outgoing",
+      "kind-hearted",
+      "sensitive"
+    ],
+    "communicationStyle": "polite_indirect",
+    "decisionStyle": "analytical",
+    "socialBehavior": "outgoing"
+  },
   "politicalLeaning": "nationalist_right",
   "religiosity": "very_religious",
   "cognitiveProfile": {
@@ -123,6 +146,62 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "mediumOfInstruction": "English",
     "qualificationYear": 2008,
     "competitiveExamPercentile": null
+  },
+  "educationTimeline": [
+    {
+      "level": "primary",
+      "stageName": "Primary School",
+      "institutionName": "DAV Public School, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 1997,
+      "endYear": 2003,
+      "status": "completed",
+      "score": "69.8%"
+    },
+    {
+      "level": "middle",
+      "stageName": "Middle School",
+      "institutionName": "St. Xavier's, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 2003,
+      "endYear": 2006,
+      "status": "completed",
+      "score": "86.3%"
+    },
+    {
+      "level": "secondary",
+      "stageName": "Secondary School",
+      "institutionName": "Delhi Public School, Solapur",
+      "institutionType": "private",
+      "boardOrUniversity": "CBSE",
+      "startYear": 2006,
+      "endYear": 2008,
+      "status": "completed",
+      "score": "78.3%"
+    }
+  ],
+  "moviePreferences": {
+    "genres": [
+      "Comedy",
+      "Romance",
+      "Action"
+    ],
+    "favoriteLanguages": [
+      "Marathi",
+      "Hindi"
+    ],
+    "anime": true,
+    "animePreferences": [
+      "Shonen action"
+    ],
+    "favoriteAnimeTitles": [
+      "Demon Slayer",
+      "One Piece"
+    ],
+    "primaryPlatform": "ott",
+    "watchFrequency": "weekly"
   },
   "culturalProfile": {
     "entrepreneurialScore": 32,
@@ -243,7 +322,7 @@ Filter generated profiles to specific demographic slices:
 | `--outcomes` | **[Layer 2]** Add credit score, health risk, employment outcome, education attainment |
 | `--bias <0-1>` | Bias dial for outcome simulation. `0.0` = pure meritocracy, `1.0` = max historical discrimination. Default: `0.3` |
 | `--narrative <type>` | **[Layer 3]** Generate realistic Indian text documents. Repeat for multiple types: `loan_application`, `medical_consultation`, `school_enrollment`, `ration_card_application`, `hinglish_conversation`, `all` |
-| `--persona` | **[Layer 4]** Generate LLM-ready agent persona (system prompt, beliefs, memory seeds) |
+| `--persona` | **[Layer 4]** Generate LLM-ready agent persona (system prompt + full roleplay prompt, beliefs, memory seeds) |
 
 ### Quick Examples
 
@@ -292,6 +371,9 @@ family.children.map(c => c.age); // younger than head
 // User + LLM-ready agent persona (system prompt, beliefs, memory seeds)
 const { user: u, persona } = generatePersona({ seed: '011' });
 persona.systemPrompt; // ready to inject into any LLM system role
+persona.fullPrompt;   // complete self-contained roleplay prompt: identity,
+                      // education timeline, personality traits, movie/anime
+                      // preferences, habits, beliefs, behaviour rules
 ```
 
 ```python
@@ -301,7 +383,8 @@ user = generate_user(seed=7)
 users = generate_users(count=5, seed="011")
 dev = generate_user(highly_educated=True, gender="female", constraints={"state": "Karnataka"})
 family = generate_family(seed="011")
-out = generate_persona(seed="011")
+out = generate_persona(seed="011")   # {"user": ..., "persona": ...}
+out["persona"]["fullPrompt"]         # complete roleplay prompt (see above)
 ```
 
 ### Core Node.js / TypeScript
@@ -349,7 +432,7 @@ provided for reference but is not compiled into the package at build time.
 | 1 | **Core Demographics** | State, gender, religion, caste, names, languages, biological markers, address |
 | 2 | **Socio-Economic Outcomes** | CIBIL credit score, health risk, literacy, employment vulnerability (configurable bias) |
 | 3 | **Narrative Documents** | Loan applications, OPD records, Hinglish WhatsApp chats, school admissions |
-| 4 | **Agent Persona Prompts** | LLM-ready system prompts, worldview beliefs, stress responses, memory seeds |
+| 4 | **Agent Persona Prompts** | LLM-ready system prompts + full roleplay prompts (education timeline, personality traits, movie/anime preferences), worldview beliefs, stress responses, memory seeds |
 
 ---
 

@@ -67,12 +67,15 @@ import {
   generatePoliticalLeaning,
   generateReligiosity,
   generatePersonality,
+  generatePersonalityTraits,
   generateCognitiveProfile,
   generateInterests,
   generateHabits,
   generateEducationDetails
 } from './psychology.js';
 import { generateCulturalProfile } from './cultural.js';
+import { generateEducationTimeline } from './education.js';
+import { generateMoviePreferences } from './media.js';
 
 // UUID v4 generator (no external dependency)
 function generateUUID(rng: ReturnType<typeof createRNG>): string {
@@ -283,6 +286,19 @@ function generateSingleProfile(
     socio.education, path.areaType, path.gender, socio.age, socio.income, rng
   );
 
+  // ── Step 14b: v2.0.3 enrichment (draws appended AFTER all existing
+  //    draws so previously generated fields for a seed stay identical) ──
+  const personalityTraits = generatePersonalityTraits(personality, socio.age);
+  const educationTimeline = generateEducationTimeline(
+    socio.education, socio.age, path.gender, path.stateId, district,
+    path.areaType, path.socialCategory, educationDetails.institutionType,
+    educationDetails.fieldOfStudy, rng
+  );
+  const moviePreferences = generateMoviePreferences(
+    path.gender, socio.age, socio.education, path.areaType, path.stateId,
+    motherTongue, hasSmartphone, socio.income, rng
+  );
+
   // ── Step 15: Probability metrics ──────────────────────
   const probMetrics: ProbabilityMetrics = {
     nationalReligionFreq: path.probMetrics.nationalReligionFreq ?? 0,
@@ -373,12 +389,15 @@ function generateSingleProfile(
 
     // Psychological & Behavioral
     personality,
+    personalityTraits,
     politicalLeaning,
     religiosity,
     cognitiveProfile,
     interests,
     habits,
     educationDetails,
+    educationTimeline,
+    moviePreferences,
     culturalProfile,
 
     // Household

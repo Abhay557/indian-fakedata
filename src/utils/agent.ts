@@ -58,6 +58,14 @@ export interface AgentPersona {
   systemPrompt: string;
 
   /**
+   * Complete, self-contained persona prompt containing ALL information
+   * about this person (identity, education timeline, personality traits,
+   * movie/anime preferences, habits, beliefs, behaviour rules).
+   * Designed so an AI can act as this person.
+   */
+  fullPrompt: string;
+
+  /**
    * Short identity line (1 sentence).
    * Use in user-facing persona cards.
    */
@@ -200,6 +208,107 @@ function buildSystemPrompt(profile: DemographicProfile): string {
 
 function buildIdentityLine(profile: DemographicProfile): string {
   return `${profile.firstName} ${profile.lastName}, ${profile.age}, ${profile.occupation === 'non_worker' && profile.age < 18 ? 'student' : profile.employmentSector} from ${profile.district}, ${profile.state} (${profile.religion}, ${profile.socialCategory}).`;
+}
+
+function formatScore(score: string | undefined): string {
+  return score ? ` (${score})` : '';
+}
+
+/**
+ * Build the complete, self-contained persona prompt.
+ *
+ * Contains every piece of information about the person so an LLM can
+ * act as them: identity, background, education timeline, work, personality,
+ * interests (incl. movies/anime), habits, beliefs and behaviour rules.
+ */
+function buildFullPrompt(profile: DemographicProfile): string {
+  const worldview = deriveWorldview(profile);
+  const occupation = profile.occupation === 'non_worker'
+    ? (profile.age < 18 ? 'student' : profile.employmentSector)
+    : profile.employmentSector;
+
+  const lines: string[] = [];
+
+  lines.push(`You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. Born on ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} blood group, ${profile.heightCm} cm, ${profile.weightKg} kg).`);
+
+  lines.push('');
+  lines.push('IDENTITY');
+  lines.push(`- Religion: ${profile.religion}; Caste/community: ${profile.caste}; Social category: ${profile.socialCategory}`);
+  lines.push(`- Mother tongue: ${profile.motherTongue}${profile.secondLanguage ? `; also speaks ${profile.secondLanguage}` : ''}`);
+  lines.push(`- Marital status: ${profile.maritalStatus.replace(/_/g, ' ')}${profile.spouseName ? `; spouse: ${profile.spouseName}` : ''}${profile.numberOfChildren > 0 ? `; ${profile.numberOfChildren} ${profile.numberOfChildren === 1 ? 'child' : 'children'}` : ''}`);
+  lines.push(`- Lives in a ${profile.culturalProfile.familyStructure.replace(/_/g, ' ')} of ${profile.householdSize} members, ${profile.areaType} ${profile.district}`);
+  lines.push(`- Father: ${profile.fatherName}; Mother: ${profile.motherName}`);
+  lines.push(`- ${profile.isMigrant ? `Migrated from ${profile.migrationOriginState}` : `Born and raised in ${profile.district}, ${profile.state}`}`);
+
+  lines.push('');
+  lines.push('EDUCATION');
+  if (profile.educationDetails.mediumOfInstruction) {
+    lines.push(`- Medium of instruction: ${profile.educationDetails.mediumOfInstruction}`);
+  }
+  if (profile.educationTimeline.length === 0) {
+    lines.push('- No formal schooling');
+  } else {
+    for (const stage of profile.educationTimeline) {
+      const state = stage.status === 'in_progress' ? ' (ongoing)' : stage.status === 'dropped_out' ? ' (dropped out)' : '';
+      lines.push(`- ${stage.startYear}–${stage.endYear}: ${stage.stageName} — ${stage.institutionName} (${stage.boardOrUniversity})${stage.stream ? `, ${stage.stream}` : ''}${stage.fieldOfStudy ? `, ${stage.fieldOfStudy}` : ''}${formatScore(stage.score)}${state}`);
+    }
+  }
+  lines.push(`- Highest qualification: ${profile.education.replace(/_/g, ' ')}`);
+
+  lines.push('');
+  lines.push('WORK & FINANCES');
+  lines.push(`- Occupation: ${profile.occupation.replace(/_/g, ' ')} (${occupation}); annual income: ₹${Math.round(profile.annualIncomeINR / 1000)}K; monthly household spend: ₹${Math.round(profile.monthlyExpenditureINR / 1000)}K${profile.landOwnershipAcres > 0 ? `; owns ${profile.landOwnershipAcres} acres of land` : ''}`);
+  if (profile.rationCardType !== 'none') lines.push(`- Holds a ${profile.rationCardType} ration card; health insurance: ${profile.healthInsurance}`);
+
+  lines.push('');
+  lines.push('PERSONALITY');
+  lines.push(`- ${profile.personalityTraits.summary}`);
+  lines.push(`- Trait labels: ${profile.personalityTraits.traitLabels.join(', ')}`);
+  lines.push(`- Strengths: ${profile.personalityTraits.strengths.join('; ')}`);
+  lines.push(`- Weaknesses: ${profile.personalityTraits.weaknesses.join('; ')}`);
+  lines.push(`- Communication style: ${profile.personalityTraits.communicationStyle.replace(/_/g, ' ')}; decision style: ${profile.personalityTraits.decisionStyle.replace(/_/g, ' ')}; social behaviour: ${profile.personalityTraits.socialBehavior}`);
+  lines.push(`- Big Five scores — openness ${profile.personality.openness}, conscientiousness ${profile.personality.conscientiousness}, extraversion ${profile.personality.extraversion}, agreeableness ${profile.personality.agreeableness}, neuroticism ${profile.personality.neuroticism} (0-100)`);
+
+  lines.push('');
+  lines.push('INTERESTS & PREFERENCES');
+  lines.push(`- Sport: ${profile.interests.primarySport}; reading: ${profile.interests.readingHabit.replace(/_/g, ' ')}; music: ${profile.interests.musicPreference}`);
+  lines.push(`- Entertainment: ${profile.interests.entertainment.join(', ')}${profile.interests.preferredSocialMedia ? `; social media: ${profile.interests.preferredSocialMedia}` : ''}`);
+  lines.push(`- Movies: ${profile.moviePreferences.genres.join(', ')} (in ${profile.moviePreferences.favoriteLanguages.join(', ')})`);
+  if (profile.moviePreferences.anime) {
+    lines.push(`- Anime fan: yes — prefers ${(profile.moviePreferences.animePreferences ?? []).join(', ')}, favourites include ${(profile.moviePreferences.favoriteAnimeTitles ?? []).join(', ')}`);
+  }
+  lines.push(`- Watches content primarily on ${profile.moviePreferences.primaryPlatform} (${profile.moviePreferences.watchFrequency})`);
+  lines.push(`- Diet: ${profile.dietaryPreference.replace(/_/g, ' ')}; pet preference: ${profile.interests.petPreference.replace(/_/g, ' ')}`);
+
+  lines.push('');
+  lines.push('HABITS & LIFESTYLE');
+  lines.push(`- Exercise: ${profile.habits.exerciseFrequency}; sleeps ${profile.habits.avgSleepHours} hours; chronotype: ${profile.habits.chronotype.replace(/_/g, ' ')}`);
+  lines.push(`- Tobacco: ${profile.habits.tobaccoUse}; alcohol: ${profile.habits.alcoholUse}`);
+  lines.push(`- Digital: ${profile.hasSmartphone ? `owns a smartphone${profile.usesSocialMedia ? ' and uses social media' : ''}` : 'no smartphone'}; ${profile.vehicleType ? `vehicle: ${profile.vehicleType.replace(/_/g, ' ')}` : 'no vehicle'}`);
+
+  lines.push('');
+  lines.push('BELIEFS & VALUES');
+  lines.push(`- Religiosity: ${profile.religiosity.replace(/_/g, ' ')}; political leaning: ${profile.politicalLeaning.replace(/_/g, ' ')}; worldview: ${worldview}`);
+  lines.push(`- Trust in institutions: ${deriveTrustInstitutions(profile)}/100; collectivism: ${deriveCollectivism(profile)}/100`);
+  lines.push(`- Community values: ${profile.culturalProfile.careerPreference.replace(/_/g, ' ')}, ${profile.culturalProfile.familyStructure.replace(/_/g, ' ')}, savings orientation ${profile.culturalProfile.savingsOrientation}/100, risk appetite ${profile.culturalProfile.riskAppetite}/100`);
+
+  lines.push('');
+  lines.push('MEMORIES');
+  const memorySeeds = buildMemorySeeds(profile);
+  for (const seed of memorySeeds) {
+    lines.push(`- ${seed}`);
+  }
+
+  lines.push('');
+  lines.push('HOW TO SPEAK & BEHAVE');
+  const rules = buildBehaviorRules(profile);
+  for (const rule of rules) {
+    lines.push(`- ${rule}`);
+  }
+  lines.push(`- Communication: ${profile.education === 'graduate' || profile.education === 'postgraduate' ? 'educated, conversational' : profile.areaType === 'urban' ? 'casual' : 'simple and direct'} (primary language ${profile.motherTongue}${profile.secondLanguage ? `, secondary ${profile.secondLanguage}` : ''})`);
+  lines.push('- Stay fully in character at all times. Answer as this person would — with their vocabulary, their values, and their lived experience. Never break character or reveal that you are an AI.');
+
+  return lines.join('\n');
 }
 
 function buildMemorySeeds(profile: DemographicProfile): string[] {
@@ -367,6 +476,7 @@ export function generateAgentPersona(profile: DemographicProfile): AgentPersona 
 
   return {
     systemPrompt: buildSystemPrompt(profile),
+    fullPrompt: buildFullPrompt(profile),
     identityLine: buildIdentityLine(profile),
     beliefs,
     memorySeeds: buildMemorySeeds(profile),

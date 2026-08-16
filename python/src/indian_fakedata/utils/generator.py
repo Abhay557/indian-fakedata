@@ -45,10 +45,13 @@ from indian_fakedata.utils.lifestyle import (
 )
 from indian_fakedata.utils.psychology import (
     generate_political_leaning, generate_religiosity,
-    generate_personality, generate_cognitive_profile,
+    generate_personality, generate_personality_traits,
+    generate_cognitive_profile,
     generate_interests, generate_habits, generate_education_details,
 )
 from indian_fakedata.utils.cultural import generate_cultural_profile
+from indian_fakedata.utils.education import generate_education_timeline
+from indian_fakedata.utils.media import generate_movie_preferences
 
 
 def _generate_uuid(rng):
@@ -201,6 +204,19 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         path["gender"], socio["age"], socio["income"], rng
     )
 
+    # Step 14b: v2.0.3 enrichment (draws appended AFTER all existing
+    # draws so previously generated fields for a seed stay identical)
+    personality_traits = generate_personality_traits(personality, socio["age"])
+    edu_timeline = generate_education_timeline(
+        socio["education"], socio["age"], path["gender"], path["stateId"], district,
+        path["areaType"], path["socialCategory"], edu_details["institutionType"],
+        edu_details["fieldOfStudy"], rng
+    )
+    movie_prefs = generate_movie_preferences(
+        path["gender"], socio["age"], socio["education"], path["areaType"],
+        path["stateId"], mother_tongue, digital["hasSmartphone"], socio["income"], rng
+    )
+
     # Step 15: Probability metrics
     path_metrics = path.get("probMetrics", {})
     prob_metrics = {
@@ -270,12 +286,15 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "usesSocialMedia": digital["usesSocialMedia"],
         "upiId": upi_id,
         "personality": personality,
+        "personalityTraits": personality_traits,
         "politicalLeaning": political,
         "religiosity": religiosity_level,
         "cognitiveProfile": cognitive,
         "interests": interests,
         "habits": habits,
         "educationDetails": edu_details,
+        "educationTimeline": edu_timeline,
+        "moviePreferences": movie_prefs,
         "culturalProfile": cultural,
         "householdSize": socio["householdSize"],
         "householdAssets": household_assets,

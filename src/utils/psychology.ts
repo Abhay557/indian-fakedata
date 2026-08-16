@@ -13,7 +13,7 @@
  * - Cognitive: ASER reports, NFHS-5 nutrition + education access
  * - Interests: BARC India viewership, ICC surveys
  * 
- * ⚠️ BIAS NOTE: These correlations reflect REAL survey findings.
+ *  BIAS NOTE: These correlations reflect REAL survey findings.
  *    They encode societal patterns — not moral judgments.
  *    Useful for: bias detection ML, fairness auditing, realistic training data.
  */
@@ -400,6 +400,105 @@ function clampScore(val: number): number {
 }
 
 // ═════════════════════════════════════════════════════════════
+// 3b. PERSONALITY TRAITS (descriptive, AI-friendly)
+// ═════════════════════════════════════════════════════════════
+
+/**
+ * Derive descriptive personality traits from Big Five scores.
+ *
+ * Fully deterministic (no RNG draws) — the output depends only on the
+ * five OCEAN scores, so it never disturbs the seeded draw sequence.
+ */
+
+interface TraitBucket {
+  high: { label: string; strength: string; weakness: string };
+  low: { label: string; strength: string; weakness: string };
+}
+
+const TRAIT_MAP: Record<'openness' | 'conscientiousness' | 'extraversion' | 'agreeableness' | 'neuroticism', TraitBucket> = {
+  openness: {
+    high: { label: 'open-minded', strength: 'creative and curious', weakness: 'easily distracted by new ideas' },
+    low: { label: 'practical', strength: 'prefers familiar routines', weakness: 'resistant to new ideas' }
+  },
+  conscientiousness: {
+    high: { label: 'disciplined', strength: 'organized and punctual', weakness: 'perfectionist, can be rigid' },
+    low: { label: 'easy-going', strength: 'adapts to change quickly', weakness: 'procrastinates under pressure' }
+  },
+  extraversion: {
+    high: { label: 'outgoing', strength: 'warm and sociable', weakness: 'needs company to feel energised' },
+    low: { label: 'introspective', strength: 'comfortable spending time alone', weakness: 'hesitant in large groups' }
+  },
+  agreeableness: {
+    high: { label: 'kind-hearted', strength: 'compassionate and helpful', weakness: 'has trouble saying no' },
+    low: { label: 'assertive', strength: 'stands their ground', weakness: 'can come across as blunt' }
+  },
+  neuroticism: {
+    high: { label: 'sensitive', strength: 'emotionally attuned to others', weakness: 'worries about small things' },
+    low: { label: 'composed', strength: 'stays calm under pressure', weakness: 'can seem emotionally distant' }
+  }
+};
+
+function pickTraits(score: number, bucket: TraitBucket): { label: string; strength: string; weakness: string } {
+  return score >= 55 ? bucket.high : bucket.low;
+}
+
+/**
+ * Convert Big Five OCEAN scores into descriptive, roleplay-friendly traits.
+ *
+ * @param personality - BigFivePersonality scores (0-100)
+ * @param age - Age of the person (shapes the summary phrasing)
+ */
+export function generatePersonalityTraits(
+  personality: import('../types.js').BigFivePersonality,
+  age: number
+): import('../types.js').PersonalityTraits {
+  const o = pickTraits(personality.openness, TRAIT_MAP.openness);
+  const c = pickTraits(personality.conscientiousness, TRAIT_MAP.conscientiousness);
+  const e = pickTraits(personality.extraversion, TRAIT_MAP.extraversion);
+  const a = pickTraits(personality.agreeableness, TRAIT_MAP.agreeableness);
+  const n = pickTraits(personality.neuroticism, TRAIT_MAP.neuroticism);
+
+  const traitLabels = [o.label, c.label, e.label, a.label, n.label];
+
+  // Social behavior from extraversion
+  const socialBehavior: import('../types.js').PersonalityTraits['socialBehavior'] =
+    personality.extraversion >= 60 ? 'outgoing'
+      : personality.extraversion <= 40 ? 'introverted'
+        : 'ambivert';
+
+  // Communication style from agreeableness + extraversion
+  const communicationStyle: import('../types.js').PersonalityTraits['communicationStyle'] =
+    personality.extraversion >= 60 && personality.agreeableness <= 45 ? 'direct'
+      : personality.agreeableness >= 60 ? 'polite_indirect'
+        : personality.extraversion >= 55 ? 'expressive'
+          : 'reserved';
+
+  // Decision style from openness + conscientiousness
+  const decisionStyle: import('../types.js').PersonalityTraits['decisionStyle'] =
+    personality.openness >= 60 && personality.conscientiousness <= 45 ? 'impulsive'
+      : personality.conscientiousness >= 60 ? 'analytical'
+        : personality.agreeableness >= 60 ? 'family_consulting'
+          : 'intuitive';
+
+  const strengths = [o.strength, c.strength, a.strength];
+  const weaknesses = [n.weakness, e.weakness, c.weakness];
+
+  const summary = `${socialBehavior === 'outgoing' ? 'An outgoing, people-oriented person' :
+    socialBehavior === 'introverted' ? 'A quiet, introspective person' :
+      'A balanced, adaptable person'} who is ${o.label}, ${c.label} and ${a.label}. ${age < 25 ? 'Still finding their footing in life, they ' : age > 50 ? 'With years of life experience, they ' : 'They '}${n.strength === 'composed' ? 'generally stay calm and level-headed' : 'feel things deeply and care about those around them'}.`;
+
+  return {
+    summary,
+    strengths,
+    weaknesses,
+    traitLabels,
+    communicationStyle,
+    decisionStyle,
+    socialBehavior
+  };
+}
+
+// ═════════════════════════════════════════════════════════════
 // 4. COGNITIVE / APTITUDE PROFILE
 // ═════════════════════════════════════════════════════════════
 
@@ -674,7 +773,7 @@ export function generateHabits(
 ): Habits {
   // ── Tobacco (NFHS-5) ──
   let tobaccoProb = gender === 'male' ? 0.38 : 0.089;
-  
+
   // State modifiers
   const highTobaccoStates: Record<string, number> = {
     mizoram: 2.0, tripura: 1.7, manipur: 1.5, meghalaya: 1.4,
@@ -722,7 +821,7 @@ export function generateHabits(
 
   // ── Alcohol (NFHS-5) ──
   let alcoholProb = gender === 'male' ? 0.222 : 0.013;
-  
+
   // Religion: Muslims almost zero (haram)
   if (religionId === 'muslim') alcoholProb *= 0.05;
   if (religionId === 'jain') alcoholProb *= 0.1;
@@ -820,7 +919,7 @@ export function generateEducationDetails(
 ): EducationDetails {
   // ── Field of study ──
   let fieldOfStudy: string | undefined;
-  
+
   const higherEdu = ['graduate', 'postgraduate', 'professional_degree', 'technical_diploma'];
   if (higherEdu.includes(education)) {
     const fieldDist: Record<string, number> = {
@@ -835,7 +934,7 @@ export function generateEducationDetails(
       'Agriculture': areaType === 'rural' ? 5 : 1,
       'Management/MBA': income > 300000 ? 5 : 2
     };
-    
+
     if (education === 'technical_diploma') {
       fieldDist['Engineering/Technology'] *= 3;
       fieldDist['Computer Science/IT'] *= 2;
@@ -846,7 +945,7 @@ export function generateEducationDetails(
       fieldDist['Law'] *= 3;
       fieldDist['Engineering/Technology'] *= 2;
     }
-    
+
     const { key } = weightedSampleFromRecord(fieldDist, rng);
     fieldOfStudy = key;
   }
@@ -866,13 +965,13 @@ export function generateEducationDetails(
     if (income < 200000) instDist.iit_nit *= 0.3;
     if (socialCategory === 'SC' || socialCategory === 'ST') instDist.iit_nit *= 0.5; // reservation exists but still underrepresented
     if (gender === 'female') instDist.iit_nit *= 0.4; // ~20% female in IITs
-    
+
     // SC/ST more in government institutions (reservation)
     if (socialCategory === 'SC' || socialCategory === 'ST') {
       instDist.government *= 1.5;
       instDist.private *= 0.7;
     }
-    
+
     const { key } = weightedSampleFromRecord(instDist, rng);
     institutionType = key as EducationDetails['institutionType'];
   } else if (['secondary', 'higher_secondary', 'middle', 'primary'].includes(education)) {
@@ -894,7 +993,7 @@ export function generateEducationDetails(
     maharashtra: 'Marathi', gujarat: 'Gujarati', odisha: 'Odia',
     punjab: 'Punjabi', assam: 'Assamese', goa: 'Konkani'
   };
-  
+
   if (institutionType === 'iit_nit' || institutionType === 'central_university') {
     mediumOfInstruction = 'English';
   } else if (areaType === 'urban' && income > 300000) {

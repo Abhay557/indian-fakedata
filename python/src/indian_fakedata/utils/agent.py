@@ -264,6 +264,210 @@ def _build_behavior_rules(profile):
     return rules
 
 
+def _build_full_prompt(profile):
+    """Complete, self-contained persona prompt containing ALL information
+    about this person (identity, education timeline, personality traits,
+    movie/anime preferences, habits, beliefs, behaviour rules) so an LLM
+    can act as this person.
+    """
+    worldview = _derive_worldview(profile)
+    occupation = profile.get("employmentSector", "worker")
+    if profile.get("occupation") == "non_worker":
+        occupation = "student" if profile.get("age", 30) < 18 else profile.get("employmentSector", "homemaker/non-worker")
+
+    lines = []
+
+    lines.append(
+        f"You are {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')}, "
+        f"a {profile.get('age', 30)}-year-old {profile.get('gender', 'male')} from "
+        f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, India. "
+        f"Born on {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} blood group, "
+        f"{profile.get('heightCm', 0)} cm, {profile.get('weightKg', 0)} kg)."
+    )
+
+    lines.append("")
+    lines.append("IDENTITY")
+    lines.append(
+        f"- Religion: {profile.get('religion', 'hindu')}; Caste/community: {profile.get('caste', 'Unknown')}; "
+        f"Social category: {profile.get('socialCategory', 'General')}"
+    )
+    second_lang = profile.get("secondLanguage")
+    mt = profile.get("motherTongue", "Hindi")
+    lines.append(f"- Mother tongue: {mt}{'; also speaks ' + second_lang if second_lang else ''}")
+    ms = profile.get("maritalStatus", "never_married")
+    spouse = profile.get("spouseName")
+    nc = profile.get("numberOfChildren", 0)
+    ms_str = ms.replace("_", " ")
+    if spouse:
+        ms_str += f"; spouse: {spouse}"
+    if nc > 0:
+        ms_str += f"; {nc} {'child' if nc == 1 else 'children'}"
+    lines.append(f"- Marital status: {ms_str}")
+
+    cultural = profile.get("culturalProfile", {})
+    fs = cultural.get("familyStructure", "nuclear_family")
+    lines.append(
+        f"- Lives in a {fs.replace('_', ' ')} of {profile.get('householdSize', 4)} members, "
+        f"{profile.get('areaType', 'rural')} {profile.get('district', 'Unknown')}"
+    )
+    lines.append(f"- Father: {profile.get('fatherName', 'Unknown')}; Mother: {profile.get('motherName', 'Unknown')}")
+    if profile.get("isMigrant"):
+        lines.append(f"- Migrated from {profile.get('migrationOriginState', 'another state')}")
+    else:
+        lines.append(f"- Born and raised in {profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}")
+
+    lines.append("")
+    lines.append("EDUCATION")
+    edu_details = profile.get("educationDetails", {})
+    if edu_details.get("mediumOfInstruction"):
+        lines.append(f"- Medium of instruction: {edu_details.get('mediumOfInstruction')}")
+    timeline = profile.get("educationTimeline", [])
+    if not timeline:
+        lines.append("- No formal schooling")
+    else:
+        for stage in timeline:
+            state_suffix = ""
+            if stage.get("status") == "in_progress":
+                state_suffix = " (ongoing)"
+            elif stage.get("status") == "dropped_out":
+                state_suffix = " (dropped out)"
+            score = stage.get("score")
+            score_str = f" ({score})" if score else ""
+            extra = ""
+            if stage.get("stream"):
+                extra += f", {stage['stream']}"
+            if stage.get("fieldOfStudy"):
+                extra += f", {stage['fieldOfStudy']}"
+            lines.append(
+                f"- {stage.get('startYear')}\u2013{stage.get('endYear')}: {stage.get('stageName')} "
+                f"\u2014 {stage.get('institutionName')} ({stage.get('boardOrUniversity')}){extra}{score_str}{state_suffix}"
+            )
+    lines.append(f"- Highest qualification: {profile.get('education', 'middle').replace('_', ' ')}")
+
+    lines.append("")
+    lines.append("WORK & FINANCES")
+    income_k = round(profile.get("annualIncomeINR", 0) / 1000)
+    spend_k = round(profile.get("monthlyExpenditureINR", 0) / 1000)
+    land = profile.get("landOwnershipAcres", 0)
+    land_str = f"; owns {land} acres of land" if land > 0 else ""
+    lines.append(
+        f"- Occupation: {profile.get('occupation', 'worker').replace('_', ' ')} ({occupation}); "
+        f"annual income: \u20b9{income_k}K; monthly household spend: \u20b9{spend_k}K{land_str}"
+    )
+    if profile.get("rationCardType") != "none":
+        lines.append(
+            f"- Holds a {profile.get('rationCardType')} ration card; health insurance: {profile.get('healthInsurance', 'none')}"
+        )
+
+    lines.append("")
+    lines.append("PERSONALITY")
+    traits = profile.get("personalityTraits", {})
+    lines.append(f"- {traits.get('summary', '')}")
+    lines.append(f"- Trait labels: {', '.join(traits.get('traitLabels', []))}")
+    lines.append(f"- Strengths: {'; '.join(traits.get('strengths', []))}")
+    lines.append(f"- Weaknesses: {'; '.join(traits.get('weaknesses', []))}")
+    lines.append(
+        f"- Communication style: {traits.get('communicationStyle', 'expressive').replace('_', ' ')}; "
+        f"decision style: {traits.get('decisionStyle', 'intuitive').replace('_', ' ')}; "
+        f"social behaviour: {traits.get('socialBehavior', 'ambivert')}"
+    )
+    personality = profile.get("personality", {})
+    lines.append(
+        f"- Big Five scores \u2014 openness {personality.get('openness', 50)}, "
+        f"conscientiousness {personality.get('conscientiousness', 50)}, "
+        f"extraversion {personality.get('extraversion', 50)}, "
+        f"agreeableness {personality.get('agreeableness', 50)}, "
+        f"neuroticism {personality.get('neuroticism', 50)} (0-100)"
+    )
+
+    lines.append("")
+    lines.append("INTERESTS & PREFERENCES")
+    interests = profile.get("interests", {})
+    lines.append(
+        f"- Sport: {interests.get('primarySport', 'None')}; reading: "
+        f"{interests.get('readingHabit', 'non reader').replace('_', ' ')}; "
+        f"music: {interests.get('musicPreference', 'None')}"
+    )
+    entertainment = ", ".join(interests.get("entertainment", []))
+    sm = interests.get("preferredSocialMedia")
+    sm_str = f"; social media: {sm}" if sm else ""
+    lines.append(f"- Entertainment: {entertainment}{sm_str}")
+    movies = profile.get("moviePreferences", {})
+    lines.append(
+        f"- Movies: {', '.join(movies.get('genres', []))} "
+        f"(in {', '.join(movies.get('favoriteLanguages', []))})"
+    )
+    if movies.get("anime"):
+        anime_prefs = ", ".join(movies.get("animePreferences") or [])
+        anime_titles = ", ".join(movies.get("favoriteAnimeTitles") or [])
+        lines.append(f"- Anime fan: yes \u2014 prefers {anime_prefs}, favourites include {anime_titles}")
+    lines.append(
+        f"- Watches content primarily on {movies.get('primaryPlatform', 'television')} "
+        f"({movies.get('watchFrequency', 'occasional')})"
+    )
+    pet = interests.get("petPreference", "none").replace("_", " ")
+    lines.append(
+        f"- Diet: {profile.get('dietaryPreference', 'vegetarian').replace('_', ' ')}; "
+        f"pet preference: {pet}"
+    )
+
+    lines.append("")
+    lines.append("HABITS & LIFESTYLE")
+    habits = profile.get("habits", {})
+    lines.append(
+        f"- Exercise: {habits.get('exerciseFrequency', 'occasionally')}; "
+        f"sleeps {habits.get('avgSleepHours', 7)} hours; "
+        f"chronotype: {habits.get('chronotype', 'normal').replace('_', ' ')}"
+    )
+    lines.append(f"- Tobacco: {habits.get('tobaccoUse', 'none')}; alcohol: {habits.get('alcoholUse', 'never')}")
+    digital = f"owns a smartphone{' and uses social media' if profile.get('usesSocialMedia') else ''}" if profile.get("hasSmartphone") else "no smartphone"
+    vehicle = profile.get("vehicleType")
+    vehicle_str = f"vehicle: {vehicle.replace('_', ' ')}" if vehicle else "no vehicle"
+    lines.append(f"- Digital: {digital}; {vehicle_str}")
+
+    lines.append("")
+    lines.append("BELIEFS & VALUES")
+    lines.append(
+        f"- Religiosity: {profile.get('religiosity', 'somewhat_religious').replace('_', ' ')}; "
+        f"political leaning: {profile.get('politicalLeaning', 'apolitical').replace('_', ' ')}; "
+        f"worldview: {worldview}"
+    )
+    lines.append(
+        f"- Trust in institutions: {_derive_trust_institutions(profile)}/100; "
+        f"collectivism: {_derive_collectivism(profile)}/100"
+    )
+    lines.append(
+        f"- Community values: {cultural.get('careerPreference', 'labor').replace('_', ' ')}, "
+        f"{fs.replace('_', ' ')}, savings orientation {cultural.get('savingsOrientation', 50)}/100, "
+        f"risk appetite {cultural.get('riskAppetite', 50)}/100"
+    )
+
+    lines.append("")
+    lines.append("MEMORIES")
+    for seed in _build_memory_seeds(profile):
+        lines.append(f"- {seed}")
+
+    lines.append("")
+    lines.append("HOW TO SPEAK & BEHAVE")
+    for rule in _build_behavior_rules(profile):
+        lines.append(f"- {rule}")
+    if profile.get("education") in ("graduate", "postgraduate"):
+        comm = "educated, conversational"
+    elif profile.get("areaType") == "urban":
+        comm = "casual"
+    else:
+        comm = "simple and direct"
+    second_lang_str = f", secondary {second_lang}" if second_lang else ""
+    lines.append(f"- Communication: {comm} (primary language {mt}{second_lang_str})")
+    lines.append(
+        "- Stay fully in character at all times. Answer as this person would "
+        "\u2014 with their vocabulary, their values, and their lived experience. "
+        "Never break character or reveal that you are an AI."
+    )
+
+    return "\n".join(lines)
+
+
 def generate_agent_persona(profile):
     """
     Convert a DemographicProfile dict into an LLM-ready Agent Persona.
@@ -333,6 +537,7 @@ def generate_agent_persona(profile):
 
     return {
         "systemPrompt": _build_system_prompt(profile),
+        "fullPrompt": _build_full_prompt(profile),
         "identityLine": _build_identity_line(profile),
         "beliefs": beliefs,
         "memorySeeds": _build_memory_seeds(profile),
