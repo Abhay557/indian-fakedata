@@ -18,7 +18,7 @@ The main profile generation pipeline that orchestrates:
 import math
 from datetime import datetime
 
-from indian_fakedata.core.sampler import create_rng
+from indian_fakedata.core.sampler import create_rng, normalize_seed
 from indian_fakedata.core.engine import resolve_tree_path, resolve_socioeconomic_layers
 from indian_fakedata.database.loader import DatabaseLoader
 
@@ -427,7 +427,11 @@ def generate_enriched(
         )
     """
     profiles = generate(count, seed, constraints, include_probability_metrics)
-    enrichment_seed = (seed if seed else int(datetime.now().timestamp())) + 999999
+    # string seeds are supported everywhere else — normalize first, then
+    # offset into a separate enrichment stream. pehle ye sirf int seeds ke
+    # saath chalta tha, string pass karte hi TypeError maar jata tha.
+    base_seed = normalize_seed(seed) if seed is not None else int(datetime.now().timestamp())
+    enrichment_seed = (base_seed + 999999) & 0xFFFFFFFF
     rng = create_rng(enrichment_seed)
 
     results = []
@@ -463,7 +467,10 @@ def generate_enriched_stream(
     """
     Generator stream variant of generate_enriched() for large-scale use.
     """
-    enrichment_seed = (seed if seed else int(datetime.now().timestamp())) + 999999
+    # same string-seed fix as generate_enriched() — normalize_seed handles
+    # int, float aur string ("011") sab, phir enrichment ke liye offset.
+    base_seed = normalize_seed(seed) if seed is not None else int(datetime.now().timestamp())
+    enrichment_seed = (base_seed + 999999) & 0xFFFFFFFF
     rng = create_rng(enrichment_seed)
 
     for profile in generate_stream(count, seed, constraints, include_probability_metrics):

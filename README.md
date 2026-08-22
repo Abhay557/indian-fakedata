@@ -434,6 +434,12 @@ provided for reference but is not compiled into the package at build time.
 Because pool sizes changed, a given seed may resolve to a different person than in <= 2.0.3.
 Reproducibility within one version is guaranteed.
 
+### v2.0.5 fixes
+
+- `generateEnriched` / `generateEnrichedStream` (Python: `generate_enriched` /
+  `generate_enriched_stream`) crashed with a `TypeError` when given string seeds
+  such as `"011"` — string seeds now work everywhere, as documented.
+
 ---
 
 ## The 4 Data Layers

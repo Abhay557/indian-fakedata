@@ -54,3 +54,6 @@ python/indian_fakedata.egg-info/
 output.json
 test_sc.csv
 profiles.csv
+
+# Hugging Face dataset — keep card + script in git, exclude the 421 MB of parquet
+huggingface
