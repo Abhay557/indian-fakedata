@@ -19,6 +19,7 @@ import math
 from datetime import datetime
 
 from indian_fakedata.core.sampler import create_rng, normalize_seed
+from indian_fakedata._version import __version__
 from indian_fakedata.core.engine import resolve_tree_path, resolve_socioeconomic_layers
 from indian_fakedata.database.loader import DatabaseLoader
 
@@ -233,8 +234,12 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     }
 
     # Assemble profile
+    # synthetic + generator markers har profile pe hote hain — data jab bhi
+    # kahin export ho, apne saath proof le ke jaye ki ye fake hai.
     return {
         "id": _generate_uuid(rng),
+        "synthetic": True,
+        "generator": "indian-fakedata@" + __version__,
         "firstName": first_name,
         "lastName": last_name,
         "fatherName": father_name,

@@ -293,6 +293,11 @@ export interface DemographicProfile {
   /** Unique UUID for this profile */
   id: string;
 
+  /** Always true — provenance marker proving this record is synthetic */
+  synthetic: true;
+  /** Library version that generated this profile, e.g. "indian-fakedata@2.0.6" */
+  generator: string;
+
   // ── Identity ──────────────────────────────────────────
   firstName: string;
   lastName: string;

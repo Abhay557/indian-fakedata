@@ -25,6 +25,7 @@ import type {
 } from '../types.js';
 
 import { createRNG, normalizeSeed } from '../core/sampler.js';
+import { LIB_VERSION } from '../version.js';
 import { resolveTreePath, resolveSocioeconomicLayers } from '../core/engine.js';
 import { loadDatabase } from '../database/index.js';
 import {
@@ -318,8 +319,12 @@ function generateSingleProfile(
   };
 
   // ── Step 15: Assemble final profile ───────────────────
+  // synthetic + generator markers ship on every profile — wherever this data
+  // is exported, it carries proof that it is fake.
   const profile: DemographicProfile = {
     id: generateUUID(rng),
+    synthetic: true,
+    generator: `indian-fakedata@${LIB_VERSION}`,
 
     // Identity
     firstName,

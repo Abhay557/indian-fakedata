@@ -26,6 +26,8 @@ Unlike traditional mock generators that produce impossible demographic combinati
 ```json
 {
   "id": "72714162-6024-4710-9512-172321111444",
+  "synthetic": true,
+  "generator": "indian-fakedata@2.0.6",
   "firstName": "Pushpa",
   "lastName": "Sharma",
   "fatherName": "Santosh Sharma",
@@ -439,6 +441,23 @@ Reproducibility within one version is guaranteed.
 - `generateEnriched` / `generateEnrichedStream` (Python: `generate_enriched` /
   `generate_enriched_stream`) crashed with a `TypeError` when given string seeds
   such as `"011"` — string seeds now work everywhere, as documented.
+
+### v2.0.6 — provenance markers
+
+Every generated profile now carries self-labeling fields:
+
+```json
+{
+  "id": "...",
+  "synthetic": true,
+  "generator": "indian-fakedata@2.0.6",
+  ...
+}
+```
+
+Wherever the data travels — JSON, JSONL, CSV, databases, training files — it
+carries proof that it is synthetic. This is intentional and aligned with the
+Acceptable Use policy above; please do not strip these markers downstream.
 
 ---
 

@@ -58,7 +58,9 @@ describe('CLI Integration Tests', () => {
     expect(fs.existsSync(outPath)).toBe(true);
     const lines = fs.readFileSync(outPath, 'utf-8').trim().split('\n');
     expect(lines.length).toBe(11); // 1 header + 10 rows
-    expect(lines[0].startsWith('id,firstName')).toBe(true);
+    // v2.0.6: provenance markers sit right after id
+    expect(lines[0].startsWith('id,synthetic,generator,firstName')).toBe(true);
+    expect(lines[1].split(',')[1]).toBe('true');
   });
 
   it('should run CLI in JSONL format successfully', () => {
