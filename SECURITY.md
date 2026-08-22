@@ -20,6 +20,7 @@ Security fixes are applied to the latest release of each major version.
 
 | Version | Supported |
 | ------- | --------- |
+| 2.0.4   | Yes       |
 | 2.0.3   | Yes       |
 | 2.0.2   | Yes       |
 | 1.0.0   | No        |
