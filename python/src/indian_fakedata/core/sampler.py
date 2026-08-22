@@ -52,6 +52,9 @@ def create_rng(initial_seed=None):
         return res
 
     def next_val():
+        # ye TS wale mulberry32 ka exact Python port hai — JS me 32-bit int
+        # overflow hota hai, isliye imul/to_s32 helpers likhe pade. same seed
+        # se dono side same sequence aani chahiye, bas draw order alag hai.
         nonlocal state
         state_s32 = to_s32(state)
         state = (state_s32 + 0x6D2B79F5) & 0xFFFFFFFF
@@ -155,6 +158,8 @@ def log_normal_sample(mu, sigma, rng):
     """
     Log-normal distribution sampler.
     """
+    # income ke liye lognormal hi sahi hai — thode log bahut kamate hain,
+    # zyada tar log kam. uniform lene se sab ek jaise dikhne lagte hain.
     normal_val = gaussian_sample(mu, sigma, rng)
     return math.exp(normal_val)
 

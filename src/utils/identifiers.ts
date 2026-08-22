@@ -455,6 +455,7 @@ export function generatePinCode(stateId: string, rng: SeededRNG): string {
   // NOTE: PIN is drawn uniformly from the state's overall range only.
   // It is state-plausible but NOT guaranteed to match the district, since a
   // full district -> PIN dataset is not bundled.
+  // (district-level PIN mapping ka dataset bahut bada ho jata, baad me add karenge)
   const range = statePinRanges[stateId] ?? [100001, 999999];
   const pin = Math.floor(rng.next() * (range[1] - range[0])) + range[0];
   return String(pin).padStart(6, '0');
@@ -465,15 +466,36 @@ export function generatePinCode(stateId: string, rng: SeededRNG): string {
 // ─────────────────────────────────────────────────────────────
 
 const urbanLocalities = [
+  // Pan-India colony patterns
   'Indira Nagar', 'Gandhi Nagar', 'Nehru Colony', 'Rajiv Gandhi Nagar', 'Shastri Nagar',
   'Ambedkar Colony', 'Laxmi Nagar', 'Ram Nagar', 'Shivaji Nagar', 'Patel Nagar',
   'Vikas Nagar', 'Adarsh Colony', 'Jawahar Nagar', 'Subhash Nagar', 'Model Town',
   'Civil Lines', 'Sadar Bazar', 'Station Road', 'MG Road', 'Ring Road',
   'Sector 1', 'Sector 5', 'Sector 10', 'Sector 15', 'Sector 22',
   'Phase 1', 'Phase 2', 'Block A', 'Block B', 'Block C',
+  'Kirti Nagar', 'Rajouri Garden', 'Pitampura', 'Janakpuri', 'Lajpat Nagar',
+  'Karol Bagh', 'Green Park', 'Hauz Khas', 'Munirka', 'Mayur Vihar',
+  'Gandhi Chowk', 'Clock Tower', 'Court Road', 'Collectorate Road',
+  'Bus Stand Road', 'Hospital Road', 'College Road', 'Temple Street',
+  'Mosque Lane', 'Church Road', 'Market Yard', 'Anaj Mandi',
+  'Sabzi Mandi', 'Industrial Area', 'Focal Point', 'Transport Nagar',
+  'Electricity Board Colony', 'Bank Colony', 'Police Line', 'Tehsil Road',
+  'Community Center Road', 'Ram Leela Ground Road', 'Old City', 'Qila Road',
+  'Fort Road', 'Bypass Road', 'Mill Area', 'Krishi Mandi Road',
+  // South India
   'Vasant Kunj', 'Rohini', 'Dwarka', 'Malviya Nagar', 'Saket',
   'Koramangala', 'Indiranagar', 'JP Nagar', 'HSR Layout', 'Whitefield',
-  'Bandra West', 'Andheri East', 'Powai', 'Goregaon', 'Thane West'
+  'Jayanagar', 'Rajajinagar', 'Basavanagudi', 'Marathahalli', 'BTM Layout',
+  'Electronic City', 'Anna Nagar', 'T. Nagar', 'Adyar', 'Velachery',
+  'Mylapore', 'Kodambakkam', 'Gopalapuram', 'Alwarpet', 'Besant Nagar',
+  // West India
+  'Bandra West', 'Andheri East', 'Powai', 'Goregaon', 'Thane West',
+  'Airoli', 'Vashi', 'Chembur', 'Ghatkopar', 'Khar West',
+  'Sion', 'Dadar East', 'Matunga', 'Navrangpura', 'Maninagar',
+  'Ellisbridge', 'Satellite', 'Bapunagar', 'Paldi', 'Law Garden',
+  // East India
+  'Salt Lake City', 'New Town', 'Behala', 'Ballygunge', 'Howrah Maidan',
+  'Garia', 'Alipore', 'Patuli', 'Baguiati', 'Dumdum'
 ];
 
 const ruralLocalities = [
@@ -481,7 +503,19 @@ const ruralLocalities = [
   'Near Mosque', 'Near Church', 'Near Gurudwara', 'Post Office Road',
   'Kisan Colony', 'Harijan Basti', 'New Colony', 'Old Village',
   'Near Bus Stand', 'Near Railway Station', 'Mill Road', 'Tank Road',
-  'Near PHC', 'Near Govt School', 'Panchayat Bhawan', 'Near Market'
+  'Near PHC', 'Near Govt School', 'Panchayat Bhawan', 'Near Market',
+  'Near Anganwadi', 'Near Block Office', 'Main Bazar Road', 'Haat Road',
+  'Weekly Market Road', 'Near High School', 'Near Inter College',
+  'Cooperative Society Road', 'Sugar Mill Road', 'Brick Kiln Road',
+  'Gaushala Road', 'Talab Road', 'Banyan Tree Chowk', 'Peepal Tree Road',
+  'Hanuman Mandir Road', 'Shiv Mandir Gali', 'Masjid Gali', 'Basti Road',
+  'Mazdoor Colony', 'Farm House Road', 'Tube Well Road', 'Canal Road',
+  'Check Dam Road', 'Irrigation Colony', 'Seed Farm Road', 'Dairy Farm Road',
+  'Poultry Farm Road', 'Weavers Colony', 'Kumhar Colony', 'Dhobi Ghat Road',
+  'Blacksmith Lane', 'Near Health Sub-Center', 'Near Veterinary Hospital',
+  'Panchayat Ghar', 'Aangan Colony', 'Naya Mohalla', 'Purana Mohalla',
+  'Near Fair Price Shop', 'Near Mid-Day Meal School', 'Kheda Road',
+  'Faliya Para'
 ];
 
 const streetTypes = [

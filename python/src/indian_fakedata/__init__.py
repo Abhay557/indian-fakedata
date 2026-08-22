@@ -37,7 +37,7 @@ _db_loader = DatabaseLoader()
 load_database = _db_loader.load_database
 from indian_fakedata.utils.exporter import format_profiles, save_profiles
 
-__version__ = "2.0.3"
+__version__ = "2.0.4"
 __author__ = "Abhay Mourya"
 
 __all__ = [
@@ -65,3 +65,7 @@ __all__ = [
     "format_profiles",
     "save_profiles",
 ]
+
+# note for someone who is reading this code
+# yee sab data probablity hai vho confidentail hai iske liye github par public nahi kar sakta
+# kyu ki research paper bane ka hai iske liye public nahi kar sakta

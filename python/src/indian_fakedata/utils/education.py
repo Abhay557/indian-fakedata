@@ -199,6 +199,8 @@ def _board_or_university(level, institution_type, state_id, rng):
 
 
 def _pick_score(institution_type, rng):
+    # govt schools me average thoda kam rehta hai, private/IIT me zyada —
+    # ASER report bhi yahi pattern dikhati hai
     mean = 62
     if institution_type == 'iit_nit':
         mean = 85
@@ -209,6 +211,7 @@ def _pick_score(institution_type, rng):
     elif institution_type == 'government':
         mean = 58
     score = round(gaussian_sample(mean, 10, rng) * 10) / 10
+    # 30% se neeche aur 99.5% se upar nahi jana chahiye, clamp lagaya hai
     return '%.1f%%' % max(30, min(99.5, score))
 
 

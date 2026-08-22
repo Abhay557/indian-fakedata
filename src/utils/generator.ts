@@ -147,6 +147,8 @@ function generateSingleProfile(
   includeProbabilityMetrics: boolean
 ): DemographicProfile {
   // ── Step 1: Resolve tree path ─────────────────────────
+  // pehle religion -> state -> caste chain resolve hoti hai.
+  // order yahi rehna chahiye, upar-neeche kiya to purane seeds ke output bigad jayenge.
   const path = resolveTreePath(db, constraints, rng);
 
   // ── Step 2: Resolve socioeconomic layers ───────────────
@@ -288,7 +290,11 @@ function generateSingleProfile(
 
   // ── Step 14b: v2.0.3 enrichment (draws appended AFTER all existing
   //    draws so previously generated fields for a seed stay identical) ──
+  // personalityTraits me koi RNG draw nahi hai — pure calculation hai,
+  // Big Five scores dekh ke labels nikalte hain. isliye ye hamesha same rahega.
   const personalityTraits = generatePersonalityTraits(personality, socio.age);
+  // timeline bhi age/education se consistent honi chahiye — 60 saal ka banda
+  // aur 15 saal ke bacche ka school history bilkul alag hona chahiye.
   const educationTimeline = generateEducationTimeline(
     socio.education, socio.age, path.gender, path.stateId, district,
     path.areaType, path.socialCategory, educationDetails.institutionType,

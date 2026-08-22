@@ -22,18 +22,61 @@ STATE_CINEMA_LANGUAGE = {
     'himachal_pradesh': 'Hindi', 'delhi': 'Hindi', 'haryana': 'Hindi',
     'rajasthan': 'Hindi', 'madhya_pradesh': 'Hindi', 'chhattisgarh': 'Hindi',
     'uttarakhand': 'Hindi', 'jammu_kashmir': 'Kashmiri',
+    'sikkim': 'Nepali', 'tripura': 'Bengali', 'manipur': 'Meitei',
+    'meghalaya': 'English', 'mizoram': 'Mizo', 'nagaland': 'English',
+    'arunachal_pradesh': 'Hindi', 'puducherry': 'Tamil',
+    'andaman_nicobar': 'Hindi', 'chandigarh': 'Hindi', 'ladakh': 'Hindi',
 }
 
 ANIME_TITLES = [
-    'Naruto', 'Dragon Ball Z', 'One Piece', 'Attack on Titan', 'Demon Slayer',
-    'Death Note', 'Jujutsu Kaisen', 'Pokémon', 'Haikyuu!!', 'Spy x Family',
-    'Chainsaw Man', 'My Hero Academia', 'Tokyo Revengers', 'Bleach',
-    'Your Name', 'Spirited Away', 'Weathering With You', 'Suzume',
+    # Shonen / action staples
+    'Naruto', 'Naruto Shippuden', 'Dragon Ball', 'Dragon Ball Z', 'Dragon Ball Super',
+    'One Piece', 'Bleach', 'Attack on Titan', 'Demon Slayer', 'Jujutsu Kaisen',
+    'My Hero Academia', 'Black Clover', 'Fire Force', 'Chainsaw Man', 'Solo Leveling',
+    'One Punch Man', 'Mob Psycho 100', 'Tokyo Revengers', 'Blue Lock', 'Wind Breaker',
+    'Kaiju No. 8', "Hell's Paradise", 'Dandadan', 'Sakamoto Days', 'Dr. Stone',
+    # Classics
+    'Death Note', 'Fullmetal Alchemist: Brotherhood', 'Hunter x Hunter', 'Cowboy Bebop',
+    'Samurai Champloo', 'Trigun', 'Trigun Stampede', 'Akira', 'Ghost in the Shell',
+    'Monster', 'Berserk (1997)', 'Vinland Saga', 'Dororo', 'Rurouni Kenshin',
+    'Yu Yu Hakusho', 'Saint Seiya', 'City Hunter', 'Great Teacher Onizuka',
+    # Sports
+    'Haikyuu!!', 'Kuroko no Basket', 'Slam Dunk', 'Blue Period', 'Ao Ashi',
+    'Yowamushi Pedal', 'Free!', 'Hanebado!',
+    # Romance / drama / slice of life
+    'Spy x Family', 'Kaguya-sama: Love Is War', 'Horimiya', 'Toradora',
+    'Your Lie in April', 'Clannad', 'Violet Evergarden', 'A Silent Voice',
+    'March Comes in Like a Lion', 'Fruits Basket', 'Nana', 'Josee, the Tiger and the Fish',
+    # Ghibli / films
+    'Your Name', 'Weathering With You', 'Suzume', 'Spirited Away',
+    "Howl's Moving Castle", 'Princess Mononoke', 'My Neighbor Totoro',
+    'Ponyo', "Kiki's Delivery Service", 'The Boy and the Heron', 'Grave of the Fireflies',
+    'Perfect Blue', 'Paprika', 'I Want to Eat Your Pancreas',
+    # Psychological / thriller / mystery
+    'Steins;Gate', 'Erased', 'The Promised Neverland', 'Parasyte', 'Another',
+    'Terror in Resonance', 'Death Parade', 'Psycho-Pass', 'Code Geass', 'Future Diary',
+    # Fantasy / isekai / adventure
+    'Re:Zero', 'Konosuba', 'That Time I Got Reincarnated as a Slime', 'Sword Art Online',
+    'Made in Abyss', 'Mushoku Tensei', 'Overlord', 'The Rising of the Shield Hero',
+    "Frieren: Beyond Journey's End", 'Delicious in Dungeon', 'Ranking of Kings',
+    # Comedy / slice of life
+    'Gintama', 'Saiki K', 'Nichijou', 'Grand Blue', 'Daily Lives of High School Boys',
+    'Working!!', 'Laid-Back Camp', 'Non Non Biyori',
+    # Mecha / sci-fi
+    'Neon Genesis Evangelion', 'Gundam SEED', '86 Eighty-Six', 'Darling in the Franxx',
+    'Knights of Sidonia', 'Eureka Seven',
+    # Huge with Indian kids (TV-era imports)
+    'Pokémon', 'Doraemon', 'Shinchan', 'Ninja Hattori', 'Beyblade',
+    'Beyblade Burst', 'Digimon', 'Kiteretsu', 'Yo-kai Watch', 'Crash B-Daman',
+    'Hungama Ninja Hattori', 'Detective Conan',
 ]
 
 ANIME_GENRES = [
     'Shonen action', 'Slice of life', 'Sports', 'Romance',
     'Supernatural horror', 'Fantasy adventure', 'Mecha', 'Comedy',
+    'Isekai', 'Psychological thriller', 'Mystery/detective', 'Sci-fi cyberpunk',
+    'Historical samurai', 'Magical girl', 'School/college drama', 'Seinen drama',
+    'Music/idol', 'Martial arts', 'Space opera', 'Dark fantasy', 'Kids/family',
 ]
 
 
@@ -77,6 +120,8 @@ def generate_movie_preferences(
     watch_frequency, _ = weighted_sample_from_record(freq_dist, rng)
 
     # ── Favorite languages ──
+    # regional cinema pehle aata hai — Tamil Nadu me Tamil hi chalega.
+    # Hindi almost har jagah pahunch gaya hai, isliye second slot me wahi milta hai.
     languages = []
     regional = STATE_CINEMA_LANGUAGE.get(state_id, mother_tongue)
     if regional and regional not in ('Hindi', 'English') and regional not in languages:
@@ -108,6 +153,19 @@ def generate_movie_preferences(
         'Crime': 6,
         'Musical/Dance': 10 if (gender == 'female' and area_type == 'urban') else 3,
         'Animation/Family': 12 if (age > 35 or age < 13) else 4,
+        'Mythological/Devotional': 10 if age > 40 else 4,
+        'Social/Issue-based drama': 8 if education in ('graduate', 'postgraduate') else 3,
+        'Spy/Espionage action': 7 if gender == 'male' else 3,
+        'Gangster/Mafia': 6 if (gender == 'male' and is_youth) else 2,
+        'War/Patriotic': 8 if gender == 'male' else 4,
+        'Sports drama/Biopic': 7 if gender == 'male' else 5,
+        'Family drama': 10 if (area_type == 'rural' or age > 35) else 5,
+        'Mystery/Suspense': 6,
+        'Fantasy': 7 if is_youth else 3,
+        'Adventure': 5,
+        'Political drama': 5 if age > 30 else 2,
+        'Coming-of-age': 8 if is_youth else 3,
+        'Documentary': 4 if education == 'postgraduate' else 1,
     }
     genres = []
     genre_count = 2 + int(rng.next() * 3)  # 2-4 genres
@@ -120,6 +178,7 @@ def generate_movie_preferences(
 
     # ── Anime ──
     # Anime fandom is concentrated among urban youth with internet access
+    # real data me bhi yahi dikh raha hai — college crowd me common, elders me na ke barabar
     anime_base = 0.02
     if is_youth:
         anime_base += 0.10

@@ -73,6 +73,8 @@ def _generate_uuid(rng):
 def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     """Generate a single demographic profile with all 40+ fields."""
     # Step 1: Resolve tree path
+    # draws ka order yahi fix hai — ek bhi step idhar-udhar kiya to purane
+    # seeds ka output change ho jayega. naye fields hamesha END me add karo.
     path = resolve_tree_path(db, constraints, rng)
 
     # Step 2: Resolve socioeconomic layers

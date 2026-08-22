@@ -25,7 +25,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 
 ```json
 {
-  "id": "33553413-2014-4616-9361-511204427271",
+  "id": "72714162-6024-4710-9512-172321111444",
   "firstName": "Pushpa",
   "lastName": "Sharma",
   "fatherName": "Santosh Sharma",
@@ -45,10 +45,10 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "email": "pushpasharma352@gmail.com",
   "state": "Maharashtra",
   "stateCode": "MH",
-  "district": "Solapur",
+  "district": "Kolhapur",
   "areaType": "urban",
-  "addressLine": "245/D, MG Road, Solapur",
-  "locality": "MG Road",
+  "addressLine": "245/D, Market Yard, Kolhapur",
+  "locality": "Market Yard",
   "pinCode": "412519",
   "religion": "Hindu",
   "caste": "Deshastha Brahmin",
@@ -151,7 +151,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "primary",
       "stageName": "Primary School",
-      "institutionName": "Infant Jesus, Solapur",
+      "institutionName": "Infant Jesus, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 1997,
@@ -162,7 +162,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "middle",
       "stageName": "Middle School",
-      "institutionName": "St. Peter's, Solapur",
+      "institutionName": "St. Peter's, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2003,
@@ -173,7 +173,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "secondary",
       "stageName": "Secondary School",
-      "institutionName": "St. Agnes, Solapur",
+      "institutionName": "St. Agnes, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2006,
@@ -185,8 +185,8 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "moviePreferences": {
     "genres": [
       "Comedy",
-      "Romance",
-      "Action"
+      "Thriller",
+      "Romance"
     ],
     "favoriteLanguages": [
       "Marathi",
@@ -194,11 +194,11 @@ Unlike traditional mock generators that produce impossible demographic combinati
     ],
     "anime": true,
     "animePreferences": [
-      "Shonen action"
+      "Slice of life"
     ],
     "favoriteAnimeTitles": [
-      "Demon Slayer",
-      "One Piece"
+      "Monster",
+      "Mob Psycho 100"
     ],
     "primaryPlatform": "ott",
     "watchFrequency": "weekly"
@@ -242,13 +242,13 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "nationalReligionFreq": 0.803301791826052,
     "stateGivenReligionProb": 0.10324714506000403,
     "casteGivenContextProb": 0.04225352112676056,
-    "lastNameGivenCasteProb": 0.2,
-    "socialCategoryProb": 0.35211267605633797,
-    "educationProb": 0.21890547263681592,
+    "lastNameGivenCasteProb": 0.09433962264150944,
+    "socialCategoryProb": 0.352112676056338,
+    "educationProb": 0.21890547263681595,
     "occupationProb": 0.18000000000000002,
-    "jointProbability": 2.7617147096522784e-05
+    "jointProbability": 1.302695617760509e-05
   },
-  "generatedAt": "2026-08-03T21:45:13.883314",
+  "generatedAt": "2026-08-22T22:40:53.418702",
   "seed": 7
 }
 ```
@@ -422,6 +422,17 @@ provided for reference but is not compiled into the package at build time.
 
 > **Note:** All data is synthetic mock data. Names, IDs, and numbers are randomly
 > generated and do not correspond to any real individuals.
+
+### v2.0.4 data expansion
+
+- **760 districts** across all 36 states/UTs (UP has all 75, Tamil Nadu all 38) — was 369
+- **471 surnames** keyed to 48 communities (Jain, Buddhist/navayana fully covered) — was 211
+- **+566 first names** for Jain (previously empty), Buddhist, Muslim and Christian pools
+- **130+ anime titles**, 21 anime genres, 25 movie genres, 34 state cinema languages
+- **120 urban / 60 rural locality patterns** for addresses
+
+Because pool sizes changed, a given seed may resolve to a different person than in <= 2.0.3.
+Reproducibility within one version is guaranteed.
 
 ---
 

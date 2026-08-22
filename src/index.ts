@@ -86,4 +86,6 @@ export { loadDatabase, mergeDatabase } from './database/index.js';
 export { getDefaultDatabase } from './database/defaultData.js';
 export { formatProfiles, saveProfilesToFile } from './utils/exporter.js';
 
-
+// note for someone who is reading this code
+// yee sab data probablity hai vho confidentail hai iske liye github par public nahi kar sakta
+// kyu ki research paper bane ka hai iske liye public nahi kar sakta

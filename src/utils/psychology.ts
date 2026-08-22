@@ -617,6 +617,8 @@ export function generateInterests(
   rng: SeededRNG
 ): Interests {
   // ── Sport ──
+  // cricket ka dominance dekho — male me weight 55, baaki sab milke bhi utna nahi.
+  // kabaddi/wrestling rural side me strong hain, ye BARC viewership data se match karta hai.
   const sportDist: Record<string, number> = {
     cricket: gender === 'male' ? 55 : 30,
     kabaddi: areaType === 'rural' ? 8 : 3,
@@ -650,6 +652,7 @@ export function generateInterests(
   const { key: primarySport } = weightedSampleFromRecord(sportDist, rng);
 
   // ── Pet preference ──
+  // India me majority ke paas pet nahi hota, isliye 'none' ka weight sabse bada hai
   const petDist: Record<string, number> = {
     dogs: 25,
     cats: 8,

@@ -63,6 +63,8 @@ def select_first_name(db, religion_id, state_id, gender, rng):
             return _sample_from_name_list(by_default['other'], rng)
 
     # Last resort: pick from Hindu defaults (most common)
+    # (2.0.4 me jain/buddhist ke apne pools bhar diye, ab ye fallback
+    #  sirf bahut rare case me hi hit hoga)
     hindu_default = db.get("firstNames", {}).get('hindu', {}).get('default', {}).get(gender)
     if hindu_default and len(hindu_default) > 0:
         return _sample_from_name_list(hindu_default, rng)

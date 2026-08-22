@@ -19,10 +19,10 @@
   "email": "parul_kumari@gmail.com",
   "state": "Bihar",
   "stateCode": "BR",
-  "district": "Darbhanga",
+  "district": "Gopalganj",
   "areaType": "rural",
-  "addressLine": "79, Near Primary School, Darbhanga",
-  "locality": "Near Primary School",
+  "addressLine": "79, Near Gurudwara, Gopalganj",
+  "locality": "Near Gurudwara",
   "pinCode": "824544",
   "religion": "Hindu",
   "caste": "Bhumihar",
@@ -184,6 +184,6 @@
     "occupationProb": 0.58,
     "jointProbability": 0.00045427277846108
   },
-  "generatedAt": "2026-08-16T17:42:24.397608",
+  "generatedAt": "2026-08-22T22:40:53.405024",
   "seed": 11
 }

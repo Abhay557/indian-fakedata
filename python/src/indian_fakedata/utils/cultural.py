@@ -17,7 +17,7 @@ from indian_fakedata.core.sampler import weighted_sample_from_record, gaussian_s
 # Trait index mapping
 TRAIT_IDX = {
     'entrepreneurial': 0, 'academic': 1, 'artistic': 2, 'military': 3,
-    'agricultural': 4, 'artisan': 5, 'bureaucratic': 6, 'socialActivism': 7,
+    'agricultural': 4, 'artisan':5, 'bureaucratic': 6, 'socialActivism': 7,
     'communityBonding': 8, 'migrationTendency': 9, 'savingsOrientation': 10,
     'riskAppetite': 11,
 }
@@ -275,6 +275,9 @@ def _determine_family_structure(religion_id, state_id, area_type, income, rng):
 
 def generate_cultural_profile(caste_id, religion_id, state_id, social_category, education, area_type, gender, age, income, rng):
     """Generate a complete cultural profile based on community identity."""
+    # COMMUNITY_TRAITS me har caste ka 12-dim baseline vector hai (haath se
+    # tune kiya hai). yaha baseline pe context ke hisab se nudge karte hain —
+    # education, urban/rural, gender sab effect dalte hain.
     baseline = _get_baseline(caste_id, religion_id, state_id)
     stddev = 12
     high_edu = ['graduate', 'postgraduate', 'professional_degree']

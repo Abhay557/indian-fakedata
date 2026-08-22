@@ -222,6 +222,8 @@ function formatScore(score: string | undefined): string {
  * interests (incl. movies/anime), habits, beliefs and behaviour rules.
  */
 function buildFullPrompt(profile: DemographicProfile): string {
+  // systemPrompt short chat ke liye hai; ye full roleplay prompt hai —
+  // sections me likha hai taaki LLM ko poora context structured mile.
   const worldview = deriveWorldview(profile);
   const occupation = profile.occupation === 'non_worker'
     ? (profile.age < 18 ? 'student' : profile.employmentSector)

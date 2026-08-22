@@ -123,7 +123,7 @@ console.log(chat?.content);
 console.log("\n=== LLM SYSTEM PROMPT (LAYER 4) ===");
 console.log(enriched.agentPersona.systemPrompt);
 
-console.log("\n=== FULL ROLEPLAY PROMPT (v2.0.3) ===");
+console.log("\n=== FULL ROLEPLAY PROMPT (v2.0.4) ===");
 console.log(enriched.agentPersona.fullPrompt);
 ```
 
@@ -152,11 +152,11 @@ print(chat['content'])
 print("\n=== LLM SYSTEM PROMPT (LAYER 4) ===")
 print(enriched['agentPersona']['systemPrompt'])
 
-print("\n=== FULL ROLEPLAY PROMPT (v2.0.3) ===")
+print("\n=== FULL ROLEPLAY PROMPT (v2.0.4) ===")
 print(enriched['agentPersona']['fullPrompt'])
 ```
 
-### Persona-only (faker-style, v2.0.3)
+### Persona-only (faker-style, v2.0.4)
 
 Generate just the user + LLM-ready persona (short system prompt and a complete
 self-contained roleplay prompt) without the other enrichment layers:

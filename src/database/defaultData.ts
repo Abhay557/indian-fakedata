@@ -1012,225 +1012,2456 @@ const firstNames = compiledNames;
 
 // Surnames organized by: casteId → NameEntry[]
 const surnames: Record<string, NameEntry[]> = {
-  // Hindu surnames
-  brahmin: [
-    { name: 'Sharma', weight: 15, gender: 'unisex' }, { name: 'Shukla', weight: 6, gender: 'unisex' },
-    { name: 'Mishra', weight: 8, gender: 'unisex' }, { name: 'Trivedi', weight: 4, gender: 'unisex' },
-    { name: 'Dwivedi', weight: 4, gender: 'unisex' }, { name: 'Tiwari', weight: 7, gender: 'unisex' },
-    { name: 'Pandey', weight: 8, gender: 'unisex' }, { name: 'Upadhyay', weight: 5, gender: 'unisex' },
-    { name: 'Joshi', weight: 6, gender: 'unisex' }, { name: 'Dubey', weight: 5, gender: 'unisex' },
-    { name: 'Dikshit', weight: 3, gender: 'unisex' }, { name: 'Chaturvedi', weight: 4, gender: 'unisex' }
+  "brahmin": [
+    {
+      "name": "Sharma",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shukla",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mishra",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Trivedi",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dwivedi",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tiwari",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pandey",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Upadhyay",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Joshi",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dubey",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dikshit",
+      "weight": 3,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chaturvedi",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhatt",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dixit",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Agnihotri",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bharadwaj",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pathak",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ojha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vajpayee",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  rajput: [
-    { name: 'Singh', weight: 30, gender: 'unisex' }, { name: 'Chauhan', weight: 8, gender: 'unisex' },
-    { name: 'Rathore', weight: 6, gender: 'unisex' }, { name: 'Sisodia', weight: 4, gender: 'unisex' },
-    { name: 'Shekhawat', weight: 4, gender: 'unisex' }, { name: 'Tomar', weight: 4, gender: 'unisex' },
-    { name: 'Rana', weight: 5, gender: 'unisex' }, { name: 'Panwar', weight: 4, gender: 'unisex' }
+  "rajput": [
+    {
+      "name": "Singh",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chauhan",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rathore",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sisodia",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shekhawat",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tomar",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rana",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Panwar",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Parmar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Solanki",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chandel",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Baghel",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gohil",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhati",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jadeja",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kachhwaha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vaghela",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Devda",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  vaishya: [
-    { name: 'Agarwal', weight: 15, gender: 'unisex' }, { name: 'Gupta', weight: 20, gender: 'unisex' },
-    { name: 'Goel', weight: 6, gender: 'unisex' }, { name: 'Mittal', weight: 5, gender: 'unisex' },
-    { name: 'Bansal', weight: 5, gender: 'unisex' }, { name: 'Jain', weight: 8, gender: 'unisex' },
-    { name: 'Singhal', weight: 4, gender: 'unisex' }, { name: 'Rastogi', weight: 3, gender: 'unisex' }
+  "vaishya": [
+    {
+      "name": "Agarwal",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gupta",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Goel",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mittal",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bansal",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jain",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Singhal",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rastogi",
+      "weight": 3,
+      "gender": "unisex"
+    },
+    {
+      "name": "Agrawal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Goyal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jindal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tayal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kansal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Singla",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Maheshwari",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  kayastha: [
-    { name: 'Srivastava', weight: 15, gender: 'unisex' }, { name: 'Mathur', weight: 8, gender: 'unisex' },
-    { name: 'Saxena', weight: 8, gender: 'unisex' }, { name: 'Nigam', weight: 5, gender: 'unisex' },
-    { name: 'Bhatnagar', weight: 5, gender: 'unisex' }, { name: 'Verma', weight: 10, gender: 'unisex' }
+  "kayastha": [
+    {
+      "name": "Srivastava",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mathur",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Saxena",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nigam",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhatnagar",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Verma",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Asthana",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kulshrestha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sinha",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  yadav: [
-    { name: 'Yadav', weight: 50, gender: 'unisex' }, { name: 'Ahir', weight: 10, gender: 'unisex' },
-    { name: 'Gowala', weight: 5, gender: 'unisex' }
+  "yadav": [
+    {
+      "name": "Yadav",
+      "weight": 50,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahir",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gowala",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rao",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jadav",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gope",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gwala",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Yaduvanshi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Krishnaut",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Phulwariya",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  jat: [
-    { name: 'Malik', weight: 12, gender: 'unisex' }, { name: 'Dahiya', weight: 8, gender: 'unisex' },
-    { name: 'Hooda', weight: 6, gender: 'unisex' }, { name: 'Sangwan', weight: 5, gender: 'unisex' },
-    { name: 'Jakhar', weight: 5, gender: 'unisex' }, { name: 'Chaudhary', weight: 10, gender: 'unisex' }
+  "jat": [
+    {
+      "name": "Malik",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dahiya",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Hooda",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sangwan",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jakhar",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chaudhary",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Duhan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Deswal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nain",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sheoran",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dalal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kadian",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Panghal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sahrawat",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  kurmi: [
-    { name: 'Patel', weight: 30, gender: 'unisex' }, { name: 'Kushwaha', weight: 10, gender: 'unisex' },
-    { name: 'Kurmi', weight: 8, gender: 'unisex' }, { name: 'Lodhi', weight: 5, gender: 'unisex' }
+  "kurmi": [
+    {
+      "name": "Patel",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kushwaha",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kurmi",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Lodhi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Verma",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kanaujia",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Awadhia",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chandravanshi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mahato",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Singh",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  chamar: [
-    { name: 'Jatav', weight: 20, gender: 'unisex' }, { name: 'Raidas', weight: 8, gender: 'unisex' },
-    { name: 'Ram', weight: 10, gender: 'unisex' }, { name: 'Gautam', weight: 8, gender: 'unisex' },
-    { name: 'Ambedkar', weight: 3, gender: 'unisex' }, { name: 'Bharti', weight: 5, gender: 'unisex' }
+  "chamar": [
+    {
+      "name": "Jatav",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Raidas",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ram",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gautam",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ambedkar",
+      "weight": 3,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bharti",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahirwar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Valmiki",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Balmiki",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kureel",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Saroj",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Lal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Prasad",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kumar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  maratha: [
-    { name: 'Patil', weight: 15, gender: 'unisex' }, { name: 'Deshmukh', weight: 8, gender: 'unisex' },
-    { name: 'Jadhav', weight: 8, gender: 'unisex' }, { name: 'Pawar', weight: 7, gender: 'unisex' },
-    { name: 'Chavan', weight: 6, gender: 'unisex' }, { name: 'More', weight: 5, gender: 'unisex' },
-    { name: 'Shinde', weight: 6, gender: 'unisex' }, { name: 'Bhosale', weight: 5, gender: 'unisex' },
-    { name: 'Gaikwad', weight: 5, gender: 'unisex' }, { name: 'Nimbalkar', weight: 3, gender: 'unisex' }
+  "maratha": [
+    {
+      "name": "Patil",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Deshmukh",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jadhav",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pawar",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chavan",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "More",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shinde",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhosale",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gaikwad",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nimbalkar",
+      "weight": 3,
+      "gender": "unisex"
+    },
+    {
+      "name": "Salunkhe",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kadam",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Wagh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nikam",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kale",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thorat",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jagtap",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  iyer: [
-    { name: 'Iyer', weight: 40, gender: 'unisex' }, { name: 'Aiyer', weight: 10, gender: 'unisex' },
-    { name: 'Subramanian', weight: 8, gender: 'unisex' }, { name: 'Krishnamurthy', weight: 6, gender: 'unisex' },
-    { name: 'Venkataraman', weight: 5, gender: 'unisex' }
+  "iyer": [
+    {
+      "name": "Iyer",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Aiyer",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Subramanian",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Krishnamurthy",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Venkataraman",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sastri",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sastrigal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vadhyar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Somayaji",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ganapadi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  iyengar: [
-    { name: 'Iyengar', weight: 40, gender: 'unisex' }, { name: 'Srinivasan', weight: 10, gender: 'unisex' },
-    { name: 'Ranganathan', weight: 6, gender: 'unisex' }
+  "iyengar": [
+    {
+      "name": "Iyengar",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Srinivasan",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ranganathan",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sampath",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Parthasarathy",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Varadhan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Alwar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  reddy: [
-    { name: 'Reddy', weight: 60, gender: 'unisex' }, { name: 'Goud', weight: 5, gender: 'unisex' }
+  "reddy": [
+    {
+      "name": "Reddy",
+      "weight": 60,
+      "gender": "unisex"
+    },
+    {
+      "name": "Goud",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chowdary",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rao",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naidu",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Varma",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sarma",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  kamma: [
-    { name: 'Rao', weight: 30, gender: 'unisex' }, { name: 'Naidu', weight: 20, gender: 'unisex' }
+  "kamma": [
+    {
+      "name": "Rao",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naidu",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chowdary",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rayudu",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chaudary",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  nair: [
-    { name: 'Nair', weight: 40, gender: 'unisex' }, { name: 'Pillai', weight: 15, gender: 'unisex' },
-    { name: 'Menon', weight: 12, gender: 'unisex' }, { name: 'Kurup', weight: 8, gender: 'unisex' }
+  "nair": [
+    {
+      "name": "Nair",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pillai",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Menon",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kurup",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Panicker",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kartha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nambiar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  ezhava: [
-    { name: 'Ezhuthachan', weight: 8, gender: 'unisex' }, { name: 'Thiyyar', weight: 5, gender: 'unisex' },
-    { name: 'Panicker', weight: 8, gender: 'unisex' }, { name: 'Tharakan', weight: 5, gender: 'unisex' }
+  "ezhava": [
+    {
+      "name": "Ezhuthachan",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thiyyar",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Panicker",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tharakan",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Channar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thankappan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vaidyan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ashari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chekavar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  patel: [
-    { name: 'Patel', weight: 50, gender: 'unisex' }, { name: 'Desai', weight: 8, gender: 'unisex' },
-    { name: 'Patidar', weight: 10, gender: 'unisex' }, { name: 'Chaudhary', weight: 5, gender: 'unisex' }
+  "patel": [
+    {
+      "name": "Patel",
+      "weight": 50,
+      "gender": "unisex"
+    },
+    {
+      "name": "Desai",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Patidar",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chaudhary",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chaudhari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Amin",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rana",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chauhan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Solanki",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vaghela",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Parikh",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  lingayat: [
-    { name: 'Patil', weight: 15, gender: 'unisex' }, { name: 'Gowda', weight: 10, gender: 'unisex' },
-    { name: 'Hiremath', weight: 6, gender: 'unisex' }, { name: 'Gudaguntla', weight: 3, gender: 'unisex' }
+  "lingayat": [
+    {
+      "name": "Patil",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gowda",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Hiremath",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gudaguntla",
+      "weight": 3,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gouda",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shetty",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naik",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pujar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Angadi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Banakar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  vokkaliga: [
-    { name: 'Gowda', weight: 30, gender: 'unisex' }, { name: 'Shetty', weight: 10, gender: 'unisex' }
+  "vokkaliga": [
+    {
+      "name": "Gowda",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shetty",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Reddy",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naidu",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rao",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Hallikar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  brahmin_bengali: [
-    { name: 'Mukherjee', weight: 12, gender: 'unisex' }, { name: 'Banerjee', weight: 12, gender: 'unisex' },
-    { name: 'Chatterjee', weight: 12, gender: 'unisex' }, { name: 'Bhattacharya', weight: 8, gender: 'unisex' },
-    { name: 'Chakraborty', weight: 8, gender: 'unisex' }, { name: 'Ganguly', weight: 6, gender: 'unisex' },
-    { name: 'Bose', weight: 6, gender: 'unisex' }, { name: 'Ghosh', weight: 8, gender: 'unisex' }
+  "brahmin_bengali": [
+    {
+      "name": "Mukherjee",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Banerjee",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chatterjee",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhattacharya",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chakraborty",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ganguly",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bose",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghosh",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Goswami",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sanyal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bagchi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mitra",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghoshal",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  kayastha_wb: [
-    { name: 'Mitra', weight: 10, gender: 'unisex' }, { name: 'Dutta', weight: 10, gender: 'unisex' },
-    { name: 'Sen', weight: 8, gender: 'unisex' }, { name: 'Guha', weight: 6, gender: 'unisex' },
-    { name: 'Das', weight: 12, gender: 'unisex' }, { name: 'Saha', weight: 8, gender: 'unisex' }
+  "kayastha_wb": [
+    {
+      "name": "Mitra",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dutta",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sen",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Guha",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Das",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Saha",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bose",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghosh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Roy",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sengupta",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  // Muslim surnames
-  syed: [
-    { name: 'Rizvi', weight: 10, gender: 'unisex' }, { name: 'Naqvi', weight: 8, gender: 'unisex' },
-    { name: 'Zaidi', weight: 7, gender: 'unisex' }, { name: 'Kazmi', weight: 5, gender: 'unisex' },
-    { name: 'Husaini', weight: 5, gender: 'unisex' }, { name: 'Bukhari', weight: 4, gender: 'unisex' }
+  "syed": [
+    {
+      "name": "Rizvi",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naqvi",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Zaidi",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kazmi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Husaini",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bukhari",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Siddiqui",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Farooqi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gilani",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Hussaini",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  sheikh: [
-    { name: 'Sheikh', weight: 20, gender: 'unisex' }, { name: 'Khan', weight: 15, gender: 'unisex' },
-    { name: 'Ahmed', weight: 10, gender: 'unisex' }, { name: 'Alam', weight: 5, gender: 'unisex' }
+  "sheikh": [
+    {
+      "name": "Sheikh",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Khan",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahmed",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Alam",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ansari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Qureshi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Siddiqui",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Usmani",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Farooqui",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Haque",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahmad",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ilyasi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  pathan: [
-    { name: 'Khan', weight: 40, gender: 'unisex' }, { name: 'Pathan', weight: 15, gender: 'unisex' },
-    { name: 'Afridi', weight: 5, gender: 'unisex' }, { name: 'Yusufzai', weight: 4, gender: 'unisex' }
+  "pathan": [
+    {
+      "name": "Khan",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pathan",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Afridi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Yusufzai",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sherwani",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Lodhi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bangash",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Yousufzai",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Waziri",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Durrani",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  ansari: [
-    { name: 'Ansari', weight: 50, gender: 'unisex' }, { name: 'Ansar', weight: 5, gender: 'unisex' }
+  "ansari": [
+    {
+      "name": "Ansari",
+      "weight": 50,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ansar",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sheikh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Siddiqui",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Momin",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Idrisi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mansoori",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Saifi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  qureshi: [
-    { name: 'Qureshi', weight: 50, gender: 'unisex' }, { name: 'Qureishi', weight: 5, gender: 'unisex' }
+  "qureshi": [
+    {
+      "name": "Qureshi",
+      "weight": 50,
+      "gender": "unisex"
+    },
+    {
+      "name": "Qureishi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Quraishi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shaikh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Abbasi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Faridi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  mappila: [
-    { name: 'Kutti', weight: 8, gender: 'unisex' }, { name: 'Haji', weight: 6, gender: 'unisex' },
-    { name: 'Koya', weight: 6, gender: 'unisex' }, { name: 'Thangal', weight: 5, gender: 'unisex' }
+  "mappila": [
+    {
+      "name": "Kutti",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Haji",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Koya",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thangal",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Musaliyar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Keyi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ali",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  mir: [
-    { name: 'Mir', weight: 40, gender: 'unisex' }, { name: 'Qadri', weight: 8, gender: 'unisex' }
+  "mir": [
+    {
+      "name": "Mir",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Qadri",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Baig",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mirza",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Beigh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shah",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Andrabi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  bhat: [
-    { name: 'Bhat', weight: 30, gender: 'unisex' }, { name: 'Bhatt', weight: 15, gender: 'unisex' }
+  "bhat": [
+    {
+      "name": "Bhat",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhatt",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Lone",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rather",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Wani",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  dar: [
-    { name: 'Dar', weight: 40, gender: 'unisex' }, { name: 'Dhar', weight: 10, gender: 'unisex' }
+  "dar": [
+    {
+      "name": "Dar",
+      "weight": 40,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dhar",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Magrey",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kachru",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Raina",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Zargar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  // Sikh surnames
-  jat_sikh: [
-    { name: 'Singh', weight: 30, gender: 'male' }, { name: 'Kaur', weight: 30, gender: 'female' },
-    { name: 'Sidhu', weight: 6, gender: 'unisex' }, { name: 'Gill', weight: 6, gender: 'unisex' },
-    { name: 'Dhillon', weight: 5, gender: 'unisex' }, { name: 'Sandhu', weight: 5, gender: 'unisex' },
-    { name: 'Brar', weight: 4, gender: 'unisex' }, { name: 'Grewal', weight: 5, gender: 'unisex' },
-    { name: 'Bajwa', weight: 4, gender: 'unisex' }, { name: 'Mann', weight: 4, gender: 'unisex' }
+  "jat_sikh": [
+    {
+      "name": "Singh",
+      "weight": 30,
+      "gender": "male"
+    },
+    {
+      "name": "Kaur",
+      "weight": 30,
+      "gender": "female"
+    },
+    {
+      "name": "Sidhu",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gill",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dhillon",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sandhu",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Brar",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Grewal",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bajwa",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mann",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Virka",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Randhawa",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bains",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhullar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  khatri_sikh: [
-    { name: 'Kohli', weight: 8, gender: 'unisex' }, { name: 'Kapoor', weight: 8, gender: 'unisex' },
-    { name: 'Malhotra', weight: 7, gender: 'unisex' }, { name: 'Khanna', weight: 6, gender: 'unisex' },
-    { name: 'Chopra', weight: 6, gender: 'unisex' }, { name: 'Bedi', weight: 5, gender: 'unisex' },
-    { name: 'Oberoi', weight: 4, gender: 'unisex' }, { name: 'Anand', weight: 5, gender: 'unisex' }
+  "khatri_sikh": [
+    {
+      "name": "Kohli",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kapoor",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Malhotra",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "Khanna",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chopra",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bedi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Oberoi",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Anand",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sethi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chadha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sabharwal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dhawan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chugh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Grover",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  arora_sikh: [
-    { name: 'Arora', weight: 20, gender: 'unisex' }, { name: 'Ahuja', weight: 8, gender: 'unisex' },
-    { name: 'Luthra', weight: 5, gender: 'unisex' }, { name: 'Suri', weight: 4, gender: 'unisex' },
-    { name: 'Juneja', weight: 4, gender: 'unisex' }
+  "arora_sikh": [
+    {
+      "name": "Arora",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahuja",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Luthra",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Suri",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Juneja",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Batra",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mehra",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Taneja",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chhabra",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kalra",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Wadhwa",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  // Christian surnames
-  roman_catholic: [
-    { name: 'Fernandes', weight: 10, gender: 'unisex' }, { name: 'D\'Souza', weight: 8, gender: 'unisex' },
-    { name: 'Pereira', weight: 7, gender: 'unisex' }, { name: 'Rodrigues', weight: 6, gender: 'unisex' },
-    { name: 'Lobo', weight: 4, gender: 'unisex' }, { name: 'Pinto', weight: 5, gender: 'unisex' },
-    { name: 'Dias', weight: 4, gender: 'unisex' }, { name: 'Almeida', weight: 4, gender: 'unisex' }
+  "roman_catholic": [
+    {
+      "name": "Fernandes",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "D'Souza",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pereira",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rodrigues",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Lobo",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pinto",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dias",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Almeida",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dsouza",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Costa",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sequeira",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Noronha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Vaz",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  syro_malabar_kl: [
-    { name: 'Kuriakose', weight: 8, gender: 'unisex' }, { name: 'Varghese', weight: 8, gender: 'unisex' },
-    { name: 'Chacko', weight: 6, gender: 'unisex' }, { name: 'Mathew', weight: 8, gender: 'unisex' },
-    { name: 'Thomas', weight: 10, gender: 'unisex' }, { name: 'Abraham', weight: 5, gender: 'unisex' }
+  "syro_malabar_kl": [
+    {
+      "name": "Kuriakose",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Varghese",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chacko",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mathew",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thomas",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Abraham",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kurian",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Paily",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  malankara_kl: [
-    { name: 'Kurien', weight: 8, gender: 'unisex' }, { name: 'Philip', weight: 7, gender: 'unisex' },
-    { name: 'George', weight: 8, gender: 'unisex' }, { name: 'John', weight: 6, gender: 'unisex' }
+  "malankara_kl": [
+    {
+      "name": "Kurien",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Philip",
+      "weight": 7,
+      "gender": "unisex"
+    },
+    {
+      "name": "George",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "John",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thomas",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Abraham",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Zachariah",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Oommen",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  // Jain surnames
-  digambar: [
-    { name: 'Jain', weight: 30, gender: 'unisex' }, { name: 'Badjatya', weight: 5, gender: 'unisex' },
-    { name: 'Kasliwal', weight: 4, gender: 'unisex' }, { name: 'Golecha', weight: 4, gender: 'unisex' }
+  "digambar": [
+    {
+      "name": "Jain",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Badjatya",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kasliwal",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Golecha",
+      "weight": 4,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shah",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Oswal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Surana",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhandari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bagdia",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Patni",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sancheti",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Badjatia",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dosi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nahata",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  shwetambar: [
-    { name: 'Shah', weight: 20, gender: 'unisex' }, { name: 'Mehta', weight: 10, gender: 'unisex' },
-    { name: 'Doshi', weight: 6, gender: 'unisex' }, { name: 'Sanghvi', weight: 5, gender: 'unisex' },
-    { name: 'Parekh', weight: 5, gender: 'unisex' }
+  "shwetambar": [
+    {
+      "name": "Shah",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mehta",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Doshi",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sanghvi",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Parekh",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Zaveri",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jhaveri",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Parikh",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhansali",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kothari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sheth",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gandhi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  // Buddhist surnames
-  navayana: [
-    { name: 'Ambedkar', weight: 5, gender: 'unisex' }, { name: 'Kamble', weight: 10, gender: 'unisex' },
-    { name: 'Gaikwad', weight: 8, gender: 'unisex' }, { name: 'Sonawane', weight: 6, gender: 'unisex' },
-    { name: 'Wagh', weight: 5, gender: 'unisex' }, { name: 'More', weight: 5, gender: 'unisex' }
+  "navayana": [
+    {
+      "name": "Ambedkar",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kamble",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Gaikwad",
+      "weight": 8,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sonawane",
+      "weight": 6,
+      "gender": "unisex"
+    },
+    {
+      "name": "Wagh",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "More",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Meshram",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Wankhede",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sapkale",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Waghmare",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Nikalje",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ahire",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dhede",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghole",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Jadhav",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chavan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shinde",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  ghirath: [
-    { name: 'Chaudhary', weight: 20, gender: 'unisex' },
-    { name: 'Ghirath', weight: 15, gender: 'unisex' }
+  "ghirath": [
+    {
+      "name": "Chaudhary",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghirath",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rana",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thakur",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Verma",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  brahmin_sk: [
-    { name: 'Sharma', weight: 25, gender: 'unisex' },
-    { name: 'Bahun', weight: 10, gender: 'unisex' }
+  "brahmin_sk": [
+    {
+      "name": "Sharma",
+      "weight": 25,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bahun",
+      "weight": 10,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pokhrel",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Acharya",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Adhikari",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bhattarai",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dulal",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Neopane",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Regmi",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  rajput_sk: [
-    { name: 'Chhetri', weight: 30, gender: 'unisex' },
-    { name: 'Rajput', weight: 5, gender: 'unisex' }
+  "rajput_sk": [
+    {
+      "name": "Chhetri",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rajput",
+      "weight": 5,
+      "gender": "unisex"
+    },
+    {
+      "name": "Thapa",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rana",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shahi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Chand",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bam",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Rawat",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  newar_sk: [
-    { name: 'Pradhan', weight: 25, gender: 'unisex' },
-    { name: 'Newar', weight: 15, gender: 'unisex' }
+  "newar_sk": [
+    {
+      "name": "Pradhan",
+      "weight": 25,
+      "gender": "unisex"
+    },
+    {
+      "name": "Newar",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shrestha",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Maharjan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tuladhar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bajracharya",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shakya",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  rai_sk: [
-    { name: 'Rai', weight: 30, gender: 'unisex' }
+  "rai_sk": [
+    {
+      "name": "Rai",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Subba",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Limbu",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mukhia",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dewan",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  limbu_sk: [
-    { name: 'Subba', weight: 25, gender: 'unisex' },
-    { name: 'Limbu', weight: 15, gender: 'unisex' }
+  "limbu_sk": [
+    {
+      "name": "Subba",
+      "weight": 25,
+      "gender": "unisex"
+    },
+    {
+      "name": "Limbu",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Yakthung",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mabuhang",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tumbapo",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Angbuhang",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  tamang_sk: [
-    { name: 'Tamang', weight: 30, gender: 'unisex' }
+  "tamang_sk": [
+    {
+      "name": "Tamang",
+      "weight": 30,
+      "gender": "unisex"
+    },
+    {
+      "name": "Moktan",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Yolmo",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ghising",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Bomzan",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  kami_sk: [
-    { name: 'Kami', weight: 20, gender: 'unisex' },
-    { name: 'Biswakarma', weight: 15, gender: 'unisex' }
+  "kami_sk": [
+    {
+      "name": "Kami",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Biswakarma",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Viswakarma",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Sunuwar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mijar",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  bhandari: [
-    { name: 'Bhandari', weight: 25, gender: 'unisex' },
-    { name: 'Naik', weight: 20, gender: 'unisex' }
+  "bhandari": [
+    {
+      "name": "Bhandari",
+      "weight": 25,
+      "gender": "unisex"
+    },
+    {
+      "name": "Naik",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Shetty",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Suvarna",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Mestri",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ],
-  pandit_jk: [
-    { name: 'Bhat', weight: 20, gender: 'unisex' },
-    { name: 'Kaul', weight: 15, gender: 'unisex' },
-    { name: 'Dhar', weight: 15, gender: 'unisex' },
-    { name: 'Raina', weight: 15, gender: 'unisex' }
+  "pandit_jk": [
+    {
+      "name": "Bhat",
+      "weight": 20,
+      "gender": "unisex"
+    },
+    {
+      "name": "Kaul",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Dhar",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Raina",
+      "weight": 15,
+      "gender": "unisex"
+    },
+    {
+      "name": "Pandit",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Koul",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Munshi",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Saproo",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Haksar",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Tickoo",
+      "weight": 12,
+      "gender": "unisex"
+    },
+    {
+      "name": "Ganjoo",
+      "weight": 12,
+      "gender": "unisex"
+    }
   ]
 };
 
@@ -1239,42 +3470,838 @@ const surnames: Record<string, NameEntry[]> = {
 // ═════════════════════════════════════════════════════════════
 
 const districts: Record<string, string[]> = {
-  uttar_pradesh: ['Lucknow', 'Kanpur Nagar', 'Ghaziabad', 'Agra', 'Varanasi', 'Meerut', 'Prayagraj', 'Bareilly', 'Aligarh', 'Moradabad', 'Gorakhpur', 'Saharanpur', 'Gautam Buddha Nagar', 'Mathura', 'Jhansi', 'Firozabad', 'Ayodhya', 'Sultanpur', 'Bahraich', 'Sitapur', 'Rae Bareli', 'Unnao', 'Hardoi', 'Shahjahanpur', 'Bijnor'],
-  maharashtra: ['Mumbai City', 'Pune', 'Nagpur', 'Thane', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur', 'Amravati', 'Nanded', 'Sangli', 'Jalgaon', 'Akola', 'Latur', 'Dhule', 'Ahmednagar', 'Chandrapur', 'Parbhani', 'Jalna', 'Ratnagiri', 'Satara'],
-  bihar: ['Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur', 'Purnia', 'Darbhanga', 'Nalanda', 'Bhojpur', 'Begusarai', 'Katihar', 'Munger', 'Saran', 'Samastipur', 'Vaishali', 'Rohtas', 'Siwan', 'East Champaran', 'Nawada'],
-  west_bengal: ['Kolkata', 'Howrah', 'Purba Bardhaman', 'Paschim Bardhaman', 'Malda', 'Murshidabad', 'Nadia', 'Paschim Medinipur', 'Purba Medinipur', 'Jalpaiguri', 'Darjeeling', 'Cooch Behar', 'Hooghly', 'North 24 Parganas', 'South 24 Parganas', 'Birbhum'],
-  tamil_nadu: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem', 'Tirunelveli', 'Erode', 'Vellore', 'Thoothukudi', 'Dindigul', 'Thanjavur', 'Tiruvannamalai', 'Kanchipuram', 'Cuddalore', 'Ramanathapuram', 'Nilgiris'],
-  karnataka: ['Bengaluru Urban', 'Mysuru', 'Dharwad', 'Dakshina Kannada', 'Belagavi', 'Kalaburagi', 'Davanagere', 'Ballari', 'Vijayapura', 'Shivamogga', 'Tumakuru', 'Raichur', 'Hassan', 'Udupi', 'Mandya', 'Chikkamagaluru'],
-  kerala: ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Thrissur', 'Kollam', 'Palakkad', 'Alappuzha', 'Kannur', 'Kottayam', 'Malappuram', 'Pathanamthitta', 'Idukki', 'Wayanad', 'Kasaragod'],
-  rajasthan: ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota', 'Bikaner', 'Ajmer', 'Bhilwara', 'Alwar', 'Sikar', 'Pali', 'Barmer', 'Tonk', 'Nagaur', 'Chittorgarh', 'Jaisalmer', 'Jhunjhunu'],
-  gujarat: ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar', 'Jamnagar', 'Junagadh', 'Gandhinagar', 'Anand', 'Navsari', 'Morbi', 'Bharuch', 'Valsad', 'Mehsana', 'Kutch'],
-  madhya_pradesh: ['Indore', 'Bhopal', 'Jabalpur', 'Gwalior', 'Ujjain', 'Sagar', 'Dewas', 'Satna', 'Ratlam', 'Rewa', 'Katni', 'Singrauli', 'Burhanpur', 'Khandwa', 'Chhindwara'],
-  andhra_pradesh: ['Visakhapatnam', 'Krishna', 'Guntur', 'Nellore', 'Kurnool', 'East Godavari', 'Kakinada', 'Tirupati', 'Anantapur', 'Kadapa', 'Eluru', 'Prakasam', 'Chittoor', 'West Godavari'],
-  telangana: ['Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar', 'Khammam', 'Peddapalli', 'Mahbubnagar', 'Nalgonda', 'Adilabad', 'Suryapet', 'Siddipet', 'Vikarabad'],
-  punjab: ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Bathinda', 'Sahibzada Ajit Singh Nagar', 'Pathankot', 'Hoshiarpur', 'Gurdaspur', 'Moga', 'Firozpur', 'Kapurthala', 'Sangrur', 'Barnala'],
-  haryana: ['Gurugram', 'Faridabad', 'Hisar', 'Panipat', 'Karnal', 'Sonipat', 'Yamunanagar', 'Rohtak', 'Ambala', 'Bhiwani', 'Jind', 'Kaithal', 'Sirsa', 'Rewari'],
-  odisha: ['Khordha', 'Cuttack', 'Sundargarh', 'Ganjam', 'Sambalpur', 'Puri', 'Balasore', 'Mayurbhanj', 'Bhadrak', 'Jharsuguda', 'Koraput', 'Kandhamal'],
-  assam: ['Kamrup Metropolitan', 'Cachar', 'Dibrugarh', 'Nagaon', 'Tinsukia', 'Jorhat', 'Bongaigaon', 'Dhubri', 'Sonitpur', 'Goalpara', 'Karimganj'],
-  jharkhand: ['Ranchi', 'East Singhbhum', 'Dhanbad', 'Bokaro', 'Deoghar', 'Hazaribagh', 'Giridih', 'Ramgarh', 'Dumka', 'Palamu'],
-  chhattisgarh: ['Raipur', 'Durg', 'Bilaspur', 'Korba', 'Rajnandgaon', 'Raigarh', 'Bastar', 'Surguja', 'Kanker'],
-  uttarakhand: ['Dehradun', 'Haridwar', 'Nainital', 'Almora', 'Udham Singh Nagar', 'Pauri Garhwal', 'Tehri Garhwal', 'Chamoli', 'Pithoragarh', 'Uttarkashi', 'Rudraprayag', 'Champawat'],
-  himachal_pradesh: ['Shimla', 'Solan', 'Kangra', 'Mandi', 'Kullu', 'Bilaspur', 'Hamirpur', 'Una', 'Chamba', 'Sirmaur'],
-  goa: ['North Goa', 'South Goa'],
-  delhi: ['New Delhi', 'Central Delhi', 'South Delhi', 'North Delhi', 'East Delhi', 'West Delhi', 'North East Delhi', 'North West Delhi', 'South East Delhi', 'South West Delhi', 'Shahdara'],
-  jammu_kashmir: ['Srinagar', 'Jammu', 'Anantnag', 'Baramulla', 'Udhampur', 'Kathua', 'Pulwama', 'Kupwara', 'Kulgam', 'Leh'],
-  tripura: ['West Tripura', 'North Tripura', 'South Tripura', 'Dhalai', 'Gomati', 'Unakoti', 'Khowai', 'Sepahijala'],
-  meghalaya: ['East Khasi Hills', 'West Khasi Hills', 'East Garo Hills', 'West Garo Hills', 'Ri Bhoi', 'Jaintia Hills', 'South Garo Hills'],
-  manipur: ['Imphal West', 'Imphal East', 'Thoubal', 'Bishnupur', 'Churachandpur', 'Ukhrul', 'Senapati', 'Chandel'],
-  nagaland: ['Kohima', 'Dimapur', 'Mokokchung', 'Tuensang', 'Wokha', 'Mon'],
-  mizoram: ['Aizawl', 'Lunglei', 'Champhai', 'Serchhip', 'Kolasib'],
-  arunachal_pradesh: ['Papum Pare', 'West Siang', 'East Siang', 'Tawang', 'Lower Subansiri', 'West Kameng'],
-  sikkim: ['East Sikkim', 'West Sikkim', 'North Sikkim', 'South Sikkim'],
-  chandigarh: ['Chandigarh'],
-  puducherry: ['Puducherry', 'Karaikal', 'Mahe', 'Yanam'],
-  andaman_nicobar: ['South Andaman', 'North & Middle Andaman', 'Nicobar'],
-  dadra_nagar_haveli: ['Dadra & Nagar Haveli'],
-  daman_diu: ['Daman', 'Diu'],
-  lakshadweep: ['Lakshadweep']
+  "uttar_pradesh": [
+    "Agra",
+    "Aligarh",
+    "Ambedkar Nagar",
+    "Amethi",
+    "Amroha",
+    "Auraiya",
+    "Ayodhya",
+    "Azamgarh",
+    "Baghpat",
+    "Bahraich",
+    "Ballia",
+    "Balrampur",
+    "Banda",
+    "Barabanki",
+    "Bareilly",
+    "Basti",
+    "Bhadohi",
+    "Bijnor",
+    "Budaun",
+    "Bulandshahr",
+    "Chandauli",
+    "Chitrakoot",
+    "Deoria",
+    "Etah",
+    "Etawah",
+    "Farrukhabad",
+    "Fatehpur",
+    "Firozabad",
+    "Gautam Buddha Nagar",
+    "Ghaziabad",
+    "Ghazipur",
+    "Gonda",
+    "Gorakhpur",
+    "Hamirpur",
+    "Hapur",
+    "Hardoi",
+    "Hathras",
+    "Jalaun",
+    "Jaunpur",
+    "Jhansi",
+    "Kannauj",
+    "Kanpur Dehat",
+    "Kanpur Nagar",
+    "Kasganj",
+    "Kaushambi",
+    "Kushinagar",
+    "Lakhimpur Kheri",
+    "Lalitpur",
+    "Lucknow",
+    "Maharajganj",
+    "Mahoba",
+    "Mainpuri",
+    "Mathura",
+    "Mau",
+    "Meerut",
+    "Mirzapur",
+    "Moradabad",
+    "Muzaffarnagar",
+    "Pilibhit",
+    "Pratapgarh",
+    "Prayagraj",
+    "Raebareli",
+    "Rampur",
+    "Saharanpur",
+    "Sambhal",
+    "Sant Kabir Nagar",
+    "Shahjahanpur",
+    "Shamli",
+    "Shravasti",
+    "Siddharthnagar",
+    "Sitapur",
+    "Sonbhadra",
+    "Sultanpur",
+    "Unnao",
+    "Varanasi"
+  ],
+  "maharashtra": [
+    "Mumbai City",
+    "Mumbai Suburban",
+    "Thane",
+    "Palghar",
+    "Raigad",
+    "Ratnagiri",
+    "Sindhudurg",
+    "Pune",
+    "Satara",
+    "Sangli",
+    "Solapur",
+    "Kolhapur",
+    "Nashik",
+    "Dhule",
+    "Nandurbar",
+    "Jalgaon",
+    "Ahmednagar",
+    "Beed",
+    "Latur",
+    "Dharashiv",
+    "Nanded",
+    "Parbhani",
+    "Hingoli",
+    "Chhatrapati Sambhajinagar",
+    "Jalna",
+    "Buldana",
+    "Akola",
+    "Washim",
+    "Amravati",
+    "Yavatmal",
+    "Wardha",
+    "Nagpur",
+    "Bhandara",
+    "Gondia",
+    "Gadchiroli",
+    "Chandrapur"
+  ],
+  "tamil_nadu": [
+    "Ariyalur",
+    "Chengalpattu",
+    "Chennai",
+    "Coimbatore",
+    "Cuddalore",
+    "Dharmapuri",
+    "Dindigul",
+    "Erode",
+    "Kallakurichi",
+    "Kancheepuram",
+    "Kanyakumari",
+    "Karur",
+    "Krishnagiri",
+    "Madurai",
+    "Mayiladuthurai",
+    "Nagapattinam",
+    "Namakkal",
+    "Nilgiris",
+    "Perambalur",
+    "Pudukkottai",
+    "Ramanathapuram",
+    "Ranipet",
+    "Salem",
+    "Sivaganga",
+    "Tenkasi",
+    "Thanjavur",
+    "Theni",
+    "Thoothukudi",
+    "Tiruchirappalli",
+    "Tirunelveli",
+    "Tirupathur",
+    "Tiruppur",
+    "Tiruvallur",
+    "Tiruvannamalai",
+    "Tiruvarur",
+    "Vellore",
+    "Viluppuram",
+    "Virudhunagar"
+  ],
+  "rajasthan": [
+    "Ajmer",
+    "Alwar",
+    "Banswara",
+    "Baran",
+    "Barmer",
+    "Bharatpur",
+    "Bhilwara",
+    "Bikaner",
+    "Bundi",
+    "Chittorgarh",
+    "Churu",
+    "Dausa",
+    "Dholpur",
+    "Dungarpur",
+    "Hanumangarh",
+    "Jaipur",
+    "Jaisalmer",
+    "Jalore",
+    "Jhalawar",
+    "Jhunjhunu",
+    "Jodhpur",
+    "Karauli",
+    "Kota",
+    "Nagaur",
+    "Pali",
+    "Pratapgarh",
+    "Rajsamand",
+    "Sawai Madhopur",
+    "Sikar",
+    "Sirohi",
+    "Sri Ganganagar",
+    "Tonk",
+    "Udaipur"
+  ],
+  "bihar": [
+    "Araria",
+    "Arwal",
+    "Aurangabad",
+    "Banka",
+    "Begusarai",
+    "Bhagalpur",
+    "Bhojpur",
+    "Buxar",
+    "Darbhanga",
+    "East Champaran",
+    "Gaya",
+    "Gopalganj",
+    "Jamui",
+    "Jehanabad",
+    "Kaimur",
+    "Katihar",
+    "Khagaria",
+    "Kishanganj",
+    "Lakhisarai",
+    "Madhepura",
+    "Madhubani",
+    "Munger",
+    "Muzaffarpur",
+    "Nalanda",
+    "Nawada",
+    "Patna",
+    "Purnia",
+    "Rohtas",
+    "Saharsa",
+    "Samastipur",
+    "Saran",
+    "Sheikhpura",
+    "Sheohar",
+    "Sitamarhi",
+    "Siwan",
+    "Supaul",
+    "Vaishali",
+    "West Champaran"
+  ],
+  "madhya_pradesh": [
+    "Agar Malwa",
+    "Alirajpur",
+    "Anuppur",
+    "Ashoknagar",
+    "Balaghat",
+    "Barwani",
+    "Betul",
+    "Bhind",
+    "Bhopal",
+    "Burhanpur",
+    "Chhatarpur",
+    "Chhindwara",
+    "Damoh",
+    "Datia",
+    "Dewas",
+    "Dhar",
+    "Dindori",
+    "Guna",
+    "Gwalior",
+    "Harda",
+    "Indore",
+    "Jabalpur",
+    "Jhabua",
+    "Katni",
+    "Khandwa",
+    "Khargone",
+    "Maihar",
+    "Mandla",
+    "Mandsaur",
+    "Morena",
+    "Narsinghpur",
+    "Neemuch",
+    "Niwari",
+    "Panna",
+    "Raisen",
+    "Rajgarh",
+    "Ratlam",
+    "Rewa",
+    "Sagar",
+    "Satna",
+    "Sehore",
+    "Seoni",
+    "Shahdol",
+    "Shajapur",
+    "Sheopur",
+    "Shivpuri",
+    "Sidhi",
+    "Singrauli",
+    "Tikamgarh",
+    "Ujjain",
+    "Umaria",
+    "Vidisha"
+  ],
+  "karnataka": [
+    "Bagalkot",
+    "Ballari",
+    "Belagavi",
+    "Bengaluru Rural",
+    "Bengaluru Urban",
+    "Bidar",
+    "Chamarajanagar",
+    "Chikkaballapur",
+    "Chikkamagaluru",
+    "Chitradurga",
+    "Dakshina Kannada",
+    "Davangere",
+    "Dharwad",
+    "Gadag",
+    "Hassan",
+    "Haveri",
+    "Kalaburagi",
+    "Kodagu",
+    "Kolar",
+    "Koppal",
+    "Mandya",
+    "Mysuru",
+    "Raichur",
+    "Ramanagara",
+    "Shivamogga",
+    "Tumakuru",
+    "Udupi",
+    "Uttara Kannada",
+    "Vijayanagara",
+    "Vijayapura",
+    "Yadgir"
+  ],
+  "gujarat": [
+    "Ahmedabad",
+    "Amreli",
+    "Anand",
+    "Aravalli",
+    "Banaskantha",
+    "Bharuch",
+    "Bhavnagar",
+    "Botad",
+    "Chhota Udaipur",
+    "Dahod",
+    "Dang",
+    "Devbhoomi Dwarka",
+    "Gandhinagar",
+    "Gir Somnath",
+    "Jamnagar",
+    "Junagadh",
+    "Kheda",
+    "Kutch",
+    "Mahisagar",
+    "Mehsana",
+    "Morbi",
+    "Narmada",
+    "Navsari",
+    "Panchmahal",
+    "Patan",
+    "Porbandar",
+    "Rajkot",
+    "Sabarkantha",
+    "Surat",
+    "Surendranagar",
+    "Tapi",
+    "Vadodara",
+    "Valsad"
+  ],
+  "west_bengal": [
+    "Alipurduar",
+    "Bankura",
+    "Birbhum",
+    "Cooch Behar",
+    "Dakshin Dinajpur",
+    "Darjeeling",
+    "Hooghly",
+    "Howrah",
+    "Jalpaiguri",
+    "Jhargram",
+    "Kalimpong",
+    "Kolkata",
+    "Malda",
+    "Murshidabad",
+    "Nadia",
+    "North 24 Parganas",
+    "Paschim Bardhaman",
+    "Paschim Medinipur",
+    "Purba Bardhaman",
+    "Purba Medinipur",
+    "Purulia",
+    "South 24 Parganas",
+    "Uttar Dinajpur"
+  ],
+  "andhra_pradesh": [
+    "Alluri Sitharama Raju",
+    "Anakapalli",
+    "Ananthapuramu",
+    "Annamayya",
+    "Bapatla",
+    "Chittoor",
+    "Dr. B.R. Ambedkar Konaseema",
+    "East Godavari",
+    "Eluru",
+    "Guntur",
+    "Kakinada",
+    "Krishna",
+    "Kurnool",
+    "Nandyal",
+    "NTR",
+    "Palnadu",
+    "Parvathipuram Manyam",
+    "Prakasam",
+    "Sri Potti Sriramulu Nellore",
+    "Sri Sathya Sai",
+    "Srikakulam",
+    "Tirupati",
+    "Visakhapatnam",
+    "Vizianagaram",
+    "West Godavari",
+    "YSR Kadapa"
+  ],
+  "telangana": [
+    "Adilabad",
+    "Bhadradri Kothagudem",
+    "Hanumakonda",
+    "Hyderabad",
+    "Jagtial",
+    "Jangaon",
+    "Jayashankar Bhupalpally",
+    "Jogulamba Gadwal",
+    "Kamareddy",
+    "Karimnagar",
+    "Khammam",
+    "Komaram Bheem Asifabad",
+    "Mahabubabad",
+    "Mahabubnagar",
+    "Mancherial",
+    "Medak",
+    "Medchal-Malkajgiri",
+    "Mulugu",
+    "Nagarkurnool",
+    "Nalgonda",
+    "Narayanpet",
+    "Nirmal",
+    "Nizamabad",
+    "Peddapalli",
+    "Rajanna Sircilla",
+    "Rangareddy",
+    "Sangareddy",
+    "Siddipet",
+    "Suryapet",
+    "Vikarabad",
+    "Wanaparthy",
+    "Warangal",
+    "Yadadri Bhuvanagiri"
+  ],
+  "kerala": [
+    "Alappuzha",
+    "Ernakulam",
+    "Idukki",
+    "Kannur",
+    "Kasaragod",
+    "Kollam",
+    "Kottayam",
+    "Kozhikode",
+    "Malappuram",
+    "Palakkad",
+    "Pathanamthitta",
+    "Thiruvananthapuram",
+    "Thrissur",
+    "Wayanad"
+  ],
+  "punjab": [
+    "Amritsar",
+    "Barnala",
+    "Bathinda",
+    "Faridkot",
+    "Fatehgarh Sahib",
+    "Fazilka",
+    "Ferozepur",
+    "Gurdaspur",
+    "Hoshiarpur",
+    "Jalandhar",
+    "Kapurthala",
+    "Ludhiana",
+    "Malerkotla",
+    "Mansa",
+    "Moga",
+    "Pathankot",
+    "Patiala",
+    "Rupnagar",
+    "Sahibzada Ajit Singh Nagar",
+    "Sangrur",
+    "Shahid Bhagat Singh Nagar",
+    "Sri Muktsar Sahib",
+    "Tarn Taran"
+  ],
+  "haryana": [
+    "Ambala",
+    "Bhiwani",
+    "Charkhi Dadri",
+    "Faridabad",
+    "Fatehabad",
+    "Gurugram",
+    "Hisar",
+    "Jhajjar",
+    "Jind",
+    "Kaithal",
+    "Karnal",
+    "Kurukshetra",
+    "Mahendragarh",
+    "Nuh",
+    "Palwal",
+    "Panchkula",
+    "Panipat",
+    "Rewari",
+    "Rohtak",
+    "Sirsa",
+    "Sonipat",
+    "Yamunanagar"
+  ],
+  "odisha": [
+    "Angul",
+    "Balangir",
+    "Balasore",
+    "Bargarh",
+    "Bhadrak",
+    "Boudh",
+    "Cuttack",
+    "Deogarh",
+    "Dhenkanal",
+    "Gajapati",
+    "Ganjam",
+    "Jagatsinghpur",
+    "Jajpur",
+    "Jharsuguda",
+    "Kalahandi",
+    "Kandhamal",
+    "Kendrapara",
+    "Kendujhar",
+    "Khordha",
+    "Koraput",
+    "Malkangiri",
+    "Mayurbhanj",
+    "Nabarangpur",
+    "Nayagarh",
+    "Nuapada",
+    "Puri",
+    "Rayagada",
+    "Sambalpur",
+    "Subarnapur",
+    "Sundargarh"
+  ],
+  "assam": [
+    "Bajali",
+    "Baksa",
+    "Barpeta",
+    "Biswanath",
+    "Bongaigaon",
+    "Cachar",
+    "Charaideo",
+    "Chirang",
+    "Darrang",
+    "Dhemaji",
+    "Dhubri",
+    "Dibrugarh",
+    "Dima Hasao",
+    "Goalpara",
+    "Golaghat",
+    "Hailakandi",
+    "Hojai",
+    "Jorhat",
+    "Kamrup Metropolitan",
+    "Kamrup Rural",
+    "Karbi Anglong",
+    "Karimganj",
+    "Kokrajhar",
+    "Lakhimpur",
+    "Majuli",
+    "Morigaon",
+    "Nagaon",
+    "Nalbari",
+    "Sivasagar",
+    "Sonitpur",
+    "South Salmara-Mankachar",
+    "Tamulpur",
+    "Tinsukia",
+    "Udalguri",
+    "West Karbi Anglong"
+  ],
+  "jharkhand": [
+    "Bokaro",
+    "Chatra",
+    "Deoghar",
+    "Dhanbad",
+    "Dumka",
+    "East Singhbhum",
+    "Garhwa",
+    "Giridih",
+    "Godda",
+    "Gumla",
+    "Hazaribagh",
+    "Jamtara",
+    "Khunti",
+    "Koderma",
+    "Latehar",
+    "Lohardaga",
+    "Pakur",
+    "Palamu",
+    "Ramgarh",
+    "Ranchi",
+    "Sahibganj",
+    "Seraikela-Kharsawan",
+    "Simdega",
+    "West Singhbhum"
+  ],
+  "chhattisgarh": [
+    "Balod",
+    "Baloda Bazar",
+    "Balrampur-Ramanujganj",
+    "Bastar",
+    "Bemetara",
+    "Bijapur",
+    "Bilaspur",
+    "Dantewada",
+    "Dhamtari",
+    "Durg",
+    "Gariaband",
+    "Janjgir-Champa",
+    "Jashpur",
+    "Kabirdham",
+    "Kanker",
+    "Khairagarh-Chhuikhadan-Gandai",
+    "Kondagaon",
+    "Korba",
+    "Korea",
+    "Mahasamund",
+    "Mohla-Manpur-Ambagarh Chowki",
+    "Mungeli",
+    "Narayanpur",
+    "Raigarh",
+    "Raipur",
+    "Rajnandgaon",
+    "Sakti",
+    "Sarangarh-Bilaigarh",
+    "Sukma",
+    "Surajpur",
+    "Surguja"
+  ],
+  "uttarakhand": [
+    "Almora",
+    "Bageshwar",
+    "Chamoli",
+    "Champawat",
+    "Dehradun",
+    "Haridwar",
+    "Nainital",
+    "Pauri Garhwal",
+    "Pithoragarh",
+    "Rudraprayag",
+    "Tehri Garhwal",
+    "Udham Singh Nagar",
+    "Uttarkashi"
+  ],
+  "himachal_pradesh": [
+    "Bilaspur",
+    "Chamba",
+    "Hamirpur",
+    "Kangra",
+    "Kinnaur",
+    "Kullu",
+    "Lahaul and Spiti",
+    "Mandi",
+    "Shimla",
+    "Sirmaur",
+    "Solan",
+    "Una"
+  ],
+  "delhi": [
+    "Central Delhi",
+    "East Delhi",
+    "New Delhi",
+    "North Delhi",
+    "North East Delhi",
+    "North West Delhi",
+    "Shahdara",
+    "South Delhi",
+    "South East Delhi",
+    "South West Delhi",
+    "West Delhi"
+  ],
+  "goa": [
+    "North Goa",
+    "South Goa"
+  ],
+  "jammu_kashmir": [
+    "Anantnag",
+    "Bandipora",
+    "Baramulla",
+    "Budgam",
+    "Doda",
+    "Ganderbal",
+    "Jammu",
+    "Kathua",
+    "Kishtwar",
+    "Kulgam",
+    "Kupwara",
+    "Poonch",
+    "Pulwama",
+    "Rajouri",
+    "Ramban",
+    "Reasi",
+    "Samba",
+    "Shopian",
+    "Srinagar",
+    "Udhampur"
+  ],
+  "andaman_nicobar": [
+    "Nicobar",
+    "North and Middle Andaman",
+    "South Andaman"
+  ],
+  "puducherry": [
+    "Karaikal",
+    "Mahe",
+    "Puducherry",
+    "Yanam"
+  ],
+  "manipur": [
+    "Bishnupur",
+    "Chandel",
+    "Churachandpur",
+    "Imphal East",
+    "Imphal West",
+    "Jiribam",
+    "Kakching",
+    "Kamjong",
+    "Kangpokpi",
+    "Noney",
+    "Pherzawl",
+    "Senapati",
+    "Tamenglong",
+    "Tengnoupal",
+    "Thoubal",
+    "Ukhrul"
+  ],
+  "meghalaya": [
+    "East Garo Hills",
+    "East Jaintia Hills",
+    "East Khasi Hills",
+    "North Garo Hills",
+    "Ri-Bhoi",
+    "South Garo Hills",
+    "South West Garo Hills",
+    "South West Khasi Hills",
+    "West Garo Hills",
+    "West Jaintia Hills",
+    "West Khasi Hills"
+  ],
+  "mizoram": [
+    "Aizawl",
+    "Champhai",
+    "Hnahthial",
+    "Khawzawl",
+    "Kolasib",
+    "Lawngtlai",
+    "Lunglei",
+    "Mamit",
+    "Saitual",
+    "Serchhip",
+    "Siaha"
+  ],
+  "nagaland": [
+    "Chumoukedima",
+    "Dimapur",
+    "Kiphire",
+    "Kohima",
+    "Longleng",
+    "Mokokchung",
+    "Mon",
+    "Niuland",
+    "Noklak",
+    "Peren",
+    "Phek",
+    "Shamator",
+    "Tseminyu",
+    "Tuensang",
+    "Wokha",
+    "Zunheboto"
+  ],
+  "sikkim": [
+    "Gangtok",
+    "Gyalshing",
+    "Mangan",
+    "Namchi",
+    "Pakyong",
+    "Soreng"
+  ],
+  "tripura": [
+    "Dhalai",
+    "Gomati",
+    "Khowai",
+    "North Tripura",
+    "Sepahijala",
+    "South Tripura",
+    "Unakoti",
+    "West Tripura"
+  ],
+  "chandigarh": [
+    "Chandigarh"
+  ],
+  "lakshadweep": [
+    "Lakshadweep"
+  ],
+  "dadra_nagar_haveli": [
+    "Dadra and Nagar Haveli"
+  ],
+  "daman_diu": [
+    "Daman",
+    "Diu"
+  ],
+  "arunachal_pradesh": [
+    "Anjaw",
+    "Changlang",
+    "Dibang Valley",
+    "East Kameng",
+    "East Siang",
+    "Kamle",
+    "Kradaadi",
+    "Kurung Kumey",
+    "Lepa Rada",
+    "Lohit",
+    "Longding",
+    "Lower Dibang Valley",
+    "Lower Siang",
+    "Lower Subansiri",
+    "Namsai",
+    "Pakke Kessang",
+    "Papum Pare",
+    "Shi Yomi",
+    "Siang",
+    "Tawang",
+    "Tirap",
+    "Upper Siang",
+    "Upper Subansiri",
+    "West Kameng",
+    "West Siang"
+  ]
 };
 
 // ═════════════════════════════════════════════════════════════

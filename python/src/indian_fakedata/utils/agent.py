@@ -270,6 +270,8 @@ def _build_full_prompt(profile):
     movie/anime preferences, habits, beliefs, behaviour rules) so an LLM
     can act as this person.
     """
+    # systemPrompt chhota hai sirf chat ke liye; ye wala pura roleplay prompt
+    # hai — section-wise likha hai taaki LLM ko structure samajh aaye.
     worldview = _derive_worldview(profile)
     occupation = profile.get("employmentSector", "worker")
     if profile.get("occupation") == "non_worker":

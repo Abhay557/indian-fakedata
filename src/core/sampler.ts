@@ -38,6 +38,8 @@ export function createRNG(initialSeed?: number | string): SeededRNG {
   const originalSeed = state;
 
   function next(): number {
+    // ye mulberry32 PRNG hai — chhota, fast, deterministic.
+    // same seed doge to same sequence milega, har baar. yahi pura library ka base hai.
     state |= 0;
     state = (state + 0x6D2B79F5) | 0;
     let t = Math.imul(state ^ (state >>> 15), 1 | state);
@@ -143,6 +145,7 @@ export function weightedSampleFromRecord(
  * @returns A normally distributed random number
  */
 export function gaussianSample(mean: number, stddev: number, rng: SeededRNG): number {
+  // Box-Muller transform — height, weight, scores sab isi pe chal rahe hain
   const u1 = rng.next();
   const u2 = rng.next();
   // Avoid log(0)
@@ -161,6 +164,8 @@ export function gaussianSample(mean: number, stddev: number, rng: SeededRNG): nu
  * @returns A log-normally distributed random number (always positive)
  */
 export function logNormalSample(mu: number, sigma: number, rng: SeededRNG): number {
+  // income lognormal isliye — zyada log kam kamate hain, kuch log bahut zyada.
+  // uniform laga deta to distribution fake lagti.
   const normalVal = gaussianSample(mu, sigma, rng);
   return Math.exp(normalVal);
 }

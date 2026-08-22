@@ -323,6 +323,8 @@ def generate_cognitive_profile(education, income, area_type, age, has_smartphone
 def generate_interests(gender, age, religion_id, state_id, education, area_type, has_smartphone, rng):
     """Interests correlated with gender, age, religion, state, education, area."""
     # Sport
+    # cricket ka dominance dekho — baaki sab sports milke bhi utna nahi.
+    # kabaddi/wrestling rural me strong hain, ye BARC data se match karta hai.
     sport_dist = {
         'cricket': 55 if gender == 'male' else 30,
         'kabaddi': 8 if area_type == 'rural' else 3,

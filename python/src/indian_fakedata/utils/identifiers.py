@@ -35,6 +35,9 @@ def _verhoeff_checksum(num_str):
 
 def generate_aadhaar(rng):
     """Generate a valid 12-digit Aadhaar number with Verhoeff checksum."""
+    # Verhoeff checksum lagana zaroori tha — UIDAI validation wale tools
+    # check digit verify karte hain, warna data fake pakda jata.
+    # first digit 2-9 hi hota hai real me, 0/1 se start nahi hota.
     digits = str(int(math.floor(rng.next() * 8)) + 2)  # First digit: 2-9
     for _ in range(10):
         digits += str(int(math.floor(rng.next() * 10)))
@@ -354,6 +357,8 @@ def generate_pin_code(state_id, rng):
     """Generate a PIN code mapped to the state.
     NOTE: drawn uniformly from the state's overall range only — state-plausible,
     not guaranteed to match the district (no district->PIN dataset bundled)."""
+    # district level PIN mapping ka dataset bahut heavy ho jata, isliye
+    # abhi state-range se le rahe hain. baad me refine kar sakte hain.
     pin_range = STATE_PIN_RANGES.get(state_id, (100001, 999999))
     pin = int(math.floor(rng.next() * (pin_range[1] - pin_range[0]))) + pin_range[0]
     return str(pin).zfill(6)
@@ -362,15 +367,36 @@ def generate_pin_code(state_id, rng):
 # ─── Address ───────────────────────────────────────────────────
 
 URBAN_LOCALITIES = [
+    # Pan-India colony patterns
     'Indira Nagar', 'Gandhi Nagar', 'Nehru Colony', 'Rajiv Gandhi Nagar', 'Shastri Nagar',
     'Ambedkar Colony', 'Laxmi Nagar', 'Ram Nagar', 'Shivaji Nagar', 'Patel Nagar',
     'Vikas Nagar', 'Adarsh Colony', 'Jawahar Nagar', 'Subhash Nagar', 'Model Town',
     'Civil Lines', 'Sadar Bazar', 'Station Road', 'MG Road', 'Ring Road',
     'Sector 1', 'Sector 5', 'Sector 10', 'Sector 15', 'Sector 22',
     'Phase 1', 'Phase 2', 'Block A', 'Block B', 'Block C',
+    'Kirti Nagar', 'Rajouri Garden', 'Pitampura', 'Janakpuri', 'Lajpat Nagar',
+    'Karol Bagh', 'Green Park', 'Hauz Khas', 'Munirka', 'Mayur Vihar',
+    'Gandhi Chowk', 'Clock Tower', 'Court Road', 'Collectorate Road',
+    'Bus Stand Road', 'Hospital Road', 'College Road', 'Temple Street',
+    'Mosque Lane', 'Church Road', 'Market Yard', 'Anaj Mandi',
+    'Sabzi Mandi', 'Industrial Area', 'Focal Point', 'Transport Nagar',
+    'Electricity Board Colony', 'Bank Colony', 'Police Line', 'Tehsil Road',
+    'Community Center Road', 'Ram Leela Ground Road', 'Old City', 'Qila Road',
+    'Fort Road', 'Bypass Road', 'Mill Area', 'Krishi Mandi Road',
+    # South India
     'Vasant Kunj', 'Rohini', 'Dwarka', 'Malviya Nagar', 'Saket',
     'Koramangala', 'Indiranagar', 'JP Nagar', 'HSR Layout', 'Whitefield',
+    'Jayanagar', 'Rajajinagar', 'Basavanagudi', 'Marathahalli', 'BTM Layout',
+    'Electronic City', 'Anna Nagar', 'T. Nagar', 'Adyar', 'Velachery',
+    'Mylapore', 'Kodambakkam', 'Gopalapuram', 'Alwarpet', 'Besant Nagar',
+    # West India
     'Bandra West', 'Andheri East', 'Powai', 'Goregaon', 'Thane West',
+    'Airoli', 'Vashi', 'Chembur', 'Ghatkopar', 'Khar West',
+    'Sion', 'Dadar East', 'Matunga', 'Navrangpura', 'Maninagar',
+    'Ellisbridge', 'Satellite', 'Bapunagar', 'Paldi', 'Law Garden',
+    # East India
+    'Salt Lake City', 'New Town', 'Behala', 'Ballygunge', 'Howrah Maidan',
+    'Garia', 'Alipore', 'Patuli', 'Baguiati', 'Dumdum',
 ]
 
 RURAL_LOCALITIES = [
@@ -379,6 +405,18 @@ RURAL_LOCALITIES = [
     'Kisan Colony', 'Harijan Basti', 'New Colony', 'Old Village',
     'Near Bus Stand', 'Near Railway Station', 'Mill Road', 'Tank Road',
     'Near PHC', 'Near Govt School', 'Panchayat Bhawan', 'Near Market',
+    'Near Anganwadi', 'Near Block Office', 'Main Bazar Road', 'Haat Road',
+    'Weekly Market Road', 'Near High School', 'Near Inter College',
+    'Cooperative Society Road', 'Sugar Mill Road', 'Brick Kiln Road',
+    'Gaushala Road', 'Talab Road', 'Banyan Tree Chowk', 'Peepal Tree Road',
+    'Hanuman Mandir Road', 'Shiv Mandir Gali', 'Masjid Gali', 'Basti Road',
+    'Mazdoor Colony', 'Farm House Road', 'Tube Well Road', 'Canal Road',
+    'Check Dam Road', 'Irrigation Colony', 'Seed Farm Road', 'Dairy Farm Road',
+    'Poultry Farm Road', 'Weavers Colony', 'Kumhar Colony', 'Dhobi Ghat Road',
+    'Blacksmith Lane', 'Near Health Sub-Center', 'Near Veterinary Hospital',
+    'Panchayat Ghar', 'Aangan Colony', 'Naya Mohalla', 'Purana Mohalla',
+    'Near Fair Price Shop', 'Near Mid-Day Meal School', 'Kheda Road',
+    'Faliya Para',
 ]
 
 STREET_TYPES = ['Street', 'Road', 'Lane', 'Gali', 'Marg', 'Path', 'Cross', 'Main Road']

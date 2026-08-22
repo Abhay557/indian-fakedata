@@ -30,19 +30,62 @@ const STATE_CINEMA_LANGUAGE: Record<string, string> = {
   uttar_pradesh: 'Bhojpuri', jharkhand: 'Bhojpuri', goa: 'Konkani',
   himachal_pradesh: 'Hindi', delhi: 'Hindi', haryana: 'Hindi',
   rajasthan: 'Hindi', madhya_pradesh: 'Hindi', chhattisgarh: 'Hindi',
-  uttarakhand: 'Hindi', jammu_kashmir: 'Kashmiri'
+  uttarakhand: 'Hindi', jammu_kashmir: 'Kashmiri',
+  sikkim: 'Nepali', tripura: 'Bengali', manipur: 'Meitei',
+  meghalaya: 'English', mizoram: 'Mizo', nagaland: 'English',
+  arunachal_pradesh: 'Hindi', puducherry: 'Tamil',
+  andaman_nicobar: 'Hindi', chandigarh: 'Hindi', ladakh: 'Hindi'
 };
 
 const ANIME_TITLES = [
-  'Naruto', 'Dragon Ball Z', 'One Piece', 'Attack on Titan', 'Demon Slayer',
-  'Death Note', 'Jujutsu Kaisen', 'Pokémon', 'Haikyuu!!', 'Spy x Family',
-  'Chainsaw Man', 'My Hero Academia', 'Tokyo Revengers', 'Bleach',
-  'Your Name', 'Spirited Away', 'Weathering With You', 'Suzume'
+  // Shonen / action staples
+  'Naruto', 'Naruto Shippuden', 'Dragon Ball', 'Dragon Ball Z', 'Dragon Ball Super',
+  'One Piece', 'Bleach', 'Attack on Titan', 'Demon Slayer', 'Jujutsu Kaisen',
+  'My Hero Academia', 'Black Clover', 'Fire Force', 'Chainsaw Man', 'Solo Leveling',
+  'One Punch Man', 'Mob Psycho 100', 'Tokyo Revengers', 'Blue Lock', 'Wind Breaker',
+  'Kaiju No. 8', 'Hell\u2019s Paradise', 'Dandadan', 'Sakamoto Days', 'Dr. Stone',
+  // Classics
+  'Death Note', 'Fullmetal Alchemist: Brotherhood', 'Hunter x Hunter', 'Cowboy Bebop',
+  'Samurai Champloo', 'Trigun', 'Trigun Stampede', 'Akira', 'Ghost in the Shell',
+  'Monster', 'Berserk (1997)', 'Vinland Saga', 'Dororo', 'Rurouni Kenshin',
+  'Yu Yu Hakusho', 'Saint Seiya', 'City Hunter', 'Great Teacher Onizuka',
+  // Sports
+  'Haikyuu!!', 'Kuroko no Basket', 'Slam Dunk', 'Blue Period', 'Ao Ashi',
+  'Yowamushi Pedal', 'Free!', 'Hanebado!',
+  // Romance / drama / slice of life
+  'Spy x Family', 'Kaguya-sama: Love Is War', 'Horimiya', 'Toradora',
+  'Your Lie in April', 'Clannad', 'Violet Evergarden', 'A Silent Voice',
+  'March Comes in Like a Lion', 'Fruits Basket', 'Nana', 'Josee, the Tiger and the Fish',
+  // Ghibli / films
+  'Your Name', 'Weathering With You', 'Suzume', 'Spirited Away',
+  'Howl\u2019s Moving Castle', 'Princess Mononoke', 'My Neighbor Totoro',
+  'Ponyo', 'Kiki\u2019s Delivery Service', 'The Boy and the Heron', 'Grave of the Fireflies',
+  'Perfect Blue', 'Paprika', 'Akira (film)', 'I Want to Eat Your Pancreas',
+  // Psychological / thriller / mystery
+  'Steins;Gate', 'Erased', 'The Promised Neverland', 'Parasyte', 'Another',
+  'Terror in Resonance', 'Death Parade', 'Psycho-Pass', 'Code Geass', 'Future Diary',
+  // Fantasy / isekai / adventure
+  'Re:Zero', 'Konosuba', 'That Time I Got Reincarnated as a Slime', 'Sword Art Online',
+  'Made in Abyss', 'Mushoku Tensei', 'Overlord', 'The Rising of the Shield Hero',
+  'Frieren: Beyond Journey\u2019s End', 'Delicious in Dungeon', 'Ranking of Kings',
+  // Comedy / slice of life
+  'Gintama', 'Saiki K', 'Nichijou', 'Grand Blue', 'Daily Lives of High School Boys',
+  'Working!!', 'Laid-Back Camp', 'Non Non Biyori',
+  // Mecha / sci-fi
+  'Neon Genesis Evangelion', 'Gundam SEED', '86 Eighty-Six', 'Darling in the Franxx',
+  'Knights of Sidonia', 'Eureka Seven',
+  // Huge with Indian kids (TV-era imports)
+  'Pok\u00e9mon', 'Doraemon', 'Shinchan', 'Ninja Hattori', 'Beyblade',
+  'Beyblade Burst', 'Digimon', 'Kiteretsu', 'Yo-kai Watch', 'Crash B-Daman',
+  'Hungama Ninja Hattori', 'Roll No. 21 (anime-style)', 'Detective Conan'
 ];
 
 const ANIME_GENRES = [
   'Shonen action', 'Slice of life', 'Sports', 'Romance',
-  'Supernatural horror', 'Fantasy adventure', 'Mecha', 'Comedy'
+  'Supernatural horror', 'Fantasy adventure', 'Mecha', 'Comedy',
+  'Isekai', 'Psychological thriller', 'Mystery/detective', 'Sci-fi cyberpunk',
+  'Historical samurai', 'Magical girl', 'School/college drama', 'Seinen drama',
+  'Music/idol', 'Martial arts', 'Space opera', 'Dark fantasy', 'Kids/family'
 ];
 
 /**
@@ -83,6 +126,8 @@ export function generateMoviePreferences(
   const { key: watchFrequency } = weightedSampleFromRecord(freqDist, rng);
 
   // ── Favorite languages ──
+  // regional cinema pehle — Tamil Nadu me Tamil, Bengal me Bengali.
+  // Hindi har jagah pahunch chuka hai, isliye second language me mostly Hindi hi aata hai.
   const languages: string[] = [];
   const regional = STATE_CINEMA_LANGUAGE[stateId] ?? motherTongue;
   if (regional && regional !== 'Hindi' && regional !== 'English') {
@@ -112,7 +157,20 @@ export function generateMoviePreferences(
     'Historical/Biopic': age > 40 ? 15 : 6,
     'Crime': 6,
     'Musical/Dance': gender === 'female' && areaType === 'urban' ? 10 : 3,
-    'Animation/Family': age > 35 || age < 13 ? 12 : 4
+    'Animation/Family': age > 35 || age < 13 ? 12 : 4,
+    'Mythological/Devotional': age > 40 ? 10 : 4,
+    'Social/Issue-based drama': education === 'graduate' || education === 'postgraduate' ? 8 : 3,
+    'Spy/Espionage action': gender === 'male' ? 7 : 3,
+    'Gangster/Mafia': gender === 'male' && isYouth ? 6 : 2,
+    'War/Patriotic': gender === 'male' ? 8 : 4,
+    'Sports drama/Biopic': gender === 'male' ? 7 : 5,
+    'Family drama': areaType === 'rural' || age > 35 ? 10 : 5,
+    'Mystery/Suspense': 6,
+    Fantasy: isYouth ? 7 : 3,
+    Adventure: 5,
+    'Political drama': age > 30 ? 5 : 2,
+    'Coming-of-age': isYouth ? 8 : 3,
+    Documentary: education === 'postgraduate' ? 4 : 1
   };
   const genres: string[] = [];
   const genreCount = 2 + Math.floor(rng.next() * 3); // 2-4 genres
@@ -124,6 +182,7 @@ export function generateMoviePreferences(
 
   // ── Anime ──
   // Anime fandom is concentrated among urban youth with internet access
+  // ground reality: college students me anime common hai, 45+ uncle log me almost zero.
   let animeBase = 0.02;
   if (isYouth) animeBase += 0.10;
   if (areaType === 'urban') animeBase += 0.06;

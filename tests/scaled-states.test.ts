@@ -78,7 +78,8 @@ describe('Scaled States & UTs Demographic Accuracy', () => {
     }).filter(p => p.caste === 'Kashmiri Pandit');
 
     for (const p of jkPandits) {
-      const allowedSurnames = ['Bhat', 'Kaul', 'Dhar', 'Raina', 'Bhatt', 'Pandit'];
+      const allowedSurnames = ['Bhat', 'Kaul', 'Dhar', 'Raina', 'Bhatt', 'Pandit',
+        'Munshi', 'Saproo', 'Haksar', 'Tickoo', 'Ganjoo'];
       expect(allowedSurnames).toContain(p.lastName);
     }
 
@@ -91,19 +92,25 @@ describe('Scaled States & UTs Demographic Accuracy', () => {
 
     for (const p of sikkimHindus) {
       if (p.caste === 'Bahun (Brahmin)') {
-        expect(['Sharma', 'Bahun', 'Kumar', 'Kumari', 'Devi']).toContain(p.lastName);
+        expect(['Sharma', 'Bahun', 'Kumar', 'Kumari', 'Devi',
+          'Pokhrel', 'Acharya', 'Adhikari', 'Bhattarai', 'Dulal',
+          'Neopane', 'Regmi']).toContain(p.lastName);
       }
       if (p.caste === 'Chhetri') {
-        expect(['Chhetri', 'Rajput', 'Kumar', 'Kumari', 'Devi']).toContain(p.lastName);
+        expect(['Chhetri', 'Rajput', 'Kumar', 'Kumari', 'Devi',
+          'Thapa', 'Rana', 'Shahi', 'Chand', 'Bam', 'Rawat']).toContain(p.lastName);
       }
       if (p.caste === 'Rai') {
-        expect(['Rai', 'Kumar', 'Kumari', 'Devi']).toContain(p.lastName);
+        expect(['Rai', 'Kumar', 'Kumari', 'Devi',
+          'Subba', 'Limbu', 'Mukhia', 'Dewan']).toContain(p.lastName);
       }
       if (p.caste === 'Limbu') {
-        expect(['Subba', 'Limbu', 'Kumar', 'Kumari', 'Devi']).toContain(p.lastName);
+        expect(['Subba', 'Limbu', 'Kumar', 'Kumari', 'Devi',
+          'Yakthung', 'Mabuhang', 'Tumbapo', 'Angbuhang']).toContain(p.lastName);
       }
       if (p.caste === 'Tamang') {
-        expect(['Tamang', 'Kumar', 'Kumari', 'Devi']).toContain(p.lastName);
+        expect(['Tamang', 'Kumar', 'Kumari', 'Devi',
+          'Moktan', 'Yolmo', 'Ghising', 'Bomzan']).toContain(p.lastName);
       }
     }
   });

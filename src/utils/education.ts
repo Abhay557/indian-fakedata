@@ -255,6 +255,7 @@ function boardOrUniversity(
   }
   if (institutionType === 'private') {
     // elite private schools: CBSE / ICSE
+    // govt schools state board follow karte hain, private me CBSE/ICSE common hai
     return rng.next() < 0.75 ? 'CBSE' : 'ICSE';
   }
   if (institutionType === 'aided') {
@@ -267,12 +268,14 @@ function boardOrUniversity(
 }
 
 function pickScore(institutionType: string, rng: SeededRNG): string {
+  // govt schools me average score thoda kam rehta hai — NFHS/ASER data bhi yahi kehta hai
   let mean = 62;
   if (institutionType === 'iit_nit') mean = 85;
   else if (institutionType === 'central_university') mean = 75;
   else if (institutionType === 'private') mean = 68;
   else if (institutionType === 'government') mean = 58;
   const score = Math.round(gaussianSample(mean, 10, rng) * 10) / 10;
+  // 30% se neeche aur 99.5% se upar realistic nahi hota, isliye clamp kiya hai
   return `${Math.max(30, Math.min(99.5, score))}%`;
 }
 

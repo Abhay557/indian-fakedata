@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.3** (both). Zero runtime dependencies.
+Current version: **2.0.4** (both). Zero runtime dependencies.
 
 ---
 
@@ -94,7 +94,7 @@ indian-fakedata -c 50000 -f jsonl -o tn.jsonl --state "Tamil Nadu" --religion Hi
   draw RNG streams differently, so a seed does NOT produce identical output
   across Python and Node. Do not claim cross-runtime equivalence.
 - `generateUser({ seed: 7 })` reproduces the README "Output Sample" profile
-  (Pushpa Sharma, Maharashtra, Solapur) in the Python implementation.
+  (Pushpa Sharma, Maharashtra, Kolhapur) in the Python implementation.
 
 ## 5. Data & truthfulness rules
 
@@ -121,7 +121,7 @@ household (children count, assets), lifestyle (diet, habits, interests), and
 psychology (Big Five, cognitive profile, political leaning). `probabilityMetrics`
 shows the chain of probabilities for each draw.
 
-v2.0.3 adds three fields to every profile:
+v2.0.3 added three fields to every profile:
 - `educationTimeline`: chronological school/college stages (`level`,
   `stageName`, `institutionName`, `boardOrUniversity`, `startYear`, `endYear`,
   `status`: completed / in_progress / dropped_out, `score`) — institutions are
@@ -135,8 +135,18 @@ v2.0.3 adds three fields to every profile:
   (only present when the person is an anime fan), `primaryPlatform`,
   `watchFrequency`.
 
-The three new generators consume RNG draws appended AFTER all existing draws,
-so every 2.0.2 field for a given seed is unchanged in 2.0.3.
+v2.0.4 is a data-pool expansion release. Pools that grew: surnames
+(211 → 471 across all community keys), districts (369 → 760, full current
+maps — UP now has all 75, Tamil Nadu all 38), first names for Jain (was empty,
+now real Jain naming), Buddhist/navayana, Muslim and Christian communities,
+anime titles (18 → 130+), anime genres (8 → 21), movie genres (11 → 25),
+state cinema languages (23 → 34 states covered) and address localities
+(urban 45 → 120, rural 20 → 60). Because pools changed size, a given seed can
+resolve to different people than in <= 2.0.3 — reproducibility within one
+version is guaranteed; across versions it is not.
+
+The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
+so they never disturbed pre-existing fields when introduced.
 
 `generateFamily` returns: `{ head, spouse?, parents: { father?, mother? },
 children: [...], siblings: [...] }` — all members share the head's surname,
@@ -165,7 +175,7 @@ fam = generate_family(seed="011")
 members = [fam["head"]] + [fam["spouse"]] if fam["spouse"] else []
 assert len({m["lastName"] for m in members}) == 1  # same surname
 
-# 4. v2.0.3 enrichment fields
+# 4. v2.0.4 enrichment fields
 p = generate_user(seed=7)
 assert "personalityTraits" in p and "educationTimeline" in p and "moviePreferences" in p
 out = generate_persona(seed="011")

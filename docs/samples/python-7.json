@@ -19,10 +19,10 @@
   "email": "pushpasharma352@gmail.com",
   "state": "Maharashtra",
   "stateCode": "MH",
-  "district": "Solapur",
+  "district": "Kolhapur",
   "areaType": "urban",
-  "addressLine": "245/D, MG Road, Solapur",
-  "locality": "MG Road",
+  "addressLine": "245/D, Market Yard, Kolhapur",
+  "locality": "Market Yard",
   "pinCode": "412519",
   "religion": "Hindu",
   "caste": "Deshastha Brahmin",
@@ -125,7 +125,7 @@
     {
       "level": "primary",
       "stageName": "Primary School",
-      "institutionName": "Infant Jesus, Solapur",
+      "institutionName": "Infant Jesus, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 1997,
@@ -136,7 +136,7 @@
     {
       "level": "middle",
       "stageName": "Middle School",
-      "institutionName": "St. Peter's, Solapur",
+      "institutionName": "St. Peter's, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2003,
@@ -147,7 +147,7 @@
     {
       "level": "secondary",
       "stageName": "Secondary School",
-      "institutionName": "St. Agnes, Solapur",
+      "institutionName": "St. Agnes, Kolhapur",
       "institutionType": "private",
       "boardOrUniversity": "CBSE",
       "startYear": 2006,
@@ -159,8 +159,8 @@
   "moviePreferences": {
     "genres": [
       "Comedy",
-      "Romance",
-      "Action"
+      "Thriller",
+      "Romance"
     ],
     "favoriteLanguages": [
       "Marathi",
@@ -168,11 +168,11 @@
     ],
     "anime": true,
     "animePreferences": [
-      "Shonen action"
+      "Slice of life"
     ],
     "favoriteAnimeTitles": [
-      "Demon Slayer",
-      "One Piece"
+      "Monster",
+      "Mob Psycho 100"
     ],
     "primaryPlatform": "ott",
     "watchFrequency": "weekly"
@@ -216,12 +216,12 @@
     "nationalReligionFreq": 0.803301791826052,
     "stateGivenReligionProb": 0.10324714506000403,
     "casteGivenContextProb": 0.04225352112676056,
-    "lastNameGivenCasteProb": 0.2,
+    "lastNameGivenCasteProb": 0.09433962264150944,
     "socialCategoryProb": 0.352112676056338,
     "educationProb": 0.21890547263681595,
     "occupationProb": 0.18000000000000002,
-    "jointProbability": 2.7617147096522784e-05
+    "jointProbability": 1.302695617760509e-05
   },
-  "generatedAt": "2026-08-16T17:42:24.392755",
+  "generatedAt": "2026-08-22T22:40:53.397660",
   "seed": 7
 }

@@ -275,6 +275,8 @@ def resolve_tree_path(db, constraints, rng):
     prob_metrics = {}
 
     # -- Layer 1: Religion --
+    # yahi se pura demographic tree shuru hota hai — religion -> state -> caste.
+    # constraint diya to probability 1.0 maan lo, warna census proportion se draw hoga.
     religion_id = None
     religion_prob = 1.0
     
