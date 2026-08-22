@@ -430,6 +430,27 @@ npm install @abhay557/indian-fakedata
 
 ---
 
+## Acceptable Use
+
+This library generates **synthetic** mock data intended for software testing,
+development, ML/AI research, education, and simulation. By using it you agree
+**not** to use it, or data derived from it, for:
+
+- Creating fake identity documents, or bypassing KYC / identity / age verification systems
+- Operating fake accounts, bots, or personas that interact with real people —
+  including social-media manipulation, astroturfing, and fake reviews
+- Disinformation, impersonation, harassment, spam, or scam content of any kind
+- Presenting generated profiles or statistics as real data about real individuals,
+  or publishing datasets derived from this library without clearly labeling them synthetic
+- Any purpose that is illegal under applicable law
+
+All identifiers (Aadhaar, PAN, voter ID, phone, email) are fabricated and exist in no
+government or commercial database. Every profile is fictional; any resemblance to a
+real person is coincidental. **You are responsible for how you deploy the output of
+this library.** If you are unsure whether your use case is acceptable, it probably isn't.
+
+---
+
 ## License
 
 MIT &copy; Abhay Mourya

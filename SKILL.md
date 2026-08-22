@@ -109,6 +109,10 @@ indian-fakedata -c 50000 -f jsonl -o tn.jsonl --state "Tamil Nadu" --religion Hi
 - All fields are correlated: religion ↔ names ↔ state ↔ caste ↔ language ↔
   education ↔ income. Impossible combos (Sikh named Mohammed Sharma from
   Mizoram) are avoided by design.
+- **Acceptable use:** testing, research, education, simulation only — never
+  fake IDs/KYC evasion, bot personas interacting with real humans,
+  disinformation, or presenting output as real-people data (see Acceptable Use
+  section in README).
 
 ## 6. Output shape
 
