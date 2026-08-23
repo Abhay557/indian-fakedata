@@ -185,14 +185,23 @@ import calendar
 
 
 def generate_dob(age, rng):
-    """Generate a date of birth from age."""
-    from datetime import datetime
-    current_year = datetime.now().year
-    birth_year = current_year - age
-    month = int(math.floor(rng.next() * 12)) + 1
-    max_day = calendar.monthrange(birth_year, month)[1]
-    day = int(math.floor(rng.next() * max_day)) + 1
-    return f"{birth_year}-{str(month).zfill(2)}-{str(day).zfill(2)}"
+    """Generate a date of birth that is exactly consistent with `age`.
+
+    Purana bug: month/day random hote the, to kabhi-kabari birthday abhi
+    saal ke baad mein aati -> actual calendar age = age-1 hota. Ab base
+    date = aaj minus `age` saal, uske pehle 0-364 din ka jitter —
+    guaranteed: exact calendar age == `age`, har baar.
+    """
+    from datetime import datetime, timedelta
+    today = datetime.now().date()
+    try:
+        base = today.replace(year=today.year - int(age))
+    except ValueError:
+        # Feb-29 edge: shift day to Feb-28
+        base = today.replace(year=today.year - int(age), day=28)
+    jitter_days = int(math.floor(rng.next() * 365))
+    birth = base - timedelta(days=jitter_days)
+    return birth.strftime("%Y-%m-%d")
 
 
 # ─── Blood Group ──────────────────────────────────────────────

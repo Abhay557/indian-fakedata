@@ -242,12 +242,18 @@ export function generateEmail(firstName: string, lastName: string, rng: SeededRN
  * Produces a realistic date within the year implied by the age.
  */
 export function generateDOB(age: number, rng: SeededRNG): string {
-  const currentYear = new Date().getFullYear();
-  const birthYear = currentYear - age;
-  const month = Math.floor(rng.next() * 12) + 1;
-  const maxDay = new Date(birthYear, month, 0).getDate();
-  const day = Math.floor(rng.next() * maxDay) + 1;
-  return `${birthYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  // v2.0.7 fix: purane version mein month/day random the — birthday aaj ke
+  // baad aane par actual calendar age = age-1 ho jata tha. ab base date =
+  // aaj minus `age` saal, minus 0-364 din jitter => exact age match, hamesha.
+  const today = new Date();
+  const base = new Date(today.getFullYear() - Math.floor(age),
+    today.getMonth(), today.getDate());
+  const jitterDays = Math.floor(rng.next() * 365);
+  const birth = new Date(base.getTime() - jitterDays * 86400000);
+  const y = birth.getFullYear();
+  const m = String(birth.getMonth() + 1).padStart(2, '0');
+  const d = String(birth.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }
 
 // ─────────────────────────────────────────────────────────────

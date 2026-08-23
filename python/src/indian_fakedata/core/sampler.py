@@ -52,21 +52,20 @@ def create_rng(initial_seed=None):
         return res
 
     def next_val():
-        # ye TS wale mulberry32 ka exact Python port hai — JS me 32-bit int
-        # overflow hota hai, isliye imul/to_s32 helpers likhe pade. same seed
-        # se dono side same sequence aani chahiye, bas draw order alag hai.
+        # ye TS wale mulberry32 ka exact Python port hai.
+        # CRITICAL: JS me `>>>` unsigned shift hota hai aur `|0` se numbers
+        # signed 32-bit me rehte hain — Python ka `>>` arithmetic shift hai
+        # (negative numbers pe sign extend karta hai). isliye har value ko
+        # pehle & 0xFFFFFFFF karke UNSIGNED rakhna zaroori hai. purane port
+        # me signed >> use ho raha tha jisse MSB kabhi set nahi hota tha aur
+        # next() kabhi 0.5 se upar nahi jata tha — poora library silently
+        # skewed tha (v2.0.6 tak). ab fixed: proper unsigned mulberry32.
         nonlocal state
-        state_s32 = to_s32(state)
-        state = (state_s32 + 0x6D2B79F5) & 0xFFFFFFFF
-        
-        t_xor = to_s32(state ^ (state >> 15))
-        state_or = to_s32(1 | state)
-        t = imul(t_xor, state_or)
-        
-        t_xor2 = to_s32(t ^ (t >> 7))
-        t_or2 = to_s32(61 | t)
-        t = to_s32(t + imul(t_xor2, t_or2)) ^ t
-        
+        state = (state + 0x6D2B79F5) & 0xFFFFFFFF
+
+        t = (state ^ (state >> 15))
+        t = (t * (1 | state)) & 0xFFFFFFFF
+        t = (t + ((t ^ (t >> 7)) * (61 | t) & 0xFFFFFFFF)) & 0xFFFFFFFF
         res = (t ^ (t >> 14)) & 0xFFFFFFFF
         return res / 4294967296.0
 
@@ -111,7 +110,7 @@ def weighted_sample(items, rng):
         raise ValueError("weighted_sample: total weight must be positive")
 
     r = rng.next() * total_weight
-    cumulative = 0.0
+    cumulative = 0.0 # yee duniya ki sabse badi galti hai
 
     for idx, item in enumerate(items):
         cumulative += weights[idx]

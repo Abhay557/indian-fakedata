@@ -27,7 +27,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 {
   "id": "72714162-6024-4710-9512-172321111444",
   "synthetic": true,
-  "generator": "indian-fakedata@2.0.6",
+  "generator": "indian-fakedata@2.0.7",
   "firstName": "Pushpa",
   "lastName": "Sharma",
   "fatherName": "Santosh Sharma",
@@ -444,20 +444,19 @@ Reproducibility within one version is guaranteed.
 
 ### v2.0.6 — provenance markers
 
-Every generated profile now carries self-labeling fields:
+Every generated profile carries self-labeling fields (`"synthetic": true`,
+`"generator": "indian-fakedata@..."`) so data stays identifiable as fake
+wherever it travels. Aligned with the Acceptable Use policy above.
 
-```json
-{
-  "id": "...",
-  "synthetic": true,
-  "generator": "indian-fakedata@2.0.6",
-  ...
-}
-```
+### v2.0.7 — correctness release
 
-Wherever the data travels — JSON, JSONL, CSV, databases, training files — it
-carries proof that it is synthetic. This is intentional and aligned with the
-Acceptable Use policy above; please do not strip these markers downstream.
+- **Python RNG bias fixed.** The JS→Python port of the mulberry32 PRNG used
+  signed shifts; `rng.next()` never returned values >= 0.5, so every weighted
+  choice in Python was skewed toward options listed early in the tables.
+  All Python distributions are now statistically correct. All seeds produce
+  different output than <= 2.0.6 in Python.
+- **DOB/age drift fixed (both runtimes).** ~1/3 of profiles previously had a
+  `dateOfBirth` whose real calendar age was off by one from `age`.
 
 ---
 

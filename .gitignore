@@ -57,3 +57,9 @@ profiles.csv
 
 # Hugging Face dataset — keep card + script in git, exclude the 421 MB of parquet
 huggingface
+
+# private local work — not part of the public package
+detector_project/
+scripts/extract-detect-tables.py
+detect-selftest.jsonl
+detect-control.jsonl

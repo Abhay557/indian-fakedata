@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.6** (both). Zero runtime dependencies.
+Current version: **2.0.7** (both). Zero runtime dependencies.
 
 ---
 
@@ -157,6 +157,16 @@ v2.0.6 adds provenance markers to every profile: `"synthetic": true` and
 `"generator": "indian-fakedata@<version>"`. Every export (JSON, JSONL, CSV)
 self-labels its data as fake — this is intentional and must not be removed.
 
+v2.0.7 is a correctness release:
+- **Python RNG bias fixed** — the JS→Python port of mulberry32 used signed
+  shifts, so `rng.next()` never returned >= 0.5 and every weighted choice in
+  Python was skewed toward table-head options. Now a proper unsigned port;
+  all Python distributions (states, religions, castes, scores) are correct.
+  All seeds produce different output than <= 2.0.6 in Python.
+- **DOB/age drift fixed** (both runtimes) — dateOfBirth could land after
+  today's date within the birth year, making the real calendar age off by
+  one from `age` for ~1/3 of profiles. `age` now always matches exactly.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 
@@ -187,7 +197,7 @@ fam = generate_family(seed="011")
 members = [fam["head"]] + [fam["spouse"]] if fam["spouse"] else []
 assert len({m["lastName"] for m in members}) == 1  # same surname
 
-# 4. v2.0.6 enrichment fields
+# 4. v2.0.7 enrichment fields
 p = generate_user(seed=7)
 assert "personalityTraits" in p and "educationTimeline" in p and "moviePreferences" in p
 out = generate_persona(seed="011")
