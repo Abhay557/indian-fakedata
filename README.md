@@ -1,4 +1,12 @@
-# Indian Fake Data Generator
+<center>
+
+# Indian Fake Data Generator 
+
+</center>
+
+<p align="center">
+<img src="hero.png" alt="Indian Fake Data Generator" />
+</p>
 
 A library that generates culturally accurate, statistically consistent mock Indian demographic profiles backed by **Census 2011** data.
 
