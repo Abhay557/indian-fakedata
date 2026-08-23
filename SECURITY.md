@@ -20,10 +20,12 @@ Security fixes are applied to the latest release of each major version.
 
 | Version | Supported |
 | ------- | --------- |
+| 2.0.6   | Yes       |
+| 2.0.5   | no        |
 | 2.0.4   | Yes       |
-| 2.0.3   | Yes       |
-| 2.0.2   | Yes       |
-| 1.0.0   | No        |
+| 2.0.3   | no        |
+| 2.0.2   | no        |
+| 1.0.0   | no        |
 
 Note that the TypeScript package (`@abhay557/indian-fakedata` on npm) and the
 Python package (`indian-fakedata` on PyPI) are versioned and released in lockstep.
