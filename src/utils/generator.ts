@@ -51,6 +51,7 @@ import {
   generateAddress,
   generateUPI
 } from './identifiers.js';
+import { generateAppearance } from './appearance.js';
 import {
   generateDiet,
   generateDisability,
@@ -190,7 +191,7 @@ function generateSingleProfile(
   // ── Step 4: Date of Birth & Biometrics ────────────────
   const dateOfBirth = generateDOB(socio.age, rng);
   const bloodGroup = generateBloodGroup(rng);
-  const heightCm = generateHeight(path.gender, socio.age, rng);
+  const heightCm = generateHeight(path.gender, socio.age, path.stateId, rng);
   const weightKg = generateWeight(path.gender, socio.age, heightCm, path.areaType, rng);
   const bmi = Math.round((weightKg / ((heightCm / 100) ** 2)) * 10) / 10;
 
@@ -306,6 +307,13 @@ function generateSingleProfile(
     motherTongue, hasSmartphone, socio.income, rng
   );
 
+  // ── Step 14c: Appearance (v2.0.8) ──────────────────────
+  // Drawn AFTER all existing fields so previously generated values for a seed
+  // stay identical. Height regional offset already applied in generateHeight.
+  const appearance = generateAppearance(
+    path.gender, socio.age, path.stateId, heightCm, rng
+  );
+
   // ── Step 15: Probability metrics ──────────────────────
   const probMetrics: ProbabilityMetrics = {
     nationalReligionFreq: path.probMetrics.nationalReligionFreq ?? 0,
@@ -341,6 +349,9 @@ function generateSingleProfile(
     heightCm,
     weightKg,
     bmi,
+
+    // Appearance
+    appearance,
 
     // Identity Documents
     aadhaarNumber,

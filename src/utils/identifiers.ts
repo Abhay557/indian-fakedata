@@ -9,6 +9,7 @@
 
 import type { SeededRNG, BloodGroup, Gender } from '../types.js';
 import { weightedSample, bernoulliSample, gaussianSample, uniformSample } from '../core/sampler.js';
+import { getRegion, REGION_HEIGHT_OFFSET_CM } from './appearance.js';
 
 // ─────────────────────────────────────────────────────────────
 // Aadhaar Number (12-digit with Verhoeff checksum)
@@ -285,10 +286,12 @@ export function generateBloodGroup(rng: SeededRNG): BloodGroup {
 // ─────────────────────────────────────────────────────────────
 
 /**
- * Generate height in cm based on gender, age, and state.
- * Indian average: Male ~165cm, Female ~152cm (NFHS-5 2019-21)
+ * Generate height in cm based on gender, age, and region.
+ * Indian average: Male ~165cm, Female ~152cm (NFHS-5 2019-21).
+ * A small regional mean offset is applied (North/West on average taller,
+ * South & North-East shorter) — see appearance.REGION_HEIGHT_OFFSET_CM.
  */
-export function generateHeight(gender: Gender, age: number, rng: SeededRNG): number {
+export function generateHeight(gender: Gender, age: number, stateId: string, rng: SeededRNG): number {
   let mean: number;
   let stddev: number;
   
@@ -308,6 +311,11 @@ export function generateHeight(gender: Gender, age: number, rng: SeededRNG): num
     if (age > 60) {
       mean -= (age - 60) * 0.3;
     }
+  }
+  
+  // Adult regional offset (ignored for children, height still developing)
+  if (age >= 18) {
+    mean += REGION_HEIGHT_OFFSET_CM[getRegion(stateId)];
   }
   
   return Math.round(gaussianSample(mean, stddev, rng) * 10) / 10;

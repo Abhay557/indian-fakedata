@@ -154,6 +154,41 @@ export interface Habits {
   chronotype: 'early_riser' | 'moderate' | 'night_owl';
 }
 
+/**
+ * Physical appearance attributes.
+ *
+ * IMPORTANT: These are population-level statistical *tendencies* (based on
+ * general anthropometric and demographic survey trends across Indian regions),
+ * applied as probability distributions with wide variance. They describe what
+ * a person "tends to look like" given region and gender — they are NOT
+ * deterministic rules, and any individual can differ. Handled as neutral,
+ * respectful descriptive buckets, never as a rank or value judgement.
+ */
+export interface Appearance {
+  /** Mirrors the top-level heightCm (region-adjusted) */
+  heightCm: number;
+  /** General body build */
+  build: 'slim' | 'average' | 'stocky' | 'heavy';
+  /** Face shape */
+  faceShape: 'oval' | 'round' | 'square' | 'oblong' | 'heart' | 'diamond';
+  /** Neutral descriptive skin tone bucket (region-tuned distribution) */
+  skinTone: 'fair' | 'wheatish' | 'brown' | 'deep_brown' | 'dark';
+  /** Nose shape */
+  noseType: 'straight' | 'aquiline' | 'flat' | 'broad' | 'button' | 'hooked';
+  /** Iris colour */
+  eyeColor: 'brown' | 'dark_brown' | 'black' | 'hazel' | 'green' | 'grey';
+  /** Eyelid/eye shape */
+  eyeShape: 'almond' | 'round' | 'hooded' | 'monolid' | 'deep_set';
+  /** Hair colour */
+  hairColor: 'black' | 'dark_brown' | 'brown' | 'grey' | 'white';
+  /** Hair texture/curliness */
+  hairTexture: 'straight' | 'wavy' | 'curly' | 'coily';
+  /** Hair length (bald only typical for older males) */
+  hairLength: 'bald' | 'short' | 'medium' | 'long';
+  /** Facial hair (males only) */
+  facialHair?: 'none' | 'stubble' | 'moustache' | 'full_beard' | 'goatee';
+}
+
 /** Expanded education details (AISHE data) */
 export interface EducationDetails {
   /** Field of study (for higher education) */
@@ -320,6 +355,10 @@ export interface DemographicProfile {
   weightKg: number;
   /** Body Mass Index */
   bmi: number;
+
+  // ── Appearance ─────────────────────────────────────────
+  /** Physical appearance attributes (face, skin tone, hair, build) */
+  appearance: Appearance;
 
   // ── Identity Documents ────────────────────────────────
   /** 12-digit Aadhaar number (Verhoeff checksum valid) */

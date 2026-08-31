@@ -1,6 +1,6 @@
 {
   "name": "@abhay557/indian-fakedata",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "A generator for realistic Indian demographic data based on Census 2011 statistics.",
   "main": "dist/index.js",
   "module": "dist/index.js",

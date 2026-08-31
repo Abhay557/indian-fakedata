@@ -224,8 +224,14 @@ def generate_blood_group(rng):
 
 # ─── Biometrics ────────────────────────────────────────────────
 
-def generate_height(gender, age, rng):
-    """Generate height in cm based on gender and age (NFHS-5 data)."""
+def generate_height(gender, age, state_id, rng):
+    """Generate height in cm based on gender, age, and region (NFHS-5 data).
+
+    A small regional mean offset is applied for adults (North/West on average
+    taller, South & North-East shorter) — see appearance.REGION_HEIGHT_OFFSET_CM.
+    """
+    from indian_fakedata.utils.appearance import get_region, REGION_HEIGHT_OFFSET_CM
+
     if age < 5:
         mean = 85 if gender == 'female' else 87
         stddev = 8
@@ -240,6 +246,10 @@ def generate_height(gender, age, rng):
         stddev = 5.5 if gender == 'female' else 6.5
         if age > 60:
             mean -= (age - 60) * 0.3
+
+    # Adult regional offset (ignored for children, height still developing)
+    if age >= 18:
+        mean += REGION_HEIGHT_OFFSET_CM[get_region(state_id)]
 
     return round(gaussian_sample(mean, stddev, rng) * 10) / 10
 

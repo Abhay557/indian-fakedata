@@ -16,7 +16,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 {
   "id": "72714162-6024-4710-9512-172321111444",
   "synthetic": true,
-  "generator": "indian-fakedata@2.0.7",
+  "generator": "indian-fakedata@2.0.8",
   "firstName": "Pushpa",
   "lastName": "Sharma",
   "fatherName": "Santosh Sharma",
@@ -25,10 +25,23 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "gender": "female",
   "age": 34,
   "dateOfBirth": "1992-06-11",
-  "bloodGroup": "O+",
-  "heightCm": 152.9,
-  "weightKg": 65.9,
-  "bmi": 28.2,
+  "bloodGroup": "B+",
+  "heightCm": 144.0,
+  "weightKg": 44.1,
+  "bmi": 21.3,
+  "appearance": {
+    "heightCm": 144.0,
+    "build": "average",
+    "faceShape": "round",
+    "skinTone": "deep_brown",
+    "noseType": "button",
+    "eyeColor": "dark_brown",
+    "eyeShape": "almond",
+    "hairColor": "black",
+    "hairTexture": "wavy",
+    "hairLength": "medium",
+    "facialHair": null
+  },
   "aadhaarNumber": "500233102039",
   "panNumber": "EKIPS1361D",
   "voterIdNumber": "MHR0314014",
@@ -431,6 +444,33 @@ Every generated profile now carries self-labeling fields:
 Wherever the data travels — JSON, JSONL, CSV, databases, training files — it
 carries proof that it is synthetic. This is intentional and aligned with the
 Acceptable Use policy above; please do not strip these markers downstream.
+
+### v2.0.7 — correctness release
+
+- **RNG bias fixed.** The JS→Python port of the mulberry32 PRNG used signed
+  shifts; `rng.next()` never returned values >= 0.5, so every weighted choice
+  was skewed toward options listed early in the tables. All distributions are
+  now statistically correct, and all seeds produce different output than
+  <= 2.0.6.
+- **DOB/age drift fixed.** ~1/3 of profiles previously had a `dateOfBirth`
+  whose real calendar age was off by one from `age`.
+
+### v2.0.8 — appearance attribute
+
+Every profile now carries a nested `appearance` object describing physical
+traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
+`hairColor`, `hairTexture`, `hairLength`, `facialHair` and `build`.
+
+- **Regional variation.** Adult height is shifted by broad geographic region
+  (North-West tallest, South and North-East shorter), so a seeded profile's
+  `heightCm` now reflects where they live. Existing seeds resolve to slightly
+  different heights than <= 2.0.7.
+- **Skin tone buckets** use named, descriptive values: `fair`, `wheatish`,
+  `brown`, `deep_brown` and `dark`.
+- **Agent personas** automatically describe each person's appearance in the
+  generated system prompt.
+- The `appearance` block is appended at the end of generation, so every other
+  field for a given seed stays stable.
 
 ---
 

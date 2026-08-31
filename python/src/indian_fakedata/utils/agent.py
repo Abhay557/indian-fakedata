@@ -84,6 +84,29 @@ def _derive_code_switching(profile):
     return 15
 
 
+def _article(word):
+    # picks "an" before vowel sounds so generated prose reads naturally
+    return "an" if word and word[0].lower() in "aeiou" else "a"
+
+
+def _describe_appearance(profile):
+    a = profile.get("appearance")
+    if not a:
+        return f"an average build, around {profile.get('heightCm', 0)} cm tall"
+    hair = f"{a.get('hairColor', 'black')} {a.get('hairTexture', 'wavy')} hair, {a.get('hairLength', 'medium')} length"
+    facial = ""
+    if profile.get("gender") == "male":
+        fh = a.get("facialHair")
+        if fh and fh != "none":
+            facial = f", {fh.replace('_', ' ')}"
+    return (
+        f"{a.get('skinTone', 'wheatish')} skin, {_article(a.get('faceShape', 'oval'))} {a.get('faceShape', 'oval')} face "
+        f"with {_article(a.get('noseType', 'straight'))} {a.get('noseType', 'straight')} nose and "
+        f"{a.get('eyeColor', 'brown')} {a.get('eyeShape', 'almond')} eyes, "
+        f"{hair}{facial}, and {_article(a.get('build', 'average'))} {a.get('build', 'average')} build"
+    )
+
+
 def _build_system_prompt(profile):
     worldview = _derive_worldview(profile)
     occupation = profile.get("employmentSector", "worker")
@@ -137,6 +160,7 @@ def _build_system_prompt(profile):
         f"You work as a {occupation} and earn approximately {monthly_k}K INR per month. "
         f"You {family_context} with {profile.get('householdSize', 4)} family members. "
         f"You {religious_practice}. You {political_view}. Your worldview is broadly {worldview}. "
+        f"Physically you have {_describe_appearance(profile)}. "
         f"You grew up in a {area} environment and your cultural background as a {profile.get('caste', 'Unknown')} "
         f"shapes your values around {cp}, family {fs.replace('_', ' ')}, and {savings_str}. "
         f"When responding, speak naturally in the way someone of your background would — {speech_style}. "
@@ -286,6 +310,25 @@ def _build_full_prompt(profile):
         f"Born on {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} blood group, "
         f"{profile.get('heightCm', 0)} cm, {profile.get('weightKg', 0)} kg)."
     )
+
+    lines.append("")
+    lines.append("APPEARANCE")
+    a = profile.get("appearance")
+    if a:
+        hair = f"{a.get('hairColor', 'black')} {a.get('hairTexture', 'wavy')} hair, {a.get('hairLength', 'medium')}"
+        facial = ""
+        if profile.get("gender") == "male":
+            fh = a.get("facialHair")
+            if fh and fh != "none":
+                facial = f", {fh.replace('_', ' ')}"
+        lines.append(
+            f"- {a.get('skinTone', 'wheatish')} skin, {_article(a.get('faceShape', 'oval'))} {a.get('faceShape', 'oval')} face, "
+            f"{_article(a.get('noseType', 'straight'))} {a.get('noseType', 'straight')} nose, "
+            f"{a.get('eyeColor', 'brown')} {a.get('eyeShape', 'almond')} eyes; "
+            f"{hair}{facial}; {_article(a.get('build', 'average'))} {a.get('build', 'average')} build"
+        )
+    else:
+        lines.append(f"- Average build, ~{profile.get('heightCm', 0)} cm")
 
     lines.append("")
     lines.append("IDENTITY")

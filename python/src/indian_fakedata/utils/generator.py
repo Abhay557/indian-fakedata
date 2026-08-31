@@ -53,6 +53,7 @@ from indian_fakedata.utils.psychology import (
 from indian_fakedata.utils.cultural import generate_cultural_profile
 from indian_fakedata.utils.education import generate_education_timeline
 from indian_fakedata.utils.media import generate_movie_preferences
+from indian_fakedata.utils.appearance import generate_appearance
 
 
 def _generate_uuid(rng):
@@ -112,7 +113,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     # Step 4: Date of Birth & Biometrics
     date_of_birth = generate_dob(socio["age"], rng)
     blood_group = generate_blood_group(rng)
-    height_cm = generate_height(path["gender"], socio["age"], rng)
+    height_cm = generate_height(path["gender"], socio["age"], path["stateId"], rng)
     weight_kg = generate_weight(path["gender"], socio["age"], height_cm, path["areaType"], rng)
     bmi = round(weight_kg / ((height_cm / 100) ** 2) * 10) / 10
 
@@ -220,6 +221,13 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         path["stateId"], mother_tongue, digital["hasSmartphone"], socio["income"], rng
     )
 
+    # Step 14c: Appearance (v2.0.8) — drawn AFTER all existing fields so
+    # previously generated values for a seed stay identical. Height regional
+    # offset already applied inside generate_height().
+    appearance = generate_appearance(
+        path["gender"], socio["age"], path["stateId"], height_cm, rng
+    )
+
     # Step 15: Probability metrics
     path_metrics = path.get("probMetrics", {})
     prob_metrics = {
@@ -252,6 +260,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "heightCm": height_cm,
         "weightKg": weight_kg,
         "bmi": bmi,
+        "appearance": appearance,
         "aadhaarNumber": aadhaar,
         "panNumber": pan,
         "voterIdNumber": voter_id,

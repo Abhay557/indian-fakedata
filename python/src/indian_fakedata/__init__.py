@@ -36,6 +36,7 @@ from indian_fakedata.database.loader import DatabaseLoader
 _db_loader = DatabaseLoader()
 load_database = _db_loader.load_database
 from indian_fakedata.utils.exporter import format_profiles, save_profiles
+from indian_fakedata.utils.appearance import generate_appearance, get_region
 
 from indian_fakedata._version import __version__
 __author__ = "Abhay Mourya"
@@ -64,6 +65,8 @@ __all__ = [
     "load_database",
     "format_profiles",
     "save_profiles",
+    "generate_appearance",
+    "get_region",
 ]
 
 # note for someone who is reading this code

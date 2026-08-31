@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.7** (both). Zero runtime dependencies.
+Current version: **2.0.8** (both). Zero runtime dependencies.
 
 ---
 
@@ -118,7 +118,8 @@ indian-fakedata -c 50000 -f jsonl -o tn.jsonl --state "Tamil Nadu" --religion Hi
 
 Each profile (`DemographicProfile`) includes: identity (`id`, name, father/mother/
 spouse name), demographics (gender, age, DOB), biometrics (blood group, height,
-weight, BMI), identifiers (Aadhaar, PAN, voter ID, phone, email), geography
+weight, BMI), appearance (face shape, skin tone, nose, eyes, hair, build),
+identifiers (Aadhaar, PAN, voter ID, phone, email), geography
 (state, district, area type, address, PIN), socioeconomics (religion, caste,
 social category, mother tongue, education, occupation, income, expenditure),
 household (children count, assets), lifestyle (diet, habits, interests), and
@@ -167,6 +168,16 @@ v2.0.7 is a correctness release:
   today's date within the birth year, making the real calendar age off by
   one from `age` for ~1/3 of profiles. `age` now always matches exactly.
 
+v2.0.8 adds an `appearance` attribute to every profile — a nested object with
+`heightCm`, `build`, `faceShape`, `skinTone`, `noseType`, `eyeColor`,
+`eyeShape`, `hairColor`, `hairTexture`, `hairLength`, `facialHair`. Adult
+`heightCm` is now shifted by broad geographic region (North-West tallest,
+South and North-East shorter). Skin tone uses named buckets: `fair`,
+`wheatish`, `brown`, `deep_brown`, `dark`. Agent personas automatically
+include a physical description in the system prompt. The `appearance` block is
+drawn AFTER all other fields, so every other field for a given seed stays
+stable; `heightCm` changed because of the regional offset.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 
@@ -176,9 +187,9 @@ caste, religion, and state; ages are logically ordered.
 
 `generatePersona` returns `{ "user": <profile>, "persona": <agent persona with
 systemPrompt, fullPrompt, beliefs, memorySeeds, behaviorRules> }`. `fullPrompt`
-is a complete self-contained roleplay prompt (identity, education timeline,
-personality traits, movie/anime preferences, habits, beliefs, memory seeds,
-behaviour rules) designed to make an LLM act as this person.
+is a complete self-contained roleplay prompt (identity, appearance, education
+timeline, personality traits, movie/anime preferences, habits, beliefs, memory
+seeds, behaviour rules) designed to make an LLM act as this person.
 
 ## 7. Verification (run before declaring success)
 

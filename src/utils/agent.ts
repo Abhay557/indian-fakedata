@@ -178,6 +178,22 @@ function deriveCodeSwitching(profile: DemographicProfile): number {
 // System Prompt Generator
 // ─────────────────────────────────────────────────────────────
 
+function article(word: string): string {
+  // picks "an" before vowel sounds so generated prose reads naturally
+  return word && /^[aeiou]/i.test(word) ? 'an' : 'a';
+}
+
+function describeAppearance(profile: DemographicProfile): string {
+  const a = profile.appearance;
+  if (!a) return `an average build, around ${profile.heightCm} cm tall`;
+  const hair = `${a.hairColor} ${a.hairTexture} hair, ${a.hairLength} length`;
+  let facial = '';
+  if (profile.gender === 'male' && a.facialHair && a.facialHair !== 'none') {
+    facial = `, ${a.facialHair.replace(/_/g, ' ')}`;
+  }
+  return `${a.skinTone} skin, ${article(a.faceShape)} ${a.faceShape} face with ${article(a.noseType)} ${a.noseType} nose and ${a.eyeColor} ${a.eyeShape} eyes, ${hair}${facial}, and ${article(a.build)} ${a.build} build`;
+}
+
 function buildSystemPrompt(profile: DemographicProfile): string {
   const worldview = deriveWorldview(profile);
   const occupation = profile.occupation === 'non_worker'
@@ -203,7 +219,7 @@ function buildSystemPrompt(profile: DemographicProfile): string {
         ? 'lives with extended family nearby'
         : 'lives in a nuclear family setup';
 
-  return `You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. You belong to the ${profile.caste} community (${profile.socialCategory} category) and follow ${profile.religion}. Your mother tongue is ${profile.motherTongue}${profile.secondLanguage ? `, and you also speak ${profile.secondLanguage}` : ''}. You work as a ${occupation} and earn approximately ${Math.round(profile.annualIncomeINR / 12 / 1000)}K INR per month. You ${familyContext} with ${profile.householdSize} family members. You ${religiousPractice}. You ${politicalView}. Your worldview is broadly ${worldview}. You grew up in a ${profile.areaType} environment and your cultural background as a ${profile.caste} shapes your values around ${profile.culturalProfile.careerPreference.replace('_', ' ')}, family ${profile.culturalProfile.familyStructure.replace('_', ' ')}, and ${profile.culturalProfile.savingsOrientation > 60 ? 'saving money diligently' : 'spending within means'}. When responding, speak naturally in the way someone of your background would — ${profile.areaType === 'urban' && (profile.motherTongue === 'hindi' || profile.secondLanguage === 'Hindi') ? 'mixing Hindi and English naturally (Hinglish)' : `primarily in ${profile.motherTongue}-influenced speech`}. Draw on your lived experience in ${profile.district}, your work as a ${occupation}, and your family responsibilities.`;
+  return `You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. You belong to the ${profile.caste} community (${profile.socialCategory} category) and follow ${profile.religion}. Your mother tongue is ${profile.motherTongue}${profile.secondLanguage ? `, and you also speak ${profile.secondLanguage}` : ''}. You work as a ${occupation} and earn approximately ${Math.round(profile.annualIncomeINR / 12 / 1000)}K INR per month. You ${familyContext} with ${profile.householdSize} family members. You ${religiousPractice}. You ${politicalView}. Your worldview is broadly ${worldview}. Physically you have ${describeAppearance(profile)}. You grew up in a ${profile.areaType} environment and your cultural background as a ${profile.caste} shapes your values around ${profile.culturalProfile.careerPreference.replace('_', ' ')}, family ${profile.culturalProfile.familyStructure.replace('_', ' ')}, and ${profile.culturalProfile.savingsOrientation > 60 ? 'saving money diligently' : 'spending within means'}. When responding, speak naturally in the way someone of your background would — ${profile.areaType === 'urban' && (profile.motherTongue === 'hindi' || profile.secondLanguage === 'Hindi') ? 'mixing Hindi and English naturally (Hinglish)' : `primarily in ${profile.motherTongue}-influenced speech`}. Draw on your lived experience in ${profile.district}, your work as a ${occupation}, and your family responsibilities.`;
 }
 
 function buildIdentityLine(profile: DemographicProfile): string {
@@ -232,6 +248,21 @@ function buildFullPrompt(profile: DemographicProfile): string {
   const lines: string[] = [];
 
   lines.push(`You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. Born on ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} blood group, ${profile.heightCm} cm, ${profile.weightKg} kg).`);
+
+  lines.push('');
+  lines.push('APPEARANCE');
+  if (profile.appearance) {
+    const a = profile.appearance;
+    const hair = `${a.hairColor} ${a.hairTexture} hair, ${a.hairLength}`;
+    let facial = '';
+    if (profile.gender === 'male' && a.facialHair && a.facialHair !== 'none') {
+      facial = `, ${a.facialHair.replace(/_/g, ' ')}`;
+    }
+    lines.push(`- ${a.skinTone} skin, ${article(a.faceShape)} ${a.faceShape} face, ${article(a.noseType)} ${a.noseType} nose, ${a.eyeColor} ${a.eyeShape} eyes; ${hair}${facial}; ${article(a.build)} ${a.build} build`);
+  } else {
+    // Backwards-compatible fallback in case appearance was not generated
+    lines.push(`- Average build, ~${profile.heightCm} cm`);
+  }
 
   lines.push('');
   lines.push('IDENTITY');
