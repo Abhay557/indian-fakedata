@@ -39,6 +39,7 @@ from indian_fakedata.utils.exporter import format_profiles, save_profiles
 from indian_fakedata.utils.appearance import generate_appearance, get_region
 from indian_fakedata.utils.employment import generate_employment_timeline
 from indian_fakedata.utils.skills import generate_skills
+from indian_fakedata.utils.schema import get_profile_schema, validate_profile
 
 from indian_fakedata._version import __version__
 __author__ = "Abhay Mourya"
@@ -71,6 +72,8 @@ __all__ = [
     "get_region",
     "generate_employment_timeline",
     "generate_skills",
+    "get_profile_schema",
+    "validate_profile",
 ]
 
 # note for someone who is reading this code

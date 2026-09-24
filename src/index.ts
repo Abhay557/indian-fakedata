@@ -95,6 +95,8 @@ export { generateEmploymentTimeline } from './utils/employment.js';
 export type { EmploymentTimelineOptions } from './utils/employment.js';
 export { generateSkills } from './utils/skills.js';
 export type { SkillsOptions } from './utils/skills.js';
+export { getProfileSchema, validateProfile } from './utils/schema.js';
+export type { ProfileValidation } from './utils/schema.js';
 
 // note for someone who is reading this code
 // yee sab data probablity hai vho confidentail hai iske liye github par public nahi kar sakta

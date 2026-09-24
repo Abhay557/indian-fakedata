@@ -525,6 +525,10 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   appearance.skinTone` outputs only those fields (dot paths allowed,
   repeatable, works for json/jsonl/csv). `--stats` prints a distribution
   summary (religion/state/gender/area/education/occupation) to stderr.
+- **Schema and validation.** `getProfileSchema()` exports a versioned JSON
+  Schema for the profile shape; `validateProfile(profile)` returns
+  `{ valid, errors }` checking required fields, enums and the `synthetic` /
+  `generator` provenance markers. Zero dependencies, works on plain JSON.
 
 ---
 

@@ -218,6 +218,11 @@ v2.0.9 CLI adds `--fields` (comma-separated, repeatable, dot paths allowed:
 and `--stats` (stderr distribution summary over religion, state, gender,
 areaType, education, occupation).
 
+v2.0.9 validation: `validateProfile(profile)` → `{ valid, errors }`
+(Python: `validate_profile(profile)` → `{"valid", "errors"}`) checks
+required fields, enum values and provenance markers; `getProfileSchema()` /
+`get_profile_schema()` exports the versioned JSON Schema. Zero dependencies.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 
