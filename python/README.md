@@ -474,6 +474,8 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
 
 ### v2.0.9 — work history, skills and more
 
+See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
+
 - **Employment timeline.** Every profile now carries `employmentTimeline`: a
   chronological list of job spells (`jobTitle`, `sector`, `occupation`,
   `employerType`, `startYear`, `endYear`, `status`, `monthlyWageINR`,

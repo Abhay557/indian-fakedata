@@ -1,0 +1,67 @@
+# Changelog — indian-fakedata
+
+Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
+PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
+within one version; across versions it is not.
+
+## 2.0.9
+
+- **Employment timeline.** New `employmentTimeline` on every profile:
+  chronological job spells (`jobTitle`, `sector`, `occupation`,
+  `employerType`, `startYear`, `endYear`, `status`, `monthlyWageINR`,
+  `location`). Wages climb towards the current income. Empty for students,
+  the unemployed and children; completed-only for retirees.
+- **Skills block.** New `skills` on every profile: `technical` and `soft`
+  lists, `certifications`, and per-language speaking/reading/writing levels
+  (`basic` / `intermediate` / `fluent` / `native`).
+- **New narratives.** Layer 3 gains `resume` (CV from education timeline,
+  work history and skills) and `customer_support_chat` (Hinglish helpline
+  dialogue, masked phone). Appended at the end of `generateAllNarratives`.
+- **Persona languages.** Layer 4 accepts `english` / `hindi` / `hinglish`
+  (`generateAgentPersona`, `generateEnriched`, `generatePersona`, CLI
+  `--persona-lang`). Hindi renders Devanagari + Hindi headers; default
+  english output is unchanged.
+- **CLI output shaping.** `--fields` (comma-separated, repeatable, dot
+  paths, all formats) and `--stats` (stderr distribution summary).
+- **Schema + validation.** `getProfileSchema()` / `get_profile_schema()`
+  export a versioned JSON Schema (canonical file:
+  `schema/profile-2.0.9.json`); `validateProfile()` / `validate_profile()`
+  check required fields, enums and provenance markers.
+- **PII stripping.** `stripPII()` / `strip_pii()` return a share-safe copy
+  with identifiers emptied, shape and provenance kept, `piiStripped: true`
+  marker, optional name masking.
+- Stability: F1/F2 run on isolated per-profile RNG streams, so `id` and
+  every <= 2.0.8 field for a given seed are byte-identical (verified over
+  200 seeded profiles in both runtimes).
+
+## 2.0.8
+
+- New nested `appearance` object (face, skin tone, eyes, hair, build).
+- Adult `heightCm` shifted by broad geographic region; skin tone uses named
+  buckets (`fair`, `wheatish`, `brown`, `deep_brown`, `dark`).
+- Agent personas describe appearance in the system prompt.
+
+## 2.0.7
+
+- Correctness release: fixed the Python mulberry32 RNG bias (signed shifts
+  skewed every weighted choice) and the DOB/age off-by-one drift.
+
+## 2.0.6
+
+- Provenance markers on every profile: `"synthetic": true` and
+  `"generator": "indian-fakedata@<version>"`.
+
+## 2.0.5
+
+- Fixed `generate_enriched` crashing on string seeds such as `"011"`.
+
+## 2.0.4
+
+- Data-pool expansion: 760 districts, 471 surnames, Jain/Buddhist/Muslim/
+  Christian first names, 130+ anime titles, more address localities.
+  Seeds may resolve to different people than <= 2.0.3.
+
+## 2.0.3
+
+- Added `educationTimeline`, `personalityTraits` and `moviePreferences` to
+  every profile.
