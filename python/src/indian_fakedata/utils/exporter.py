@@ -145,3 +145,62 @@ def save_profiles(profiles, filepath, fmt="json"):
     content = format_profiles(profiles, fmt)
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
+
+
+# ── Field selection + run stats (v2.0.9, powers --fields / --stats) ──
+
+def get_path_value(obj, path):
+    """Read a dot-separated path (e.g. 'appearance.skinTone') from a record."""
+    cur = obj
+    for part in path.split("."):
+        if not isinstance(cur, dict) or part not in cur:
+            return None
+        cur = cur[part]
+    return cur
+
+
+def pick_record_fields(record, fields):
+    """Project a record down to the requested fields (dot paths supported)."""
+    out = {}
+    for f in fields:
+        v = get_path_value(record, f)
+        if v is not None:
+            out[f] = v
+    return out
+
+
+#: Categorical fields summarised by --stats
+STATS_FIELDS = ["religion", "state", "gender", "areaType", "education", "occupation"]
+
+
+def create_stats_counters():
+    return {"total": 0, "byField": {}}
+
+
+def update_stats_counters(counters, record):
+    """Count one record (plain or enriched — enriched counts its profile)."""
+    base = record.get("profile", record) if isinstance(record, dict) else None
+    if not isinstance(base, dict):
+        return
+    counters["total"] += 1
+    for f in STATS_FIELDS:
+        v = base.get(f)
+        if v is None:
+            continue
+        key = str(v)
+        counters["byField"].setdefault(f, {})
+        counters["byField"][f][key] = counters["byField"][f].get(key, 0) + 1
+
+
+def format_stats_counters(counters):
+    """Render counters as human-readable stderr lines (top 5 per field)."""
+    total = counters["total"]
+    lines = [f"[Stats] {total} profile{'s' if total != 1 else ''}"]
+    for f in STATS_FIELDS:
+        dist = counters["byField"].get(f)
+        if not dist:
+            continue
+        top = sorted(dist.items(), key=lambda kv: kv[1], reverse=True)[:5]
+        lines.append("  {}: {}".format(
+            f, ", ".join(f"{k} {n} ({n / total * 100:.1f}%)" for k, n in top)))
+    return lines

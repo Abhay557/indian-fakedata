@@ -56,8 +56,14 @@ indian-fakedata [options]
 
 `--enrich` (all), `--outcomes` (credit/health/employment), `--bias <0-1>`
 (default `0.3`), `--narrative <type>` (loan_application, medical_consultation,
-school_enrollment, ration_card_application, hinglish_conversation, all),
-`--persona` (LLM agent persona).
+school_enrollment, ration_card_application, hinglish_conversation, resume,
+customer_support_chat, all), `--persona` (LLM agent persona),
+`--persona-lang <english|hindi|hinglish>` (default `english`).
+
+### Output shaping
+
+`--fields <a,b,c>` (repeatable, dot paths allowed), `--stats` (stderr
+distribution summary).
 
 ### Most useful invocations
 
@@ -206,6 +212,11 @@ v2.0.9 Layer 4 personas take a language: `generateAgentPersona(profile,
 `--persona --persona-lang hindi`. Hindi = Devanagari prompt + Hindi headers;
 Hinglish = roman mix + English headers. Default english is byte-identical to
 <= 2.0.8.
+
+v2.0.9 CLI adds `--fields` (comma-separated, repeatable, dot paths allowed:
+`--fields firstName,state,appearance.skinTone`, works for json/jsonl/csv)
+and `--stats` (stderr distribution summary over religion, state, gender,
+areaType, education, occupation).
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

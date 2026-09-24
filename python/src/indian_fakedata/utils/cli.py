@@ -41,6 +41,12 @@ def print_help():
     --no-metrics           Exclude probability metrics from output
     --family               Generate a full family (head + spouse + parents +
                            children + siblings) from a single seed
+    --fields <a,b,c>       Output only these fields (dot paths allowed,
+                           e.g. firstName,state,appearance.skinTone).
+                           Repeatable: --fields a,b --fields c
+    --stats                Print a distribution summary
+                           (religion/state/gender/area/education/occupation)
+                           to stderr after generation
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -120,6 +126,8 @@ def main():
     parser.add_argument("--persona", action="store_true")
     parser.add_argument("--persona-lang", type=str, default="english",
                         choices=["english", "hindi", "hinglish"])
+    parser.add_argument("--fields", action="append", default=None)
+    parser.add_argument("--stats", action="store_true")
 
     # Parse only known args
     args, unknown = parser.parse_known_args()
@@ -143,6 +151,22 @@ def main():
         constraints["ageRange"] = {"min": args.minAge or 0, "max": args.maxAge or 100}
 
     include_probability_metrics = not args.no_metrics
+
+    # Field selection + stats (v2.0.9)
+    selected_fields = []
+    if args.fields:
+        for chunk in args.fields:
+            selected_fields.extend(
+                [s.strip() for s in chunk.split(",") if s.strip()])
+    show_stats = args.stats
+    from indian_fakedata.utils.exporter import (
+        pick_record_fields, create_stats_counters,
+        update_stats_counters, format_stats_counters,
+    )
+    stats = create_stats_counters()
+
+    def shape(record):
+        return pick_record_fields(record, selected_fields) if selected_fields else record
 
     # Enrichment options
     include_outcomes = args.outcomes or args.enrich
@@ -177,9 +201,22 @@ def main():
             include_probability_metrics=include_probability_metrics
         )
         if args.format == "json":
-            out_file.write(json.dumps(family, indent=2, ensure_ascii=False))
+            out_file.write(json.dumps(shape(family), indent=2, ensure_ascii=False))
         else:
-            out_file.write(json.dumps(family, ensure_ascii=False) + "\n")
+            out_file.write(json.dumps(shape(family), ensure_ascii=False) + "\n")
+        if show_stats:
+            members = [family.get("head")] + ([family.get("spouse")] if family.get("spouse") else [])
+            parents = family.get("parents", {})
+            if parents.get("father"):
+                members.append(parents["father"])
+            if parents.get("mother"):
+                members.append(parents["mother"])
+            members += family.get("children", []) + family.get("siblings", [])
+            for m in members:
+                if m:
+                    update_stats_counters(stats, m)
+            for line in format_stats_counters(stats):
+                print(line, file=sys.stderr)
         if args.output:
             out_file.close()
         return
@@ -212,27 +249,36 @@ def main():
             for i, p in enumerate(stream):
                 if not is_first:
                     out_file.write(",\n")
+                update_stats_counters(stats, p)
                 if args.count <= 100:
-                    out_file.write(json.dumps(p, indent=2, ensure_ascii=False))
+                    out_file.write(json.dumps(shape(p), indent=2, ensure_ascii=False))
                 else:
-                    out_file.write(json.dumps(p, ensure_ascii=False))
+                    out_file.write(json.dumps(shape(p), ensure_ascii=False))
                 is_first = False
             out_file.write("\n]\n")
 
         elif args.format == "jsonl":
             for p in stream:
-                out_file.write(json.dumps(p, ensure_ascii=False) + "\n")
+                update_stats_counters(stats, p)
+                out_file.write(json.dumps(shape(p), ensure_ascii=False) + "\n")
 
         elif args.format == "csv":
             is_first = True
             headers = []
             for record in stream:
-                flat = _flatten_enriched(record) if is_enriched else _flatten_object(record)
+                update_stats_counters(stats, record)
+                src = shape(record)
+                flat = _flatten_object(src) if selected_fields else (
+                    _flatten_enriched(record) if is_enriched else _flatten_object(record))
                 if is_first:
                     headers = list(flat.keys())
                     out_file.write(",".join(_escape_csv_value(h) for h in headers) + "\n")
                     is_first = False
                 out_file.write(",".join(_escape_csv_value(flat.get(h)) for h in headers) + "\n")
+
+        if show_stats:
+            for line in format_stats_counters(stats):
+                print(line, file=sys.stderr)
 
     finally:
         if args.output:

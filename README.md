@@ -521,6 +521,10 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   'hinglish' })`, or CLI `--persona --persona-lang hindi`. Hindi renders the
   system prompt in Devanagari with Hindi section headers; Hinglish uses roman
   script. Default `english` output is unchanged.
+- **CLI field selection and stats.** `--fields firstName,state,
+  appearance.skinTone` outputs only those fields (dot paths allowed,
+  repeatable, works for json/jsonl/csv). `--stats` prints a distribution
+  summary (religion/state/gender/area/education/occupation) to stderr.
 
 ---
 

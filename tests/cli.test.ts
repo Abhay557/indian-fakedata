@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { flattenObject, escapeCSVValue } from '../src/utils/cli-stream.js';
+import {
+  getPathValue,
+  pickRecordFields,
+  createStatsCounters,
+  updateStatsCounters,
+  formatStatsCounters,
+} from '../src/utils/cli-stream.js';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -89,5 +96,57 @@ describe('CLI Integration Tests', () => {
     expect(Array.isArray(family.children)).toBe(true);
     expect(Array.isArray(family.siblings)).toBe(true);
     expect(family.parents).toBeDefined();
+  });
+});
+
+describe('--fields / --stats (v2.0.9)', () => {
+  it('picks top-level and dot-path fields, skipping missing ones', () => {
+    const record = {
+      firstName: 'Abhay', state: 'Punjab',
+      appearance: { skinTone: 'wheatish', build: 'average' },
+    };
+    expect(pickRecordFields(record, ['firstName', 'appearance.skinTone', 'nope'])).toEqual({
+      firstName: 'Abhay',
+      'appearance.skinTone': 'wheatish',
+    });
+    expect(getPathValue(record, 'appearance.build')).toBe('average');
+    expect(getPathValue(record, 'appearance.missing')).toBeUndefined();
+  });
+
+  it('counts categories and formats a readable summary', () => {
+    const stats = createStatsCounters();
+    updateStatsCounters(stats, { religion: 'Hindu', state: 'Punjab', gender: 'male', areaType: 'rural', education: 'primary', occupation: 'cultivator' });
+    updateStatsCounters(stats, { profile: { religion: 'Muslim', state: 'Punjab', gender: 'female', areaType: 'urban', education: 'graduate', occupation: 'other_worker' } });
+    // non-objects are ignored
+    updateStatsCounters(stats, null);
+    const lines = formatStatsCounters(stats);
+    expect(lines[0]).toBe('[Stats] 2 profiles');
+    expect(lines.join('\n')).toContain('religion: Hindu 1 (50.0%), Muslim 1 (50.0%)');
+    expect(lines.join('\n')).toContain('state: Punjab 2 (100.0%)');
+  });
+
+  it('CLI --fields writes only the requested keys', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'fields.json');
+    execSync(
+      `npx tsx src/cli.ts -c 3 --seed 7 --fields firstName,state,appearance.skinTone -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    expect(content.length).toBe(3);
+    for (const row of content) {
+      expect(Object.keys(row).sort()).toEqual(['appearance.skinTone', 'firstName', 'state']);
+    }
+  });
+
+  it('CLI --stats prints a summary to stderr', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'stats.json');
+    const combined = execSync(
+      `npx tsx src/cli.ts -c 5 --seed 7 --stats -o "${outPath}" -f json 2>&1`,
+      { stdio: 'pipe', encoding: 'utf-8' }
+    );
+    expect(combined).toContain('[Stats] 5 profiles');
+    expect(combined).toContain('gender:');
   });
 });

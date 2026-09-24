@@ -14,7 +14,14 @@ import fs from 'fs';
 import path from 'path';
 import { generateStream, generateEnrichedStream } from './utils/generator.js';
 import { generateFamily } from './utils/relations.js';
-import { flattenObject, escapeCSVValue } from './utils/cli-stream.js';
+import {
+  flattenObject,
+  escapeCSVValue,
+  pickRecordFields,
+  createStatsCounters,
+  updateStatsCounters,
+  formatStatsCounters,
+} from './utils/cli-stream.js';
 
 // ── Validation constants ───────────────────────────────────────────
 const validGenders = ['male', 'female', 'other'];
@@ -60,6 +67,12 @@ function printHelp() {
     --no-metrics           Exclude probability metrics from output
     --family               Generate a full family (head + spouse + parents +
                            children + siblings) from a single seed
+    --fields <a,b,c>       Output only these fields (dot paths allowed,
+                           e.g. firstName,state,appearance.skinTone).
+                           Repeatable: --fields a,b --fields c
+    --stats                Print a distribution summary
+                           (religion/state/gender/area/education/occupation)
+                           to stderr after generation
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -113,6 +126,12 @@ function printHelp() {
 
     ${C.dim}# One complete profile, pretty-printed${C.reset}
     indian-fakedata -c 1 --enrich --bias 0.0 --seed 42
+
+    ${C.dim}# Slim output — only names, state and skin tone${C.reset}
+    indian-fakedata -c 100 --fields firstName,lastName,state,appearance.skinTone -f jsonl
+
+    ${C.dim}# Distribution summary on stderr${C.reset}
+    indian-fakedata -c 10000 --stats --state Maharashtra
 
     ${C.dim}# A full family from a string seed${C.reset}
     indian-fakedata --family --seed 011
@@ -194,6 +213,8 @@ async function main() {
   let narrativeTypes: string[] = [];
   let includeAgentPersona = false;
   let personaLang = 'english';
+  let selectedFields: string[] = [];
+  let showStats = false;
 
 
   if (process.argv.length < 3) {
@@ -329,6 +350,18 @@ async function main() {
       personaLang = val;
       i++;
 
+    } else if (arg === '--fields') {
+      const vals = getArgValue(i).split(',').map(s => s.trim()).filter(Boolean);
+      if (vals.length === 0) {
+        console.error(`${C.red}Error:${C.reset} --fields needs at least one field name.`);
+        process.exit(1);
+      }
+      selectedFields.push(...vals);
+      i++;
+
+    } else if (arg === '--stats') {
+      showStats = true;
+
     } else {
       console.error(`${C.red}Error:${C.reset} Unknown option '${arg}'. Use -h or --help for usage.`);
       process.exit(1);
@@ -391,6 +424,10 @@ async function main() {
     agentPersonaLanguage: personaLang as any,
   };
 
+  const stats = createStatsCounters();
+  const shape = (record: any) =>
+    selectedFields.length > 0 ? pickRecordFields(record, selectedFields) : record;
+
   try {
     let i = 0;
 
@@ -411,7 +448,11 @@ async function main() {
       if (family.parents.mother) members.push(family.parents.mother);
       members.push(...family.children, ...family.siblings);
       const output = { head: family.head, spouse: family.spouse, parents: family.parents, children: family.children, siblings: family.siblings };
-      writeStream.write(format === 'json' ? JSON.stringify(output, null, 2) : JSON.stringify(output) + '\n');
+      if (showStats) for (const m of members) updateStatsCounters(stats, m);
+      writeStream.write(format === 'json' ? JSON.stringify(shape(output), null, 2) : JSON.stringify(shape(output)) + '\n');
+      if (showStats) {
+        for (const line of formatStatsCounters(stats)) process.stderr.write(line + '\n');
+      }
       if (outputPath) (writeStream as fs.WriteStream).end();
       process.stderr.write(`\n${C.green}[Done]${C.reset} Family of ${members.length} members (head: ${family.head.firstName} ${family.head.lastName}, ${family.head.state}).\n`);
       return;
@@ -428,7 +469,8 @@ async function main() {
 
       for (const record of stream) {
         if (!isFirst) writeStream.write(',\n');
-        writeStream.write(count <= 100 ? JSON.stringify(record, null, 2) : JSON.stringify(record));
+        updateStatsCounters(stats, record);
+        writeStream.write(count <= 100 ? JSON.stringify(shape(record), null, 2) : JSON.stringify(shape(record)));
         isFirst = false;
         i++;
         if (outputPath && i % logInterval === 0) {
@@ -445,7 +487,8 @@ async function main() {
         : (function* () { for (const p of generateStream(baseOptions)) yield p; })();
 
       for (const record of stream) {
-        writeStream.write(JSON.stringify(record) + '\n');
+        updateStatsCounters(stats, record);
+        writeStream.write(JSON.stringify(shape(record)) + '\n');
         i++;
         if (outputPath && i % logInterval === 0) {
           const rate = Math.round(i / ((Date.now() - startTime) / 1000));
@@ -463,7 +506,11 @@ async function main() {
         : (function* () { for (const p of generateStream(baseOptions)) yield p; })();
 
       for (const record of stream) {
-        const flat = isEnriched ? flattenEnriched(record) : flattenObject(record);
+        updateStatsCounters(stats, record);
+        const src = shape(record);
+        const flat = selectedFields.length > 0
+          ? flattenObject(src)
+          : (isEnriched ? flattenEnriched(record) : flattenObject(record));
         if (isFirst) {
           headers = Object.keys(flat);
           writeStream.write(headers.map(escapeCSVValue).join(',') + '\n');
@@ -479,6 +526,9 @@ async function main() {
     }
 
     // ── Final summary ──────────────────────────────────────────────
+    if (showStats) {
+      for (const line of formatStatsCounters(stats)) process.stderr.write(line + '\n');
+    }
     if (outputPath) {
       (writeStream as fs.WriteStream).end();
       const totalTime = (Date.now() - startTime) / 1000;
