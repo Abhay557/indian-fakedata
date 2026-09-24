@@ -251,6 +251,25 @@ export interface EmploymentStage {
   location: string;
 }
 
+/** Speaking/reading/writing level for one language (v2.0.9) */
+export type LanguageLevel = 'basic' | 'intermediate' | 'fluent' | 'native';
+
+/** Per-language proficiency */
+export interface LanguageSkill {
+  language: string;
+  speaking: LanguageLevel;
+  reading: LanguageLevel;
+  writing: LanguageLevel;
+}
+
+/** Skills block: technical + soft skills, certifications, languages */
+export interface SkillsProfile {
+  technical: string[];
+  soft: string[];
+  certifications: string[];
+  languages: LanguageSkill[];
+}
+
 /** Descriptive personality traits derived from Big Five scores (AI-friendly) */
 export interface PersonalityTraits {
   /** One-sentence personality summary */
@@ -484,6 +503,8 @@ export interface DemographicProfile {
   educationTimeline: EducationStage[];
   /** Chronological work history (v2.0.9, empty when too young to work) */
   employmentTimeline?: EmploymentStage[];
+  /** Skills, certifications and language proficiency (v2.0.9) */
+  skills?: SkillsProfile;
   /** Descriptive personality traits derived from Big Five scores */
   personalityTraits: PersonalityTraits;
   /** Movie/anime viewing preferences */

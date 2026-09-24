@@ -55,6 +55,7 @@ from indian_fakedata.utils.education import generate_education_timeline
 from indian_fakedata.utils.media import generate_movie_preferences
 from indian_fakedata.utils.appearance import generate_appearance
 from indian_fakedata.utils.employment import generate_employment_timeline
+from indian_fakedata.utils.skills import generate_skills
 
 
 def _generate_uuid(rng):
@@ -329,6 +330,12 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         socio["age"], socio["education"], socio["occupation"],
         employment_sector, socio["income"], district, path["areaType"],
         path["gender"], feat_rng,
+    )
+    skills_rng = create_rng("v209:skills:" + profile["id"])
+    profile["skills"] = generate_skills(
+        socio["age"], socio["education"], socio["occupation"],
+        employment_sector, mother_tongue, second_language,
+        path["areaType"], skills_rng,
     )
 
     return profile

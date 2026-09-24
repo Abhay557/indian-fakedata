@@ -505,6 +505,11 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   unemployed and children get an empty timeline, retirees get completed-only
   history. Attached after profile assembly, so `id` and every <= 2.0.8 field
   for a given seed stay byte-identical.
+- **Skills and languages.** Every profile now carries `skills`: `technical`
+  and `soft` skill lists, `certifications`, and per-language
+  speaking/reading/writing levels (`basic` / `intermediate` / `fluent` /
+  `native`). Pools follow education and occupation; children get languages
+  only. Same isolated-stream guarantee as the employment timeline.
 
 ---
 

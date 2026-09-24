@@ -38,6 +38,7 @@ load_database = _db_loader.load_database
 from indian_fakedata.utils.exporter import format_profiles, save_profiles
 from indian_fakedata.utils.appearance import generate_appearance, get_region
 from indian_fakedata.utils.employment import generate_employment_timeline
+from indian_fakedata.utils.skills import generate_skills
 
 from indian_fakedata._version import __version__
 __author__ = "Abhay Mourya"
@@ -69,6 +70,7 @@ __all__ = [
     "generate_appearance",
     "get_region",
     "generate_employment_timeline",
+    "generate_skills",
 ]
 
 # note for someone who is reading this code

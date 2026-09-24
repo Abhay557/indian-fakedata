@@ -53,6 +53,7 @@ import {
 } from './identifiers.js';
 import { generateAppearance } from './appearance.js';
 import { generateEmploymentTimeline } from './employment.js';
+import { generateSkills } from './skills.js';
 import {
   generateDiet,
   generateDisability,
@@ -452,6 +453,19 @@ function generateSingleProfile(
       gender: path.gender,
     },
     featRng
+  );
+  const skillsRng = createRNG(`v209:skills:${profile.id}`);
+  profile.skills = generateSkills(
+    {
+      age: socio.age,
+      education: socio.education,
+      occupation: socio.occupation,
+      employmentSector,
+      motherTongue,
+      secondLanguage,
+      areaType: path.areaType,
+    },
+    skillsRng
   );
 
   return profile;

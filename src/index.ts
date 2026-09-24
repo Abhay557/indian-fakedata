@@ -63,6 +63,9 @@ export type {
   CulturalProfile,
   Appearance,
   EmploymentStage,
+  LanguageLevel,
+  LanguageSkill,
+  SkillsProfile,
   HouseholdAssets,
   NameEntry,
   CasteEntry,
@@ -90,6 +93,8 @@ export { formatProfiles, saveProfilesToFile } from './utils/exporter.js';
 export { generateAppearance, getRegion } from './utils/appearance.js';
 export { generateEmploymentTimeline } from './utils/employment.js';
 export type { EmploymentTimelineOptions } from './utils/employment.js';
+export { generateSkills } from './utils/skills.js';
+export type { SkillsOptions } from './utils/skills.js';
 
 // note for someone who is reading this code
 // yee sab data probablity hai vho confidentail hai iske liye github par public nahi kar sakta

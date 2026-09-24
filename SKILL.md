@@ -125,7 +125,8 @@ social category, mother tongue, education, occupation, income, expenditure),
 household (children count, assets), lifestyle (diet, habits, interests), and
 psychology (Big Five, cognitive profile, political leaning), work history
 (`employmentTimeline`: chronological job spells with title, sector, tenure,
-wages). `probabilityMetrics`
+wages), skills (`skills`: technical/soft lists, certifications, per-language
+speaking/reading/writing levels). `probabilityMetrics`
 shows the chain of probabilities for each draw.
 
 v2.0.3 added three fields to every profile:
@@ -187,6 +188,11 @@ sector pools (government, private, self-employed, informal, ...); wages climb
 towards the current income. Empty for students, the unemployed and children;
 completed-only for retirees. Attached AFTER profile assembly, so `id` and all
 <= 2.0.8 fields for a given seed are byte-identical.
+
+v2.0.9 also adds `skills` to every profile — `technical` and `soft` lists,
+`certifications`, and `languages` with speaking/reading/writing levels
+(`basic` / `intermediate` / `fluent` / `native`). Same isolated-stream
+guarantee: drawn from a per-profile stream AFTER assembly.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
