@@ -491,6 +491,12 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   (Hinglish bank helpline dialogue, phone masked). Both work via
   `generate_narrative`, `--narrative` and `generate_all_narratives`, which
   appends them at the end so existing document order is unchanged.
+- **Hindi/Hinglish personas.** Layer 4 personas accept a `language` option
+  (`english` / `hindi` / `hinglish`): `generate_agent_persona(profile,
+  'hindi')`, `generate_enriched(..., agent_persona_language='hinglish')`,
+  or CLI `--persona --persona-lang hindi`. Hindi renders the system prompt
+  in Devanagari with Hindi section headers; Hinglish uses roman script.
+  Default `english` output is unchanged.
 
 ---
 

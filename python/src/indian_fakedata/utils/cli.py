@@ -70,6 +70,8 @@ def print_help():
                             Can be repeated for multiple types.
     --persona              {C["dim"]}[Layer 4]{C["reset"]} Generate LLM-ready agent persona (system prompt,
                            beliefs, memory seeds, behavioral rules).
+    --persona-lang <lang>  Persona prompt language: english, hindi, hinglish
+                           (default: english).
 
   {C["bold"]}EXAMPLES:{C["reset"]}
     {C["dim"]}# Basic generation{C["reset"]}
@@ -116,6 +118,8 @@ def main():
     parser.add_argument("--bias", type=float, default=0.3)
     parser.add_argument("--narrative", action="append", default=None)
     parser.add_argument("--persona", action="store_true")
+    parser.add_argument("--persona-lang", type=str, default="english",
+                        choices=["english", "hindi", "hinglish"])
 
     # Parse only known args
     args, unknown = parser.parse_known_args()
@@ -190,7 +194,8 @@ def main():
             include_outcomes=include_outcomes,
             bias_level=bias_level,
             narrative_types=narrative_types,
-            include_agent_persona=include_agent_persona
+            include_agent_persona=include_agent_persona,
+            agent_persona_language=args.persona_lang
         )
     else:
         stream = generate_stream(

@@ -107,7 +107,177 @@ def _describe_appearance(profile):
     )
 
 
-def _build_system_prompt(profile):
+VALID_PERSONA_LANGUAGES = ("english", "hindi", "hinglish")
+
+
+def _check_language(language):
+    if language not in VALID_PERSONA_LANGUAGES:
+        raise ValueError(
+            f"Unknown persona language: {language!r}. "
+            f"Must be one of: {', '.join(VALID_PERSONA_LANGUAGES)}."
+        )
+    return language
+
+
+def _gender_word_hindi(gender):
+    return "mahila" if gender == "female" else "purush" if gender == "male" else "vyakti"
+
+
+def _build_system_prompt_hindi(profile):
+    # System prompt fully in Hindi (Devanagari). Data values stay as-is.
+    worldview = _derive_worldview(profile)
+    occupation = profile.get("employmentSector", "worker")
+    if profile.get("occupation") == "non_worker":
+        occupation = "छात्र" if profile.get("age", 30) < 18 else "गृहिणी/गैर-कामगार"
+
+    religiosity = profile.get("religiosity", "somewhat_religious")
+    religion = profile.get("religion", "hindu")
+    if religiosity == "very_religious":
+        dharm = f"{religion} धर्म के प्रति गहरी आस्था रखते हैं और नियमित पूजा-पाठ करते हैं"
+    elif religiosity == "somewhat_religious":
+        dharm = f"{religion} धर्म को मानते हैं, त्योहारों और खास मौकों पर पूजा करते हैं"
+    else:
+        dharm = f"खुद को {religion} मानते हैं लेकिन सक्रिय रूप से धार्मिक कार्य नहीं करते"
+
+    pl = profile.get("politicalLeaning", "apolitical")
+    rajneeti = ("राजनीति से ज़्यादा मतलब नहीं रखते" if pl == "apolitical"
+                else f"{pl.replace('_', '-')} विचारधारा की ओर झुकाव है")
+
+    cultural = profile.get("culturalProfile", {})
+    fs = cultural.get("familyStructure", "nuclear_family")
+    if fs == "joint_family":
+        parivaar = "संयुक्त परिवार में रहते हैं"
+    elif fs == "extended_family":
+        parivaar = "आस-पास विस्तारित परिवार के साथ रहते हैं"
+    else:
+        parivaar = "एकल परिवार में रहते हैं"
+
+    monthly_k = round(profile.get("annualIncomeINR", 0) / 12 / 1000)
+    second_lang = profile.get("secondLanguage")
+    second_str = f", साथ में {second_lang} भी बोलते हैं" if second_lang else ""
+    mt = profile.get("motherTongue", "Hindi")
+    area = profile.get("areaType", "rural")
+    cp = cultural.get("careerPreference", "labor").replace("_", " ")
+    savings_str = "नियमित बचत" if cultural.get("savingsOrientation", 0) > 60 else "हैसियत के अंदर खर्च"
+    gender_word = _gender_word_hindi(profile.get("gender", "male"))
+
+    return (
+        f"आप {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')} हैं — "
+        f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, भारत के "
+        f"{profile.get('age', 30)} साल के {gender_word}। "
+        f"आप {profile.get('caste', 'Unknown')} समुदाय ({profile.get('socialCategory', 'General')} वर्ग) से हैं "
+        f"और {religion} धर्म का पालन करते हैं। आपकी मातृभाषा {mt} है{second_str}। "
+        f"आप {occupation} का काम करते हैं और महीने लगभग {monthly_k} हज़ार रुपये कमाते हैं। "
+        f"आप {profile.get('householdSize', 4)} परिजनों के साथ {parivaar}। आप {dharm}। आप {rajneeti}। "
+        f"आपका जीवन-दृष्टिकोण मुख्यतः {worldview} है। शारीरिक रूप से: {_describe_appearance(profile)}। "
+        f"आप {area} माहौल में पले-बढ़े; {profile.get('caste', 'Unknown')} संस्कृति ने आपके मूल्यों को {cp}, "
+        f"परिवार ({fs.replace('_', ' ')}) और {savings_str} के इर्द-गिर्द ढाला है। "
+        f"जवाब देते समय अपने माहौल जैसी स्वाभाविक भाषा बोलें — "
+        f"{'हिंदी और अंग्रेज़ी का सहज मिश्रण (Hinglish)' if area == 'urban' else f'मुख्यतः {mt}-प्रभावित बोली'}। "
+        f"{profile.get('district', 'Unknown')} के अपने अनुभव, {occupation} के काम और पारिवारिक "
+        f"ज़िम्मेदारियों से प्रेरणा लें।"
+    )
+
+
+def _build_system_prompt_hinglish(profile):
+    # System prompt in Hinglish (roman script mix). Data values stay as-is.
+    worldview = _derive_worldview(profile)
+    occupation = profile.get("employmentSector", "worker")
+    if profile.get("occupation") == "non_worker":
+        occupation = "student" if profile.get("age", 30) < 18 else "homemaker/non-worker"
+
+    religiosity = profile.get("religiosity", "somewhat_religious")
+    religion = profile.get("religion", "hindu")
+    if religiosity == "very_religious":
+        dharm = f"{religion} dharam ko dil se mante ho aur regular pooja-paath karte ho"
+    elif religiosity == "somewhat_religious":
+        dharm = f"{religion} ko mante ho, tyoharon aur khaas maukon par pooja karte ho"
+    else:
+        dharm = f"khud ko {religion} mante ho lekin actively dharmik kaam nahi karte"
+
+    pl = profile.get("politicalLeaning", "apolitical")
+    rajneeti = ("politics se zyada matlab nahi rakhte" if pl == "apolitical"
+                else f"{pl.replace('_', '-')} vichardhara ki taraf jhukaav hai")
+
+    cultural = profile.get("culturalProfile", {})
+    fs = cultural.get("familyStructure", "nuclear_family")
+    if fs == "joint_family":
+        parivaar = "joint family me rehte ho"
+    elif fs == "extended_family":
+        parivaar = "aaspas extended family ke saath rehte ho"
+    else:
+        parivaar = "nuclear family setup me rehte ho"
+
+    monthly_k = round(profile.get("annualIncomeINR", 0) / 12 / 1000)
+    second_lang = profile.get("secondLanguage")
+    second_str = f", saath me {second_lang} bhi bolte ho" if second_lang else ""
+    mt = profile.get("motherTongue", "Hindi")
+    area = profile.get("areaType", "rural")
+    cp = cultural.get("careerPreference", "labor").replace("_", " ")
+    savings_str = "regular bachat" if cultural.get("savingsOrientation", 0) > 60 else "hasiyat ke andar kharch"
+
+    return (
+        f"Tum {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')} ho — "
+        f"{profile.get('age', 30)} saal ke {profile.get('gender', 'male')}, "
+        f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, India se. "
+        f"Tum {profile.get('caste', 'Unknown')} community ({profile.get('socialCategory', 'General')} category) "
+        f"se belong karte ho aur {religion} follow karte ho. Tumhari mother tongue {mt} hai{second_str}. "
+        f"Tum {occupation} ka kaam karte ho aur mahine lagbhag {monthly_k} hazaar rupaye kamate ho. "
+        f"Tum {profile.get('householdSize', 4)} family members ke saath {parivaar}. Tum {dharm}. Tum {rajneeti}. "
+        f"Tumhara worldview broadly {worldview} hai. Physically: {_describe_appearance(profile)}. "
+        f"Tum {area} environment me pale-badhe; tumhari {profile.get('caste', 'Unknown')} background ne tumhare "
+        f"values ko {cp}, family ({fs.replace('_', ' ')}) aur {savings_str} ke ird-gird dhala hai. "
+        f"Respond karte time apne background jaisi natural bhasha bolo — "
+        f"{'Hindi aur English ka natural mix (Hinglish)' if area == 'urban' else f'mainly {mt}-influenced speech'}. "
+        f"{profile.get('district', 'Unknown')} ke apne lived experience, {occupation} ke kaam aur "
+        f"family responsibilities se draw karo."
+    )
+
+
+def _section_header(name, language):
+    # Full-prompt section headers per language (body lines stay English data).
+    if language != "hindi":
+        return name
+    return {
+        "APPEARANCE": "ROOP-RANG",
+        "IDENTITY": "PEHCHAAN",
+        "EDUCATION": "SHIKSHA",
+        "WORK & FINANCES": "KAAM AUR PAISA",
+        "PERSONALITY": "VYAKTITVA",
+        "INTERESTS & PREFERENCES": "RUCHI",
+        "HABITS & LIFESTYLE": "AADATEIN",
+        "BELIEFS & VALUES": "MAANYATAAIN",
+        "MEMORIES": "YAADEIN",
+        "HOW TO SPEAK & BEHAVE": "BOLNE KA TARIKA",
+    }.get(name, name)
+
+
+def _intro_line(profile, language):
+    if language == "hindi":
+        return (
+            f"आप {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')} हैं — "
+            f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, भारत के "
+            f"{profile.get('age', 30)} साल के {_gender_word_hindi(profile.get('gender', 'male'))}। "
+            f"जन्म: {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} ब्लड ग्रुप, "
+            f"{profile.get('heightCm', 0)} सेमी, {profile.get('weightKg', 0)} किग्रा)।"
+        )
+    if language == "hinglish":
+        return (
+            f"Tum {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')} ho — "
+            f"{profile.get('age', 30)} saal ke {profile.get('gender', 'male')}, "
+            f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, India se. "
+            f"Born on {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} blood group, "
+            f"{profile.get('heightCm', 0)} cm, {profile.get('weightKg', 0)} kg)."
+        )
+    return None
+
+
+def _build_system_prompt(profile, language="english"):
+    _check_language(language)
+    if language == "hindi":
+        return _build_system_prompt_hindi(profile)
+    if language == "hinglish":
+        return _build_system_prompt_hinglish(profile)
     worldview = _derive_worldview(profile)
     occupation = profile.get("employmentSector", "worker")
     if profile.get("occupation") == "non_worker":
@@ -288,12 +458,13 @@ def _build_behavior_rules(profile):
     return rules
 
 
-def _build_full_prompt(profile):
+def _build_full_prompt(profile, language="english"):
     """Complete, self-contained persona prompt containing ALL information
     about this person (identity, education timeline, personality traits,
     movie/anime preferences, habits, beliefs, behaviour rules) so an LLM
     can act as this person.
     """
+    _check_language(language)
     # systemPrompt chhota hai sirf chat ke liye; ye wala pura roleplay prompt
     # hai — section-wise likha hai taaki LLM ko structure samajh aaye.
     worldview = _derive_worldview(profile)
@@ -303,16 +474,19 @@ def _build_full_prompt(profile):
 
     lines = []
 
-    lines.append(
-        f"You are {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')}, "
-        f"a {profile.get('age', 30)}-year-old {profile.get('gender', 'male')} from "
-        f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, India. "
-        f"Born on {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} blood group, "
-        f"{profile.get('heightCm', 0)} cm, {profile.get('weightKg', 0)} kg)."
-    )
+    intro = _intro_line(profile, language)
+    if intro is None:
+        intro = (
+            f"You are {profile.get('firstName', 'Unknown')} {profile.get('lastName', 'Unknown')}, "
+            f"a {profile.get('age', 30)}-year-old {profile.get('gender', 'male')} from "
+            f"{profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}, India. "
+            f"Born on {str(profile.get('dateOfBirth', ''))[:10]} ({profile.get('bloodGroup', 'O+')} blood group, "
+            f"{profile.get('heightCm', 0)} cm, {profile.get('weightKg', 0)} kg)."
+        )
+    lines.append(intro)
 
     lines.append("")
-    lines.append("APPEARANCE")
+    lines.append(_section_header("APPEARANCE", language))
     a = profile.get("appearance")
     if a:
         hair = f"{a.get('hairColor', 'black')} {a.get('hairTexture', 'wavy')} hair, {a.get('hairLength', 'medium')}"
@@ -331,7 +505,7 @@ def _build_full_prompt(profile):
         lines.append(f"- Average build, ~{profile.get('heightCm', 0)} cm")
 
     lines.append("")
-    lines.append("IDENTITY")
+    lines.append(_section_header("IDENTITY", language))
     lines.append(
         f"- Religion: {profile.get('religion', 'hindu')}; Caste/community: {profile.get('caste', 'Unknown')}; "
         f"Social category: {profile.get('socialCategory', 'General')}"
@@ -362,7 +536,7 @@ def _build_full_prompt(profile):
         lines.append(f"- Born and raised in {profile.get('district', 'Unknown')}, {profile.get('state', 'Unknown')}")
 
     lines.append("")
-    lines.append("EDUCATION")
+    lines.append(_section_header("EDUCATION", language))
     edu_details = profile.get("educationDetails", {})
     if edu_details.get("mediumOfInstruction"):
         lines.append(f"- Medium of instruction: {edu_details.get('mediumOfInstruction')}")
@@ -390,7 +564,7 @@ def _build_full_prompt(profile):
     lines.append(f"- Highest qualification: {profile.get('education', 'middle').replace('_', ' ')}")
 
     lines.append("")
-    lines.append("WORK & FINANCES")
+    lines.append(_section_header("WORK & FINANCES", language))
     income_k = round(profile.get("annualIncomeINR", 0) / 1000)
     spend_k = round(profile.get("monthlyExpenditureINR", 0) / 1000)
     land = profile.get("landOwnershipAcres", 0)
@@ -405,7 +579,7 @@ def _build_full_prompt(profile):
         )
 
     lines.append("")
-    lines.append("PERSONALITY")
+    lines.append(_section_header("PERSONALITY", language))
     traits = profile.get("personalityTraits", {})
     lines.append(f"- {traits.get('summary', '')}")
     lines.append(f"- Trait labels: {', '.join(traits.get('traitLabels', []))}")
@@ -426,7 +600,7 @@ def _build_full_prompt(profile):
     )
 
     lines.append("")
-    lines.append("INTERESTS & PREFERENCES")
+    lines.append(_section_header("INTERESTS & PREFERENCES", language))
     interests = profile.get("interests", {})
     lines.append(
         f"- Sport: {interests.get('primarySport', 'None')}; reading: "
@@ -457,7 +631,7 @@ def _build_full_prompt(profile):
     )
 
     lines.append("")
-    lines.append("HABITS & LIFESTYLE")
+    lines.append(_section_header("HABITS & LIFESTYLE", language))
     habits = profile.get("habits", {})
     lines.append(
         f"- Exercise: {habits.get('exerciseFrequency', 'occasionally')}; "
@@ -471,7 +645,7 @@ def _build_full_prompt(profile):
     lines.append(f"- Digital: {digital}; {vehicle_str}")
 
     lines.append("")
-    lines.append("BELIEFS & VALUES")
+    lines.append(_section_header("BELIEFS & VALUES", language))
     lines.append(
         f"- Religiosity: {profile.get('religiosity', 'somewhat_religious').replace('_', ' ')}; "
         f"political leaning: {profile.get('politicalLeaning', 'apolitical').replace('_', ' ')}; "
@@ -488,12 +662,12 @@ def _build_full_prompt(profile):
     )
 
     lines.append("")
-    lines.append("MEMORIES")
+    lines.append(_section_header("MEMORIES", language))
     for seed in _build_memory_seeds(profile):
         lines.append(f"- {seed}")
 
     lines.append("")
-    lines.append("HOW TO SPEAK & BEHAVE")
+    lines.append(_section_header("HOW TO SPEAK & BEHAVE", language))
     for rule in _build_behavior_rules(profile):
         lines.append(f"- {rule}")
     if profile.get("education") in ("graduate", "postgraduate"):
@@ -513,7 +687,7 @@ def _build_full_prompt(profile):
     return "\n".join(lines)
 
 
-def generate_agent_persona(profile):
+def generate_agent_persona(profile, language="english"):
     """
     Convert a DemographicProfile dict into an LLM-ready Agent Persona.
 
@@ -521,7 +695,11 @@ def generate_agent_persona(profile):
     - A system prompt for ChatGPT/Claude/Gemini for persona-based roleplay
     - An agent configuration for multi-agent simulation frameworks
     - A training example for persona-aware LLM fine-tuning
+
+    :param language: Prompt language — 'english' (default, unchanged),
+        'hindi' or 'hinglish'.
     """
+    _check_language(language)
     worldview = _derive_worldview(profile)
     code_switching = _derive_code_switching(profile)
 
@@ -581,8 +759,8 @@ def generate_agent_persona(profile):
     prob_metrics = profile.get("probabilityMetrics", {})
 
     return {
-        "systemPrompt": _build_system_prompt(profile),
-        "fullPrompt": _build_full_prompt(profile),
+        "systemPrompt": _build_system_prompt(profile, language),
+        "fullPrompt": _build_full_prompt(profile, language),
         "identityLine": _build_identity_line(profile),
         "beliefs": beliefs,
         "memorySeeds": _build_memory_seeds(profile),

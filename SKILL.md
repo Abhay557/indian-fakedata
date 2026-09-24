@@ -199,6 +199,14 @@ education timeline, `employmentTimeline` and `skills`) and
 `customer_support_chat` (Hinglish bank helpline dialogue, masked phone).
 `generateAllNarratives` appends them at the end; existing order unchanged.
 
+v2.0.9 Layer 4 personas take a language: `generateAgentPersona(profile,
+{ language: 'hindi' })` (Python: `generate_agent_persona(profile,
+'hindi')`), `generateEnriched({ ..., agentPersonaLanguage: 'hinglish' })`,
+`generatePersona({ ..., personaLanguage: 'hindi' })`, or CLI
+`--persona --persona-lang hindi`. Hindi = Devanagari prompt + Hindi headers;
+Hinglish = roman mix + English headers. Default english is byte-identical to
+<= 2.0.8.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 

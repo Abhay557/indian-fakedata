@@ -14,6 +14,7 @@
 
 import type {
   DemographicProfile,
+  Gender,
   PoliticalLeaning,
   ReligiosityLevel,
 } from '../types.js';
@@ -105,6 +106,14 @@ export interface AgentPersona {
   nationalPrevalence: number;
 }
 
+/** Prompt language for generated personas (v2.0.9) */
+export type PersonaLanguage = 'english' | 'hindi' | 'hinglish';
+
+export interface AgentPersonaOptions {
+  /** Prompt language. Default 'english' (output unchanged from <= 2.0.8). */
+  language?: PersonaLanguage;
+}
+
 // ─────────────────────────────────────────────────────────────
 // Mapping helpers
 // ─────────────────────────────────────────────────────────────
@@ -194,7 +203,9 @@ function describeAppearance(profile: DemographicProfile): string {
   return `${a.skinTone} skin, ${article(a.faceShape)} ${a.faceShape} face with ${article(a.noseType)} ${a.noseType} nose and ${a.eyeColor} ${a.eyeShape} eyes, ${hair}${facial}, and ${article(a.build)} ${a.build} build`;
 }
 
-function buildSystemPrompt(profile: DemographicProfile): string {
+function buildSystemPrompt(profile: DemographicProfile, language: PersonaLanguage = 'english'): string {
+  if (language === 'hindi') return buildSystemPromptHindi(profile);
+  if (language === 'hinglish') return buildSystemPromptHinglish(profile);
   const worldview = deriveWorldview(profile);
   const occupation = profile.occupation === 'non_worker'
     ? (profile.age < 18 ? 'student' : 'homemaker/non-worker')
@@ -222,6 +233,103 @@ function buildSystemPrompt(profile: DemographicProfile): string {
   return `You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. You belong to the ${profile.caste} community (${profile.socialCategory} category) and follow ${profile.religion}. Your mother tongue is ${profile.motherTongue}${profile.secondLanguage ? `, and you also speak ${profile.secondLanguage}` : ''}. You work as a ${occupation} and earn approximately ${Math.round(profile.annualIncomeINR / 12 / 1000)}K INR per month. You ${familyContext} with ${profile.householdSize} family members. You ${religiousPractice}. You ${politicalView}. Your worldview is broadly ${worldview}. Physically you have ${describeAppearance(profile)}. You grew up in a ${profile.areaType} environment and your cultural background as a ${profile.caste} shapes your values around ${profile.culturalProfile.careerPreference.replace('_', ' ')}, family ${profile.culturalProfile.familyStructure.replace('_', ' ')}, and ${profile.culturalProfile.savingsOrientation > 60 ? 'saving money diligently' : 'spending within means'}. When responding, speak naturally in the way someone of your background would — ${profile.areaType === 'urban' && (profile.motherTongue === 'hindi' || profile.secondLanguage === 'Hindi') ? 'mixing Hindi and English naturally (Hinglish)' : `primarily in ${profile.motherTongue}-influenced speech`}. Draw on your lived experience in ${profile.district}, your work as a ${occupation}, and your family responsibilities.`;
 }
 
+// ─────────────────────────────────────────────────────────────
+// Hindi / Hinglish persona rendering (v2.0.9)
+// ─────────────────────────────────────────────────────────────
+
+function genderWordHindi(gender: Gender): string {
+  return gender === 'female' ? 'mahila' : gender === 'male' ? 'purush' : 'vyakti';
+}
+
+/** System prompt rendered fully in Hindi (Devanagari). Data values stay as-is. */
+function buildSystemPromptHindi(profile: DemographicProfile): string {
+  const worldview = deriveWorldview(profile);
+  const monthlyK = Math.round(profile.annualIncomeINR / 12 / 1000);
+  const occupation = profile.occupation === 'non_worker'
+    ? (profile.age < 18 ? 'छात्र' : 'गृहिणी/गैर-कामगार')
+    : profile.employmentSector;
+
+  const dharm =
+    profile.religiosity === 'very_religious'
+      ? `${profile.religion} धर्म के प्रति गहरी आस्था रखते हैं और नियमित पूजा-पाठ करते हैं`
+      : profile.religiosity === 'somewhat_religious'
+        ? `${profile.religion} धर्म को मानते हैं, त्योहारों और खास मौकों पर पूजा करते हैं`
+        : `खुद को ${profile.religion} मानते हैं लेकिन सक्रिय रूप से धार्मिक कार्य नहीं करते`;
+
+  const rajneeti =
+    profile.politicalLeaning === 'apolitical'
+      ? 'राजनीति से ज़्यादा मतलब नहीं रखते'
+      : `${profile.politicalLeaning.replace('_', '-')} विचारधारा की ओर झुकाव है`;
+
+  const parivaar =
+    profile.culturalProfile.familyStructure === 'joint_family'
+      ? 'संयुक्त परिवार में रहते हैं'
+      : profile.culturalProfile.familyStructure === 'extended_family'
+        ? 'आस-पास विस्तारित परिवार के साथ रहते हैं'
+        : 'एकल परिवार में रहते हैं';
+
+  return `आप ${profile.firstName} ${profile.lastName} हैं — ${profile.district}, ${profile.state}, भारत के ${profile.age} साल के ${genderWordHindi(profile.gender)}। आप ${profile.caste} समुदाय (${profile.socialCategory} वर्ग) से हैं और ${profile.religion} धर्म का पालन करते हैं। आपकी मातृभाषा ${profile.motherTongue} है${profile.secondLanguage ? `, साथ में ${profile.secondLanguage} भी बोलते हैं` : ''}। आप ${occupation} का काम करते हैं और महीने लगभग ${monthlyK} हज़ार रुपये कमाते हैं। आप ${profile.householdSize} परिजनों के साथ ${parivaar}। आप ${dharm}। आप ${rajneeti}। आपका जीवन-दृष्टिकोण मुख्यतः ${worldview} है। शारीरिक रूप से: ${describeAppearance(profile)}। आप ${profile.areaType} माहौल में पले-बढ़े; ${profile.caste} संस्कृति ने आपके मूल्यों को ${profile.culturalProfile.careerPreference.replace('_', ' ')}, परिवार (${profile.culturalProfile.familyStructure.replace('_', ' ')}) और ${profile.culturalProfile.savingsOrientation > 60 ? 'नियमित बचत' : 'हैसियत के अंदर खर्च'} के इर्द-गिर्द ढाला है। जवाब देते समय अपने माहौल जैसी स्वाभाविक भाषा बोलें — ${profile.areaType === 'urban' ? 'हिंदी और अंग्रेज़ी का सहज मिश्रण (Hinglish)' : `मुख्यतः ${profile.motherTongue}-प्रभावित बोली`}। ${profile.district} के अपने अनुभव, ${occupation} के काम और पारिवारिक ज़िम्मेदारियों से प्रेरणा लें।`;
+}
+
+/** System prompt rendered in Hinglish (roman script mix). Data values stay as-is. */
+function buildSystemPromptHinglish(profile: DemographicProfile): string {
+  const worldview = deriveWorldview(profile);
+  const monthlyK = Math.round(profile.annualIncomeINR / 12 / 1000);
+  const occupation = profile.occupation === 'non_worker'
+    ? (profile.age < 18 ? 'student' : 'homemaker/non-worker')
+    : profile.employmentSector;
+
+  const dharm =
+    profile.religiosity === 'very_religious'
+      ? `${profile.religion} dharam ko dil se mante ho aur regular pooja-paath karte ho`
+      : profile.religiosity === 'somewhat_religious'
+        ? `${profile.religion} ko mante ho, tyoharon aur khaas maukon par pooja karte ho`
+        : `khud ko ${profile.religion} mante ho lekin actively dharmik kaam nahi karte`;
+
+  const rajneeti =
+    profile.politicalLeaning === 'apolitical'
+      ? 'politics se zyada matlab nahi rakhte'
+      : `${profile.politicalLeaning.replace('_', '-')} vichardhara ki taraf jhukaav hai`;
+
+  const parivaar =
+    profile.culturalProfile.familyStructure === 'joint_family'
+      ? 'joint family me rehte ho'
+      : profile.culturalProfile.familyStructure === 'extended_family'
+        ? 'aaspas extended family ke saath rehte ho'
+        : 'nuclear family setup me rehte ho';
+
+  return `Tum ${profile.firstName} ${profile.lastName} ho — ${profile.age} saal ke ${profile.gender}, ${profile.district}, ${profile.state}, India se. Tum ${profile.caste} community (${profile.socialCategory} category) se belong karte ho aur ${profile.religion} follow karte ho. Tumhari mother tongue ${profile.motherTongue} hai${profile.secondLanguage ? `, saath me ${profile.secondLanguage} bhi bolte ho` : ''}. Tum ${occupation} ka kaam karte ho aur mahine lagbhag ${monthlyK} hazaar rupaye kamate ho. Tum ${profile.householdSize} family members ke saath ${parivaar}. Tum ${dharm}. Tum ${rajneeti}. Tumhara worldview broadly ${worldview} hai. Physically: ${describeAppearance(profile)}. Tum ${profile.areaType} environment me pale-badhe; tumhari ${profile.caste} background ne tumhare values ko ${profile.culturalProfile.careerPreference.replace('_', ' ')}, family (${profile.culturalProfile.familyStructure.replace('_', ' ')}) aur ${profile.culturalProfile.savingsOrientation > 60 ? 'regular bachat' : 'hasiyat ke andar kharch'} ke ird-gird dhala hai. Respond karte time apne background jaisi natural bhasha bolo — ${profile.areaType === 'urban' ? 'Hindi aur English ka natural mix (Hinglish)' : `mainly ${profile.motherTongue}-influenced speech`}. ${profile.district} ke apne lived experience, ${occupation} ke kaam aur family responsibilities se draw karo.`;
+}
+
+/** Full-prompt section headers per language (body lines stay English data). */
+function sectionHeader(name: string, language: PersonaLanguage): string {
+  if (language !== 'hindi') return name;
+  const map: Record<string, string> = {
+    APPEARANCE: 'ROOP-RANG',
+    IDENTITY: 'PEHCHAAN',
+    EDUCATION: 'SHIKSHA',
+    'WORK & FINANCES': 'KAAM AUR PAISA',
+    PERSONALITY: 'VYAKTITVA',
+    'INTERESTS & PREFERENCES': 'RUCHI',
+    'HABITS & LIFESTYLE': 'AADATEIN',
+    'BELIEFS & VALUES': 'MAANYATAAIN',
+    MEMORIES: 'YAADEIN',
+    'HOW TO SPEAK & BEHAVE': 'BOLNE KA TARIKA',
+  };
+  return map[name] ?? name;
+}
+
+/** Full-prompt intro line per language. */
+function introLine(profile: DemographicProfile, language: PersonaLanguage): string {
+  if (language === 'hindi') {
+    return `आप ${profile.firstName} ${profile.lastName} हैं — ${profile.district}, ${profile.state}, भारत के ${profile.age} साल के ${genderWordHindi(profile.gender)}। जन्म: ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} ब्लड ग्रुप, ${profile.heightCm} सेमी, ${profile.weightKg} किग्रा)।`;
+  }
+  if (language === 'hinglish') {
+    return `Tum ${profile.firstName} ${profile.lastName} ho — ${profile.age} saal ke ${profile.gender}, ${profile.district}, ${profile.state}, India se. Born on ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} blood group, ${profile.heightCm} cm, ${profile.weightKg} kg).`;
+  }
+  return `You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. Born on ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} blood group, ${profile.heightCm} cm, ${profile.weightKg} kg).`;
+}
+
 function buildIdentityLine(profile: DemographicProfile): string {
   return `${profile.firstName} ${profile.lastName}, ${profile.age}, ${profile.occupation === 'non_worker' && profile.age < 18 ? 'student' : profile.employmentSector} from ${profile.district}, ${profile.state} (${profile.religion}, ${profile.socialCategory}).`;
 }
@@ -237,7 +345,7 @@ function formatScore(score: string | undefined): string {
  * act as them: identity, background, education timeline, work, personality,
  * interests (incl. movies/anime), habits, beliefs and behaviour rules.
  */
-function buildFullPrompt(profile: DemographicProfile): string {
+function buildFullPrompt(profile: DemographicProfile, language: PersonaLanguage = 'english'): string {
   // systemPrompt short chat ke liye hai; ye full roleplay prompt hai —
   // sections me likha hai taaki LLM ko poora context structured mile.
   const worldview = deriveWorldview(profile);
@@ -247,10 +355,10 @@ function buildFullPrompt(profile: DemographicProfile): string {
 
   const lines: string[] = [];
 
-  lines.push(`You are ${profile.firstName} ${profile.lastName}, a ${profile.age}-year-old ${profile.gender} from ${profile.district}, ${profile.state}, India. Born on ${profile.dateOfBirth.slice(0, 10)} (${profile.bloodGroup} blood group, ${profile.heightCm} cm, ${profile.weightKg} kg).`);
+  lines.push(introLine(profile, language));
 
   lines.push('');
-  lines.push('APPEARANCE');
+  lines.push(sectionHeader('APPEARANCE', language));
   if (profile.appearance) {
     const a = profile.appearance;
     const hair = `${a.hairColor} ${a.hairTexture} hair, ${a.hairLength}`;
@@ -265,7 +373,7 @@ function buildFullPrompt(profile: DemographicProfile): string {
   }
 
   lines.push('');
-  lines.push('IDENTITY');
+  lines.push(sectionHeader('IDENTITY', language));
   lines.push(`- Religion: ${profile.religion}; Caste/community: ${profile.caste}; Social category: ${profile.socialCategory}`);
   lines.push(`- Mother tongue: ${profile.motherTongue}${profile.secondLanguage ? `; also speaks ${profile.secondLanguage}` : ''}`);
   lines.push(`- Marital status: ${profile.maritalStatus.replace(/_/g, ' ')}${profile.spouseName ? `; spouse: ${profile.spouseName}` : ''}${profile.numberOfChildren > 0 ? `; ${profile.numberOfChildren} ${profile.numberOfChildren === 1 ? 'child' : 'children'}` : ''}`);
@@ -274,7 +382,7 @@ function buildFullPrompt(profile: DemographicProfile): string {
   lines.push(`- ${profile.isMigrant ? `Migrated from ${profile.migrationOriginState}` : `Born and raised in ${profile.district}, ${profile.state}`}`);
 
   lines.push('');
-  lines.push('EDUCATION');
+  lines.push(sectionHeader('EDUCATION', language));
   if (profile.educationDetails.mediumOfInstruction) {
     lines.push(`- Medium of instruction: ${profile.educationDetails.mediumOfInstruction}`);
   }
@@ -289,12 +397,12 @@ function buildFullPrompt(profile: DemographicProfile): string {
   lines.push(`- Highest qualification: ${profile.education.replace(/_/g, ' ')}`);
 
   lines.push('');
-  lines.push('WORK & FINANCES');
+  lines.push(sectionHeader('WORK & FINANCES', language));
   lines.push(`- Occupation: ${profile.occupation.replace(/_/g, ' ')} (${occupation}); annual income: ₹${Math.round(profile.annualIncomeINR / 1000)}K; monthly household spend: ₹${Math.round(profile.monthlyExpenditureINR / 1000)}K${profile.landOwnershipAcres > 0 ? `; owns ${profile.landOwnershipAcres} acres of land` : ''}`);
   if (profile.rationCardType !== 'none') lines.push(`- Holds a ${profile.rationCardType} ration card; health insurance: ${profile.healthInsurance}`);
 
   lines.push('');
-  lines.push('PERSONALITY');
+  lines.push(sectionHeader('PERSONALITY', language));
   lines.push(`- ${profile.personalityTraits.summary}`);
   lines.push(`- Trait labels: ${profile.personalityTraits.traitLabels.join(', ')}`);
   lines.push(`- Strengths: ${profile.personalityTraits.strengths.join('; ')}`);
@@ -303,7 +411,7 @@ function buildFullPrompt(profile: DemographicProfile): string {
   lines.push(`- Big Five scores — openness ${profile.personality.openness}, conscientiousness ${profile.personality.conscientiousness}, extraversion ${profile.personality.extraversion}, agreeableness ${profile.personality.agreeableness}, neuroticism ${profile.personality.neuroticism} (0-100)`);
 
   lines.push('');
-  lines.push('INTERESTS & PREFERENCES');
+  lines.push(sectionHeader('INTERESTS & PREFERENCES', language));
   lines.push(`- Sport: ${profile.interests.primarySport}; reading: ${profile.interests.readingHabit.replace(/_/g, ' ')}; music: ${profile.interests.musicPreference}`);
   lines.push(`- Entertainment: ${profile.interests.entertainment.join(', ')}${profile.interests.preferredSocialMedia ? `; social media: ${profile.interests.preferredSocialMedia}` : ''}`);
   lines.push(`- Movies: ${profile.moviePreferences.genres.join(', ')} (in ${profile.moviePreferences.favoriteLanguages.join(', ')})`);
@@ -314,26 +422,26 @@ function buildFullPrompt(profile: DemographicProfile): string {
   lines.push(`- Diet: ${profile.dietaryPreference.replace(/_/g, ' ')}; pet preference: ${profile.interests.petPreference.replace(/_/g, ' ')}`);
 
   lines.push('');
-  lines.push('HABITS & LIFESTYLE');
+  lines.push(sectionHeader('HABITS & LIFESTYLE', language));
   lines.push(`- Exercise: ${profile.habits.exerciseFrequency}; sleeps ${profile.habits.avgSleepHours} hours; chronotype: ${profile.habits.chronotype.replace(/_/g, ' ')}`);
   lines.push(`- Tobacco: ${profile.habits.tobaccoUse}; alcohol: ${profile.habits.alcoholUse}`);
   lines.push(`- Digital: ${profile.hasSmartphone ? `owns a smartphone${profile.usesSocialMedia ? ' and uses social media' : ''}` : 'no smartphone'}; ${profile.vehicleType ? `vehicle: ${profile.vehicleType.replace(/_/g, ' ')}` : 'no vehicle'}`);
 
   lines.push('');
-  lines.push('BELIEFS & VALUES');
+  lines.push(sectionHeader('BELIEFS & VALUES', language));
   lines.push(`- Religiosity: ${profile.religiosity.replace(/_/g, ' ')}; political leaning: ${profile.politicalLeaning.replace(/_/g, ' ')}; worldview: ${worldview}`);
   lines.push(`- Trust in institutions: ${deriveTrustInstitutions(profile)}/100; collectivism: ${deriveCollectivism(profile)}/100`);
   lines.push(`- Community values: ${profile.culturalProfile.careerPreference.replace(/_/g, ' ')}, ${profile.culturalProfile.familyStructure.replace(/_/g, ' ')}, savings orientation ${profile.culturalProfile.savingsOrientation}/100, risk appetite ${profile.culturalProfile.riskAppetite}/100`);
 
   lines.push('');
-  lines.push('MEMORIES');
+  lines.push(sectionHeader('MEMORIES', language));
   const memorySeeds = buildMemorySeeds(profile);
   for (const seed of memorySeeds) {
     lines.push(`- ${seed}`);
   }
 
   lines.push('');
-  lines.push('HOW TO SPEAK & BEHAVE');
+  lines.push(sectionHeader('HOW TO SPEAK & BEHAVE', language));
   const rules = buildBehaviorRules(profile);
   for (const rule of rules) {
     lines.push(`- ${rule}`);
@@ -467,8 +575,13 @@ function buildBehaviorRules(profile: DemographicProfile): string[] {
  * - A training example for persona-aware LLM fine-tuning
  *
  * @param profile - A fully generated DemographicProfile from SSPS
+ * @param options - Persona options (prompt `language`: english | hindi | hinglish)
  */
-export function generateAgentPersona(profile: DemographicProfile): AgentPersona {
+export function generateAgentPersona(
+  profile: DemographicProfile,
+  options: AgentPersonaOptions = {}
+): AgentPersona {
+  const language: PersonaLanguage = options.language ?? 'english';
   const worldview = deriveWorldview(profile);
   const codeSwitching = deriveCodeSwitching(profile);
 
@@ -508,8 +621,8 @@ export function generateAgentPersona(profile: DemographicProfile): AgentPersona 
   } ${profile.isMigrant ? `Originally from ${profile.migrationOriginState}.` : ''}`;
 
   return {
-    systemPrompt: buildSystemPrompt(profile),
-    fullPrompt: buildFullPrompt(profile),
+    systemPrompt: buildSystemPrompt(profile, language),
+    fullPrompt: buildFullPrompt(profile, language),
     identityLine: buildIdentityLine(profile),
     beliefs,
     memorySeeds: buildMemorySeeds(profile),

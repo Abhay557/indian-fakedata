@@ -442,7 +442,8 @@ def generate_enriched(
     count=1, seed=None, constraints=None,
     include_probability_metrics=True,
     include_outcomes=False, bias_level=0.3,
-    narrative_types=None, include_agent_persona=False
+    narrative_types=None, include_agent_persona=False,
+    agent_persona_language="english"
 ):
     """
     Generate enriched profiles with optional layers:
@@ -486,7 +487,7 @@ def generate_enriched(
                 ]
 
         if include_agent_persona:
-            enriched["agentPersona"] = generate_agent_persona(profile)
+            enriched["agentPersona"] = generate_agent_persona(profile, agent_persona_language)
 
         results.append(enriched)
 
@@ -497,7 +498,8 @@ def generate_enriched_stream(
     count=1, seed=None, constraints=None,
     include_probability_metrics=True,
     include_outcomes=False, bias_level=0.3,
-    narrative_types=None, include_agent_persona=False
+    narrative_types=None, include_agent_persona=False,
+    agent_persona_language="english"
 ):
     """
     Generator stream variant of generate_enriched() for large-scale use.
@@ -524,6 +526,6 @@ def generate_enriched_stream(
                 ]
 
         if include_agent_persona:
-            enriched["agentPersona"] = generate_agent_persona(profile)
+            enriched["agentPersona"] = generate_agent_persona(profile, agent_persona_language)
 
         yield enriched

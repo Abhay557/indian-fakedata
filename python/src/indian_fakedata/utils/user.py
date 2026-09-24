@@ -53,7 +53,7 @@ def generate_users(count=1, seed=None, constraints=None, highly_educated=False,
 
 def generate_persona(seed=None, constraints=None, highly_educated=False,
                      gender=None, marital_status=None, include_probability_metrics=True,
-                     data_dir=None):
+                     data_dir=None, language="english"):
     """Generate a user plus its LLM-ready agent persona in one call."""
     user = generate_user(
         seed=seed,
@@ -64,5 +64,5 @@ def generate_persona(seed=None, constraints=None, highly_educated=False,
         include_probability_metrics=include_probability_metrics,
         data_dir=data_dir,
     )
-    persona = generate_agent_persona(user)
+    persona = generate_agent_persona(user, language)
     return {"user": user, "persona": persona}

@@ -736,6 +736,12 @@ export interface EnrichmentOptions {
    * @default false
    */
   includeAgentPersona?: boolean;
+  /**
+   * Prompt language for the Layer 4 agent persona
+   * (english | hindi | hinglish). Only used when includeAgentPersona = true.
+   * @default 'english'
+   */
+  agentPersonaLanguage?: import('./utils/agent.js').PersonaLanguage;
 }
 
 /**

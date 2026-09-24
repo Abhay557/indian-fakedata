@@ -82,7 +82,7 @@ export type {
 // ── Enrichment Type Exports ───────────────────────────────
 export type { SimulatedOutcomes, CreditOutcome, HealthOutcome, EducationOutcome, EmploymentOutcome } from './utils/outcomes.js';
 export type { NarrativeDocument, NarrativeDocumentType } from './utils/narrative.js';
-export type { AgentPersona, AgentBeliefs, AgentCommunicationStyle } from './utils/agent.js';
+export type { AgentPersona, AgentBeliefs, AgentCommunicationStyle, PersonaLanguage, AgentPersonaOptions } from './utils/agent.js';
 
 
 // ── Utility Exports (for advanced users) ────────────────────

@@ -89,6 +89,8 @@ function printHelp() {
                            Can be repeated for multiple types: ${C.dim}--narrative loan_application --narrative hinglish_conversation${C.reset}
     --persona              ${C.dim}[Layer 4]${C.reset} Generate LLM-ready agent persona (system prompt,
                            beliefs, memory seeds, behavioral rules).
+    --persona-lang <lang>  Persona prompt language: english, hindi, hinglish
+                           ${C.dim}(default: english)${C.reset}
 
   ${C.bold}EXAMPLES:${C.reset}
     ${C.dim}# Basic generation${C.reset}
@@ -191,6 +193,7 @@ async function main() {
   let biasLevel = 0.3;
   let narrativeTypes: string[] = [];
   let includeAgentPersona = false;
+  let personaLang = 'english';
 
 
   if (process.argv.length < 3) {
@@ -317,6 +320,15 @@ async function main() {
     } else if (arg === '--persona') {
       includeAgentPersona = true;
 
+    } else if (arg === '--persona-lang') {
+      const val = getArgValue(i).toLowerCase();
+      if (!['english', 'hindi', 'hinglish'].includes(val)) {
+        console.error(`${C.red}Error:${C.reset} --persona-lang must be one of: english, hindi, hinglish.`);
+        process.exit(1);
+      }
+      personaLang = val;
+      i++;
+
     } else {
       console.error(`${C.red}Error:${C.reset} Unknown option '${arg}'. Use -h or --help for usage.`);
       process.exit(1);
@@ -376,6 +388,7 @@ async function main() {
     biasLevel,
     narrativeTypes: narrativeTypes as any,
     includeAgentPersona,
+    agentPersonaLanguage: personaLang as any,
   };
 
   try {

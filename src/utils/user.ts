@@ -22,10 +22,11 @@
 
 import { generate } from './generator.js';
 import { generateAgentPersona } from './agent.js';
+import type { PersonaLanguage } from './agent.js';
 import type {
   DemographicProfile,
   GenerationConstraints,
-  Gender
+  Gender,
 } from '../types.js';
 
 export interface UserOptions {
@@ -43,6 +44,8 @@ export interface UserOptions {
   includeProbabilityMetrics?: boolean;
   /** Path to a custom data directory */
   dataDir?: string;
+  /** Persona prompt language for generatePersona (default: 'english') */
+  personaLanguage?: PersonaLanguage;
 }
 
 export interface UsersOptions extends UserOptions {
@@ -91,7 +94,7 @@ export function generateUsers(options: UserOptions & { count?: number } = {}): D
  */
 export function generatePersona(options: UserOptions = {}) {
   const profile = generateUser(options);
-  const persona = generateAgentPersona(profile);
+  const persona = generateAgentPersona(profile, { language: options.personaLanguage ?? 'english' });
   return { user: profile, persona };
 }
 

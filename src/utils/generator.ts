@@ -602,6 +602,7 @@ export function generateEnriched(
     biasLevel = 0.3,
     narrativeTypes,
     includeAgentPersona = false,
+    agentPersonaLanguage = 'english',
     ...baseOptions
   } = options;
 
@@ -631,7 +632,7 @@ export function generateEnriched(
 
     // Layer 4: Agent Persona
     if (includeAgentPersona) {
-      enriched.agentPersona = generateAgentPersona(profile);
+      enriched.agentPersona = generateAgentPersona(profile, { language: agentPersonaLanguage });
     }
 
     return enriched;
@@ -654,6 +655,7 @@ export function* generateEnrichedStream(
     biasLevel = 0.3,
     narrativeTypes,
     includeAgentPersona = false,
+    agentPersonaLanguage = 'english',
     ...baseOptions
   } = options;
 
@@ -679,7 +681,7 @@ export function* generateEnrichedStream(
     }
 
     if (includeAgentPersona) {
-      enriched.agentPersona = generateAgentPersona(profile);
+      enriched.agentPersona = generateAgentPersona(profile, { language: agentPersonaLanguage });
     }
 
     yield enriched;
