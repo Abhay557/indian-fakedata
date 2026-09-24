@@ -217,7 +217,8 @@ v2.0.9 CLI adds `--fields` (comma-separated, repeatable, dot paths allowed:
 `--fields firstName,state,appearance.skinTone`, works for json/jsonl/csv)
 and `--stats` (stderr distribution summary over religion, state, gender,
 areaType, education, occupation). `--strip-pii` (+ `--mask-names`) sanitizes
-CLI output.
+CLI output; `--validate` exits non-zero on invalid profiles. Validation runs
+on full records before any shaping.
 
 v2.0.9 validation: `validateProfile(profile)` → `{ valid, errors }`
 (Python: `validate_profile(profile)` → `{"valid", "errors"}`) checks

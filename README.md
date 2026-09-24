@@ -539,6 +539,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
 - **CLI privacy.** `--strip-pii` empties identifiers in CLI output (profile
   fields only, not narrative/persona text); `--mask-names` reduces names
   to initials.
+- **CLI validation.** `--validate` checks every full profile and exits 1
+  with errors on stderr for the first invalid record. Runs before any
+  shaping, so it composes with `--strip-pii` and `--fields`.
 
 ---
 

@@ -15,6 +15,7 @@ import path from 'path';
 import { generateStream, generateEnrichedStream } from './utils/generator.js';
 import { generateFamily } from './utils/relations.js';
 import { stripPII } from './utils/privacy.js';
+import { validateProfile } from './utils/schema.js';
 import {
   flattenObject,
   escapeCSVValue,
@@ -79,6 +80,9 @@ function printHelp() {
                            Sanitizes profile fields only, not narrative or
                            persona text
     --mask-names           With --strip-pii, reduce names to initials
+    --validate             Validate every full profile with validateProfile;
+                           first invalid record prints errors to stderr and
+                           exits 1. Runs before --strip-pii/--fields shaping
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -223,6 +227,7 @@ async function main() {
   let showStats = false;
   let stripPIIFlag = false;
   let maskNames = false;
+  let validateFlag = false;
 
 
   if (process.argv.length < 3) {
@@ -376,6 +381,9 @@ async function main() {
     } else if (arg === '--mask-names') {
       maskNames = true;
 
+    } else if (arg === '--validate') {
+      validateFlag = true;
+
     } else {
       console.error(`${C.red}Error:${C.reset} Unknown option '${arg}'. Use -h or --help for usage.`);
       process.exit(1);
@@ -443,8 +451,7 @@ async function main() {
     selectedFields.length > 0 ? pickRecordFields(record, selectedFields) : record;
   // Strip identifiers for output only; stats always count the full record.
   // Sanitizes profile fields, not narrative/persona text.
-  const sanitize = (record: any) => {
-    if (!stripPIIFlag) return record;
+  const sanitize = (record: any) => {    if (!stripPIIFlag) return record;
     if (record && typeof record === 'object' && record.profile) {
       return { ...record, profile: stripPII(record.profile, { maskNames }) };
     }
@@ -452,6 +459,20 @@ async function main() {
       return stripPII(record, { maskNames });
     }
     return record;
+  };
+  // Strict validation of the full record (pre-strip: stripped output
+  // intentionally fails validation, so validate first).
+  const checkValid = (record: any, label: string) => {
+    if (!validateFlag) return;
+    const base = record && typeof record === 'object' && record.profile
+      ? record.profile
+      : record;
+    const { valid, errors } = validateProfile(base);
+    if (!valid) {
+      console.error(`${C.red}[Validation] Invalid ${label}:${C.reset}`);
+      for (const e of errors) console.error(`  - ${e}`);
+      process.exit(1);
+    }
   };
 
   try {
@@ -473,11 +494,11 @@ async function main() {
       if (family.parents.father) members.push(family.parents.father);
       if (family.parents.mother) members.push(family.parents.mother);
       members.push(...family.children, ...family.siblings);
+      if (validateFlag) members.forEach((m, idx) => checkValid(m, `family member #${idx + 1}`));
       const cleanMembers = stripPIIFlag
         ? members.map(m => stripPII(m, { maskNames }))
         : members;
-      const byId = new Map(cleanMembers.map(m => [m.id, m]));
-      const output = {
+      const byId = new Map(cleanMembers.map(m => [m.id, m]));      const output = {
         head: byId.get(family.head.id),
         spouse: family.spouse ? byId.get(family.spouse.id) : family.spouse,
         parents: {
@@ -509,6 +530,7 @@ async function main() {
       for (const record of stream) {
         if (!isFirst) writeStream.write(',\n');
         updateStatsCounters(stats, record);
+        checkValid(record, `profile #${i + 1}`);
         const out = shape(sanitize(record));
         writeStream.write(count <= 100 ? JSON.stringify(out, null, 2) : JSON.stringify(out));
         isFirst = false;
@@ -528,6 +550,7 @@ async function main() {
 
       for (const record of stream) {
         updateStatsCounters(stats, record);
+        checkValid(record, `profile #${i + 1}`);
         writeStream.write(JSON.stringify(shape(sanitize(record))) + '\n');
         i++;
         if (outputPath && i % logInterval === 0) {
@@ -547,6 +570,7 @@ async function main() {
 
       for (const record of stream) {
         updateStatsCounters(stats, record);
+        checkValid(record, `profile #${i + 1}`);
         const src = shape(sanitize(record));
         // Legacy enriched summaries only when output is untouched;
         // selected/stripped output flattens the raw record instead.

@@ -52,6 +52,9 @@ def print_help():
                            Sanitizes profile fields only, not narrative or
                            persona text
     --mask-names           With --strip-pii, reduce names to initials
+    --validate             Validate every full profile with validate_profile;
+                           first invalid record prints errors to stderr and
+                           exits 1. Runs before --strip-pii/--fields shaping
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -135,6 +138,7 @@ def main():
     parser.add_argument("--stats", action="store_true")
     parser.add_argument("--strip-pii", action="store_true")
     parser.add_argument("--mask-names", action="store_true")
+    parser.add_argument("--validate", action="store_true")
 
     # Parse only known args
     args, unknown = parser.parse_known_args()
@@ -171,6 +175,7 @@ def main():
         update_stats_counters, format_stats_counters,
     )
     from indian_fakedata.utils.privacy import strip_pii
+    from indian_fakedata.utils.schema import validate_profile
     stats = create_stats_counters()
 
     def shape(record):
@@ -188,6 +193,20 @@ def main():
         if isinstance(record, dict) and "firstName" in record:
             return strip_pii(record, mask_names=args.mask_names)
         return record
+
+    def check_valid(record, label):
+        # Strict validation of the full record (pre-strip: stripped output
+        # intentionally fails validation, so validate first).
+        if not args.validate:
+            return
+        base = record.get("profile") if isinstance(record, dict) and isinstance(
+            record.get("profile"), dict) else record
+        result = validate_profile(base)
+        if not result["valid"]:
+            print(f"[Validation] Invalid {label}:", file=sys.stderr)
+            for e in result["errors"]:
+                print(f"  - {e}", file=sys.stderr)
+            sys.exit(1)
 
     # Enrichment options
     include_outcomes = args.outcomes or args.enrich
@@ -221,6 +240,17 @@ def main():
             constraints=constraints,
             include_probability_metrics=include_probability_metrics
         )
+        # Validate and count the full members before any stripping
+        _parents = family.get("parents", {})
+        _members = ([family.get("head")] +
+                    ([family.get("spouse")] if family.get("spouse") else []) +
+                    ([_parents.get("father")] if _parents.get("father") else []) +
+                    ([_parents.get("mother")] if _parents.get("mother") else []) +
+                    family.get("children", []) + family.get("siblings", []))
+        _members = [m for m in _members if m]
+        if args.validate:
+            for idx, m in enumerate(_members):
+                check_valid(m, f"family member #{idx + 1}")
         if args.strip_pii:
             by_id = {}
             for m in ([family.get("head")] + ([family.get("spouse")] if family.get("spouse") else []) +
@@ -245,16 +275,8 @@ def main():
         else:
             out_file.write(json.dumps(shape(sanitize(family)), ensure_ascii=False) + "\n")
         if show_stats:
-            members = [family.get("head")] + ([family.get("spouse")] if family.get("spouse") else [])
-            parents = family.get("parents", {})
-            if parents.get("father"):
-                members.append(parents["father"])
-            if parents.get("mother"):
-                members.append(parents["mother"])
-            members += family.get("children", []) + family.get("siblings", [])
-            for m in members:
-                if m:
-                    update_stats_counters(stats, m)
+            for m in _members:
+                update_stats_counters(stats, m)
             for line in format_stats_counters(stats):
                 print(line, file=sys.stderr)
         if args.output:
@@ -290,6 +312,7 @@ def main():
                 if not is_first:
                     out_file.write(",\n")
                 update_stats_counters(stats, p)
+                check_valid(p, f"profile #{i + 1}")
                 if args.count <= 100:
                     out_file.write(json.dumps(shape(sanitize(p)), indent=2, ensure_ascii=False))
                 else:
@@ -298,15 +321,17 @@ def main():
             out_file.write("\n]\n")
 
         elif args.format == "jsonl":
-            for p in stream:
+            for i, p in enumerate(stream):
                 update_stats_counters(stats, p)
+                check_valid(p, f"profile #{i + 1}")
                 out_file.write(json.dumps(shape(sanitize(p)), ensure_ascii=False) + "\n")
 
         elif args.format == "csv":
             is_first = True
             headers = []
-            for record in stream:
+            for i, record in enumerate(stream):
                 update_stats_counters(stats, record)
+                check_valid(record, f"profile #{i + 1}")
                 src = shape(sanitize(record))
                 # Legacy enriched summaries only when output is untouched;
                 # selected/stripped output flattens the raw record instead.

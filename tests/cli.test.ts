@@ -180,4 +180,26 @@ describe('--fields / --stats (v2.0.9)', () => {
       expect(row.firstName).toMatch(/^[A-Z]\.$/);
     }
   });
+
+  it('CLI --validate passes clean output', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'valid.json');
+    execSync(
+      `npx tsx src/cli.ts -c 3 --seed 7 --validate -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    expect(fs.existsSync(outPath)).toBe(true);
+  });
+
+  it('CLI --strip-pii --validate passes (validates full data, strips output)', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'stripvalid.json');
+    execSync(
+      `npx tsx src/cli.ts -c 2 --seed 7 --strip-pii --validate -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    expect(content[0].phoneNumber).toBe('');
+    expect(content[0].piiStripped).toBe(true);
+  });
 });

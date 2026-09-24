@@ -88,3 +88,18 @@ def test_cli_strip_pii_mask_names():
     rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
     for row in rows:
         assert re.match(r"^[A-Z]\.$", row["firstName"]) or "." in row["firstName"]
+
+
+def test_cli_validate_passes_clean_output():
+    res = run_cli("--count", "3", "--seed", "7", "--validate", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    assert len(res.stdout.strip().split("\n")) == 3
+
+
+def test_cli_strip_pii_validate_passes_on_full_data():
+    res = run_cli("--count", "2", "--seed", "7", "--strip-pii",
+                  "--validate", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
+    assert rows[0]["phoneNumber"] == ""
+    assert rows[0]["piiStripped"] is True
