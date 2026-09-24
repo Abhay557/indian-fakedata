@@ -108,7 +108,20 @@ user, persona = out["user"], out["persona"]
 print(user["educationTimeline"])   # chronological school/college history
 print(user["personalityTraits"])   # descriptive traits from Big Five
 print(user["moviePreferences"])    # genres, languages, anime preferences
-print(user["appearance"])          # face, skin tone, eyes, hair, build</code></pre>
+print(user["appearance"])          # face, skin tone, eyes, hair, build
+print(user["employmentTimeline"])  # v2.0.9: chronological job spells
+print(user["skills"])              # v2.0.9: skills, certs, languages</code></pre>
+
+    <h2>Validation, privacy &amp; personas (v2.0.9)</h2>
+    <pre><code>from indian_fakedata import (
+    validate_profile, get_profile_schema, strip_pii,
+    generate_agent_persona,
+)
+
+result = validate_profile(user)   # {"valid": ..., "errors": [...]}
+schema = get_profile_schema()     # versioned JSON Schema
+safe = strip_pii(user)            # share-safe copy
+hindi = generate_agent_persona(user, "hindi")</code></pre>
 
     <h2>Exporters</h2>
     <pre><code>from indian_fakedata import generate_enriched, save_profiles, format_profiles

@@ -391,7 +391,7 @@ out["persona"]["fullPrompt"]                      # complete roleplay prompt:
                                                   # preferences, habits, beliefs
 ```
 
-See **[TUTORIAL.md](../TUTORIAL.md)** for full code examples in TypeScript and Python.
+See **[TUTORIAL.md](../TUTORIAL.md)** for full code examples in TypeScript and Python. Section 6 covers everything new in 2.0.9 with copy-paste examples.
 
 ---
 

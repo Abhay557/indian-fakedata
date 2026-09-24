@@ -28,6 +28,11 @@ indian-fakedata [options]</code></pre>
       <tr><td><code>--seed &lt;value&gt;</code></td><td><code>-s</code></td><td>Reproducibility seed (number or string, e.g. <code>011</code>)</td><td>random</td></tr>
       <tr><td><code>--no-metrics</code></td><td></td><td>Exclude probability metrics from output</td><td>included</td></tr>
       <tr><td><code>--family</code></td><td></td><td>Full household (head + spouse + parents + children + siblings) from one seed; json/jsonl only</td><td>off</td></tr>
+      <tr><td><code>--fields &lt;a,b,c&gt;</code></td><td>Output only these fields (dot paths allowed, repeatable)</td><td>all fields</td></tr>
+      <tr><td><code>--stats</code></td><td>Distribution summary (religion/state/gender/area/education/occupation) on stderr</td><td>off</td></tr>
+      <tr><td><code>--strip-pii</code></td><td>Empty identifiers in output (profile fields only)</td><td>off</td></tr>
+      <tr><td><code>--mask-names</code></td><td>With <code>--strip-pii</code>, reduce names to initials</td><td>off</td></tr>
+      <tr><td><code>--validate</code></td><td>Validate every full profile; exit 1 on the first invalid record</td><td>off</td></tr>
       <tr><td><code>--help</code></td><td><code>-h</code></td><td>Show help screen</td><td></td></tr>
     </table>
 
@@ -53,8 +58,9 @@ indian-fakedata [options]</code></pre>
       <tr><td><code>--enrich</code></td><td>Enable ALL enrichment layers (outcomes + narrative:all + persona)</td></tr>
       <tr><td><code>--outcomes</code></td><td>[Layer 2] Add credit score, health risk, employment outcome, education attainment</td></tr>
       <tr><td><code>--bias &lt;0-1&gt;</code></td><td>Bias dial for outcome simulation. <code>0.0</code> = pure meritocracy, <code>1.0</code> = max historical discrimination. Default <code>0.3</code> (calibrated to CMIE/CIBIL observed gaps)</td></tr>
-      <tr><td><code>--narrative &lt;type&gt;</code></td><td>[Layer 3] <code>loan_application</code>, <code>medical_consultation</code>, <code>school_enrollment</code>, <code>ration_card_application</code>, <code>hinglish_conversation</code>, <code>all</code>. Repeat for multiple types</td></tr>
+      <tr><td><code>--narrative &lt;type&gt;</code></td><td>[Layer 3] <code>loan_application</code>, <code>medical_consultation</code>, <code>school_enrollment</code>, <code>ration_card_application</code>, <code>hinglish_conversation</code>, <code>resume</code>, <code>customer_support_chat</code>, <code>all</code>. Repeat for multiple types</td></tr>
       <tr><td><code>--persona</code></td><td>[Layer 4] LLM-ready agent persona (system prompt + full roleplay prompt, beliefs, memory seeds, behavior rules)</td></tr>
+      <tr><td><code>--persona-lang &lt;lang&gt;</code></td><td>[Layer 4] Persona prompt language: <code>english</code>, <code>hindi</code>, <code>hinglish</code></td></tr>
     </table>
 
     <h2>Quick examples</h2>
@@ -80,7 +86,13 @@ indian-fakedata -c 500 --persona -f jsonl -o agents.jsonl
 indian-fakedata -c 1 --enrich --bias 0.0 --seed 42
 
 # Full family from one string seed
-indian-fakedata --family --seed 011</code></pre>
+indian-fakedata --family --seed 011
+
+# Slim output plus distribution summary
+indian-fakedata -c 100 --fields firstName,state,appearance.skinTone --stats -f jsonl
+
+# Sanitised Hindi personas, validated
+indian-fakedata -c 50 --persona --persona-lang hindi --strip-pii --validate -f jsonl -o agents.jsonl</code></pre>
 
     <h2>Notes</h2>
     <ul>

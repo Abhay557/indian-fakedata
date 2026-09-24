@@ -120,7 +120,22 @@ const { user: u, persona } = generatePersona({ seed: '011' });
 console.log(user.educationTimeline);   // chronological school/college history
 console.log(user.personalityTraits);   // descriptive traits from Big Five
 console.log(user.moviePreferences);    // genres, languages, anime preferences
-console.log(user.appearance);          // face, skin tone, eyes, hair, build</code></pre>
+console.log(user.appearance);          // face, skin tone, eyes, hair, build
+console.log(user.employmentTimeline);  // v2.0.9: chronological job spells
+console.log(user.skills);              // v2.0.9: skills, certs, languages</code></pre>
+
+    <h2>Validation, privacy &amp; personas (v2.0.9)</h2>
+    <pre><code>import {
+  validateProfile,
+  getProfileSchema,
+  stripPII,
+  generateAgentPersona,
+} from '@abhay557/indian-fakedata';
+
+const { valid, errors } = validateProfile(user);
+const schema = getProfileSchema();          // versioned JSON Schema
+const safe = stripPII(user);                // share-safe copy
+const hindi = generateAgentPersona(user, { language: 'hindi' });</code></pre>
 
     <h2>Exporters</h2>
     <pre><code>import { generateEnriched, saveProfilesToFile, formatProfiles } from '@abhay557/indian-fakedata';

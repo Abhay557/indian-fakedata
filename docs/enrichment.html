@@ -19,7 +19,7 @@
       <tr><th>Layer</th><th>Name</th><th>Description</th></tr>
       <tr><td>1</td><td><strong>Core Demographics</strong></td><td>State, gender, religion, caste, names, languages, biological markers, address</td></tr>
       <tr><td>2</td><td><strong>Socio-Economic Outcomes</strong></td><td>CIBIL credit score, health risk, literacy, employment vulnerability (configurable bias)</td></tr>
-      <tr><td>3</td><td><strong>Narrative Documents</strong></td><td>Loan applications, OPD records, Hinglish WhatsApp chats, school admissions</td></tr>
+      <tr><td>3</td><td><strong>Narrative Documents</strong></td><td>Loan applications, OPD records, Hinglish WhatsApp chats, school admissions, resumes, support chats</td></tr>
       <tr><td>4</td><td><strong>Agent Persona Prompts</strong></td><td>LLM-ready system prompts, worldview beliefs, stress responses, memory seeds</td></tr>
     </table>
 
@@ -54,6 +54,8 @@ health = enriched["outcomes"]["health"]["healthRisk"]</code></pre>
       <tr><td><code>school_enrollment</code></td><td>School admission form narrative</td></tr>
       <tr><td><code>ration_card_application</code></td><td>PDS ration card application</td></tr>
       <tr><td><code>hinglish_conversation</code></td><td>WhatsApp-style Hinglish chat</td></tr>
+      <tr><td><code>resume</code></td><td>CV built from education timeline, work history and skills (v2.0.9)</td></tr>
+      <tr><td><code>customer_support_chat</code></td><td>Hinglish bank helpline dialogue, masked phone (v2.0.9)</td></tr>
     </table>
     <pre><code># CLI
 indian-fakedata -c 1000 --narrative loan_application --narrative hinglish_conversation
@@ -69,7 +71,10 @@ print(doc["content"])</code></pre>
     <p>LLM-ready agent personas: a short system prompt plus a complete
     <code>fullPrompt</code> roleplay prompt (identity, appearance, education
     timeline, personality traits, movie/anime preferences, habits, beliefs,
-    memory seeds and behavior rules), ready to inject into any LLM.</p>
+    memory seeds and behavior rules), ready to inject into any LLM.
+    Since v2.0.9 personas accept a language — <code>english</code> (default),
+    <code>hindi</code> (Devanagari prompt + Hindi headers) or
+    <code>hinglish</code> (roman mix). CLI: <code>--persona --persona-lang hindi</code>.</p>
     <pre><code># CLI
 indian-fakedata -c 500 --persona -f jsonl -o agents.jsonl
 

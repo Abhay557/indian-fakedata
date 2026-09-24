@@ -10,6 +10,7 @@ This tutorial provides complete, drop-in code snippets demonstrating how to prog
 3. [Layered Enrichments (Outcomes, Narratives, Agent Personas)](#3-layered-enrichments-outcomes-narratives-agent-personas)
 4. [Programmatic Dataset Exporting (JSON, JSONL, CSV)](#4-programmatic-dataset-exporting-json-jsonl-csv)
 5. [Memory-Efficient Generation (Streaming)](#5-memory-efficient-generation-streaming)
+6. [New in 2.0.9 (Work History, Skills, Personas, Trust)](#6-new-in-209-work-history-skills-personas-trust)
 
 ---
 
@@ -262,4 +263,49 @@ for enriched_profile in stream:
     count += 1
     if count % 10000 == 0:
         print(f"Generated {count} profiles...")
+```
+
+---
+
+## 6. New in 2.0.9 (Work History, Skills, Personas, Trust)
+
+###  TypeScript
+```typescript
+import {
+  generate, generateAgentPersona, validateProfile, stripPII,
+} from '@abhay557/indian-fakedata';
+
+const user = generate({ count: 1, seed: 7 })[0];
+console.log(user.employmentTimeline);  // chronological job spells
+console.log(user.skills);              // skills, certs, language levels
+
+const hindi = generateAgentPersona(user, { language: 'hindi' });
+
+const { valid, errors } = validateProfile(user);
+const safe = stripPII(user);           // share-safe copy
+```
+
+###  Python
+```python
+from indian_fakedata import (
+    generate, generate_agent_persona, validate_profile, strip_pii,
+)
+
+user = generate(count=1, seed=7)[0]
+print(user["employmentTimeline"])  # chronological job spells
+print(user["skills"])              # skills, certs, language levels
+
+hindi = generate_agent_persona(user, "hindi")
+
+result = validate_profile(user)    # {"valid": ..., "errors": [...]}
+safe = strip_pii(user)             # share-safe copy
+```
+
+###  CLI
+```bash
+# Slim output plus distribution summary
+indian-fakedata -c 100 --fields firstName,state,appearance.skinTone --stats -f jsonl
+
+# Sanitised Hindi personas, validated
+indian-fakedata -c 50 --persona --persona-lang hindi --strip-pii --validate -f jsonl -o agents.jsonl
 ```

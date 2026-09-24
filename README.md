@@ -426,7 +426,7 @@ profiles = generate(count=10)
 enriched = generate_enriched(count=5, include_outcomes=True)
 ```
 
-See **[TUTORIAL.md](./TUTORIAL.md)** for comprehensive, side-by-side code snippets including data exporting, streams, and narratives.
+See **[TUTORIAL.md](./TUTORIAL.md)** for comprehensive, side-by-side code snippets including data exporting, streams, and narratives. Section 6 covers everything new in 2.0.9 with copy-paste examples.
 
 ---
 
