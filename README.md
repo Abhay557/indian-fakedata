@@ -33,17 +33,17 @@ Unlike traditional mock generators that produce impossible demographic combinati
 
 ```json
 {
-  "id": "72714162-6024-4710-9512-172321111444",
+  "id": "d6e2a61e-e297-4eb4-9866-5fb355fbc2ea",
   "synthetic": true,
-  "generator": "indian-fakedata@2.0.8",
-  "firstName": "Pushpa",
-  "lastName": "Sharma",
-  "fatherName": "Santosh Sharma",
-  "motherName": "Geeta Sharma",
-  "spouseName": "Sanjay Sharma",
+  "generator": "indian-fakedata@2.0.9",
+  "firstName": "Sarwan",
+  "lastName": "Das",
+  "fatherName": "Shetan Das",
+  "motherName": "Girijarani Kumari",
+  "spouseName": "Kishan Das",
   "gender": "female",
-  "age": 34,
-  "dateOfBirth": "1992-06-11",
+  "age": 40,
+  "dateOfBirth": "1986-01-04",
   "bloodGroup": "B+",
   "heightCm": 144.0,
   "weightKg": 44.1,
@@ -61,111 +61,109 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "hairLength": "medium",
     "facialHair": null
   },
-  "aadhaarNumber": "500233102039",
-  "panNumber": "EKIPS1361D",
-  "voterIdNumber": "MHR0314014",
-  "phoneNumber": "7501311043",
-  "email": "pushpasharma352@gmail.com",
-  "state": "Maharashtra",
-  "stateCode": "MH",
-  "district": "Kolhapur",
+  "aadhaarNumber": "839128189565",
+  "panNumber": "FMMPD7406C",
+  "voterIdNumber": "YSR0818288",
+  "phoneNumber": "9444448053",
+  "email": "sarwan.das645@gmail.com",
+  "state": "Andhra Pradesh",
+  "stateCode": "AP",
+  "district": "Guntur",
   "areaType": "urban",
-  "addressLine": "245/D, Market Yard, Kolhapur",
-  "locality": "Market Yard",
-  "pinCode": "412519",
+  "addressLine": "492/G, Jayanagar, Guntur",
+  "locality": "Jayanagar",
+  "pinCode": "500766",
   "religion": "Hindu",
-  "caste": "Deshastha Brahmin",
-  "socialCategory": "General",
-  "motherTongue": "Marathi",
+  "caste": "Madiga",
+  "socialCategory": "SC",
+  "motherTongue": "Telugu",
   "secondLanguage": "Hindi",
-  "education": "secondary",
-  "occupation": "agricultural_labourer",
-  "employmentSector": "self_employed",
+  "education": "graduate",
+  "occupation": "other_worker",
+  "employmentSector": "private",
   "maritalStatus": "married",
-  "annualIncomeINR": 194000,
-  "monthlyExpenditureINR": 15600,
+  "annualIncomeINR": 1235000,
+  "monthlyExpenditureINR": 89100,
   "numberOfChildren": 1,
-  "dietaryPreference": "vegetarian",
+  "dietaryPreference": "non_vegetarian",
   "disability": "none",
   "isMigrant": true,
-  "migrationOriginState": "Andhra Pradesh",
-  "bankIFSC": "SBIN0331430",
-  "bankName": "State Bank of India",
-  "bankAccountNumber": "00313113041",
+  "migrationOriginState": "Karnataka",
+  "bankIFSC": "KKBK0682206",
+  "bankName": "Kotak Mahindra Bank",
+  "bankAccountNumber": "50991831492",
   "rationCardType": "APL",
   "healthInsurance": "none",
   "landOwnershipAcres": 0,
-  "vehicleRegistration": "MH 02 BB 2481",
-  "vehicleType": "four_wheeler",
+  "vehicleRegistration": "AP 28 SF 4832",
+  "vehicleType": "two_wheeler",
   "hasInternetAccess": true,
   "hasSmartphone": true,
-  "usesSocialMedia": true,
-  "upiId": "pushpa@okicici",
+  "usesSocialMedia": false,
+  "upiId": "9444448053@apl",
   "personality": {
-    "openness": 54,
-    "conscientiousness": 62,
-    "extraversion": 60,
-    "agreeableness": 70,
-    "neuroticism": 58
+    "openness": 59,
+    "conscientiousness": 36,
+    "extraversion": 64,
+    "agreeableness": 49,
+    "neuroticism": 57
   },
   "personalityTraits": {
-    "summary": "An outgoing, people-oriented person who is practical, disciplined and kind-hearted. They feel things deeply and care about those around them.",
+    "summary": "An outgoing, people-oriented person who is open-minded, easy-going and assertive. They feel things deeply and care about those around them.",
     "strengths": [
-      "prefers familiar routines",
-      "organized and punctual",
-      "compassionate and helpful"
+      "creative and curious",
+      "adapts to change quickly",
+      "stands their ground"
     ],
     "weaknesses": [
       "worries about small things",
       "needs company to feel energised",
-      "perfectionist, can be rigid"
+      "procrastinates under pressure"
     ],
     "traitLabels": [
-      "practical",
-      "disciplined",
+      "open-minded",
+      "easy-going",
       "outgoing",
-      "kind-hearted",
+      "assertive",
       "sensitive"
     ],
-    "communicationStyle": "polite_indirect",
-    "decisionStyle": "analytical",
+    "communicationStyle": "expressive",
+    "decisionStyle": "intuitive",
     "socialBehavior": "outgoing"
   },
-  "politicalLeaning": "nationalist_right",
-  "religiosity": "very_religious",
+  "politicalLeaning": "regionalist",
+  "religiosity": "somewhat_religious",
   "cognitiveProfile": {
-    "aptitudeScore": 74,
-    "numeracyScore": 68,
-    "literacyScore": 75,
-    "digitalLiteracyScore": 53,
-    "financialLiteracyScore": 71
+    "aptitudeScore": 75,
+    "numeracyScore": 58,
+    "literacyScore": 88,
+    "digitalLiteracyScore": 84,
+    "financialLiteracyScore": 75
   },
   "interests": {
-    "primarySport": "cricket",
-    "petPreference": "birds",
+    "primarySport": "hockey",
+    "petPreference": "cats",
     "entertainment": [
       "Bollywood",
       "TV Serials",
       "Cricket Matches",
-      "News",
-      "YouTube",
-      "OTT/Netflix"
+      "Religious Programs"
     ],
-    "readingHabit": "occasional",
+    "readingHabit": "rare",
     "musicPreference": "Bollywood",
-    "preferredSocialMedia": "WhatsApp"
+    "preferredSocialMedia": "Facebook"
   },
   "habits": {
-    "tobaccoUse": "smoking",
+    "tobaccoUse": "none",
     "alcoholUse": "none",
-    "exerciseFrequency": "weekly",
-    "avgSleepHours": 9.3,
+    "exerciseFrequency": "daily",
+    "avgSleepHours": 6.7,
     "cooksAtHome": true,
-    "chronotype": "early_riser"
+    "chronotype": "moderate"
   },
   "educationDetails": {
-    "fieldOfStudy": null,
-    "institutionType": "private",
+    "fieldOfStudy": "Computer Science/IT",
+    "institutionType": "government",
     "mediumOfInstruction": "English",
     "qualificationYear": 2008,
     "competitiveExamPercentile": null
@@ -174,73 +172,92 @@ Unlike traditional mock generators that produce impossible demographic combinati
     {
       "level": "primary",
       "stageName": "Primary School",
-      "institutionName": "Infant Jesus, Kolhapur",
-      "institutionType": "private",
-      "boardOrUniversity": "CBSE",
-      "startYear": 1997,
-      "endYear": 2003,
+      "institutionName": "Government Primary School, Guntur",
+      "institutionType": "government",
+      "boardOrUniversity": "AP State Board",
+      "startYear": 1991,
+      "endYear": 1997,
       "status": "completed",
-      "score": "69.8%"
+      "score": "52.8%"
     },
     {
       "level": "middle",
       "stageName": "Middle School",
-      "institutionName": "St. Peter's, Kolhapur",
-      "institutionType": "private",
-      "boardOrUniversity": "CBSE",
-      "startYear": 2003,
-      "endYear": 2006,
+      "institutionName": "Government Middle School, Guntur",
+      "institutionType": "government",
+      "boardOrUniversity": "AP State Board",
+      "startYear": 1997,
+      "endYear": 2000,
       "status": "completed",
-      "score": "86.3%"
+      "score": "56.7%"
     },
     {
       "level": "secondary",
       "stageName": "Secondary School",
-      "institutionName": "St. Agnes, Kolhapur",
-      "institutionType": "private",
-      "boardOrUniversity": "CBSE",
-      "startYear": 2006,
+      "institutionName": "Government High School, Guntur",
+      "institutionType": "government",
+      "boardOrUniversity": "AP State Board",
+      "startYear": 2000,
+      "endYear": 2002,
+      "status": "completed",
+      "score": "61.0%"
+    },
+    {
+      "level": "higher_secondary",
+      "stageName": "Higher Secondary School",
+      "institutionName": "Government Higher Secondary School, Guntur",
+      "institutionType": "government",
+      "boardOrUniversity": "AP State Board",
+      "startYear": 2002,
+      "endYear": 2004,
+      "status": "completed",
+      "stream": "PCM",
+      "score": "52.8%"
+    },
+    {
+      "level": "graduate",
+      "stageName": "Bachelor's Degree",
+      "institutionName": "Government Post Graduate College, Guntur",
+      "institutionType": "government",
+      "boardOrUniversity": "University of Andhra Pradesh",
+      "startYear": 2004,
       "endYear": 2008,
       "status": "completed",
-      "score": "78.3%"
+      "fieldOfStudy": "Computer Science/IT",
+      "score": "56.5%"
     }
   ],
   "moviePreferences": {
     "genres": [
-      "Comedy",
-      "Thriller",
-      "Romance"
+      "Drama",
+      "Sports drama/Biopic",
+      "Family drama"
     ],
     "favoriteLanguages": [
-      "Marathi",
+      "Telugu",
       "Hindi"
     ],
-    "anime": true,
-    "animePreferences": [
-      "Slice of life"
-    ],
-    "favoriteAnimeTitles": [
-      "Monster",
-      "Mob Psycho 100"
-    ],
-    "primaryPlatform": "ott",
-    "watchFrequency": "weekly"
+    "anime": false,
+    "animePreferences": null,
+    "favoriteAnimeTitles": null,
+    "primaryPlatform": "television",
+    "watchFrequency": "occasional"
   },
   "culturalProfile": {
-    "entrepreneurialScore": 32,
-    "academicOrientation": 64,
-    "artisticInclination": 41,
-    "militaryTradition": 37,
-    "agriculturalRootedness": 21,
-    "artisanTradition": 1,
-    "bureaucraticOrientation": 50,
-    "socialActivism": 13,
-    "communityBonding": 67,
-    "migrationTendency": 24,
-    "careerPreference": "business_trade",
-    "familyStructure": "nuclear_family",
-    "savingsOrientation": 65,
-    "riskAppetite": 12
+    "entrepreneurialScore": 37,
+    "academicOrientation": 32,
+    "artisticInclination": 40,
+    "militaryTradition": 8,
+    "agriculturalRootedness": 15,
+    "artisanTradition": 22,
+    "bureaucraticOrientation": 5,
+    "socialActivism": 86,
+    "communityBonding": 63,
+    "migrationTendency": 38,
+    "careerPreference": "teaching",
+    "familyStructure": "extended_family",
+    "savingsOrientation": 21,
+    "riskAppetite": 15
   },
   "householdSize": 1,
   "householdAssets": {
@@ -248,31 +265,95 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "hasTelevision": true,
     "hasComputer": true,
     "hasPhone": true,
-    "hasBicycle": true,
+    "hasBicycle": false,
     "hasScooter": true,
-    "hasCar": true,
+    "hasCar": false,
     "bankingService": true,
     "treatedWaterSource": true,
     "latrineFacility": true,
-    "numberOfRooms": 2,
-    "roofMaterial": "concrete",
+    "numberOfRooms": 5,
+    "roofMaterial": "metal_sheet",
     "wallMaterial": "burnt_brick",
     "cookingFuel": "lpg",
     "lightingSource": "electricity",
-    "drinkingWaterSource": "tap_treated"
+    "drinkingWaterSource": "handpump"
   },
   "probabilityMetrics": {
     "nationalReligionFreq": 0.803301791826052,
-    "stateGivenReligionProb": 0.10324714506000403,
-    "casteGivenContextProb": 0.04225352112676056,
-    "lastNameGivenCasteProb": 0.09433962264150944,
-    "socialCategoryProb": 0.352112676056338,
-    "educationProb": 0.21890547263681595,
-    "occupationProb": 0.18000000000000002,
-    "jointProbability": 1.302695617760509e-05
+    "stateGivenReligionProb": 0.04704225981630054,
+    "casteGivenContextProb": 0.09917355371900827,
+    "lastNameGivenCasteProb": 0.2857142857142857,
+    "socialCategoryProb": 0.19834710743801653,
+    "educationProb": 0.14598540145985403,
+    "occupationProb": 0.1,
+    "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-08-22T22:40:53.418702",
-  "seed": 7
+  "generatedAt": "2026-09-24T14:35:41.864638",
+  "seed": 7,
+  "employmentTimeline": [
+    {
+      "jobTitle": "Data Entry Operator",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2007,
+      "status": "completed",
+      "monthlyWageINR": 48000,
+      "location": "Guntur",
+      "endYear": 2009
+    },
+    {
+      "jobTitle": "Sales Executive",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2009,
+      "status": "completed",
+      "monthlyWageINR": 74200,
+      "location": "Guntur",
+      "endYear": 2022
+    },
+    {
+      "jobTitle": "Customer Support Associate",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2022,
+      "status": "current",
+      "monthlyWageINR": 102900,
+      "location": "Guntur"
+    }
+  ],
+  "skills": {
+    "technical": [
+      "Commercial Cooking"
+    ],
+    "soft": [
+      "Teamwork",
+      "Time Management"
+    ],
+    "certifications": [],
+    "languages": [
+      {
+        "language": "Telugu",
+        "speaking": "native",
+        "reading": "fluent",
+        "writing": "fluent"
+      },
+      {
+        "language": "Hindi",
+        "speaking": "intermediate",
+        "reading": "intermediate",
+        "writing": "intermediate"
+      },
+      {
+        "language": "English",
+        "speaking": "intermediate",
+        "reading": "intermediate",
+        "writing": "intermediate"
+      }
+    ]
+  }
 }
 ```
 ---
