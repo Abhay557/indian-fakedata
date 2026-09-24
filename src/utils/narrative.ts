@@ -23,7 +23,9 @@ export type NarrativeDocumentType =
   | 'voter_registration'
   | 'hinglish_conversation'
   | 'judicial_affidavit'
-  | 'ration_card_application';
+  | 'ration_card_application'
+  | 'resume'
+  | 'customer_support_chat';
 
 export interface NarrativeDocument {
   type: NarrativeDocumentType;
@@ -501,6 +503,115 @@ Parent Signature: ____________________  Date: ${new Date().toLocaleDateString('e
 }
 
 // ─────────────────────────────────────────────────────────────
+// Document Generator: Resume / CV (v2.0.9)
+// ─────────────────────────────────────────────────────────────
+
+function generateResume(
+  profile: DemographicProfile,
+  outcomes: SimulatedOutcomes
+): NarrativeDocument {
+  const timeline = profile.employmentTimeline ?? [];
+  const skills = profile.skills;
+  const edu = profile.educationTimeline
+    .map(s => `- ${s.stageName} — ${s.institutionName}, ${s.boardOrUniversity} (${s.startYear}-${s.endYear})${s.score ? ` — ${s.score}` : ''}`)
+    .join('\n');
+  const exp = timeline.length > 0
+    ? timeline.map(s => `- ${s.jobTitle} (${toTitleCase(s.sector.replace('_', ' '))}) — ${s.location} (${s.startYear}-${s.endYear ?? 'Present'}) — ${formatIncome(s.monthlyWageINR)}/month`).join('\n')
+    : '- Fresher — seeking first employment opportunity';
+  const skillLines = skills
+    ? [
+        skills.technical.length > 0 ? `Technical: ${skills.technical.join(', ')}` : '',
+        skills.soft.length > 0 ? `Soft skills: ${skills.soft.join(', ')}` : '',
+        skills.certifications.length > 0 ? `Certifications: ${skills.certifications.join(', ')}` : '',
+        `Languages: ${skills.languages.map(l => `${toTitleCase(l.language)} (${l.speaking})`).join(', ')}`,
+      ].filter(Boolean).join('\n')
+    : `Languages: ${toTitleCase(profile.motherTongue)}`;
+
+  const content = `
+RESUME
+${profile.firstName.toUpperCase()} ${profile.lastName.toUpperCase()}
+${profile.district}, ${profile.state} — ${profile.pinCode}
+Mobile: ${profile.phoneNumber} | Email: ${profile.email}
+─────────────────────────────────────────────────────────────────
+
+OBJECTIVE
+Seeking a ${toTitleCase(profile.employmentSector.replace('_', ' '))} role suited to my background in ${occupationLabel(profile.occupation).toLowerCase()}.
+
+EDUCATION
+${edu || `- ${educationLabel(profile.education)}`}
+
+WORK EXPERIENCE
+${exp}
+
+SKILLS
+${skillLines}
+
+PERSONAL DETAILS
+Date of Birth : ${formatDate(profile.dateOfBirth)}
+Gender        : ${toTitleCase(profile.gender)}
+Marital Status: ${toTitleCase(profile.maritalStatus.replace('_', ' '))}
+Languages     : ${toTitleCase(profile.motherTongue)}${profile.secondLanguage ? `, ${toTitleCase(profile.secondLanguage)}` : ''}
+
+DECLARATION
+I hereby declare that the above information is true to the best of my knowledge.
+Place: ${profile.district}   Date: ${new Date().toLocaleDateString('en-IN')}
+`.trim();
+
+  const entities = extractEntities(content, profile);
+  return {
+    type: 'resume',
+    language: 'english',
+    content,
+    metadata: {
+      wordCount: countWords(content),
+      entities,
+      sensitiveFields: ['phoneNumber', 'email'],
+      profileId: profile.id,
+    },
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Document Generator: Customer Support Chat (v2.0.9)
+// ─────────────────────────────────────────────────────────────
+
+function generateCustomerSupportChat(
+  profile: DemographicProfile,
+  outcomes: SimulatedOutcomes
+): NarrativeDocument {
+  const firstName = profile.firstName;
+  const maskedPhone = `XXXXXX${profile.phoneNumber.slice(-4)}`;
+  const upiIssue = profile.hasSmartphone;
+  const txnRef = `TXN${profile.bankAccountNumber.slice(-6)}`;
+
+  const content = `[Customer Support Chat — ${profile.bankName} Helpline]
+
+Support Agent: Namaste! ${profile.bankName} customer care mein aapka swagat hai. Main aapki kya madad kar sakta hoon?
+${firstName}: Namaste bhaiya, mera naam ${firstName} hai. ${upiIssue ? 'Maine UPI se payment kiya tha, paise kat gaye lekin dukandaar ko receive nahi hua.' : 'Mere khaate se ek transaction hua hai jo maine nahi kiya.'}
+Support Agent: Koi baat nahi, main check karta hoon. Aapka registered mobile number confirm karein?
+${firstName}: Haan, ${maskedPhone} hai.
+Support Agent: Dhanyavaad. Reference number ${txnRef} dikhai de raha hai. Amount ${formatIncome(Math.max(500, Math.round(profile.monthlyExpenditureINR / 4)))} ka hai, status abhi "processing" mein hai.
+${firstName}: Toh paise wapas aayenge kya? Mujhe ${profile.district} mein zaroori kaam ke liye chahiye tha.
+Support Agent: Bilkul chinta mat kariye. Agar 48 ghante mein settle nahi hota, toh amount automatically refund ho jayega. Aapko SMS par update milega.
+${firstName}: Theek hai bhaiya, bahut dhanyavaad. ${profile.hasSmartphone ? 'Main app mein status track kar loonga.' : 'Mere paas smartphone nahi hai, SMS ka intezaar karoonga.'}
+Support Agent: Ji zaroor. Koi aur madad chahiye toh dobara sampark karein. Dhanyavaad, ${firstName} ji!`.trim();
+
+  const entities = extractEntities(content, profile);
+
+  return {
+    type: 'customer_support_chat',
+    language: 'hinglish',
+    content,
+    metadata: {
+      wordCount: countWords(content),
+      entities,
+      sensitiveFields: ['phoneNumber'],
+      profileId: profile.id,
+    },
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
 // Public API
 // ─────────────────────────────────────────────────────────────
 
@@ -527,6 +638,10 @@ export function generateNarrative(
       return generateRationCardApplication(profile);
     case 'school_enrollment':
       return generateSchoolEnrollment(profile, outcomes);
+    case 'resume':
+      return generateResume(profile, outcomes);
+    case 'customer_support_chat':
+      return generateCustomerSupportChat(profile, outcomes);
     default:
       // Fallback to loan application for unimplemented types
       return generateLoanApplication(profile, outcomes);
@@ -547,6 +662,8 @@ export function generateAllNarratives(
     'hinglish_conversation',
     'ration_card_application',
     'school_enrollment',
+    'resume',
+    'customer_support_chat',
   ];
   return types.map(t => generateNarrative(profile, outcomes, t));
 }

@@ -194,6 +194,11 @@ v2.0.9 also adds `skills` to every profile — `technical` and `soft` lists,
 (`basic` / `intermediate` / `fluent` / `native`). Same isolated-stream
 guarantee: drawn from a per-profile stream AFTER assembly.
 
+v2.0.9 Layer 3 adds two narrative types: `resume` (CV built from the
+education timeline, `employmentTimeline` and `skills`) and
+`customer_support_chat` (Hinglish bank helpline dialogue, masked phone).
+`generateAllNarratives` appends them at the end; existing order unchanged.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 

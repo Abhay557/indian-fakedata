@@ -65,7 +65,8 @@ def print_help():
                            {C["dim"]}Default: 0.3 (calibrated to CMIE/CIBIL observed gaps){C["reset"]}
     --narrative <type>     {C["dim"]}[Layer 3]{C["reset"]} Generate realistic Indian text document.
                            Types: {C["dim"]}loan_application, medical_consultation, school_enrollment,
-                                  ration_card_application, hinglish_conversation, all{C["reset"]}
+                                  ration_card_application, hinglish_conversation, resume,
+                                  customer_support_chat, all{C["reset"]}
                             Can be repeated for multiple types.
     --persona              {C["dim"]}[Layer 4]{C["reset"]} Generate LLM-ready agent persona (system prompt,
                            beliefs, memory seeds, behavioral rules).

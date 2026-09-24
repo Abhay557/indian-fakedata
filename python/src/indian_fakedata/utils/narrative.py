@@ -487,6 +487,123 @@ Parent Signature: ____________________  Date: {cdate}
         }
     }
 
+def generate_resume(profile, outcomes):
+    # Resume / CV (v2.0.9) — draws on the employment timeline + skills block
+    # when present, with safe fallbacks for older profiles.
+    cdate = datetime.now().strftime("%d/%m/%Y")
+    timeline = profile.get("employmentTimeline") or []
+    skills = profile.get("skills") or {}
+    edu_stages = profile.get("educationTimeline", [])
+    edu_lines = "\n".join(
+        f"- {s.get('stageName', '')} — {s.get('institutionName', '')}, "
+        f"{s.get('boardOrUniversity', '')} ({s.get('startYear', '')}-{s.get('endYear', '')})"
+        + (f" — {s.get('score')}" if s.get("score") else "")
+        for s in edu_stages
+    )
+    if timeline:
+        exp_lines = "\n".join(
+            f"- {s.get('jobTitle', '')} ({to_title_case(str(s.get('sector', '')).replace('_', ' '))}) — "
+            f"{s.get('location', '')} ({s.get('startYear', '')}-{s.get('endYear', 'Present')}) — "
+            f"{format_income(s.get('monthlyWageINR', 0))}/month"
+            for s in timeline
+        )
+    else:
+        exp_lines = "- Fresher — seeking first employment opportunity"
+    skill_bits = []
+    if skills.get("technical"):
+        skill_bits.append(f"Technical: {', '.join(skills['technical'])}")
+    if skills.get("soft"):
+        skill_bits.append(f"Soft skills: {', '.join(skills['soft'])}")
+    if skills.get("certifications"):
+        skill_bits.append(f"Certifications: {', '.join(skills['certifications'])}")
+    langs = skills.get("languages") or []
+    if langs:
+        skill_bits.append("Languages: " + ", ".join(
+            f"{to_title_case(l.get('language', ''))} ({l.get('speaking', '')})" for l in langs))
+    else:
+        skill_bits.append(f"Languages: {to_title_case(profile.get('motherTongue', 'Hindi'))}")
+    second = profile.get("secondLanguage")
+    ms = to_title_case(str(profile.get('maritalStatus', '')).replace('_', ' '))
+
+    content = f"""
+RESUME
+{str(profile.get('firstName', '')).upper()} {str(profile.get('lastName', '')).upper()}
+{profile.get('district', '')}, {profile.get('state', '')} — {profile.get('pinCode', '')}
+Mobile: {profile.get('phoneNumber', '')} | Email: {profile.get('email', '')}
+─────────────────────────────────────────────────────────────────
+
+OBJECTIVE
+Seeking a {to_title_case(str(profile.get('employmentSector', '')).replace('_', ' '))} role suited to my background in {occupation_label(profile.get('occupation', '')).lower()}.
+
+EDUCATION
+{edu_lines or f"- {to_title_case(str(profile.get('education', '')))}"}
+
+WORK EXPERIENCE
+{exp_lines}
+
+SKILLS
+{chr(10).join(skill_bits)}
+
+PERSONAL DETAILS
+Date of Birth : {format_date(profile.get('dateOfBirth', ''))}
+Gender        : {to_title_case(profile.get('gender', ''))}
+Marital Status: {ms}
+Languages     : {to_title_case(profile.get('motherTongue', 'Hindi'))}{f", {to_title_case(second)}" if second else ''}
+
+DECLARATION
+I hereby declare that the above information is true to the best of my knowledge.
+Place: {profile.get('district', '')}   Date: {cdate}
+""".strip()
+
+    entities = extract_entities(content, profile)
+    return {
+        "type": "resume",
+        "language": "english",
+        "content": content,
+        "metadata": {
+            "wordCount": count_words(content),
+            "entities": entities,
+            "sensitiveFields": ["phoneNumber", "email"],
+            "profileId": profile.get("id", "")
+        }
+    }
+
+def generate_customer_support_chat(profile, outcomes):
+    # Customer support chat in Hinglish (v2.0.9) — a benign bank/UPI help
+    # desk conversation. Phone shown masked; no account secrets printed.
+    first = profile.get("firstName", "")
+    phone = str(profile.get("phoneNumber", ""))
+    masked = "XXXXXX" + phone[-4:] if len(phone) >= 4 else "XXXXXX0000"
+    bank_no = str(profile.get("bankAccountNumber", "000000"))
+    txn_ref = "TXN" + bank_no[-6:]
+    amount = format_income(max(500, round(profile.get("monthlyExpenditureINR", 4000) / 4)))
+    smart = profile.get("hasSmartphone")
+
+    content = f"""[Customer Support Chat — {profile.get('bankName', '')} Helpline]
+
+Support Agent: Namaste! {profile.get('bankName', '')} customer care mein aapka swagat hai. Main aapki kya madad kar sakta hoon?
+{first}: Namaste bhaiya, mera naam {first} hai. {"Maine UPI se payment kiya tha, paise kat gaye lekin dukandaar ko receive nahi hua." if smart else "Mere khaate se ek transaction hua hai jo maine nahi kiya."}
+Support Agent: Koi baat nahi, main check karta hoon. Aapka registered mobile number confirm karein?
+{first}: Haan, {masked} hai.
+Support Agent: Dhanyavaad. Reference number {txn_ref} dikhai de raha hai. Amount {amount} ka hai, status abhi "processing" mein hai.
+{first}: Toh paise wapas aayenge kya? Mujhe {profile.get('district', '')} mein zaroori kaam ke liye chahiye tha.
+Support Agent: Bilkul chinta mat kariye. Agar 48 ghante mein settle nahi hota, toh amount automatically refund ho jayega. Aapko SMS par update milega.
+{first}: Theek hai bhaiya, bahut dhanyavaad. {"Main app mein status track kar loonga." if smart else "Mere paas smartphone nahi hai, SMS ka intezaar karoonga."}
+Support Agent: Ji zaroor. Koi aur madad chahiye toh dobara sampark karein. Dhanyavaad, {first} ji!""".strip()
+
+    entities = extract_entities(content, profile)
+    return {
+        "type": "customer_support_chat",
+        "language": "hinglish",
+        "content": content,
+        "metadata": {
+            "wordCount": count_words(content),
+            "entities": entities,
+            "sensitiveFields": ["phoneNumber"],
+            "profileId": profile.get("id", "")
+        }
+    }
+
 def generate_narrative(profile, outcomes, doc_type):
     """
     Generate a realistic Indian text document from a demographic profile.
@@ -501,6 +618,10 @@ def generate_narrative(profile, outcomes, doc_type):
         return generate_ration_card_application(profile)
     elif doc_type == "school_enrollment":
         return generate_school_enrollment(profile, outcomes)
+    elif doc_type == "resume":
+        return generate_resume(profile, outcomes)
+    elif doc_type == "customer_support_chat":
+        return generate_customer_support_chat(profile, outcomes)
     else:
         return generate_loan_application(profile, outcomes)
 
@@ -508,5 +629,5 @@ def generate_all_narratives(profile, outcomes):
     """
     Generate all supported narrative documents for a profile.
     """
-    types = ["loan_application", "medical_consultation", "hinglish_conversation", "ration_card_application", "school_enrollment"]
+    types = ["loan_application", "medical_consultation", "hinglish_conversation", "ration_card_application", "school_enrollment", "resume", "customer_support_chat"]
     return [generate_narrative(profile, outcomes, t) for t in types]

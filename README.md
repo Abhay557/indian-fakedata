@@ -510,6 +510,11 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   speaking/reading/writing levels (`basic` / `intermediate` / `fluent` /
   `native`). Pools follow education and occupation; children get languages
   only. Same isolated-stream guarantee as the employment timeline.
+- **New narrative documents.** Layer 3 gains `resume` (CV grounded in the
+  education timeline, work history and skills) and `customer_support_chat`
+  (Hinglish bank helpline dialogue, phone masked). Both work via
+  `generateNarrative`, `--narrative` and `generateAllNarratives`, which
+  appends them at the end so existing document order is unchanged.
 
 ---
 
