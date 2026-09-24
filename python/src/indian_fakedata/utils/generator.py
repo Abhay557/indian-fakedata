@@ -54,6 +54,7 @@ from indian_fakedata.utils.cultural import generate_cultural_profile
 from indian_fakedata.utils.education import generate_education_timeline
 from indian_fakedata.utils.media import generate_movie_preferences
 from indian_fakedata.utils.appearance import generate_appearance
+from indian_fakedata.utils.employment import generate_employment_timeline
 
 
 def _generate_uuid(rng):
@@ -244,7 +245,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     # Assemble profile
     # synthetic + generator markers har profile pe hote hain — data jab bhi
     # kahin export ho, apne saath proof le ke jaye ki ye fake hai.
-    return {
+    profile = {
         "id": _generate_uuid(rng),
         "synthetic": True,
         "generator": "indian-fakedata@" + __version__,
@@ -318,6 +319,19 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "generatedAt": datetime.now().isoformat(),
         "seed": rng.seed,
     }
+
+    # Step 16: v2.0.9 additions — isolated RNG stream derived from the
+    # profile id: new features consume ZERO draws from the main stream, so
+    # id + every prior field for a given seed stay byte-identical to
+    # <= 2.0.8 output (including batch order).
+    feat_rng = create_rng("v209:" + profile["id"])
+    profile["employmentTimeline"] = generate_employment_timeline(
+        socio["age"], socio["education"], socio["occupation"],
+        employment_sector, socio["income"], district, path["areaType"],
+        path["gender"], feat_rng,
+    )
+
+    return profile
 
 
 def generate(count=1, seed=None, constraints=None, include_probability_metrics=True):

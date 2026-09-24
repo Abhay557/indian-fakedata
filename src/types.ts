@@ -229,6 +229,28 @@ export interface EducationStage {
   status: 'completed' | 'in_progress' | 'dropped_out';
 }
 
+/** A single job spell in a person's work history (chronological, v2.0.9) */
+export interface EmploymentStage {
+  /** Plausible job title, e.g. "Primary School Teacher" */
+  jobTitle: string;
+  /** Detailed employment sector for this spell */
+  sector: EmploymentSector;
+  /** Census occupation bucket for this spell */
+  occupation: OccupationalSector;
+  /** Employer kind */
+  employerType: 'government' | 'private' | 'self' | 'informal' | 'household';
+  /** Start year (approximate) */
+  startYear: number;
+  /** End year (absent for the current job) */
+  endYear?: number;
+  /** Spell status */
+  status: 'completed' | 'current';
+  /** Monthly wage in INR for this spell */
+  monthlyWageINR: number;
+  /** Work location (district) */
+  location: string;
+}
+
 /** Descriptive personality traits derived from Big Five scores (AI-friendly) */
 export interface PersonalityTraits {
   /** One-sentence personality summary */
@@ -460,6 +482,8 @@ export interface DemographicProfile {
   educationDetails: EducationDetails;
   /** Chronological education history (school → college) */
   educationTimeline: EducationStage[];
+  /** Chronological work history (v2.0.9, empty when too young to work) */
+  employmentTimeline?: EmploymentStage[];
   /** Descriptive personality traits derived from Big Five scores */
   personalityTraits: PersonalityTraits;
   /** Movie/anime viewing preferences */

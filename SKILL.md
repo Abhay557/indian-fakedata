@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.8** (both). Zero runtime dependencies.
+Current version: **2.0.9** (both). Zero runtime dependencies.
 
 ---
 
@@ -123,7 +123,9 @@ identifiers (Aadhaar, PAN, voter ID, phone, email), geography
 (state, district, area type, address, PIN), socioeconomics (religion, caste,
 social category, mother tongue, education, occupation, income, expenditure),
 household (children count, assets), lifestyle (diet, habits, interests), and
-psychology (Big Five, cognitive profile, political leaning). `probabilityMetrics`
+psychology (Big Five, cognitive profile, political leaning), work history
+(`employmentTimeline`: chronological job spells with title, sector, tenure,
+wages). `probabilityMetrics`
 shows the chain of probabilities for each draw.
 
 v2.0.3 added three fields to every profile:
@@ -177,6 +179,14 @@ South and North-East shorter). Skin tone uses named buckets: `fair`,
 include a physical description in the system prompt. The `appearance` block is
 drawn AFTER all other fields, so every other field for a given seed stays
 stable; `heightCm` changed because of the regional offset.
+
+v2.0.9 adds `employmentTimeline` to every profile — chronological job spells
+(`jobTitle`, `sector`, `occupation`, `employerType`, `startYear`, `endYear`,
+`status`: completed / current, `monthlyWageINR`, `location`). Titles come from
+sector pools (government, private, self-employed, informal, ...); wages climb
+towards the current income. Empty for students, the unemployed and children;
+completed-only for retirees. Attached AFTER profile assembly, so `id` and all
+<= 2.0.8 fields for a given seed are byte-identical.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

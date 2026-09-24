@@ -62,6 +62,7 @@ export type {
   MoviePreferences,
   CulturalProfile,
   Appearance,
+  EmploymentStage,
   HouseholdAssets,
   NameEntry,
   CasteEntry,
@@ -87,6 +88,8 @@ export { loadDatabase, mergeDatabase } from './database/index.js';
 export { getDefaultDatabase } from './database/defaultData.js';
 export { formatProfiles, saveProfilesToFile } from './utils/exporter.js';
 export { generateAppearance, getRegion } from './utils/appearance.js';
+export { generateEmploymentTimeline } from './utils/employment.js';
+export type { EmploymentTimelineOptions } from './utils/employment.js';
 
 // note for someone who is reading this code
 // yee sab data probablity hai vho confidentail hai iske liye github par public nahi kar sakta

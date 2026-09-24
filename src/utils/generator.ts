@@ -52,6 +52,7 @@ import {
   generateUPI
 } from './identifiers.js';
 import { generateAppearance } from './appearance.js';
+import { generateEmploymentTimeline } from './employment.js';
 import {
   generateDiet,
   generateDisability,
@@ -433,6 +434,25 @@ function generateSingleProfile(
     generatedAt: new Date().toISOString(),
     seed: rng.seed
   };
+
+  // ── Step 16: v2.0.9 additions ────────────────────────────
+  // Isolated RNG stream derived from the profile id: new features consume
+  // ZERO draws from the main stream, so id + every prior field for a given
+  // seed stay byte-identical to <= 2.0.8 output (including batch order).
+  const featRng = createRNG(`v209:${profile.id}`);
+  profile.employmentTimeline = generateEmploymentTimeline(
+    {
+      age: socio.age,
+      education: socio.education,
+      occupation: socio.occupation,
+      employmentSector,
+      annualIncomeINR: socio.income,
+      district,
+      areaType: path.areaType,
+      gender: path.gender,
+    },
+    featRng
+  );
 
   return profile;
 }

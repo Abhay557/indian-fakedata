@@ -472,6 +472,16 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
 - The `appearance` block is appended at the end of generation, so every other
   field for a given seed stays stable.
 
+### v2.0.9 — work history, skills and more
+
+- **Employment timeline.** Every profile now carries `employmentTimeline`: a
+  chronological list of job spells (`jobTitle`, `sector`, `occupation`,
+  `employerType`, `startYear`, `endYear`, `status`, `monthlyWageINR`,
+  `location`). Wages progress towards the current income; students, the
+  unemployed and children get an empty timeline, retirees get completed-only
+  history. Attached after profile assembly, so `id` and every <= 2.0.8 field
+  for a given seed stay byte-identical.
+
 ---
 
 ## The 4 Data Layers
