@@ -222,6 +222,8 @@ v2.0.9 validation: `validateProfile(profile)` → `{ valid, errors }`
 (Python: `validate_profile(profile)` → `{"valid", "errors"}`) checks
 required fields, enum values and provenance markers; `getProfileSchema()` /
 `get_profile_schema()` exports the versioned JSON Schema. Zero dependencies.
+The canonical file ships at `schema/profile-2.0.9.json` (both test suites
+assert it matches the function output).
 
 v2.0.9 sharing: `stripPII(profile)` (Python: `strip_pii(profile)`) empties
 Aadhaar/PAN/voter/phone/email/bank-account/UPI/street-address, keeps shape

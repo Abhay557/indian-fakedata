@@ -1,0 +1,366 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/abhay557/indian-fakedata/schema/profile-2.0.9.json",
+  "title": "DemographicProfile",
+  "type": "object",
+  "required": [
+    "id",
+    "firstName",
+    "lastName",
+    "fatherName",
+    "motherName",
+    "dateOfBirth",
+    "aadhaarNumber",
+    "phoneNumber",
+    "email",
+    "state",
+    "stateCode",
+    "district",
+    "addressLine",
+    "locality",
+    "pinCode",
+    "religion",
+    "caste",
+    "motherTongue",
+    "bankIFSC",
+    "bankName",
+    "bankAccountNumber",
+    "generatedAt",
+    "panNumber",
+    "voterIdNumber",
+    "age",
+    "heightCm",
+    "weightKg",
+    "bmi",
+    "annualIncomeINR",
+    "monthlyExpenditureINR",
+    "numberOfChildren",
+    "landOwnershipAcres",
+    "householdSize",
+    "seed",
+    "synthetic",
+    "isMigrant",
+    "hasInternetAccess",
+    "hasSmartphone",
+    "usesSocialMedia",
+    "appearance",
+    "personality",
+    "cognitiveProfile",
+    "interests",
+    "habits",
+    "educationDetails",
+    "personalityTraits",
+    "moviePreferences",
+    "culturalProfile",
+    "householdAssets",
+    "probabilityMetrics",
+    "educationTimeline",
+    "gender",
+    "socialCategory",
+    "areaType",
+    "education",
+    "occupation",
+    "maritalStatus",
+    "dietaryPreference",
+    "disability",
+    "rationCardType",
+    "healthInsurance",
+    "politicalLeaning",
+    "religiosity",
+    "bloodGroup",
+    "generator"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "fatherName": {
+      "type": "string"
+    },
+    "motherName": {
+      "type": "string"
+    },
+    "dateOfBirth": {
+      "type": "string"
+    },
+    "aadhaarNumber": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "stateCode": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "addressLine": {
+      "type": "string"
+    },
+    "locality": {
+      "type": "string"
+    },
+    "pinCode": {
+      "type": "string"
+    },
+    "religion": {
+      "type": "string"
+    },
+    "caste": {
+      "type": "string"
+    },
+    "motherTongue": {
+      "type": "string"
+    },
+    "bankIFSC": {
+      "type": "string"
+    },
+    "bankName": {
+      "type": "string"
+    },
+    "bankAccountNumber": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string"
+    },
+    "panNumber": {
+      "type": "string"
+    },
+    "voterIdNumber": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number"
+    },
+    "heightCm": {
+      "type": "number"
+    },
+    "weightKg": {
+      "type": "number"
+    },
+    "bmi": {
+      "type": "number"
+    },
+    "annualIncomeINR": {
+      "type": "number"
+    },
+    "monthlyExpenditureINR": {
+      "type": "number"
+    },
+    "numberOfChildren": {
+      "type": "number"
+    },
+    "landOwnershipAcres": {
+      "type": "number"
+    },
+    "householdSize": {
+      "type": "number"
+    },
+    "seed": {
+      "type": "number"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "isMigrant": {
+      "type": "boolean"
+    },
+    "hasInternetAccess": {
+      "type": "boolean"
+    },
+    "hasSmartphone": {
+      "type": "boolean"
+    },
+    "usesSocialMedia": {
+      "type": "boolean"
+    },
+    "appearance": {
+      "type": "object"
+    },
+    "personality": {
+      "type": "object"
+    },
+    "cognitiveProfile": {
+      "type": "object"
+    },
+    "interests": {
+      "type": "object"
+    },
+    "habits": {
+      "type": "object"
+    },
+    "educationDetails": {
+      "type": "object"
+    },
+    "personalityTraits": {
+      "type": "object"
+    },
+    "moviePreferences": {
+      "type": "object"
+    },
+    "culturalProfile": {
+      "type": "object"
+    },
+    "householdAssets": {
+      "type": "object"
+    },
+    "probabilityMetrics": {
+      "type": "object"
+    },
+    "educationTimeline": {
+      "type": "array"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ]
+    },
+    "socialCategory": {
+      "type": "string",
+      "enum": [
+        "SC",
+        "ST",
+        "OBC",
+        "General"
+      ]
+    },
+    "areaType": {
+      "type": "string",
+      "enum": [
+        "urban",
+        "rural"
+      ]
+    },
+    "education": {
+      "type": "string",
+      "enum": [
+        "illiterate",
+        "literate_below_primary",
+        "primary",
+        "middle",
+        "secondary",
+        "higher_secondary",
+        "graduate",
+        "postgraduate",
+        "technical_diploma",
+        "professional_degree"
+      ]
+    },
+    "occupation": {
+      "type": "string",
+      "enum": [
+        "cultivator",
+        "agricultural_labourer",
+        "household_industry",
+        "other_worker",
+        "non_worker"
+      ]
+    },
+    "maritalStatus": {
+      "type": "string",
+      "enum": [
+        "never_married",
+        "married",
+        "widowed",
+        "divorced_separated"
+      ]
+    },
+    "dietaryPreference": {
+      "type": "string",
+      "enum": [
+        "vegetarian",
+        "non_vegetarian",
+        "eggetarian",
+        "vegan"
+      ]
+    },
+    "disability": {
+      "type": "string",
+      "enum": [
+        "none",
+        "visual",
+        "hearing",
+        "speech",
+        "locomotor",
+        "mental_illness",
+        "mental_retardation",
+        "multiple"
+      ]
+    },
+    "rationCardType": {
+      "type": "string",
+      "enum": [
+        "APL",
+        "BPL",
+        "AAY",
+        "AY",
+        "none"
+      ]
+    },
+    "healthInsurance": {
+      "type": "string",
+      "enum": [
+        "pmjay",
+        "esis",
+        "cghs",
+        "private",
+        "none"
+      ]
+    },
+    "politicalLeaning": {
+      "type": "string",
+      "enum": [
+        "nationalist_right",
+        "centre_right",
+        "centrist",
+        "centre_left",
+        "leftist",
+        "regionalist",
+        "apolitical"
+      ]
+    },
+    "religiosity": {
+      "type": "string",
+      "enum": [
+        "very_religious",
+        "somewhat_religious",
+        "not_very_religious",
+        "not_at_all_religious"
+      ]
+    },
+    "bloodGroup": {
+      "type": "string",
+      "enum": [
+        "O+",
+        "O-",
+        "A+",
+        "A-",
+        "B+",
+        "B-",
+        "AB+",
+        "AB-"
+      ]
+    },
+    "generator": {
+      "type": "string",
+      "pattern": "^indian-fakedata@\\d+\\.\\d+\\.\\d+$"
+    }
+  }
+}

@@ -1,5 +1,8 @@
 """Regression tests for the v2.0.9 schema + validator."""
 
+import json
+import os
+
 from indian_fakedata import generate, validate_profile, get_profile_schema
 
 
@@ -47,3 +50,13 @@ def test_versioned_machine_readable_schema():
     assert "firstName" in schema["required"]
     assert "synthetic" in schema["required"]
     assert "female" in schema["properties"]["gender"]["enum"]
+
+
+def test_shipped_schema_file_matches_function():
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # tests run from python/, schema lives at repo root
+    candidates = [os.path.join(repo_root, "..", "schema", "profile-2.0.9.json"),
+                  os.path.join(os.getcwd(), "..", "schema", "profile-2.0.9.json")]
+    path = next(p for p in candidates if os.path.exists(p))
+    with open(path, encoding="utf-8") as f:
+        assert json.load(f) == get_profile_schema()

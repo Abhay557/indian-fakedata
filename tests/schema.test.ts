@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import fs from 'fs';
+import path from 'path';
 
 import { generate, validateProfile, getProfileSchema } from '../src/index.js';
 
@@ -47,5 +49,12 @@ describe('profile schema + validator (v2.0.9)', () => {
     expect(schema.required).toContain('firstName');
     expect(schema.required).toContain('synthetic');
     expect(schema.properties.gender.enum).toContain('female');
+  });
+
+  it('ships a schema file matching getProfileSchema()', () => {
+    const file = JSON.parse(
+      fs.readFileSync(path.resolve('schema/profile-2.0.9.json'), 'utf-8')
+    );
+    expect(file).toEqual(getProfileSchema());
   });
 });
