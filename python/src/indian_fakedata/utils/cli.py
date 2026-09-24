@@ -47,6 +47,11 @@ def print_help():
     --stats                Print a distribution summary
                            (religion/state/gender/area/education/occupation)
                            to stderr after generation
+    --strip-pii            Empty direct identifiers (Aadhaar/PAN/voter/phone/
+                           email/bank-account/UPI/street-address) in output.
+                           Sanitizes profile fields only, not narrative or
+                           persona text
+    --mask-names           With --strip-pii, reduce names to initials
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -128,6 +133,8 @@ def main():
                         choices=["english", "hindi", "hinglish"])
     parser.add_argument("--fields", action="append", default=None)
     parser.add_argument("--stats", action="store_true")
+    parser.add_argument("--strip-pii", action="store_true")
+    parser.add_argument("--mask-names", action="store_true")
 
     # Parse only known args
     args, unknown = parser.parse_known_args()
@@ -163,10 +170,24 @@ def main():
         pick_record_fields, create_stats_counters,
         update_stats_counters, format_stats_counters,
     )
+    from indian_fakedata.utils.privacy import strip_pii
     stats = create_stats_counters()
 
     def shape(record):
         return pick_record_fields(record, selected_fields) if selected_fields else record
+
+    def sanitize(record):
+        # Strip identifiers for output only; stats always count the full
+        # record. Sanitizes profile fields, not narrative/persona text.
+        if not args.strip_pii:
+            return record
+        if isinstance(record, dict) and isinstance(record.get("profile"), dict):
+            out = dict(record)
+            out["profile"] = strip_pii(record["profile"], mask_names=args.mask_names)
+            return out
+        if isinstance(record, dict) and "firstName" in record:
+            return strip_pii(record, mask_names=args.mask_names)
+        return record
 
     # Enrichment options
     include_outcomes = args.outcomes or args.enrich
@@ -200,10 +221,29 @@ def main():
             constraints=constraints,
             include_probability_metrics=include_probability_metrics
         )
+        if args.strip_pii:
+            by_id = {}
+            for m in ([family.get("head")] + ([family.get("spouse")] if family.get("spouse") else []) +
+                      ([family.get("parents", {}).get("father")] if family.get("parents", {}).get("father") else []) +
+                      ([family.get("parents", {}).get("mother")] if family.get("parents", {}).get("mother") else []) +
+                      family.get("children", []) + family.get("siblings", [])):
+                if m:
+                    by_id[m["id"]] = strip_pii(m, mask_names=args.mask_names)
+            parents = family.get("parents", {})
+            family = {
+                "head": by_id.get(family.get("head", {}).get("id")),
+                "spouse": by_id.get(family.get("spouse", {}).get("id")) if family.get("spouse") else None,
+                "parents": {
+                    "father": by_id.get(parents.get("father", {}).get("id", "")),
+                    "mother": by_id.get(parents.get("mother", {}).get("id", "")),
+                },
+                "children": [by_id.get(c.get("id")) for c in family.get("children", [])],
+                "siblings": [by_id.get(s.get("id")) for s in family.get("siblings", [])],
+            }
         if args.format == "json":
-            out_file.write(json.dumps(shape(family), indent=2, ensure_ascii=False))
+            out_file.write(json.dumps(shape(sanitize(family)), indent=2, ensure_ascii=False))
         else:
-            out_file.write(json.dumps(shape(family), ensure_ascii=False) + "\n")
+            out_file.write(json.dumps(shape(sanitize(family)), ensure_ascii=False) + "\n")
         if show_stats:
             members = [family.get("head")] + ([family.get("spouse")] if family.get("spouse") else [])
             parents = family.get("parents", {})
@@ -251,24 +291,26 @@ def main():
                     out_file.write(",\n")
                 update_stats_counters(stats, p)
                 if args.count <= 100:
-                    out_file.write(json.dumps(shape(p), indent=2, ensure_ascii=False))
+                    out_file.write(json.dumps(shape(sanitize(p)), indent=2, ensure_ascii=False))
                 else:
-                    out_file.write(json.dumps(shape(p), ensure_ascii=False))
+                    out_file.write(json.dumps(shape(sanitize(p)), ensure_ascii=False))
                 is_first = False
             out_file.write("\n]\n")
 
         elif args.format == "jsonl":
             for p in stream:
                 update_stats_counters(stats, p)
-                out_file.write(json.dumps(shape(p), ensure_ascii=False) + "\n")
+                out_file.write(json.dumps(shape(sanitize(p)), ensure_ascii=False) + "\n")
 
         elif args.format == "csv":
             is_first = True
             headers = []
             for record in stream:
                 update_stats_counters(stats, record)
-                src = shape(record)
-                flat = _flatten_object(src) if selected_fields else (
+                src = shape(sanitize(record))
+                # Legacy enriched summaries only when output is untouched;
+                # selected/stripped output flattens the raw record instead.
+                flat = _flatten_object(src) if (selected_fields or args.strip_pii) else (
                     _flatten_enriched(record) if is_enriched else _flatten_object(record))
                 if is_first:
                     headers = list(flat.keys())

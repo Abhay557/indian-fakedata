@@ -64,3 +64,27 @@ def test_cli_stats_prints_summary_to_stderr():
     assert res.returncode == 0, res.stderr
     assert "[Stats] 5 profiles" in res.stderr
     assert "gender:" in res.stderr
+
+
+def test_cli_strip_pii_empties_identifiers():
+    import re
+    res = run_cli("--count", "3", "--seed", "7", "--strip-pii", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
+    assert len(rows) == 3
+    for row in rows:
+        assert row["phoneNumber"] == ""
+        assert row["aadhaarNumber"] == ""
+        assert row["email"] == ""
+        assert row["piiStripped"] is True
+        assert len(row["firstName"]) > 1
+
+
+def test_cli_strip_pii_mask_names():
+    import re
+    res = run_cli("--count", "2", "--seed", "7", "--strip-pii",
+                  "--mask-names", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
+    for row in rows:
+        assert re.match(r"^[A-Z]\.$", row["firstName"]) or "." in row["firstName"]

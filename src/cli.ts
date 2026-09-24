@@ -14,6 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import { generateStream, generateEnrichedStream } from './utils/generator.js';
 import { generateFamily } from './utils/relations.js';
+import { stripPII } from './utils/privacy.js';
 import {
   flattenObject,
   escapeCSVValue,
@@ -73,6 +74,11 @@ function printHelp() {
     --stats                Print a distribution summary
                            (religion/state/gender/area/education/occupation)
                            to stderr after generation
+    --strip-pii            Empty direct identifiers (Aadhaar/PAN/voter/phone/
+                           email/bank-account/UPI/street-address) in output.
+                           Sanitizes profile fields only, not narrative or
+                           persona text
+    --mask-names           With --strip-pii, reduce names to initials
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -215,6 +221,8 @@ async function main() {
   let personaLang = 'english';
   let selectedFields: string[] = [];
   let showStats = false;
+  let stripPIIFlag = false;
+  let maskNames = false;
 
 
   if (process.argv.length < 3) {
@@ -362,6 +370,12 @@ async function main() {
     } else if (arg === '--stats') {
       showStats = true;
 
+    } else if (arg === '--strip-pii') {
+      stripPIIFlag = true;
+
+    } else if (arg === '--mask-names') {
+      maskNames = true;
+
     } else {
       console.error(`${C.red}Error:${C.reset} Unknown option '${arg}'. Use -h or --help for usage.`);
       process.exit(1);
@@ -427,6 +441,18 @@ async function main() {
   const stats = createStatsCounters();
   const shape = (record: any) =>
     selectedFields.length > 0 ? pickRecordFields(record, selectedFields) : record;
+  // Strip identifiers for output only; stats always count the full record.
+  // Sanitizes profile fields, not narrative/persona text.
+  const sanitize = (record: any) => {
+    if (!stripPIIFlag) return record;
+    if (record && typeof record === 'object' && record.profile) {
+      return { ...record, profile: stripPII(record.profile, { maskNames }) };
+    }
+    if (record && typeof record === 'object' && 'firstName' in record) {
+      return stripPII(record, { maskNames });
+    }
+    return record;
+  };
 
   try {
     let i = 0;
@@ -447,7 +473,20 @@ async function main() {
       if (family.parents.father) members.push(family.parents.father);
       if (family.parents.mother) members.push(family.parents.mother);
       members.push(...family.children, ...family.siblings);
-      const output = { head: family.head, spouse: family.spouse, parents: family.parents, children: family.children, siblings: family.siblings };
+      const cleanMembers = stripPIIFlag
+        ? members.map(m => stripPII(m, { maskNames }))
+        : members;
+      const byId = new Map(cleanMembers.map(m => [m.id, m]));
+      const output = {
+        head: byId.get(family.head.id),
+        spouse: family.spouse ? byId.get(family.spouse.id) : family.spouse,
+        parents: {
+          father: family.parents.father ? byId.get(family.parents.father.id) : undefined,
+          mother: family.parents.mother ? byId.get(family.parents.mother.id) : undefined,
+        },
+        children: family.children.map((c: any) => byId.get(c.id)),
+        siblings: family.siblings.map((s: any) => byId.get(s.id)),
+      };
       if (showStats) for (const m of members) updateStatsCounters(stats, m);
       writeStream.write(format === 'json' ? JSON.stringify(shape(output), null, 2) : JSON.stringify(shape(output)) + '\n');
       if (showStats) {
@@ -470,7 +509,8 @@ async function main() {
       for (const record of stream) {
         if (!isFirst) writeStream.write(',\n');
         updateStatsCounters(stats, record);
-        writeStream.write(count <= 100 ? JSON.stringify(shape(record), null, 2) : JSON.stringify(shape(record)));
+        const out = shape(sanitize(record));
+        writeStream.write(count <= 100 ? JSON.stringify(out, null, 2) : JSON.stringify(out));
         isFirst = false;
         i++;
         if (outputPath && i % logInterval === 0) {
@@ -488,7 +528,7 @@ async function main() {
 
       for (const record of stream) {
         updateStatsCounters(stats, record);
-        writeStream.write(JSON.stringify(shape(record)) + '\n');
+        writeStream.write(JSON.stringify(shape(sanitize(record))) + '\n');
         i++;
         if (outputPath && i % logInterval === 0) {
           const rate = Math.round(i / ((Date.now() - startTime) / 1000));
@@ -507,8 +547,10 @@ async function main() {
 
       for (const record of stream) {
         updateStatsCounters(stats, record);
-        const src = shape(record);
-        const flat = selectedFields.length > 0
+        const src = shape(sanitize(record));
+        // Legacy enriched summaries only when output is untouched;
+        // selected/stripped output flattens the raw record instead.
+        const flat = (selectedFields.length > 0 || stripPIIFlag)
           ? flattenObject(src)
           : (isEnriched ? flattenEnriched(record) : flattenObject(record));
         if (isFirst) {

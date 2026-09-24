@@ -216,7 +216,8 @@ Hinglish = roman mix + English headers. Default english is byte-identical to
 v2.0.9 CLI adds `--fields` (comma-separated, repeatable, dot paths allowed:
 `--fields firstName,state,appearance.skinTone`, works for json/jsonl/csv)
 and `--stats` (stderr distribution summary over religion, state, gender,
-areaType, education, occupation).
+areaType, education, occupation). `--strip-pii` (+ `--mask-names`) sanitizes
+CLI output.
 
 v2.0.9 validation: `validateProfile(profile)` → `{ valid, errors }`
 (Python: `validate_profile(profile)` → `{"valid", "errors"}`) checks
@@ -229,6 +230,9 @@ v2.0.9 sharing: `stripPII(profile)` (Python: `strip_pii(profile)`) empties
 Aadhaar/PAN/voter/phone/email/bank-account/UPI/street-address, keeps shape
 and provenance, adds `piiStripped: true`. `maskNames: true`
 (`mask_names=True`) reduces names to initials. Validate before stripping.
+
+CLI: `--strip-pii` sanitizes profile fields in CLI output (not
+narrative/persona text); `--mask-names` reduces names to initials.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

@@ -149,4 +149,35 @@ describe('--fields / --stats (v2.0.9)', () => {
     expect(combined).toContain('[Stats] 5 profiles');
     expect(combined).toContain('gender:');
   });
+
+  it('CLI --strip-pii empties identifiers and marks the copy', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'stripped.json');
+    execSync(
+      `npx tsx src/cli.ts -c 3 --seed 7 --strip-pii -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    expect(content.length).toBe(3);
+    for (const row of content) {
+      expect(row.phoneNumber).toBe('');
+      expect(row.aadhaarNumber).toBe('');
+      expect(row.email).toBe('');
+      expect(row.piiStripped).toBe(true);
+      expect(row.firstName.length).toBeGreaterThan(1);
+    }
+  });
+
+  it('CLI --strip-pii --mask-names reduces names to initials', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'masked.json');
+    execSync(
+      `npx tsx src/cli.ts -c 2 --seed 7 --strip-pii --mask-names -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    for (const row of content) {
+      expect(row.firstName).toMatch(/^[A-Z]\.$/);
+    }
+  });
 });

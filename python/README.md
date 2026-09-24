@@ -512,6 +512,9 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   Aadhaar, PAN, voter ID, phone, email, bank account, UPI ID and the street
   address emptied (same shape, `piiStripped: true` marker, provenance kept).
   `mask_names=True` reduces names to initials. Validate before stripping.
+- **CLI privacy.** `--strip-pii` empties identifiers in CLI output (profile
+  fields only, not narrative/persona text); `--mask-names` reduces names
+  to initials.
 
 ---
 
