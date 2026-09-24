@@ -524,6 +524,8 @@ export interface DemographicProfile {
   generatedAt: string;
   /** Seed used (for reproducibility) */
   seed: number;
+  /** Set by stripPII() — this copy had direct identifiers emptied */
+  piiStripped?: boolean;
 }
 
 /** Probability breakdown showing how likely this profile is in real life */

@@ -505,6 +505,10 @@ traits: `faceShape`, `skinTone`, `noseType`, `eyeColor`, `eyeShape`,
   Schema for the profile shape; `validate_profile(profile)` returns
   `{"valid", "errors"}` checking required fields, enums and the `synthetic`
   / `generator` provenance markers. Zero dependencies, works on plain dicts.
+- **PII stripping.** `strip_pii(profile)` returns a share-safe copy with
+  Aadhaar, PAN, voter ID, phone, email, bank account, UPI ID and the street
+  address emptied (same shape, `piiStripped: true` marker, provenance kept).
+  `mask_names=True` reduces names to initials. Validate before stripping.
 
 ---
 

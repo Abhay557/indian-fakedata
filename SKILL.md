@@ -223,6 +223,11 @@ v2.0.9 validation: `validateProfile(profile)` → `{ valid, errors }`
 required fields, enum values and provenance markers; `getProfileSchema()` /
 `get_profile_schema()` exports the versioned JSON Schema. Zero dependencies.
 
+v2.0.9 sharing: `stripPII(profile)` (Python: `strip_pii(profile)`) empties
+Aadhaar/PAN/voter/phone/email/bank-account/UPI/street-address, keeps shape
+and provenance, adds `piiStripped: true`. `maskNames: true`
+(`mask_names=True`) reduces names to initials. Validate before stripping.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 
