@@ -63,3 +63,5 @@ detector_project/
 scripts/extract-detect-tables.py
 detect-selftest.jsonl
 detect-control.jsonl
+.opencode/*
+.gitignore
