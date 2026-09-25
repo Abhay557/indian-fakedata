@@ -1,68 +1,96 @@
 {
-  "id": "71177127-4643-4567-8413-126166415002",
-  "firstName": "Parul",
-  "lastName": "Chakraborty",
-  "fatherName": "Mohit Chakraborty",
-  "motherName": "Nargis Chakraborty",
-  "spouseName": null,
-  "gender": "female",
-  "age": 15,
-  "dateOfBirth": "2011-04-09",
-  "bloodGroup": "B+",
-  "heightCm": 159.8,
-  "weightKg": 36.1,
-  "bmi": 14.1,
-  "aadhaarNumber": "242021211205",
-  "panNumber": "",
-  "voterIdNumber": "",
-  "phoneNumber": "8404100042",
-  "email": "parulchakraborty169@gmail.com",
-  "state": "West Bengal",
-  "stateCode": "WB",
-  "district": "Alipurduar",
+  "id": "28204509-0e2d-4ff0-86c4-5b4f56844fb3",
+  "synthetic": true,
+  "generator": "indian-fakedata@2.1.0",
+  "firstName": "Ankit",
+  "lastName": "Verma",
+  "fatherName": "Sobit Verma",
+  "motherName": "Mis Lodhi",
+  "spouseName": "Kherul Verma",
+  "gender": "male",
+  "age": 41,
+  "dateOfBirth": "1985-03-04",
+  "bloodGroup": "AB+",
+  "heightCm": 153.9,
+  "weightKg": 44.1,
+  "bmi": 18.6,
+  "appearance": {
+    "heightCm": 153.9,
+    "build": "average",
+    "faceShape": "round",
+    "skinTone": "wheatish",
+    "noseType": "straight",
+    "eyeColor": "dark_brown",
+    "eyeShape": "round",
+    "hairColor": "black",
+    "hairTexture": "straight",
+    "hairLength": "short",
+    "facialHair": "moustache"
+  },
+  "aadhaarNumber": "836927443799",
+  "panNumber": "GRWPV0302X",
+  "voterIdNumber": "BHP7467589",
+  "phoneNumber": "8624887221",
+  "email": "ankit_verma@outlook.com",
+  "nativeScript": {
+    "script": "Devanagari",
+    "language": "Hindi",
+    "firstName": "अंकित",
+    "lastName": "वेर्मा",
+    "district": "जेहनबद",
+    "addressLine": "495, नेर फच, जेहनबद"
+  },
+  "state": "Bihar",
+  "stateCode": "BR",
+  "district": "Jehanabad",
   "areaType": "rural",
-  "addressLine": "23, Near Primary School, Alipurduar",
-  "locality": "Near Primary School",
-  "pinCode": "710134",
+  "addressLine": "495, Near PHC, Jehanabad",
+  "locality": "Near PHC",
+  "pinCode": "815003",
+  "geo": {
+    "latitude": 24.8199,
+    "longitude": 85.82
+  },
   "religion": "Hindu",
-  "caste": "Bengali Brahmin",
-  "socialCategory": "General",
-  "motherTongue": "Bengali",
-  "secondLanguage": null,
-  "education": "primary",
+  "caste": "Kurmi",
+  "socialCategory": "OBC",
+  "motherTongue": "Hindi",
+  "secondLanguage": "Urdu",
+  "education": "higher_secondary",
   "occupation": "non_worker",
-  "employmentSector": "student",
-  "maritalStatus": "never_married",
-  "annualIncomeINR": 53000,
-  "monthlyExpenditureINR": 3300,
-  "numberOfChildren": 0,
-  "dietaryPreference": "non_vegetarian",
+  "employmentTimeline": [],
+  "employmentSector": "unemployed",
+  "maritalStatus": "married",
+  "annualIncomeINR": 138000,
+  "monthlyExpenditureINR": 13100,
+  "numberOfChildren": 3,
+  "dietaryPreference": "vegetarian",
   "disability": "none",
-  "isMigrant": true,
-  "migrationOriginState": "Gujarat",
-  "bankIFSC": "BARB0023111",
-  "bankName": "Bank of Baroda",
-  "bankAccountNumber": "00142300231",
-  "rationCardType": "BPL",
-  "healthInsurance": "pmjay",
+  "isMigrant": false,
+  "migrationOriginState": null,
+  "bankIFSC": "ICIC0534001",
+  "bankName": "ICICI Bank",
+  "bankAccountNumber": "40547916082",
+  "rationCardType": "APL",
+  "healthInsurance": "none",
   "landOwnershipAcres": 0,
-  "vehicleRegistration": null,
-  "vehicleType": "none",
-  "hasInternetAccess": false,
-  "hasSmartphone": false,
+  "vehicleRegistration": "BR 03 HA 0353",
+  "vehicleType": "two_wheeler",
+  "hasInternetAccess": true,
+  "hasSmartphone": true,
   "usesSocialMedia": false,
-  "upiId": null,
+  "upiId": "ankit@upi",
   "personality": {
-    "openness": 69,
-    "conscientiousness": 73,
-    "extraversion": 60,
-    "agreeableness": 44,
-    "neuroticism": 71
+    "openness": 39,
+    "conscientiousness": 71,
+    "extraversion": 61,
+    "agreeableness": 49,
+    "neuroticism": 59
   },
   "personalityTraits": {
-    "summary": "An outgoing, people-oriented person who is open-minded, disciplined and assertive. Still finding their footing in life, they feel things deeply and care about those around them.",
+    "summary": "An outgoing, people-oriented person who is practical, disciplined and assertive. They feel things deeply and care about those around them.",
     "strengths": [
-      "creative and curious",
+      "prefers familiar routines",
       "organized and punctual",
       "stands their ground"
     ],
@@ -72,128 +100,257 @@
       "perfectionist, can be rigid"
     ],
     "traitLabels": [
-      "open-minded",
+      "practical",
       "disciplined",
       "outgoing",
       "assertive",
       "sensitive"
     ],
-    "communicationStyle": "direct",
+    "communicationStyle": "expressive",
     "decisionStyle": "analytical",
     "socialBehavior": "outgoing"
   },
-  "politicalLeaning": "nationalist_right",
-  "religiosity": "very_religious",
+  "politicalLeaning": "centre_right",
+  "religiosity": "not_very_religious",
   "cognitiveProfile": {
-    "aptitudeScore": 36,
-    "numeracyScore": 48,
-    "literacyScore": 21,
-    "digitalLiteracyScore": 32,
-    "financialLiteracyScore": 26
+    "aptitudeScore": 56,
+    "numeracyScore": 57,
+    "literacyScore": 66,
+    "digitalLiteracyScore": 57,
+    "financialLiteracyScore": 63
   },
   "interests": {
-    "primarySport": "football",
-    "petPreference": "cats",
+    "primarySport": "cricket",
+    "petPreference": "none",
     "entertainment": [
       "Bollywood",
-      "TV Serials",
+      "Cricket Matches",
       "News",
-      "Regional Cinema",
-      "Religious Programs"
+      "YouTube",
+      "Regional Cinema"
     ],
     "readingHabit": "rare",
     "musicPreference": "Bollywood",
-    "preferredSocialMedia": null
+    "preferredSocialMedia": "YouTube"
   },
   "habits": {
-    "tobaccoUse": "none",
+    "tobaccoUse": "smoking",
     "alcoholUse": "none",
     "exerciseFrequency": "occasional",
-    "avgSleepHours": 8.4,
-    "cooksAtHome": true,
+    "avgSleepHours": 7.4,
+    "cooksAtHome": false,
     "chronotype": "early_riser"
   },
   "educationDetails": {
     "fieldOfStudy": null,
     "institutionType": "government",
-    "mediumOfInstruction": "Bengali",
-    "qualificationYear": 2022,
+    "mediumOfInstruction": "Hindi",
+    "qualificationYear": 2003,
     "competitiveExamPercentile": null
   },
   "educationTimeline": [
     {
       "level": "primary",
       "stageName": "Primary School",
-      "institutionName": "Government Primary School, Alipurduar",
+      "institutionName": "Government Primary School, Jehanabad",
       "institutionType": "government",
-      "boardOrUniversity": "West Bengal Board of Secondary Education",
-      "startYear": 2016,
-      "endYear": 2022,
+      "boardOrUniversity": "Bihar School Examination Board",
+      "startYear": 1990,
+      "endYear": 1996,
       "status": "completed",
-      "score": "71.7%"
+      "score": "49.2%"
+    },
+    {
+      "level": "middle",
+      "stageName": "Middle School",
+      "institutionName": "Government Middle School, Jehanabad",
+      "institutionType": "government",
+      "boardOrUniversity": "Bihar School Examination Board",
+      "startYear": 1996,
+      "endYear": 1999,
+      "status": "completed",
+      "score": "56.9%"
+    },
+    {
+      "level": "secondary",
+      "stageName": "Secondary School",
+      "institutionName": "Government High School, Jehanabad",
+      "institutionType": "government",
+      "boardOrUniversity": "Bihar School Examination Board",
+      "startYear": 1999,
+      "endYear": 2001,
+      "status": "completed",
+      "score": "67.4%"
+    },
+    {
+      "level": "higher_secondary",
+      "stageName": "Higher Secondary School",
+      "institutionName": "Government Higher Secondary School, Jehanabad",
+      "institutionType": "government",
+      "boardOrUniversity": "Bihar School Examination Board",
+      "startYear": 2001,
+      "endYear": 2003,
+      "status": "completed",
+      "stream": "PCB",
+      "score": "50.9%"
     }
   ],
   "moviePreferences": {
     "genres": [
-      "Romance",
-      "Drama",
-      "Historical/Biopic"
+      "Spy/Espionage action",
+      "Action",
+      "Romance"
     ],
     "favoriteLanguages": [
-      "Bengali",
+      "Bhojpuri",
       "Hindi"
     ],
     "anime": false,
     "animePreferences": null,
     "favoriteAnimeTitles": null,
-    "primaryPlatform": "television",
+    "primaryPlatform": "none",
     "watchFrequency": "weekly"
   },
   "culturalProfile": {
-    "entrepreneurialScore": 39,
-    "academicOrientation": 82,
-    "artisticInclination": 65,
-    "militaryTradition": 1,
-    "agriculturalRootedness": 9,
-    "artisanTradition": 24,
-    "bureaucraticOrientation": 93,
-    "socialActivism": 70,
-    "communityBonding": 77,
-    "migrationTendency": 40,
-    "careerPreference": "business_trade",
-    "familyStructure": "joint_family",
-    "savingsOrientation": 43,
-    "riskAppetite": 33
+    "entrepreneurialScore": 26,
+    "academicOrientation": 31,
+    "artisticInclination": 32,
+    "militaryTradition": 25,
+    "agriculturalRootedness": 75,
+    "artisanTradition": 1,
+    "bureaucraticOrientation": 17,
+    "socialActivism": 49,
+    "communityBonding": 92,
+    "migrationTendency": 41,
+    "careerPreference": "agriculture",
+    "familyStructure": "extended_family",
+    "savingsOrientation": 61,
+    "riskAppetite": 7
   },
-  "householdSize": 4,
+  "householdSize": 1,
   "householdAssets": {
     "hasRadioTransistor": false,
-    "hasTelevision": false,
+    "hasTelevision": true,
     "hasComputer": false,
     "hasPhone": true,
     "hasBicycle": true,
-    "hasScooter": false,
+    "hasScooter": true,
     "hasCar": false,
     "bankingService": true,
     "treatedWaterSource": true,
-    "latrineFacility": false,
-    "numberOfRooms": 1,
+    "latrineFacility": true,
+    "numberOfRooms": 4,
     "roofMaterial": "tiles",
     "wallMaterial": "mud",
-    "cookingFuel": "firewood",
+    "cookingFuel": "crop_residue",
     "lightingSource": "electricity",
-    "drinkingWaterSource": "handpump"
+    "drinkingWaterSource": "tap_treated"
   },
   "probabilityMetrics": {
     "nationalReligionFreq": 0.803301791826052,
-    "stateGivenReligionProb": 0.07508883277091201,
-    "casteGivenContextProb": 0.10040160642570281,
-    "lastNameGivenCasteProb": 0.06060606060606061,
-    "socialCategoryProb": 0.3614457831325301,
-    "educationProb": 0.12396694214876033,
-    "occupationProb": 0.18,
-    "jointProbability": 8.190099921836159e-06
+    "stateGivenReligionProb": 0.08771537756721122,
+    "casteGivenContextProb": 0.08576329331046313,
+    "lastNameGivenCasteProb": 0.096,
+    "socialCategoryProb": 0.411663807890223,
+    "educationProb": 0.06048387096774193,
+    "occupationProb": 0.22151898734177214,
+    "jointProbability": 7.772803542415684e-06
   },
-  "generatedAt": "2026-08-22T22:40:53.411753",
-  "seed": 13
+  "generatedAt": "2026-09-25T15:16:54.302319",
+  "seed": 13,
+  "skills": {
+    "technical": [
+      "Computer Basics"
+    ],
+    "soft": [
+      "Time Management"
+    ],
+    "certifications": [
+      "B.Ed Degree"
+    ],
+    "languages": [
+      {
+        "language": "Hindi",
+        "speaking": "native",
+        "reading": "fluent",
+        "writing": "fluent"
+      },
+      {
+        "language": "Urdu",
+        "speaking": "intermediate",
+        "reading": "intermediate",
+        "writing": "intermediate"
+      },
+      {
+        "language": "English",
+        "speaking": "intermediate",
+        "reading": "intermediate",
+        "writing": "intermediate"
+      }
+    ]
+  },
+  "lifeEvents": [
+    {
+      "year": 1985,
+      "event": "born",
+      "detail": "Born in Jehanabad."
+    },
+    {
+      "year": 2012,
+      "event": "married",
+      "detail": "Married Kherul Verma."
+    },
+    {
+      "year": 2013,
+      "event": "child_born",
+      "detail": "Birth of child 1."
+    },
+    {
+      "year": 2019,
+      "event": "child_born",
+      "detail": "Birth of child 2."
+    },
+    {
+      "year": 2026,
+      "event": "child_born",
+      "detail": "Birth of child 3."
+    }
+  ],
+  "householdEconomy": {
+    "monthlyBudget": {
+      "food": 6331,
+      "housing": 2698,
+      "transport": 1624,
+      "education": 956,
+      "health": 1491,
+      "other": 0
+    },
+    "loans": [],
+    "creditHistory": {
+      "score": 716,
+      "activeLoans": 0,
+      "missedPayments12m": 0,
+      "oldestAccountYears": 0
+    }
+  },
+  "festivals": [
+    {
+      "name": "Raksha Bandhan",
+      "date": "2026-08-19",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Janmashtami",
+      "date": "2026-08-26",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Dussehra",
+      "date": "2026-10-12",
+      "religion": "Hindu",
+      "regional": false
+    }
+  ]
 }

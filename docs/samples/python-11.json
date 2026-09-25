@@ -1,137 +1,170 @@
 {
-  "id": "32205514-4121-4344-9676-533350625376",
-  "firstName": "Parul",
-  "lastName": "Kumari",
-  "fatherName": "Rahul Kumari",
-  "motherName": "Nargis Kumari",
+  "id": "0ab29572-6756-4167-8fe0-c1451d1c7b9f",
+  "synthetic": true,
+  "generator": "indian-fakedata@2.1.0",
+  "firstName": "Sangeeta",
+  "lastName": "Agnihotri",
+  "fatherName": "Jay Agnihotri",
+  "motherName": "Gauri Pathak",
   "spouseName": null,
   "gender": "female",
-  "age": 1,
-  "dateOfBirth": "2025-05-05",
-  "bloodGroup": "O+",
-  "heightCm": 89.0,
-  "weightKg": 15.2,
-  "bmi": 19.2,
-  "aadhaarNumber": "501014214031",
+  "age": 8,
+  "dateOfBirth": "2018-01-01",
+  "bloodGroup": "B+",
+  "heightCm": 138.0,
+  "weightKg": 31.9,
+  "bmi": 16.8,
+  "appearance": {
+    "heightCm": 138.0,
+    "build": "average",
+    "faceShape": "oblong",
+    "skinTone": "deep_brown",
+    "noseType": "aquiline",
+    "eyeColor": "dark_brown",
+    "eyeShape": "hooded",
+    "hairColor": "black",
+    "hairTexture": "straight",
+    "hairLength": "long",
+    "facialHair": null
+  },
+  "aadhaarNumber": "862050651400",
   "panNumber": "",
   "voterIdNumber": "",
-  "phoneNumber": "7024234431",
-  "email": "parul_kumari@gmail.com",
-  "state": "Bihar",
-  "stateCode": "BR",
-  "district": "Gopalganj",
+  "phoneNumber": "7518421226",
+  "email": "sangeeta533@gmail.com",
+  "nativeScript": {
+    "script": "Devanagari",
+    "language": "Marathi",
+    "firstName": "संगीता",
+    "lastName": "अग्निहोत्रि",
+    "district": "पुने",
+    "addressLine": "271, नेर मोस्क़ुे, पुने"
+  },
+  "state": "Maharashtra",
+  "stateCode": "MH",
+  "district": "Pune",
   "areaType": "rural",
-  "addressLine": "79, Near Gurudwara, Gopalganj",
-  "locality": "Near Gurudwara",
-  "pinCode": "824544",
+  "addressLine": "271, Near Mosque, Pune",
+  "locality": "Near Mosque",
+  "pinCode": "444433",
+  "geo": {
+    "latitude": 18.607,
+    "longitude": 72.6
+  },
   "religion": "Hindu",
-  "caste": "Bhumihar",
+  "caste": "Deshastha Brahmin",
   "socialCategory": "General",
-  "motherTongue": "Hindi",
+  "motherTongue": "Marathi",
   "secondLanguage": null,
-  "education": "illiterate",
+  "education": "primary",
   "occupation": "non_worker",
+  "employmentTimeline": [],
   "employmentSector": "student",
   "maritalStatus": "never_married",
-  "annualIncomeINR": 10000,
+  "annualIncomeINR": 16250,
   "monthlyExpenditureINR": 1000,
   "numberOfChildren": 0,
-  "dietaryPreference": "vegetarian",
+  "dietaryPreference": "non_vegetarian",
   "disability": "none",
   "isMigrant": true,
-  "migrationOriginState": "Maharashtra",
-  "bankIFSC": "PUNB0404414",
-  "bankName": "Punjab National Bank",
-  "bankAccountNumber": "00141024414",
-  "rationCardType": "AAY",
-  "healthInsurance": "pmjay",
+  "migrationOriginState": "Tamil Nadu",
+  "bankIFSC": "BARB0091380",
+  "bankName": "Bank of Baroda",
+  "bankAccountNumber": "99049330985",
+  "rationCardType": "BPL",
+  "healthInsurance": "none",
   "landOwnershipAcres": 0,
   "vehicleRegistration": null,
   "vehicleType": "none",
   "hasInternetAccess": false,
-  "hasSmartphone": true,
+  "hasSmartphone": false,
   "usesSocialMedia": false,
-  "upiId": "7024234431@ybl",
+  "upiId": null,
   "personality": {
-    "openness": 30,
-    "conscientiousness": 53,
-    "extraversion": 68,
-    "agreeableness": 67,
-    "neuroticism": 55
+    "openness": 58,
+    "conscientiousness": 68,
+    "extraversion": 56,
+    "agreeableness": 56,
+    "neuroticism": 59
   },
   "personalityTraits": {
-    "summary": "An outgoing, people-oriented person who is practical, easy-going and kind-hearted. Still finding their footing in life, they feel things deeply and care about those around them.",
+    "summary": "A balanced, adaptable person who is open-minded, disciplined and kind-hearted. Still finding their footing in life, they feel things deeply and care about those around them.",
     "strengths": [
-      "prefers familiar routines",
-      "adapts to change quickly",
+      "creative and curious",
+      "organized and punctual",
       "compassionate and helpful"
     ],
     "weaknesses": [
       "worries about small things",
       "needs company to feel energised",
-      "procrastinates under pressure"
+      "perfectionist, can be rigid"
     ],
     "traitLabels": [
-      "practical",
-      "easy-going",
+      "open-minded",
+      "disciplined",
       "outgoing",
       "kind-hearted",
       "sensitive"
     ],
-    "communicationStyle": "polite_indirect",
-    "decisionStyle": "family_consulting",
-    "socialBehavior": "outgoing"
+    "communicationStyle": "expressive",
+    "decisionStyle": "analytical",
+    "socialBehavior": "ambivert"
   },
   "politicalLeaning": "nationalist_right",
-  "religiosity": "very_religious",
+  "religiosity": "somewhat_religious",
   "cognitiveProfile": {
-    "aptitudeScore": 10,
-    "numeracyScore": 1,
-    "literacyScore": 1,
+    "aptitudeScore": 14,
+    "numeracyScore": 5,
+    "literacyScore": 38,
     "digitalLiteracyScore": 1,
-    "financialLiteracyScore": 1
+    "financialLiteracyScore": 8
   },
   "interests": {
-    "primarySport": "cricket",
-    "petPreference": "cats",
+    "primarySport": "volleyball",
+    "petPreference": "dogs",
     "entertainment": [
-      "Bollywood",
-      "TV Serials",
       "Cricket Matches",
-      "YouTube",
-      "Regional Cinema",
-      "Gaming",
+      "Religious Programs",
       "Devotional Music"
     ],
-    "readingHabit": "avid_reader",
+    "readingHabit": "rare",
     "musicPreference": "Bollywood",
     "preferredSocialMedia": null
   },
   "habits": {
     "tobaccoUse": "none",
     "alcoholUse": "none",
-    "exerciseFrequency": "occasional",
-    "avgSleepHours": 7.3,
+    "exerciseFrequency": "never",
+    "avgSleepHours": 8.6,
     "cooksAtHome": true,
-    "chronotype": "early_riser"
+    "chronotype": "moderate"
   },
   "educationDetails": {
     "fieldOfStudy": null,
-    "institutionType": "none",
-    "mediumOfInstruction": "Hindi",
-    "qualificationYear": null,
+    "institutionType": "government",
+    "mediumOfInstruction": "Marathi",
+    "qualificationYear": 2026,
     "competitiveExamPercentile": null
   },
-  "educationTimeline": [],
+  "educationTimeline": [
+    {
+      "level": "primary",
+      "stageName": "Primary School",
+      "institutionName": "Government Primary School, Pune",
+      "institutionType": "government",
+      "boardOrUniversity": "Maharashtra State Board",
+      "startYear": 2023,
+      "endYear": 2026,
+      "status": "in_progress"
+    }
+  ],
   "moviePreferences": {
     "genres": [
-      "Romance",
-      "Comedy",
-      "Action"
+      "Family drama",
+      "Animation/Family"
     ],
     "favoriteLanguages": [
-      "Bhojpuri",
-      "Hindi"
+      "Marathi"
     ],
     "anime": false,
     "animePreferences": null,
@@ -140,50 +173,118 @@
     "watchFrequency": "daily"
   },
   "culturalProfile": {
-    "entrepreneurialScore": 39,
-    "academicOrientation": 33,
-    "artisticInclination": 21,
-    "militaryTradition": 20,
-    "agriculturalRootedness": 67,
-    "artisanTradition": 6,
-    "bureaucraticOrientation": 70,
-    "socialActivism": 11,
-    "communityBonding": 65,
-    "migrationTendency": 46,
+    "entrepreneurialScore": 8,
+    "academicOrientation": 71,
+    "artisticInclination": 55,
+    "militaryTradition": 25,
+    "agriculturalRootedness": 25,
+    "artisanTradition": 7,
+    "bureaucraticOrientation": 83,
+    "socialActivism": 42,
+    "communityBonding": 49,
+    "migrationTendency": 30,
     "careerPreference": "government_service",
-    "familyStructure": "joint_family",
-    "savingsOrientation": 32,
-    "riskAppetite": 23
+    "familyStructure": "extended_family",
+    "savingsOrientation": 35,
+    "riskAppetite": 22
   },
   "householdSize": 2,
   "householdAssets": {
     "hasRadioTransistor": false,
-    "hasTelevision": true,
+    "hasTelevision": false,
     "hasComputer": false,
-    "hasPhone": true,
-    "hasBicycle": true,
+    "hasPhone": false,
+    "hasBicycle": false,
     "hasScooter": false,
     "hasCar": false,
     "bankingService": false,
-    "treatedWaterSource": false,
+    "treatedWaterSource": true,
     "latrineFacility": false,
-    "numberOfRooms": 3,
-    "roofMaterial": "tiles",
+    "numberOfRooms": 2,
+    "roofMaterial": "metal_sheet",
     "wallMaterial": "mud",
-    "cookingFuel": "lpg",
-    "lightingSource": "electricity",
-    "drinkingWaterSource": "handpump"
+    "cookingFuel": "biogas",
+    "lightingSource": "solar",
+    "drinkingWaterSource": "well_uncovered"
   },
   "probabilityMetrics": {
     "nationalReligionFreq": 0.803301791826052,
-    "stateGivenReligionProb": 0.08771537756721122,
-    "casteGivenContextProb": 0.0686106346483705,
-    "lastNameGivenCasteProb": 0.35714285714285715,
-    "socialCategoryProb": 0.29159519725557465,
-    "educationProb": 0.45362903225806456,
-    "occupationProb": 0.58,
-    "jointProbability": 0.00045427277846108
+    "stateGivenReligionProb": 0.10324714506000403,
+    "casteGivenContextProb": 0.04225352112676056,
+    "lastNameGivenCasteProb": 0.07547169811320754,
+    "socialCategoryProb": 0.352112676056338,
+    "educationProb": 0.016494845360824743,
+    "occupationProb": 0.3649635036496351,
+    "jointProbability": 1.5922142284907147e-06
   },
-  "generatedAt": "2026-08-22T22:40:53.405024",
-  "seed": 11
+  "generatedAt": "2026-09-25T15:16:54.296752",
+  "seed": 11,
+  "skills": {
+    "technical": [],
+    "soft": [],
+    "certifications": [],
+    "languages": [
+      {
+        "language": "Marathi",
+        "speaking": "native",
+        "reading": "fluent",
+        "writing": "fluent"
+      }
+    ]
+  },
+  "lifeEvents": [
+    {
+      "year": 2018,
+      "event": "born",
+      "detail": "Born in Pune."
+    },
+    {
+      "year": 2021,
+      "event": "migrated",
+      "detail": "Migrated from Tamil Nadu to Maharashtra."
+    }
+  ],
+  "householdEconomy": {
+    "monthlyBudget": {
+      "food": 516,
+      "housing": 239,
+      "transport": 127,
+      "education": 21,
+      "health": 97,
+      "other": 0
+    },
+    "loans": [],
+    "creditHistory": {
+      "score": 717,
+      "activeLoans": 0,
+      "missedPayments12m": 0,
+      "oldestAccountYears": 0
+    }
+  },
+  "festivals": [
+    {
+      "name": "Holi",
+      "date": "2026-03-08",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Janmashtami",
+      "date": "2026-08-26",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Ganesh Chaturthi",
+      "date": "2026-09-07",
+      "religion": "Hindu",
+      "regional": true
+    },
+    {
+      "name": "Diwali",
+      "date": "2026-10-20",
+      "religion": "Hindu",
+      "regional": false
+    }
+  ]
 }

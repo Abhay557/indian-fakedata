@@ -67,6 +67,17 @@
       <li><strong>Trust</strong> — versioned JSON Schema (<code>schema/profile-2.0.9.json</code>), <code>validateProfile</code>, <code>stripPII</code>.</li>
     </ul>
 
+    <h2>New in 2.1.0</h2>
+    <ul>
+      <li><strong>Native script</strong> — <code>nativeScript</code>: names and address in the mother-tongue script.</li>
+      <li><strong>Map points</strong> — <code>geo</code>: approximate latitude/longitude, state-clamped.</li>
+      <li><strong>Life events</strong> — <code>lifeEvents</code>: dated birth, marriage, children, moves and jobs.</li>
+      <li><strong>Household money</strong> — <code>householdEconomy</code>: budget splits, loans with EMI, credit history.</li>
+      <li><strong>Festivals</strong> — <code>festivals</code>: dated observances by religion and state.</li>
+      <li><strong>Smarter jobs</strong> — occupation follows education; job titles match the field of study.</li>
+      <li><strong>AI training data</strong> — <code>buildSFTPairs</code>, grounded <code>buildQAPairs</code> with citations, and the <code>--eval</code> quality score.</li>
+    </ul>
+
     <h2>Sample profile — <code>seed = 7</code> (Python implementation)</h2>
     <div class="note">
       <strong>Note:</strong> the TypeScript implementation is independently
@@ -74,72 +85,71 @@
       but the two runtimes draw RNG streams differently.
     </div>
     <pre><code>{
-    "id": "33553413-2014-4616-9361-511204427271",
+  "id": "d6e2a61e-e297-4eb4-9866-5fb355fbc2ea",
   "synthetic": true,
-  "generator": "indian-fakedata@2.0.9",
-  "firstName": "Pushpa",
-  "lastName": "Sharma",
-  "fatherName": "Santosh Sharma",
-  "motherName": "Geeta Sharma",
-  "spouseName": "Sanjay Sharma",
+  "generator": "indian-fakedata@2.1.0",
+  "firstName": "Sarwan",
+  "lastName": "Das",
+  "fatherName": "Shetan Das",
+  "motherName": "Girijarani Kumari",
+  "spouseName": "Kishan Das",
   "gender": "female",
-  "age": 34,
-  "state": "Maharashtra",
-  "district": "Kolhapur",
+  "age": 40,
+  "state": "Andhra Pradesh",
+  "district": "Guntur",
   "areaType": "urban",
   "religion": "Hindu",
-  "caste": "Deshastha Brahmin",
-  "socialCategory": "General",
-  "motherTongue": "Marathi",
-  "education": "secondary",
-  "occupation": "agricultural_labourer",
+  "caste": "Madiga",
+  "socialCategory": "SC",
+  "motherTongue": "Telugu",
+  "education": "graduate",
+  "occupation": "other_worker",
   "maritalStatus": "married",
-  "annualIncomeINR": 194000,
-  "aadhaarNumber": "500233102039",
-  "panNumber": "EKIPS1361D",
-  "phoneNumber": "7501311043",
-  "email": "pushpasharma352@gmail.com",
-  "appearance": {
-    "heightCm": 144.0,
-    "build": "average",
-    "faceShape": "round",
-    "skinTone": "deep_brown",
-    "noseType": "button",
-    "eyeColor": "dark_brown",
-    "eyeShape": "almond",
-    "hairColor": "black",
-    "hairTexture": "wavy",
-    "hairLength": "medium",
-    "facialHair": null
-  },
-  "personalityTraits": {
-    "summary": "An outgoing, people-oriented person who is practical, disciplined and kind-hearted. They feel things deeply and care about those around them.",
-    "strengths": ["prefers familiar routines", "organized and punctual", "compassionate and helpful"],
-    "weaknesses": ["worries about small things", "needs company to feel energised", "perfectionist, can be rigid"],
-    "traitLabels": ["practical", "disciplined", "outgoing", "kind-hearted", "sensitive"],
-    "communicationStyle": "polite_indirect",
-    "decisionStyle": "analytical",
-    "socialBehavior": "outgoing"
-  },
+  "annualIncomeINR": 1235000,
+  "aadhaarNumber": "839128189565",
+  "panNumber": "FMMPD7406C",
+  "phoneNumber": "9444448053",
+  "email": "sarwan.das645@gmail.com",
+  "appearance": {"heightCm": 144.0, "build": "average", "faceShape": "round", "skinTone": "deep_brown", "noseType": "button", "eyeColor": "dark_brown", "eyeShape": "almond", "hairColor": "black", "hairTexture": "wavy", "hairLength": "medium", "facialHair": null},
+  "nativeScript": {"script": "Telugu", "language": "Telugu", "firstName": "సర్వన", "lastName": "దస", "district": "గుంతుర", "addressLine": "492/గ, జయనగర, గుంతుర"},
+  "geo": {"latitude": 15.7495, "longitude": 80.2038},
+  "personalityTraits": {"summary": "An outgoing, people-oriented person who is open-minded, easy-going and assertive. They feel things deeply and care about those around them.", "strengths": ["creative and curious", "adapts to change quickly", "stands their ground"], "weaknesses": ["worries about small things", "needs company to feel energised", "procrastinates under pressure"], "traitLabels": ["open-minded", "easy-going", "outgoing", "assertive", "sensitive"], "communicationStyle": "expressive", "decisionStyle": "intuitive", "socialBehavior": "outgoing"},
   "educationTimeline": [
-    { "level": "primary", "stageName": "Primary School", "institutionName": "Infant Jesus, Kolhapur", "institutionType": "private", "boardOrUniversity": "CBSE", "startYear": 1997, "endYear": 2003, "status": "completed", "score": "69.8%" },
-    { "level": "middle", "stageName": "Middle School", "institutionName": "St. Peter's, Kolhapur", "institutionType": "private", "boardOrUniversity": "CBSE", "startYear": 2003, "endYear": 2006, "status": "completed", "score": "86.3%" },
-    { "level": "secondary", "stageName": "Secondary School", "institutionName": "St. Agnes, Kolhapur", "institutionType": "private", "boardOrUniversity": "CBSE", "startYear": 2006, "endYear": 2008, "status": "completed", "score": "78.3%" }
+    {"level": "primary", "stageName": "Primary School", "institutionName": "Government Primary School, Guntur", "institutionType": "government", "boardOrUniversity": "AP State Board", "startYear": 1991, "endYear": 1997, "status": "completed", "score": "52.8%"},
+    {"level": "middle", "stageName": "Middle School", "institutionName": "Government Middle School, Guntur", "institutionType": "government", "boardOrUniversity": "AP State Board", "startYear": 1997, "endYear": 2000, "status": "completed", "score": "56.7%"},
+    {"level": "secondary", "stageName": "Secondary School", "institutionName": "Government High School, Guntur", "institutionType": "government", "boardOrUniversity": "AP State Board", "startYear": 2000, "endYear": 2002, "status": "completed", "score": "61.0%"},
+    {"level": "higher_secondary", "stageName": "Higher Secondary School", "institutionName": "Government Higher Secondary School, Guntur", "institutionType": "government", "boardOrUniversity": "AP State Board", "startYear": 2002, "endYear": 2004, "status": "completed", "stream": "PCM", "score": "52.8%"},
+    {"level": "graduate", "stageName": "Bachelor's Degree", "institutionName": "Government Post Graduate College, Guntur", "institutionType": "government", "boardOrUniversity": "University of Andhra Pradesh", "startYear": 2004, "endYear": 2008, "status": "completed", "fieldOfStudy": "Computer Science/IT", "score": "56.5%"}
   ],
-  "moviePreferences": {
-    "genres": ["Comedy", "Thriller", "Romance"],
-    "favoriteLanguages": ["Marathi", "Hindi"],
-    "anime": true,
-    "animePreferences": ["Slice of life"],
-    "favoriteAnimeTitles": ["Monster", "Mob Psycho 100"],
-    "primaryPlatform": "ott",
-    "watchFrequency": "weekly"
-  }
+  "employmentTimeline": [
+    {"jobTitle": "Receptionist", "sector": "private", "occupation": "other_worker", "employerType": "private", "startYear": 2007, "status": "completed", "monthlyWageINR": 48000, "location": "Guntur", "endYear": 2009},
+    {"jobTitle": "Sales Executive", "sector": "private", "occupation": "other_worker", "employerType": "private", "startYear": 2009, "status": "completed", "monthlyWageINR": 74200, "location": "Guntur", "endYear": 2022},
+    {"jobTitle": "IT Support Executive", "sector": "private", "occupation": "other_worker", "employerType": "private", "startYear": 2022, "status": "current", "monthlyWageINR": 102900, "location": "Guntur"}
+  ],
+  "skills": {"technical": ["Commercial Cooking"], "soft": ["Teamwork", "Time Management"], "certifications": [], "languages": [{"language": "Telugu", "speaking": "native", "reading": "fluent", "writing": "fluent"}, {"language": "Hindi", "speaking": "intermediate", "reading": "intermediate", "writing": "intermediate"}, {"language": "English", "speaking": "intermediate", "reading": "intermediate", "writing": "intermediate"}]},
+  "lifeEvents": [
+    {"year": 1986, "event": "born", "detail": "Born in Guntur."},
+    {"year": 2004, "event": "migrated", "detail": "Migrated from Karnataka to Andhra Pradesh."},
+    {"year": 2007, "event": "job_started", "detail": "Started working as Receptionist."},
+    {"year": 2009, "event": "job_changed", "detail": "Changed job to Sales Executive."},
+    {"year": 2009, "event": "married", "detail": "Married Kishan Das."},
+    {"year": 2010, "event": "child_born", "detail": "Birth of child 1."},
+    {"year": 2022, "event": "job_changed", "detail": "Changed job to IT Support Executive."}
+  ],
+  "householdEconomy": {"monthlyBudget": {"food": 46324, "housing": 19007, "transport": 8691, "education": 6372, "health": 8706, "other": 0}, "loans": [], "creditHistory": {"score": 782, "activeLoans": 0, "missedPayments12m": 0, "oldestAccountYears": 0}},
+  "festivals": [
+    {"name": "Maha Shivaratri", "date": "2026-02-26", "religion": "Hindu", "regional": false},
+    {"name": "Holi", "date": "2026-03-08", "religion": "Hindu", "regional": false},
+    {"name": "Navratri", "date": "2026-10-03", "religion": "Hindu", "regional": false},
+    {"name": "Dussehra", "date": "2026-10-12", "religion": "Hindu", "regional": false},
+    {"name": "Diwali", "date": "2026-10-20", "religion": "Hindu", "regional": false}
+  ],
+  "moviePreferences": {"genres": ["Drama", "Sports drama/Biopic", "Family drama"], "favoriteLanguages": ["Telugu", "Hindi"], "anime": false, "animePreferences": null, "favoriteAnimeTitles": null, "primaryPlatform": "television", "watchFrequency": "occasional"}
 }</code></pre>
 
     <h2>Install</h2>
     <pre><code>pip install indian-fakedata              # Python 3.8+
-npm install @abhay557/indian-fakedata    # Node.js 18+</code></pre>    <p>Both packages are on PyPI and npm, version 2.0.9, with zero runtime
+npm install @abhay557/indian-fakedata    # Node.js 18+</code></pre>    <p>Both packages are on PyPI and npm, version 2.1.0, with zero runtime
     dependencies.</p>
 
     <h2>Acceptable use</h2>
