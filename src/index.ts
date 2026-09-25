@@ -108,6 +108,8 @@ export { generateHouseholdEconomy, emiFor } from './utils/economy.js';
 export type { HouseholdEconomyOptions } from './utils/economy.js';
 export { generateFestivals } from './utils/festivals.js';
 export type { FestivalOptions } from './utils/festivals.js';
+export { buildSFTPairs, sftPairsToJsonl } from './utils/sft.js';
+export type { SFTPair } from './utils/sft.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

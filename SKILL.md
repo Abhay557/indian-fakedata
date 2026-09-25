@@ -140,8 +140,7 @@ retirement events, cross-checked with the profile),
 household economy (`householdEconomy`: budget split, loans with EMI,
 banded credit history),
 festivals (`festivals`: dated observances by religion and state).
-`probabilityMetrics`
-shows the chain of probabilities for each draw.
+`probabilityMetrics`shows the chain of probabilities for each draw.
 
 v2.0.3 added three fields to every profile:
 - `educationTimeline`: chronological school/college stages (`level`,
@@ -263,6 +262,12 @@ v2.1.0 native script: every profile carries `nativeScript` (`script`,
 `transliterate(text, script)` (Python: `transliterate(text, script)`) and
 `scriptForLanguage(motherTongue)` (Python: `script_for_language(...)`)
 work on any string, including persona prompts. Pure mapping, no RNG.
+
+v2.1.0 SFT pairs: `buildSFTPairs(profile, narratives?)` (Python:
+`build_sft_pairs(profile, narratives?)`) returns grounded
+instruction/response pairs (5 persona pairs plus one per narrative),
+`{ instruction, input, output, source }`; `sftPairsToJsonl()` (Python:
+`sft_pairs_to_jsonl()`) serializes to JSONL. Pure functions, no RNG.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

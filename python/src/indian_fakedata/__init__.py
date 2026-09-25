@@ -46,6 +46,7 @@ from indian_fakedata.utils.geo import generate_geo, state_geo_bounds, state_geo_
 from indian_fakedata.utils.life_events import generate_life_events
 from indian_fakedata.utils.economy import generate_household_economy, emi_for
 from indian_fakedata.utils.festivals import generate_festivals
+from indian_fakedata.utils.sft import build_sft_pairs, sft_pairs_to_jsonl
 from indian_fakedata.utils.schema import get_profile_schema, validate_profile
 from indian_fakedata.utils.privacy import strip_pii, PII_FIELDS
 
@@ -90,6 +91,8 @@ __all__ = [
     "generate_household_economy",
     "emi_for",
     "generate_festivals",
+    "build_sft_pairs",
+    "sft_pairs_to_jsonl",
     "get_profile_schema",
     "validate_profile",
     "strip_pii",

@@ -44,6 +44,9 @@ within one version; across versions it is not.
   festivals from the profile's religion plus regional ones that stay in
   their states (Pongal, Bihu, Onam, Durga Puja, Chhath, Teej, Baisakhi,
   Ganesh Chaturthi). Lunisolar dates are typical, not exact.
+- **SFT pair builder.** `buildSFTPairs()` / `build_sft_pairs()` turn a
+  profile (plus optional narratives) into grounded instruction/response
+  pairs with `sftPairsToJsonl()` / `sft_pairs_to_jsonl()` JSONL export.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude drawn around the state capital, tighter for urban
   profiles, clamped inside a generous state bounding box. District-level
