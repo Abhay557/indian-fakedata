@@ -473,6 +473,32 @@ def _apply_age_occupation_mask(age, occupation):
     return occupation
 
 
+def _apply_education_occupation_weights(dist, education):
+    """
+    Condition occupation weights on education (v2.1.0, item 6).
+    Graduates work white-collar far more often than the raw state average;
+    the unschooled skew the other way. Mutates the (already copied) table.
+    """
+    farm = ("cultivator", "agricultural_labourer", "household_industry")
+
+    def boost(key, factor):
+        if key in dist:
+            dist[key] = max(0.01, dist[key] * factor)
+
+    if education in ("graduate", "postgraduate", "professional_degree"):
+        boost("other_worker", 3.0)
+        boost("non_worker", 0.8)
+        for f in farm:
+            boost(f, 0.25)
+    elif education in ("technical_diploma", "higher_secondary"):
+        boost("other_worker", 1.8)
+        for f in farm:
+            boost(f, 0.6)
+    elif education in ("illiterate", "literate_below_primary"):
+        boost("other_worker", 0.7)
+        boost("non_worker", 1.2)
+
+
 def _min_age_for_education(education):
     """
     Minimum age at which an education level becomes plausible.
@@ -549,12 +575,16 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
     if constraint_occ:
         occupation = constraint_occ
         occupation_prob = 0.1
-    elif state_data and "occupationDistribution" in state_data and path["gender"] in state_data["occupationDistribution"]:
-        occ_dist = state_data["occupationDistribution"][path["gender"]]
-        occupation, occupation_prob = weighted_sample_from_record(occ_dist, rng)
     else:
-        fallback = get_default_occupation_dist(path["gender"], path["areaType"])
-        occupation, occupation_prob = weighted_sample_from_record(fallback, rng)
+        if state_data and "occupationDistribution" in state_data and path["gender"] in state_data["occupationDistribution"]:
+            base = dict(state_data["occupationDistribution"][path["gender"]])
+        else:
+            base = dict(get_default_occupation_dist(path["gender"], path["areaType"]))
+        # v2.1.0 item 6: condition on education so graduates stop rolling
+        # farm occupations. Weights change, draw count does not (one
+        # sample), so the rest of the stream is undisturbed.
+        _apply_education_occupation_weights(base, education)
+        occupation, occupation_prob = weighted_sample_from_record(base, rng)
 
     # -- Age <-> constraint reconciliation --
     # A hard education/occupation constraint must not be silently masked away

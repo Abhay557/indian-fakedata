@@ -6,6 +6,13 @@ within one version; across versions it is not.
 
 ## 2.1.0
 
+- **Occupation now follows education (breaking).** Occupation used to be
+  sampled independently of schooling, so graduates routinely rolled farm
+  jobs. The occupation weights are now conditioned on education:
+  graduates skew strongly white-collar, the unschooled toward farm work.
+  Same draw count, so the stream layout is intact, but occupation-driven
+  fields (sector, income, timelines, personas) resolve differently than
+  2.0.9 for the same seed. Explicit `occupation` constraints still win.
 - **Employment timeline keyed by occupation.** Timeline stages used the
   employment sector for titles and occupation labels, which produced
   mismatches (cultivators titled "Kirana Shop Owner", informal

@@ -255,6 +255,36 @@ function applyAgeEducationMask(age: number, education: EducationLevel): Educatio
 }
 
 /**
+ * Condition occupation weights on education (v2.1.0, item 6).
+ * Graduates work white-collar far more often than the raw state average;
+ * the unschooled skew the other way. Mutates the (already copied) table.
+ */
+function applyEducationOccupationWeights(
+  dist: Record<string, number>,
+  education: EducationLevel
+): void {
+  const farm = ['cultivator', 'agricultural_labourer', 'household_industry'];
+  const boost = (k: string, f: number) => {
+    if (dist[k] !== undefined) dist[k] = Math.max(0.01, dist[k] * f);
+  };
+  if (
+    education === 'graduate' ||
+    education === 'postgraduate' ||
+    education === 'professional_degree'
+  ) {
+    boost('other_worker', 3.0);
+    boost('non_worker', 0.8);
+    for (const f of farm) boost(f, 0.25);
+  } else if (education === 'technical_diploma' || education === 'higher_secondary') {
+    boost('other_worker', 1.8);
+    for (const f of farm) boost(f, 0.6);
+  } else if (education === 'illiterate' || education === 'literate_below_primary') {
+    boost('other_worker', 0.7);
+    boost('non_worker', 1.2);
+  }
+}
+
+/**
  * Minimum age at which an education level becomes plausible.
  * Mirrors the age bands in applyAgeEducationMask().
  */
@@ -346,18 +376,19 @@ export function resolveSocioeconomicLayers(
   // ── Occupation (with age mask) ────────────────────────
   let occupation: OccupationalSector;
   let occupationProb: number;
-  
+
   if (constraints.occupation) {
     occupation = constraints.occupation;
     occupationProb = 0.1;
-  } else if (stateData?.occupationDistribution?.[path.gender]) {
-    const occDist = stateData.occupationDistribution[path.gender];
-    const result = weightedSampleFromRecord(occDist as unknown as Record<string, number>, rng);
-    occupation = result.key as OccupationalSector;
-    occupationProb = result.probability;
   } else {
-    const fallback = getDefaultOccupationDist(path.gender, path.areaType);
-    const result = weightedSampleFromRecord(fallback, rng);
+    const base = stateData?.occupationDistribution?.[path.gender]
+      ? { ...(stateData.occupationDistribution[path.gender] as unknown as Record<string, number>) }
+      : { ...getDefaultOccupationDist(path.gender, path.areaType) };
+    // v2.1.0 item 6: condition on education so graduates stop rolling
+    // farm occupations. Weights change, draw count does not (one sample),
+    // so the rest of the stream is undisturbed.
+    applyEducationOccupationWeights(base, education);
+    const result = weightedSampleFromRecord(base, rng);
     occupation = result.key as OccupationalSector;
     occupationProb = result.probability;
   }

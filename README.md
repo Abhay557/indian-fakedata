@@ -331,10 +331,10 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "lastNameGivenCasteProb": 0.2857142857142857,
     "socialCategoryProb": 0.19834710743801653,
     "educationProb": 0.14598540145985403,
-    "occupationProb": 0.1,
-    "jointProbability": 1.5631626581537963e-05
+    "occupationProb": 0.4087193460490463,
+    "jointProbability": 6.388948194089085e-05
   },
-  "generatedAt": "2026-09-25T14:28:00.921251",
+  "generatedAt": "2026-09-25T14:39:09.030914",
   "seed": 7,
   "skills": {
     "technical": [
@@ -724,6 +724,12 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
 
 ### v2.1.0 — timeline follows occupation
 
+- **Occupation now follows education (breaking).** Occupation used to be
+  sampled independently of schooling, so graduates routinely rolled farm
+  jobs. Weights are now conditioned on education: graduates skew strongly
+  white-collar, the unschooled toward farm work. Same draw count, so the
+  stream layout is intact, but occupation-driven fields resolve differently
+  than 2.0.9 for the same seed. Explicit `occupation` constraints still win.
 - **Employment timeline fix.** Stages used to pick titles from the
   employment sector, so a cultivator could show up as "Kirana Shop Owner".
   Titles and occupation labels now follow the profile's own `occupation`;

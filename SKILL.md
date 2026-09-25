@@ -252,6 +252,11 @@ current job title follows `educationDetails.fieldOfStudy` (engineering
 graduates get engineer titles, B.Ed graduates teach, doctor titles need a
 professional degree), and all sector title pools are bigger.
 
+v2.1.0 occupation follows education (breaking): `occupation` weights are
+conditioned on `education`, so graduates skew white-collar and the
+unschooled toward farm work. Occupation-driven fields resolve differently
+than 2.0.9 for the same seed; explicit `occupation` constraints still win.
+
 v2.1.0 native script: every profile carries `nativeScript` (`script`,
 `language`, transliterated `firstName`, `lastName`, `district`,
 `addressLine`) in the mother-tongue script, Latin passthrough otherwise.

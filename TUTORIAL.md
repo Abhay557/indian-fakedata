@@ -336,6 +336,10 @@ console.log(user.lifeEvents); // v2.1.0 item 3: dated, cross-checked life events
 console.log(user.householdEconomy); // v2.1.0 item 4: budget, loans, credit history
 
 console.log(user.festivals); // v2.1.0 item 5: dated observances by religion/state
+
+// v2.1.0 item 6 (breaking): occupation is conditioned on education,
+// so graduates skew white-collar. Same seed resolves differently than
+// 2.0.9 for occupation-driven fields; explicit constraints still win.
 ```
 
 ###  Python
