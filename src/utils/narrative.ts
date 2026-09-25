@@ -11,6 +11,7 @@
 
 import type { DemographicProfile } from '../types.js';
 import type { SimulatedOutcomes } from './outcomes.js';
+import { profileFestivals } from './festivals.js';
 
 // ─────────────────────────────────────────────────────────────
 // Types
@@ -295,7 +296,7 @@ function generateHinglishConversation(
   const firstName = profile.firstName;
   const isUrban = profile.areaType === 'urban';
   const hasLoan = (outcomes.credit.loanApprovalProbability > 0.5);
-  const festName = (profile.festivals ?? [])[0]?.name;
+  const festName = profileFestivals(profile)[0]?.name;
   const festBanter = festName
     ? `\nFriend: Achha sun, ${festName} aa raha hai na? Taiyaariyan shuru ki kya?\n${firstName}: Haan yaar! Ghar pe saaf-safai aur mithaas dono shuru ho gayi hain.`
     : '';

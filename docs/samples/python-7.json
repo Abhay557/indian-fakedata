@@ -300,7 +300,7 @@
     "occupationProb": 0.4087193460490463,
     "jointProbability": 6.388948194089085e-05
   },
-  "generatedAt": "2026-09-25T15:16:54.290768",
+  "generatedAt": "2026-09-25T15:56:00.972087",
   "seed": 7,
   "skills": {
     "technical": [
@@ -385,37 +385,5 @@
       "missedPayments12m": 0,
       "oldestAccountYears": 0
     }
-  },
-  "festivals": [
-    {
-      "name": "Maha Shivaratri",
-      "date": "2026-02-26",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Holi",
-      "date": "2026-03-08",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Navratri",
-      "date": "2026-10-03",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Dussehra",
-      "date": "2026-10-12",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Diwali",
-      "date": "2026-10-20",
-      "religion": "Hindu",
-      "regional": false
-    }
-  ]
+  }
 }

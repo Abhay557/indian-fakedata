@@ -256,7 +256,7 @@
     "occupationProb": 0.22151898734177214,
     "jointProbability": 7.772803542415684e-06
   },
-  "generatedAt": "2026-09-25T15:16:54.302319",
+  "generatedAt": "2026-09-25T15:56:00.983806",
   "seed": 13,
   "skills": {
     "technical": [
@@ -332,25 +332,5 @@
       "missedPayments12m": 0,
       "oldestAccountYears": 0
     }
-  },
-  "festivals": [
-    {
-      "name": "Raksha Bandhan",
-      "date": "2026-08-19",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Janmashtami",
-      "date": "2026-08-26",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Dussehra",
-      "date": "2026-10-12",
-      "religion": "Hindu",
-      "regional": false
-    }
-  ]
+  }
 }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { generate, generateAgentPersona, simulateOutcomes, generateNarrative } from '../src/index.js';
-import { generateFestivals } from '../src/utils/festivals.js';
+import { generateFestivals, profileFestivals } from '../src/utils/festivals.js';
 import { createRNG } from '../src/core/sampler.js';
 
 describe('festival calendar (v2.1.0, item 5)', () => {
@@ -54,12 +54,14 @@ describe('festival calendar (v2.1.0, item 5)', () => {
 
   it('festivals flow into persona memories and chats', () => {
     const p = generate({ count: 1, seed: 61 })[0];
-    expect(p.festivals!.length).toBeGreaterThan(0);
+    expect('festivals' in p).toBe(false);
+    const mine = profileFestivals(p);
+    expect(mine.length).toBeGreaterThan(0);
     const persona = generateAgentPersona(p);
-    expect(persona.memorySeeds.join(' ')).toContain(p.festivals![0].name);
+    expect(persona.memorySeeds.join(' ')).toContain(mine[0].name);
     const outcomes = simulateOutcomes(p, 0.3, createRNG(61));
     const chat = generateNarrative(p, outcomes, 'hinglish_conversation');
-    expect(chat.content).toContain(p.festivals![0].name);
+    expect(chat.content).toContain(mine[0].name);
   });
 
   it('festivals on profiles match religion and state', () => {
@@ -77,7 +79,7 @@ describe('festival calendar (v2.1.0, item 5)', () => {
     };
     let checked = 0;
     for (const r of rows) {
-      const docs = r.festivals ?? [];
+      const docs = profileFestivals(r);
       for (const d of docs) {
         expect(d.religion).toBe(r.religion);
         expect(d.date).toMatch(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/);

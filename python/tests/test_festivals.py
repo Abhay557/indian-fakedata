@@ -6,7 +6,7 @@ from indian_fakedata import (
     generate, generate_agent_persona, simulate_outcomes, generate_narrative,
 )
 from indian_fakedata.core.sampler import create_rng
-from indian_fakedata.utils.festivals import generate_festivals
+from indian_fakedata.utils.festivals import generate_festivals, profile_festivals
 
 
 def test_major_festivals_marked():
@@ -74,7 +74,7 @@ def test_profile_festivals_match_religion_and_state():
     rows = generate(count=300, seed=61)
     checked = 0
     for r in rows:
-        for d in r.get("festivals") or []:
+        for d in profile_festivals(r):
             assert d["religion"] == r["religion"]
             assert re.match(r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
                             d["date"])
@@ -87,9 +87,11 @@ def test_profile_festivals_match_religion_and_state():
 
 def test_festivals_flow_into_memories_and_chats():
     p = generate(count=1, seed=61)[0]
-    assert len(p["festivals"]) > 0
+    assert "festivals" not in p
+    mine = profile_festivals(p)
+    assert len(mine) > 0
     persona = generate_agent_persona(p)
-    assert p["festivals"][0]["name"] in " ".join(persona["memorySeeds"])
+    assert mine[0]["name"] in " ".join(persona["memorySeeds"])
     outcomes = simulate_outcomes(p, 0.3, create_rng(61))
     chat = generate_narrative(p, outcomes, "hinglish_conversation")
-    assert p["festivals"][0]["name"] in chat["content"]
+    assert mine[0]["name"] in chat["content"]

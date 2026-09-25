@@ -106,7 +106,7 @@ export { generateLifeEvents } from './utils/lifeEvents.js';
 export type { LifeEventsOptions } from './utils/lifeEvents.js';
 export { generateHouseholdEconomy, emiFor } from './utils/economy.js';
 export type { HouseholdEconomyOptions } from './utils/economy.js';
-export { generateFestivals } from './utils/festivals.js';
+export { generateFestivals, profileFestivals } from './utils/festivals.js';
 export type { FestivalOptions } from './utils/festivals.js';
 export { buildSFTPairs, sftPairsToJsonl } from './utils/sft.js';
 export type { SFTPair } from './utils/sft.js';

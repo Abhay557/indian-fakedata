@@ -45,7 +45,7 @@ from indian_fakedata.utils.transliterate import (
 from indian_fakedata.utils.geo import generate_geo, state_geo_bounds, state_geo_anchor
 from indian_fakedata.utils.life_events import generate_life_events
 from indian_fakedata.utils.economy import generate_household_economy, emi_for
-from indian_fakedata.utils.festivals import generate_festivals
+from indian_fakedata.utils.festivals import generate_festivals, profile_festivals
 from indian_fakedata.utils.sft import build_sft_pairs, sft_pairs_to_jsonl
 from indian_fakedata.utils.qa import build_qa_pairs
 from indian_fakedata.utils.eval import evaluate_dataset, check_consistency
@@ -93,6 +93,7 @@ __all__ = [
     "generate_household_economy",
     "emi_for",
     "generate_festivals",
+    "profile_festivals",
     "build_sft_pairs",
     "sft_pairs_to_jsonl",
     "build_qa_pairs",

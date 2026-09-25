@@ -18,6 +18,7 @@ import type {
   PoliticalLeaning,
   ReligiosityLevel,
 } from '../types.js';
+import { profileFestivals } from './festivals.js';
 
 // ─────────────────────────────────────────────────────────────
 // Types
@@ -487,7 +488,7 @@ function buildMemorySeeds(profile: DemographicProfile): string[] {
   }
 
   // Festivals
-  const festivals = profile.festivals ?? [];
+  const festivals = profileFestivals(profile);
   if (festivals.length > 0) {
     seeds.push(`I celebrate ${festivals[0].name} every year with my family.`);
     const regional = festivals.find(f => f.regional && f.name !== festivals[0].name);

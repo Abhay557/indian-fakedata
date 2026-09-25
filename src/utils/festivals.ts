@@ -1,11 +1,12 @@
 /**
  * Festival Calendar Generator (v2.1.0, item 5)
  *
- * Every profile gets a `festivals` list: observances with Gregorian dates
- * for the current calendar year, driven by religion and state. Major
- * pan-Indian festivals come from the profile's religion; regional ones
- * (Pongal, Bihu, Onam, Durga Puja, Chhath, Teej, Baisakhi, Ganesh
- * Chaturthi) only appear in their states.
+ * Observances with Gregorian dates for the current calendar year, driven
+ * by religion and state. Major pan-Indian festivals come from the
+ * profile's religion; regional ones (Pongal, Bihu, Onam, Durga Puja,
+ * Chhath, Teej, Baisakhi, Ganesh Chaturthi) only appear in their states.
+ * Personas, chats and QA derive the same list on demand instead of
+ * storing it on the profile.
  *
  * Dates are typical Gregorian dates for lunisolar festivals, which shift
  * a few weeks year to year — the docs say so plainly.
@@ -13,7 +14,8 @@
  * Runs on an isolated per-profile stream: zero impact on seeded output.
  */
 
-import type { ReligiosityLevel, SeededRNG } from '../types.js';
+import { createRNG } from '../core/sampler.js';
+import type { DemographicProfile, ReligiosityLevel, SeededRNG } from '../types.js';
 
 export interface Festival {
   /** Festival name, e.g. 'Diwali' */
@@ -140,4 +142,29 @@ export function generateFestivals(
 
   out.sort((a, b) => a.date.localeCompare(b.date));
   return out;
+}
+
+/** State display name ('Tamil Nadu') back to state id ('tamil_nadu'). */
+function stateIdForName(stateName: string): string {
+  const norm = stateName.trim().toLowerCase().replace(/ & /g, ' ').replace(/ +/g, '_');
+  if (norm === 'andaman_nicobar_islands') return 'andaman_nicobar';
+  return norm;
+}
+
+/**
+ * The festival list for a profile, derived on demand from its religion,
+ * state and id. Personas, chats and QA all share this one stream, so they
+ * always agree with each other. Unknown religions/states yield no
+ * festivals rather than wrong ones.
+ */
+export function profileFestivals(profile: DemographicProfile): Festival[] {
+  return generateFestivals(
+    {
+      religionId: profile.religion.trim().toLowerCase(),
+      religionLabel: profile.religion,
+      stateId: stateIdForName(profile.state),
+      religiosity: profile.religiosity,
+    },
+    createRNG(`v210:fest:${profile.id}`)
+  );
 }

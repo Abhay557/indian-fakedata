@@ -14,6 +14,8 @@ Designed for:
 
 import math
 
+from indian_fakedata.utils.festivals import profile_festivals
+
 
 def _derive_worldview(profile):
     modernity = (
@@ -389,7 +391,7 @@ def _build_memory_seeds(profile):
     elif religiosity == "somewhat_religious":
         seeds.append(f"I observe major {religion} festivals and visit the temple/mosque/gurudwara on important occasions.")
 
-    festivals = profile.get("festivals") or []
+    festivals = profile_festivals(profile)
     if festivals:
         seeds.append(f"I celebrate {festivals[0].get('name', 'festivals')} every year with my family.")
         regional = next((f for f in festivals if f.get("regional") and f.get("name") != festivals[0].get("name")), None)

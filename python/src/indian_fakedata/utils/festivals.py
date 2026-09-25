@@ -1,12 +1,12 @@
 """
 Festival Calendar Generator (v2.1.0, item 5)
 
-Mirrors the TypeScript implementation (src/utils/festivals.ts): every
-profile gets a ``festivals`` list with observances dated for the current
-calendar year, driven by religion and state. Major pan-Indian festivals
-come from the profile's religion; regional ones (Pongal, Bihu, Onam,
-Durga Puja, Chhath, Teej, Baisakhi, Ganesh Chaturthi) only appear in
-their states.
+Mirrors the TypeScript implementation (src/utils/festivals.ts):
+observances with Gregorian dates for the current calendar year, driven by
+religion and state. Personas, chats and QA derive the same list on demand
+through profile_festivals() instead of storing it on the profile — the
+same stream seed everywhere, so they always agree with each other.
+Unknown religions or states yield no festivals rather than wrong ones.
 
 Dates are typical Gregorian dates for lunisolar festivals, which shift a
 few weeks year to year — the docs say so plainly.
@@ -15,6 +15,8 @@ Runs on an isolated per-profile stream: zero impact on seeded output.
 """
 
 from datetime import datetime
+
+from indian_fakedata.core.sampler import create_rng
 
 FESTIVALS = [
     # Hindu pan-Indian
@@ -133,3 +135,25 @@ def generate_festivals(religion_id, religion_label, state_id, religiosity,
 
     out.sort(key=lambda d: d["date"])
     return out
+
+
+def _state_id_for_name(state_name):
+    norm = str(state_name).strip().lower().replace(" & ", " ").replace(" ", "_")
+    if norm == "andaman_nicobar_islands":
+        return "andaman_nicobar"
+    return norm
+
+
+def profile_festivals(profile):
+    """
+    The festival list for a profile, derived on demand from its religion,
+    state and id. Personas, chats and QA all share this one stream, so
+    they always agree with each other.
+    """
+    return generate_festivals(
+        str(profile.get("religion", "")).strip().lower(),
+        profile.get("religion", ""),
+        _state_id_for_name(profile.get("state", "")),
+        profile.get("religiosity", "somewhat_religious"),
+        create_rng("v210:fest:" + str(profile.get("id", ""))),
+    )

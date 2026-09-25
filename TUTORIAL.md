@@ -335,8 +335,9 @@ console.log(user.lifeEvents); // v2.1.0 item 3: dated, cross-checked life events
 
 console.log(user.householdEconomy); // v2.1.0 item 4: budget, loans, credit history
 
-console.log(user.festivals); // v2.1.0 item 5: dated observances by religion/state
+import { profileFestivals } from '@abhay557/indian-fakedata';
 
+console.log(profileFestivals(user)); // v2.1.0 item 5: dated observances by religion/state
 // v2.1.0 item 6 (breaking): occupation is conditioned on education,
 // so graduates skew white-collar. Same seed resolves differently than
 // 2.0.9 for occupation-driven fields; explicit constraints still win.
@@ -369,7 +370,9 @@ print(user["lifeEvents"])  # v2.1.0 item 3: dated, cross-checked life events
 
 print(user["householdEconomy"])  # v2.1.0 item 4: budget, loans, credit history
 
-print(user["festivals"])  # v2.1.0 item 5: dated observances by religion/state
+from indian_fakedata import profile_festivals
+
+print(profile_festivals(user))  # v2.1.0 item 5: dated observances by religion/state
 
 # v2.1.0 item 7: grounded SFT pairs as JSONL
 from indian_fakedata import build_sft_pairs, sft_pairs_to_jsonl

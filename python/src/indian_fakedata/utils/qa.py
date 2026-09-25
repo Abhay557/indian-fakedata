@@ -10,6 +10,8 @@ built from.
 Pure functions, no RNG: output is fully determined by the input.
 """
 
+from indian_fakedata.utils.festivals import profile_festivals
+
 
 def _inr(n):
     # Indian digit grouping to match toLocaleString('en-IN'): 1,02,900
@@ -135,13 +137,13 @@ def build_qa_pairs(profile):
             "source": "profile",
         })
 
-    festivals = p.get("festivals") or []
+    festivals = profile_festivals(p)
     if festivals:
         pairs.append({
             "question": "Which festival does {} celebrate first this year?".format(first),
             "answer": "{} celebrates {} on {}.".format(
                 first, festivals[0].get("name", ""), festivals[0].get("date", "")),
-            "citations": ["firstName", "festivals"],
+            "citations": ["firstName"],
             "source": "profile",
         })
 

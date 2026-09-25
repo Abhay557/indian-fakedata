@@ -9,6 +9,8 @@ school enrollment forms, Hinglish conversations, and more.
 import re
 from datetime import datetime
 
+from indian_fakedata.utils.festivals import profile_festivals
+
 def to_title_case(s: str) -> str:
     if not s:
         return ""
@@ -274,7 +276,7 @@ def generate_hinglish_conversation(profile, outcomes):
     religion = profile.get("religion", "hindu").lower()
     district = profile.get("district", "Hisar")
     sport = profile.get("interests", {}).get("primarySport", "none")
-    festivals = profile.get("festivals") or []
+    festivals = profile_festivals(profile)
     fest_name = festivals[0].get("name") if festivals else None
     fest_banter = (
         f"\nFriend: Achha sun, {fest_name} aa raha hai na? Taiyaariyan shuru ki kya?"

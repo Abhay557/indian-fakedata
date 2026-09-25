@@ -12,6 +12,7 @@
  */
 
 import type { DemographicProfile } from '../types.js';
+import { profileFestivals } from './festivals.js';
 
 /** One grounded question/answer example */
 export interface QAPair {
@@ -106,12 +107,12 @@ export function buildQAPairs(profile: DemographicProfile): QAPair[] {
     });
   }
 
-  const festivals = p.festivals ?? [];
+  const festivals = profileFestivals(p);
   if (festivals.length > 0) {
     pairs.push({
       question: `Which festival does ${p.firstName} celebrate first this year?`,
       answer: `${p.firstName} celebrates ${festivals[0].name} on ${festivals[0].date}.`,
-      citations: ['firstName', 'festivals'],
+      citations: ['firstName'],
       source: 'profile',
     });
   }

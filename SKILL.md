@@ -139,8 +139,8 @@ life events (`lifeEvents`: dated birth/marriage/children/migration/job/
 retirement events, cross-checked with the profile),
 household economy (`householdEconomy`: budget split, loans with EMI,
 banded credit history),
-festivals (`festivals`: dated observances by religion and state, feeding
-persona memory seeds and Hinglish chats).
+festivals (derived on demand via `profileFestivals(profile)` — never
+stored on the profile — feeding persona memory seeds and Hinglish chats).
 `probabilityMetrics`shows the chain of probabilities for each draw.
 
 v2.0.3 added three fields to every profile:

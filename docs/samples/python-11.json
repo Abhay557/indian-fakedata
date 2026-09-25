@@ -217,7 +217,7 @@
     "occupationProb": 0.3649635036496351,
     "jointProbability": 1.5922142284907147e-06
   },
-  "generatedAt": "2026-09-25T15:16:54.296752",
+  "generatedAt": "2026-09-25T15:56:00.977787",
   "seed": 11,
   "skills": {
     "technical": [],
@@ -260,31 +260,5 @@
       "missedPayments12m": 0,
       "oldestAccountYears": 0
     }
-  },
-  "festivals": [
-    {
-      "name": "Holi",
-      "date": "2026-03-08",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Janmashtami",
-      "date": "2026-08-26",
-      "religion": "Hindu",
-      "regional": false
-    },
-    {
-      "name": "Ganesh Chaturthi",
-      "date": "2026-09-07",
-      "religion": "Hindu",
-      "regional": true
-    },
-    {
-      "name": "Diwali",
-      "date": "2026-10-20",
-      "religion": "Hindu",
-      "regional": false
-    }
-  ]
+  }
 }

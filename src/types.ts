@@ -610,8 +610,6 @@ export interface DemographicProfile {
   skills?: SkillsProfile;
   /** Dated life events timeline (v2.1.0, item 3) */
   lifeEvents?: LifeEvent[];
-  /** Festival calendar with dates (v2.1.0, item 5) */
-  festivals?: Festival[];
   /** Descriptive personality traits derived from Big Five scores */
   personalityTraits: PersonalityTraits;
   /** Movie/anime viewing preferences */
