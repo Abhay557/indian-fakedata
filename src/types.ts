@@ -189,6 +189,22 @@ export interface Appearance {
   facialHair?: 'none' | 'stubble' | 'moustache' | 'full_beard' | 'goatee';
 }
 
+/**
+ * Names and address transliterated into the mother-tongue script (v2.1.0).
+ * Pure string mapping — no RNG — so it never disturbs seeded output.
+ * Mother tongues without a supported script keep Roman values (Latin).
+ */
+export interface NativeScript {
+  /** Script name, e.g. 'Devanagari', 'Tamil', or 'Latin' fallback */
+  script: string;
+  /** Mother tongue this script was chosen for */
+  language: string;
+  firstName: string;
+  lastName: string;
+  district: string;
+  addressLine: string;
+}
+
 /** Expanded education details (AISHE data) */
 export interface EducationDetails {
   /** Field of study (for higher education) */
@@ -229,8 +245,7 @@ export interface EducationStage {
   status: 'completed' | 'in_progress' | 'dropped_out';
 }
 
-/** A single job spell in a person's work history (chronological, v2.0.9) */
-export interface EmploymentStage {
+/** A single job spell in a person's work history (chronological, v2.0.9) */export interface EmploymentStage {
   /** Plausible job title, e.g. "Primary School Teacher" */
   jobTitle: string;
   /** Detailed employment sector for this spell */
@@ -400,6 +415,10 @@ export interface DemographicProfile {
   // ── Appearance ─────────────────────────────────────────
   /** Physical appearance attributes (face, skin tone, hair, build) */
   appearance: Appearance;
+
+  // ── Native Script ──────────────────────────────────────
+  /** Names and address transliterated into the mother-tongue script */
+  nativeScript: NativeScript;
 
   // ── Identity Documents ────────────────────────────────
   /** 12-digit Aadhaar number (Verhoeff checksum valid) */

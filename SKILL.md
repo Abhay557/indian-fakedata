@@ -132,7 +132,9 @@ household (children count, assets), lifestyle (diet, habits, interests), and
 psychology (Big Five, cognitive profile, political leaning), work history
 (`employmentTimeline`: chronological job spells with title, sector, tenure,
 wages), skills (`skills`: technical/soft lists, certifications, per-language
-speaking/reading/writing levels). `probabilityMetrics`
+speaking/reading/writing levels), native script (`nativeScript`: names,
+district, address transliterated into the mother-tongue script).
+`probabilityMetrics`
 shows the chain of probabilities for each draw.
 
 v2.0.3 added three fields to every profile:
@@ -243,6 +245,13 @@ shop titles); only `non_worker` histories use a sampled past sector.
 current job title follows `educationDetails.fieldOfStudy` (engineering
 graduates get engineer titles, B.Ed graduates teach, doctor titles need a
 professional degree), and all sector title pools are bigger.
+
+v2.1.0 native script: every profile carries `nativeScript` (`script`,
+`language`, transliterated `firstName`, `lastName`, `district`,
+`addressLine`) in the mother-tongue script, Latin passthrough otherwise.
+`transliterate(text, script)` (Python: `transliterate(text, script)`) and
+`scriptForLanguage(motherTongue)` (Python: `script_for_language(...)`)
+work on any string, including persona prompts. Pure mapping, no RNG.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

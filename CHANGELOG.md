@@ -17,6 +17,13 @@ within one version; across versions it is not.
 - **Jobs match the degree.** The current timeline spell draws from the
   profile's field of study, and every sector title pool grew. Doctor-grade
   titles additionally require a professional degree.
+- **Native script output.** Every profile carries `nativeScript` with names,
+  district and address transliterated into the mother-tongue script
+  (Devanagari, Bengali, Gujarati, Gurmukhi, Kannada, Malayalam, Tamil,
+  Telugu, Odia; Latin passthrough otherwise). Pure string mapping, no RNG
+  draws, so seeded output is untouched. `transliterate()` /
+  `transliterate()` and `scriptForLanguage()` / `script_for_language()`
+  are exported for prompts and free text.
 
 ## 2.0.9
 

@@ -62,7 +62,7 @@ export type {
   MoviePreferences,
   CulturalProfile,
   Appearance,
-  EmploymentStage,
+  NativeScript,  EmploymentStage,
   LanguageLevel,
   LanguageSkill,
   SkillsProfile,
@@ -95,6 +95,8 @@ export { generateEmploymentTimeline } from './utils/employment.js';
 export type { EmploymentTimelineOptions } from './utils/employment.js';
 export { generateSkills } from './utils/skills.js';
 export type { SkillsOptions } from './utils/skills.js';
+export { transliterate, scriptForLanguage, containsIndic } from './utils/transliterate.js';
+export type { ScriptName } from './utils/transliterate.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

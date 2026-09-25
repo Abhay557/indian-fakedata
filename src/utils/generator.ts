@@ -54,6 +54,7 @@ import {
 import { generateAppearance } from './appearance.js';
 import { generateEmploymentTimeline } from './employment.js';
 import { generateSkills } from './skills.js';
+import { transliterate, scriptForLanguage } from './transliterate.js';
 import {
   generateDiet,
   generateDisability,
@@ -328,6 +329,18 @@ function generateSingleProfile(
     jointProbability: path.jointProb * surnameProb * socio.educationProb * socio.occupationProb
   };
 
+  // ── Native script block (v2.1.0, item 1) ─────────────
+  // Pure string mapping, no RNG draws: zero impact on the seeded stream.
+  const nativeScriptName = scriptForLanguage(motherTongue);
+  const nativeScript = {
+    script: nativeScriptName,
+    language: motherTongue,
+    firstName: transliterate(firstName, nativeScriptName),
+    lastName: transliterate(lastName, nativeScriptName),
+    district: transliterate(district, nativeScriptName),
+    addressLine: transliterate(addressLine, nativeScriptName),
+  };
+
   // ── Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0) ──
   // The id is drawn here — the same stream position as before, so every
   // value stays identical. The timeline runs on an isolated stream derived
@@ -383,6 +396,9 @@ function generateSingleProfile(
     voterIdNumber,
     phoneNumber,
     email,
+
+    // Native Script
+    nativeScript,
 
     // Location
     state: path.stateName,

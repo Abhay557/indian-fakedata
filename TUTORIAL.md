@@ -11,6 +11,7 @@ This tutorial provides complete, drop-in code snippets demonstrating how to prog
 4. [Programmatic Dataset Exporting (JSON, JSONL, CSV)](#4-programmatic-dataset-exporting-json-jsonl-csv)
 5. [Memory-Efficient Generation (Streaming)](#5-memory-efficient-generation-streaming)
 6. [New in 2.0.9 (Work History, Skills, Personas, Trust)](#6-new-in-209-work-history-skills-personas-trust)
+7. [New in 2.1.0 (Native Script Output)](#7-new-in-210-native-script-output)
 
 ---
 
@@ -313,4 +314,29 @@ indian-fakedata -c 100 --fields firstName,state,appearance.skinTone --stats -f j
 
 # Sanitised Hindi personas, validated
 indian-fakedata -c 50 --persona --persona-lang hindi --strip-pii --validate -f jsonl -o agents.jsonl
+```
+
+## 7. New in 2.1.0 (Native Script Output)
+
+###  TypeScript
+```typescript
+import { generate, transliterate, scriptForLanguage } from '@abhay557/indian-fakedata';
+
+const user = generate({ count: 1, seed: 7 })[0];
+console.log(user.nativeScript);
+// { script: 'Devanagari', language: 'Hindi', firstName: '...', ... }
+
+const script = scriptForLanguage(user.motherTongue); // 'Devanagari', 'Tamil', ... or 'Latin'
+console.log(transliterate('Pushpa Sharma', script));
+```
+
+###  Python
+```python
+from indian_fakedata import generate, transliterate, script_for_language
+
+user = generate(count=1, seed=7)[0]
+print(user["nativeScript"])
+
+script = script_for_language(user["motherTongue"])
+print(transliterate("Pushpa Sharma", script))
 ```

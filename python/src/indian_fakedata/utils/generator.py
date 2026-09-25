@@ -56,6 +56,7 @@ from indian_fakedata.utils.media import generate_movie_preferences
 from indian_fakedata.utils.appearance import generate_appearance
 from indian_fakedata.utils.employment import generate_employment_timeline
 from indian_fakedata.utils.skills import generate_skills
+from indian_fakedata.utils.transliterate import transliterate, script_for_language
 
 
 def _generate_uuid(rng):
@@ -243,6 +244,18 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "jointProbability": path.get("jointProb", 0) * surname_prob * socio.get("educationProb", 1) * socio.get("occupationProb", 1),
     }
 
+    # Native script block (v2.1.0, item 1) — pure string mapping, no RNG
+    # draws: zero impact on the seeded stream.
+    native_script_name = script_for_language(mother_tongue)
+    native_script = {
+        "script": native_script_name,
+        "language": mother_tongue,
+        "firstName": transliterate(first_name, native_script_name),
+        "lastName": transliterate(last_name, native_script_name),
+        "district": transliterate(district, native_script_name),
+        "addressLine": transliterate(addr["addressLine"], native_script_name),
+    }
+
     # Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0).
     # The id is drawn here — the same stream position as before, so every
     # value stays identical. The timeline runs on an isolated stream derived
@@ -282,6 +295,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "voterIdNumber": voter_id,
         "phoneNumber": phone,
         "email": email,
+        "nativeScript": native_script,
         "state": path.get("stateName", path["stateId"]),
         "stateCode": state_code,
         "district": district,

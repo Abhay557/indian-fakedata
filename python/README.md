@@ -24,7 +24,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "spouseName": "Kishan Das",
   "gender": "female",
   "age": 40,
-  "dateOfBirth": "1986-01-04",
+  "dateOfBirth": "1986-01-05",
   "bloodGroup": "B+",
   "heightCm": 144.0,
   "weightKg": 44.1,
@@ -47,6 +47,14 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "voterIdNumber": "YSR0818288",
   "phoneNumber": "9444448053",
   "email": "sarwan.das645@gmail.com",
+  "nativeScript": {
+    "script": "Telugu",
+    "language": "Telugu",
+    "firstName": "సర్వన",
+    "lastName": "దస",
+    "district": "గుంతుర",
+    "addressLine": "492/గ, జయనగర, గుంతుర"
+  },
   "state": "Andhra Pradesh",
   "stateCode": "AP",
   "district": "Guntur",
@@ -303,7 +311,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.1,
     "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-09-24T14:35:41.864638",
+  "generatedAt": "2026-09-25T12:38:39.554556",
   "seed": 7,
   "skills": {
     "technical": [
@@ -613,6 +621,11 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   field of study (a BTech graduate works as an engineer, a B.Ed graduate
   teaches; doctor titles need a professional degree), and every sector pool
   grew with more titles. Education and employment timelines finally agree.
+- **Native script output.** Every profile carries `nativeScript` with names,
+  district and address transliterated into the mother-tongue script
+  (Devanagari, Bengali, Gujarati, Gurmukhi, Kannada, Malayalam, Tamil,
+  Telugu, Odia; Latin passthrough otherwise). `transliterate()` and
+  `script_for_language()` are exported for prompts and free text.
 
 ---
 

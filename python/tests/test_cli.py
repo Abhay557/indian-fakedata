@@ -18,9 +18,12 @@ ENV = dict(os.environ, PYTHONPATH=os.path.join(PY_DIR, "src"))
 
 
 def run_cli(*args):
+    # encoding=utf-8: profiles carry native-script output since v2.1.0,
+    # which the Windows cp1252 default cannot decode.
     return subprocess.run(
         [sys.executable, "-m", "indian_fakedata", *args],
-        cwd=PY_DIR, env=ENV, capture_output=True, text=True, timeout=120,
+        cwd=PY_DIR, env=ENV, capture_output=True, text=True,
+        encoding="utf-8", timeout=120,
     )
 
 
