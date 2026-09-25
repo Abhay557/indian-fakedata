@@ -54,8 +54,7 @@ describe('employment timeline (v2.0.9)', () => {
     }
   });
 
-  it('students/unemployed/retired behave correctly (unit)', () => {
-    const rng = createRNG(7);
+  it('students/unemployed/retired behave correctly (unit)', () => {    const rng = createRNG(7);
     const base = {
       age: 30,
       education: 'graduate' as const,
@@ -77,5 +76,54 @@ describe('employment timeline (v2.0.9)', () => {
     );
     expect(retired.length).toBeGreaterThan(0);
     for (const s of retired) expect(s.status).toBe('completed');
+  });
+
+  it('timeline stages carry the profile occupation (v2.1.0)', () => {
+    const rows = generate({ count: 200, seed: 5 });
+    let checked = 0;
+    for (const r of rows) {
+      const tl = r.employmentTimeline ?? [];
+      if (r.occupation === 'non_worker') continue;
+      for (const s of tl) {
+        expect(s.occupation).toBe(r.occupation);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
+  it('cultivators get farm titles, never shop titles (v2.1.0)', () => {
+    const rows = generate({
+      count: 40,
+      seed: 9,
+      constraints: { occupation: 'cultivator', ageRange: { min: 25, max: 50 } },
+    });
+    let stages = 0;
+    for (const r of rows) {
+      const tl = r.employmentTimeline ?? [];
+      for (const s of tl) {
+        expect(s.occupation).toBe('cultivator');
+        expect(s.jobTitle).toMatch(/Farmer|Grower|Keeper/);
+        stages++;
+      }
+    }
+    expect(stages).toBeGreaterThan(0);
+  });
+
+  it('informal other_workers keep their occupation label (v2.1.0)', () => {
+    const rows = generate({
+      count: 80,
+      seed: 11,
+      constraints: { occupation: 'other_worker', ageRange: { min: 25, max: 50 } },
+    });
+    let checked = 0;
+    for (const r of rows) {
+      if (r.employmentSector !== 'informal') continue;
+      for (const s of r.employmentTimeline ?? []) {
+        expect(s.occupation).toBe('other_worker');
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(0);
   });
 });

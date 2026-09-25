@@ -94,12 +94,12 @@ const EMPLOYER_TYPE: Record<string, EmploymentStage['employerType']> = {
   cultivator: 'self',
 };
 
-/** Census occupation bucket implied by a sector */
-function occupationFor(sector: string, fallback: OccupationalSector): OccupationalSector {
+/** Census occupation bucket implied by a past sector (non-worker histories only) */
+function occupationForSampledSector(sector: string): OccupationalSector {
   if (sector === 'cultivator') return 'cultivator';
   if (sector === 'informal') return 'agricultural_labourer';
   if (sector === 'household_industry') return 'household_industry';
-  return fallback === 'non_worker' ? 'other_worker' : fallback;
+  return 'other_worker';
 }
 
 /**
@@ -142,6 +142,31 @@ export function generateEmploymentTimeline(
     sector = key;
   }
 
+  // v2.1.0 fix: the timeline is an object of OCCUPATION, not sector.
+  // Farm/craft occupations always get their own titles and keep their own
+  // occupation label — a cultivator is never a "Kirana Shop Owner", and an
+  // urban informal other_worker is never relabelled agricultural_labourer.
+  // Only non_worker histories (retired / older homemakers) derive titles
+  // and occupation from the sampled past sector.
+  let titles: string[];
+  let stageOccupation: OccupationalSector;
+  if (opts.occupation === 'cultivator') {
+    titles = TITLES.cultivator;
+    stageOccupation = 'cultivator';
+  } else if (opts.occupation === 'agricultural_labourer') {
+    titles = TITLES.informal;
+    stageOccupation = 'agricultural_labourer';
+  } else if (opts.occupation === 'household_industry') {
+    titles = TITLES.household_industry;
+    stageOccupation = 'household_industry';
+  } else if (opts.occupation === 'other_worker') {
+    titles = TITLES[sector] ?? TITLES.private;
+    stageOccupation = 'other_worker';
+  } else {
+    titles = TITLES[sector] ?? TITLES.private;
+    stageOccupation = occupationForSampledSector(sector);
+  }
+
   // number of job spells grows with tenure: mostly 1-2, up to 4
   let spells = 1;
   if (tenure >= 5) {
@@ -171,7 +196,6 @@ export function generateEmploymentTimeline(
 
   for (let i = 0; i < spells; i++) {
     const last = i === spells - 1;
-    const titles = TITLES[sector] ?? TITLES.private;
     const progress = spells === 1 ? 1 : 0.5 + (0.5 * i) / (spells - 1);
     const jitter = 0.9 + rng.next() * 0.2;
     const monthly = Math.max(800, Math.round((currentMonthly * progress * jitter) / 100) * 100);
@@ -180,7 +204,7 @@ export function generateEmploymentTimeline(
     timeline.push({
       jobTitle: uniformSample(titles, rng),
       sector: sector as EmploymentSector,
-      occupation: occupationFor(sector, opts.occupation),
+      occupation: stageOccupation,
       employerType: EMPLOYER_TYPE[sector] ?? 'private',
       startYear: year,
       ...(done ? {} : { endYear: year + durations[i] }),

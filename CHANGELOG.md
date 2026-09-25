@@ -4,6 +4,16 @@ Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
 PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
 within one version; across versions it is not.
 
+## 2.1.0
+
+- **Employment timeline keyed by occupation.** Timeline stages used the
+  employment sector for titles and occupation labels, which produced
+  mismatches (cultivators titled "Kirana Shop Owner", informal
+  `other_worker` profiles relabelled `agricultural_labourer`). Stages now
+  derive titles and occupation from the profile's own occupation; only
+  `non_worker` histories sample a past sector. `sector` still mirrors
+  `employmentSector`, so the two always agree.
+
 ## 2.0.9
 
 - **Employment timeline.** New `employmentTimeline` on every profile:

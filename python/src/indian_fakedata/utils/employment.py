@@ -75,15 +75,15 @@ EMPLOYER_TYPE = {
 }
 
 
-def _occupation_for(sector, fallback):
-    # Census occupation bucket implied by a sector
+def _occupation_for_sampled_sector(sector):
+    # Census occupation bucket implied by a past sector (non-worker histories only)
     if sector == "cultivator":
         return "cultivator"
     if sector == "informal":
         return "agricultural_labourer"
     if sector == "household_industry":
         return "household_industry"
-    return fallback if fallback != "non_worker" else "other_worker"
+    return "other_worker"
 
 
 def generate_employment_timeline(age, education, occupation, employment_sector,
@@ -122,6 +122,28 @@ def generate_employment_timeline(age, education, occupation, employment_sector,
              "informal": 20, "public_sector": 10}, rng)
         sector = key
 
+    # v2.1.0 fix: the timeline is an object of OCCUPATION, not sector.
+    # Farm/craft occupations always get their own titles and keep their own
+    # occupation label — a cultivator is never a "Kirana Shop Owner", and an
+    # urban informal other_worker is never relabelled agricultural_labourer.
+    # Only non_worker histories (retired / older homemakers) derive titles
+    # and occupation from the sampled past sector.
+    if occupation == "cultivator":
+        titles = TITLES["cultivator"]
+        stage_occupation = "cultivator"
+    elif occupation == "agricultural_labourer":
+        titles = TITLES["informal"]
+        stage_occupation = "agricultural_labourer"
+    elif occupation == "household_industry":
+        titles = TITLES["household_industry"]
+        stage_occupation = "household_industry"
+    elif occupation == "other_worker":
+        titles = TITLES.get(sector, TITLES["private"])
+        stage_occupation = "other_worker"
+    else:
+        titles = TITLES.get(sector, TITLES["private"])
+        stage_occupation = _occupation_for_sampled_sector(sector)
+
     # number of job spells grows with tenure: mostly 1-2, up to 4
     spells = 1
     if tenure >= 5:
@@ -149,7 +171,6 @@ def generate_employment_timeline(age, education, occupation, employment_sector,
 
     for i in range(spells):
         last = i == spells - 1
-        titles = TITLES.get(sector, TITLES["private"])
         progress = 1 if spells == 1 else 0.5 + (0.5 * i) / (spells - 1)
         jitter = 0.9 + rng.next() * 0.2
         monthly = max(800, round(current_monthly * progress * jitter / 100) * 100)
@@ -158,7 +179,7 @@ def generate_employment_timeline(age, education, occupation, employment_sector,
         stage = {
             "jobTitle": uniform_sample(titles, rng),
             "sector": sector,
-            "occupation": _occupation_for(sector, occupation),
+            "occupation": stage_occupation,
             "employerType": EMPLOYER_TYPE.get(sector, "private"),
             "startYear": year,
             "status": "current" if done else "completed",

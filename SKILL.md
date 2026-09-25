@@ -10,7 +10,7 @@ Two native implementations, same features, same CLI flags:
 | Node.js / TypeScript | `@abhay557/indian-fakedata` | npm |
 | Python | `indian-fakedata` | PyPI |
 
-Current version: **2.0.9** (both). Zero runtime dependencies.
+Current version: **2.1.0** (both). Zero runtime dependencies.
 
 ---
 

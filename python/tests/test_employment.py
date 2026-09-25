@@ -54,3 +54,42 @@ def test_student_unemployed_retired_unit():
                                            **{**base, "age": 65})
     assert len(retired) > 0
     assert all(s["status"] == "completed" for s in retired)
+
+
+def test_timeline_stages_carry_profile_occupation():
+    rows = generate(count=200, seed=5)
+    checked = 0
+    for r in rows:
+        if r["occupation"] == "non_worker":
+            continue
+        for s in r.get("employmentTimeline") or []:
+            assert s["occupation"] == r["occupation"]
+            checked += 1
+    assert checked > 0
+
+
+def test_cultivators_get_farm_titles():
+    import re
+    rows = generate(count=40, seed=9, constraints={"occupation": "cultivator",
+                                                  "ageRange": {"min": 25, "max": 50}})
+    pat = re.compile(r"Farmer|Grower|Keeper")
+    stages = 0
+    for r in rows:
+        for s in r.get("employmentTimeline") or []:
+            assert s["occupation"] == "cultivator"
+            assert pat.search(s["jobTitle"])
+            stages += 1
+    assert stages > 0
+
+
+def test_informal_other_workers_keep_label():
+    rows = generate(count=80, seed=11, constraints={"occupation": "other_worker",
+                                                   "ageRange": {"min": 25, "max": 50}})
+    checked = 0
+    for r in rows:
+        if r["employmentSector"] != "informal":
+            continue
+        for s in r.get("employmentTimeline") or []:
+            assert s["occupation"] == "other_worker"
+            checked += 1
+    assert checked > 0
