@@ -274,6 +274,13 @@ def generate_hinglish_conversation(profile, outcomes):
     religion = profile.get("religion", "hindu").lower()
     district = profile.get("district", "Hisar")
     sport = profile.get("interests", {}).get("primarySport", "none")
+    festivals = profile.get("festivals") or []
+    fest_name = festivals[0].get("name") if festivals else None
+    fest_banter = (
+        f"\nFriend: Achha sun, {fest_name} aa raha hai na? Taiyaariyan shuru ki kya?"
+        f"\n{first_name}: Haan yaar! Ghar pe saaf-safai aur mithaas dono shuru ho gayi hain."
+        if fest_name else ""
+    )
 
     content = ""
     if religion == "muslim":
@@ -286,7 +293,7 @@ Friend: {'Office mein busy tha yaar' if is_urban else 'Khet mein kaam tha bhai'}
 Friend: Haan, loan ke liye apply kiya tha. {'Approve ho gaya Alhamdulillah!' if has_loan else 'Abhi decision pending hai.'}
 {first_name}: Mashallah! Kitna mila?
 Friend: Abhi batata hoon. Tum Inshallah kab aoge?
-{first_name}: {district} se {'Metro mein' if is_urban else 'shahar mein'} jaana hai, dekhte hain."""
+{first_name}: {district} se {'Metro mein' if is_urban else 'shahar mein'} jaana hai, dekhte hain.{fest_banter}"""
     elif religion == "sikh":
         content = f"""[WhatsApp Chat — {first_name} & Friend]
 
@@ -297,7 +304,7 @@ Friend: {'Office di meeting si' if is_urban else 'Khet wich kaam si'}, tenu phon
 Friend: Haan yaar, {'loan approve ho gaya Waheguru di mehar naal!' if has_loan else 'ichi review wich hai.'}
 {first_name}: Waheguru Waheguru! Changa hoya.
 Friend: Tenu ki khabar Punjab di?
-{first_name}: Yaar, {district} wich sab theek aa."""
+{first_name}: Yaar, {district} wich sab theek aa.{fest_banter}"""
     else:
         content = f"""[WhatsApp Chat — {first_name} & Friend]
 
@@ -308,7 +315,7 @@ Friend: Suno, wo bank wala loan approve hua kya?
 Friend: Achha! Kitne ka tha?
 {first_name}: Arrey chhod, wo sab baad mein batata hoon. Tu bata, kya plan hai weekend ka?
 Friend: Kuch nahi yaar. {f"{sport} dekhne ka plan hai TV pe." if sport != "none" else 'Ghar pe hi rahenge.'}
-{first_name}: Chalte hain phir. {'City mein kuch dhundhte hain.' if is_urban else 'Bazaar mein milte hain.'} Kal milte hain!"""
+{first_name}: Chalte hain phir. {'City mein kuch dhundhte hain.' if is_urban else 'Bazaar mein milte hain.'} Kal milte hain!{fest_banter}"""
 
     entities = extract_entities(content, profile)
     return {

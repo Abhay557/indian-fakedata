@@ -334,7 +334,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.4087193460490463,
     "jointProbability": 6.388948194089085e-05
   },
-  "generatedAt": "2026-09-25T14:39:09.030914",
+  "generatedAt": "2026-09-25T15:16:43.906116",
   "seed": 7,
   "skills": {
     "technical": [
@@ -758,7 +758,8 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
   dated for the current year, driven by religion and state: pan-Indian
   festivals from the profile's religion plus regional ones that stay in
   their states (Pongal, Bihu, Onam, Durga Puja, Chhath, Teej, Baisakhi,
-  Ganesh Chaturthi). Lunisolar dates are typical, not exact.
+  Ganesh Chaturthi). Lunisolar dates are typical, not exact. Festival names
+  flow into persona memory seeds and Hinglish chats.
 - **SFT pair builder.** `buildSFTPairs()` turns a profile (plus optional
   narratives) into grounded instruction/response pairs, exported as JSONL
   with `sftPairsToJsonl()`.

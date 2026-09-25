@@ -389,6 +389,13 @@ def _build_memory_seeds(profile):
     elif religiosity == "somewhat_religious":
         seeds.append(f"I observe major {religion} festivals and visit the temple/mosque/gurudwara on important occasions.")
 
+    festivals = profile.get("festivals") or []
+    if festivals:
+        seeds.append(f"I celebrate {festivals[0].get('name', 'festivals')} every year with my family.")
+        regional = next((f for f in festivals if f.get("regional") and f.get("name") != festivals[0].get("name")), None)
+        if regional:
+            seeds.append(f"Back home, {regional.get('name')} is the biggest celebration of the year.")
+
     income = profile.get("annualIncomeINR", 0)
     hs = profile.get("householdSize", 4)
     if income < 100000:

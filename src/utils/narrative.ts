@@ -295,6 +295,10 @@ function generateHinglishConversation(
   const firstName = profile.firstName;
   const isUrban = profile.areaType === 'urban';
   const hasLoan = (outcomes.credit.loanApprovalProbability > 0.5);
+  const festName = (profile.festivals ?? [])[0]?.name;
+  const festBanter = festName
+    ? `\nFriend: Achha sun, ${festName} aa raha hai na? Taiyaariyan shuru ki kya?\n${firstName}: Haan yaar! Ghar pe saaf-safai aur mithaas dono shuru ho gayi hain.`
+    : '';
 
   const conversations: string[] = [];
 
@@ -309,7 +313,7 @@ ${firstName}: Koi baat nahi. Sunno, bank ka kaam hua kya?
 Friend: Haan, loan ke liye apply kiya tha. ${hasLoan ? 'Approve ho gaya Alhamdulillah!' : 'Abhi decision pending hai.'}
 ${firstName}: Mashallah! Kitna mila?
 Friend: Abhi batata hoon. Tum Inshallah kab aoge?
-${firstName}: ${profile.district} se ${isUrban ? 'Metro mein' : 'shahar mein'} jaana hai, dekhte hain.`);
+${firstName}: ${profile.district} se ${isUrban ? 'Metro mein' : 'shahar mein'} jaana hai, dekhte hain.${festBanter}`);
   } else if (profile.religion === 'sikh') {
     conversations.push(`[WhatsApp Chat — ${firstName} & Friend]
 
@@ -320,7 +324,7 @@ ${firstName}: Koi gall nahi. Bank wala kaam ho gaya?
 Friend: Haan yaar, ${hasLoan ? 'loan approve ho gaya Waheguru di mehar naal!' : 'abhi review wich hai.'}
 ${firstName}: Waheguru Waheguru! Changa hoya.
 Friend: Tenu ki khabar Punjab di?
-${firstName}: Yaar, ${profile.district} wich sab theek aa.`);
+${firstName}: Yaar, ${profile.district} wich sab theek aa.${festBanter}`);
   } else {
     // Default Hindi-English Hinglish
     conversations.push(`[WhatsApp Chat — ${firstName} & Friend]
@@ -332,7 +336,7 @@ ${firstName}: ${hasLoan ? 'Haan bhai! Finally approve ho gaya. Bahut relief mila
 Friend: Achha! Kitne ka tha?
 ${firstName}: Arrey chhod, wo sab baad mein batata hoon. Tu bata, kya plan hai weekend ka?
 Friend: Kuch nahi yaar. ${profile.interests.primarySport !== 'none' ? `${profile.interests.primarySport} dekhne ka plan hai TV pe.` : 'Ghar pe hi rahenge.'}
-${firstName}: Chalte hain phir. ${profile.areaType === 'urban' ? 'City mein kuch dhundhte hain.' : 'Bazaar mein milte hain.'} Kal milte hain!`);
+${firstName}: Chalte hain phir. ${profile.areaType === 'urban' ? 'City mein kuch dhundhte hain.' : 'Bazaar mein milte hain.'} Kal milte hain!${festBanter}`);
   }
 
   const content = conversations[0];

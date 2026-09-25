@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { generate } from '../src/index.js';
+import { generate, generateAgentPersona, simulateOutcomes, generateNarrative } from '../src/index.js';
 import { generateFestivals } from '../src/utils/festivals.js';
 import { createRNG } from '../src/core/sampler.js';
 
@@ -50,6 +50,16 @@ describe('festival calendar (v2.1.0, item 5)', () => {
     const opts = { religionId: 'hindu', religionLabel: 'Hindu', stateId: 'bihar', religiosity: 'somewhat_religious', currentYear: 2026 } as const;
     const a = generateFestivals(opts, createRNG(46));
     expect(generateFestivals(opts, createRNG(46))).toEqual(a);
+  });
+
+  it('festivals flow into persona memories and chats', () => {
+    const p = generate({ count: 1, seed: 61 })[0];
+    expect(p.festivals!.length).toBeGreaterThan(0);
+    const persona = generateAgentPersona(p);
+    expect(persona.memorySeeds.join(' ')).toContain(p.festivals![0].name);
+    const outcomes = simulateOutcomes(p, 0.3, createRNG(61));
+    const chat = generateNarrative(p, outcomes, 'hinglish_conversation');
+    expect(chat.content).toContain(p.festivals![0].name);
   });
 
   it('festivals on profiles match religion and state', () => {

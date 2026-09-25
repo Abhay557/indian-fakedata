@@ -486,6 +486,16 @@ function buildMemorySeeds(profile: DemographicProfile): string[] {
     seeds.push(`I observe major ${profile.religion} festivals and visit the temple/mosque/gurudwara on important occasions.`);
   }
 
+  // Festivals
+  const festivals = profile.festivals ?? [];
+  if (festivals.length > 0) {
+    seeds.push(`I celebrate ${festivals[0].name} every year with my family.`);
+    const regional = festivals.find(f => f.regional && f.name !== festivals[0].name);
+    if (regional) {
+      seeds.push(`Back home, ${regional.name} is the biggest celebration of the year.`);
+    }
+  }
+
   // Economic situation
   if (profile.annualIncomeINR < 100000) {
     seeds.push(`Money is tight. Every month is a struggle to make ends meet, especially with ${profile.householdSize} people to feed.`);

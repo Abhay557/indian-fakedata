@@ -2,7 +2,9 @@
 
 import re
 
-from indian_fakedata import generate
+from indian_fakedata import (
+    generate, generate_agent_persona, simulate_outcomes, generate_narrative,
+)
 from indian_fakedata.core.sampler import create_rng
 from indian_fakedata.utils.festivals import generate_festivals
 
@@ -81,3 +83,13 @@ def test_profile_festivals_match_religion_and_state():
                 assert r["state"] in regional_states[d["name"]]
             checked += 1
     assert checked > 0
+
+
+def test_festivals_flow_into_memories_and_chats():
+    p = generate(count=1, seed=61)[0]
+    assert len(p["festivals"]) > 0
+    persona = generate_agent_persona(p)
+    assert p["festivals"][0]["name"] in " ".join(persona["memorySeeds"])
+    outcomes = simulate_outcomes(p, 0.3, create_rng(61))
+    chat = generate_narrative(p, outcomes, "hinglish_conversation")
+    assert p["festivals"][0]["name"] in chat["content"]
