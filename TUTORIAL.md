@@ -382,3 +382,16 @@ from indian_fakedata import build_qa_pairs
 
 print(build_qa_pairs(user)[0])
 ```
+
+###  CLI
+```bash
+# Slim output plus distribution summary
+indian-fakedata -c 100 --fields firstName,state,appearance.skinTone --stats -f jsonl
+
+# Sanitised Hindi personas, validated
+indian-fakedata -c 50 --persona --persona-lang hindi --strip-pii --validate -f jsonl -o agents.jsonl
+
+# v2.1.0 item 9: score any batch you already generated
+indian-fakedata -c 200 -f jsonl -o batch.jsonl --seed 5
+indian-fakedata --eval batch.jsonl
+```

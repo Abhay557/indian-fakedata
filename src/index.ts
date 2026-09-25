@@ -112,6 +112,8 @@ export { buildSFTPairs, sftPairsToJsonl } from './utils/sft.js';
 export type { SFTPair } from './utils/sft.js';
 export { buildQAPairs } from './utils/qa.js';
 export type { QAPair } from './utils/qa.js';
+export { evaluateDataset, checkConsistency } from './utils/eval.js';
+export type { EvalReport, DriftResult } from './utils/eval.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

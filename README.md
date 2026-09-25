@@ -766,6 +766,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
   question/answer pairs for retrieval and comprehension evaluation. Every
   answer is templated from profile fields and carries `citations`, the
   exact field paths it was built from.
+- **Eval harness.** `evaluateDataset()` scores any batch with one quality
+  number built from census drift, schema validity and internal
+  consistency, plus an `indian-fakedata --eval file.jsonl` command.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude around the state capital, tighter for urban profiles
   and clamped inside the state bounding box. District-approximate, not

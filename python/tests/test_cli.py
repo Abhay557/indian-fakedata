@@ -106,3 +106,14 @@ def test_cli_strip_pii_validate_passes_on_full_data():
     rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
     assert rows[0]["phoneNumber"] == ""
     assert rows[0]["piiStripped"] is True
+
+
+def test_cli_eval_scores_a_file(tmp_path):
+    from indian_fakedata import generate, save_profiles
+    data_path = str(tmp_path / "evalme.jsonl")
+    save_profiles(generate(count=60, seed=5), data_path, "jsonl")
+    res = run_cli("--eval", data_path)
+    assert res.returncode == 0, res.stderr
+    report = json.loads(res.stdout)
+    assert report["sampleSize"] == 60
+    assert report["qualityScore"] >= 70

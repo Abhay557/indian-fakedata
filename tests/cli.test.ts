@@ -191,8 +191,7 @@ describe('--fields / --stats (v2.0.9)', () => {
     expect(fs.existsSync(outPath)).toBe(true);
   });
 
-  it('CLI --strip-pii --validate passes (validates full data, strips output)', () => {
-    const outputDir = path.resolve('tests/temp-output');
+  it('CLI --strip-pii --validate passes (validates full data, strips output)', () => {    const outputDir = path.resolve('tests/temp-output');
     const outPath = path.join(outputDir, 'stripvalid.json');
     execSync(
       `npx tsx src/cli.ts -c 2 --seed 7 --strip-pii --validate -o "${outPath}" -f json`,
@@ -201,5 +200,20 @@ describe('--fields / --stats (v2.0.9)', () => {
     const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
     expect(content[0].phoneNumber).toBe('');
     expect(content[0].piiStripped).toBe(true);
+  });
+
+  it('CLI --eval scores a generated file', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const dataPath = path.join(outputDir, 'evalme.jsonl');
+    execSync(
+      `npx tsx src/cli.ts -c 60 --seed 5 -o "${dataPath}" -f jsonl`,
+      { stdio: 'pipe' }
+    );
+    const out = execSync(`npx tsx src/cli.ts --eval "${dataPath}"`, {
+      stdio: 'pipe', encoding: 'utf-8',
+    });
+    const report = JSON.parse(out);
+    expect(report.sampleSize).toBe(60);
+    expect(report.qualityScore).toBeGreaterThanOrEqual(70);
   });
 });

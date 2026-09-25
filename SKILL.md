@@ -273,6 +273,11 @@ v2.1.0 grounded QA: `buildQAPairs(profile)` (Python:
 `build_qa_pairs(profile)`) returns question/answer pairs with `citations`,
 the exact profile field paths each answer was built from. Pure, no RNG.
 
+v2.1.0 eval harness: `evaluateDataset(profiles)` (Python:
+`evaluate_dataset(profiles)`) returns one quality score plus drift,
+validity and consistency breakdowns; `checkConsistency(profile)` reuses
+the per-profile checks; `--eval file.jsonl` scores a file from the CLI.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 

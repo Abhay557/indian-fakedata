@@ -51,6 +51,9 @@ within one version; across versions it is not.
   profile into question/answer pairs for retrieval and comprehension
   evaluation. Every answer is templated from profile fields and carries
   `citations`, the exact field paths it was built from.
+- **Eval harness.** `evaluateDataset()` / `evaluate_dataset()` score any
+  batch with one quality number built from census drift, schema validity
+  and internal consistency, plus a `--eval` command in both CLIs.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude drawn around the state capital, tighter for urban
   profiles, clamped inside a generous state bounding box. District-level

@@ -12,6 +12,7 @@ from datetime import datetime
 
 from indian_fakedata.utils.generator import generate_stream, generate_enriched_stream
 from indian_fakedata.utils.exporter import _flatten_enriched, _escape_csv_value, _flatten_object
+from indian_fakedata.utils.eval import evaluate_dataset
 
 C = {
     "reset": "\033[0m",
@@ -55,6 +56,8 @@ def print_help():
     --validate             Validate every full profile with validate_profile;
                            first invalid record prints errors to stderr and
                            exits 1. Runs before --strip-pii/--fields shaping
+    --eval <path>          Score a .json/.jsonl file with the eval harness
+                           (quality score, drift, validity); generates nothing
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -99,6 +102,27 @@ def print_help():
     """
     print(help_text)
 
+def run_eval(eval_path):
+    """Eval mode: read profiles from a .json/.jsonl file and print the report."""
+    import os
+    if not os.path.exists(eval_path):
+        print(f"Error: file not found: {eval_path}", file=sys.stderr)
+        sys.exit(1)
+    with open(eval_path, encoding="utf-8") as f:
+        raw = f.read().strip()
+    try:
+        if eval_path.endswith(".jsonl"):
+            records = [json.loads(line) for line in raw.split("\n") if line.strip()] if raw else []
+        else:
+            parsed = json.loads(raw)
+            records = parsed if isinstance(parsed, list) else [parsed]
+    except (json.JSONDecodeError, ValueError):
+        print(f"Error: could not parse {eval_path} as JSON/JSONL.", file=sys.stderr)
+        sys.exit(1)
+    profiles = [r.get("profile", r) for r in records]
+    print(json.dumps(evaluate_dataset(profiles), indent=2, ensure_ascii=False))
+
+
 def main():
     if len(sys.argv) < 2:
         print_help()
@@ -139,6 +163,7 @@ def main():
     parser.add_argument("--strip-pii", action="store_true")
     parser.add_argument("--mask-names", action="store_true")
     parser.add_argument("--validate", action="store_true")
+    parser.add_argument("--eval", type=str, default=None)
 
     # Parse only known args
     args, unknown = parser.parse_known_args()
@@ -207,6 +232,11 @@ def main():
             for e in result["errors"]:
                 print(f"  - {e}", file=sys.stderr)
             sys.exit(1)
+
+    # Eval mode: score an existing file, generate nothing
+    if args.eval:
+        run_eval(args.eval)
+        return
 
     # Enrichment options
     include_outcomes = args.outcomes or args.enrich

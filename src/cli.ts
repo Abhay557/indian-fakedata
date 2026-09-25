@@ -16,6 +16,7 @@ import { generateStream, generateEnrichedStream } from './utils/generator.js';
 import { generateFamily } from './utils/relations.js';
 import { stripPII } from './utils/privacy.js';
 import { validateProfile } from './utils/schema.js';
+import { evaluateDataset } from './utils/eval.js';
 import {
   flattenObject,
   escapeCSVValue,
@@ -83,6 +84,8 @@ function printHelp() {
     --validate             Validate every full profile with validateProfile;
                            first invalid record prints errors to stderr and
                            exits 1. Runs before --strip-pii/--fields shaping
+    --eval <path>          Score a .json/.jsonl file with the eval harness
+                           (quality score, drift, validity); generates nothing
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -159,6 +162,32 @@ function getArgValue(i: number): string {
 // ── Output helpers ────────────────────────────────────────────────
 
 /**
+ * Eval mode: read profiles from a .json/.jsonl file and print the
+ * evaluation report (quality score, drift, validity, consistency).
+ */
+function runEval(evalPath: string): void {
+  if (!fs.existsSync(evalPath)) {
+    console.error(`${C.red}Error:${C.reset} File not found: ${evalPath}`);
+    process.exit(1);
+  }
+  const raw = fs.readFileSync(evalPath, 'utf8').trim();
+  let records: any[];
+  try {
+    if (evalPath.endsWith('.jsonl')) {
+      records = raw.length > 0 ? raw.split('\n').map(line => JSON.parse(line)) : [];
+    } else {
+      const parsed = JSON.parse(raw);
+      records = Array.isArray(parsed) ? parsed : [parsed];
+    }
+  } catch {
+    console.error(`${C.red}Error:${C.reset} Could not parse ${evalPath} as JSON/JSONL.`);
+    process.exit(1);
+  }
+  const profiles = records.map(r => r.profile ?? r);
+  console.log(JSON.stringify(evaluateDataset(profiles), null, 2));
+}
+
+/**
  * Flatten an EnrichedProfile for CSV output.
  * Puts profile fields first, then outcome fields, then persona identity line.
  * Narrative content is excluded from CSV (too large for tabular format).
@@ -228,6 +257,7 @@ async function main() {
   let stripPIIFlag = false;
   let maskNames = false;
   let validateFlag = false;
+  let evalPath: string | null = null;
 
 
   if (process.argv.length < 3) {
@@ -384,6 +414,10 @@ async function main() {
     } else if (arg === '--validate') {
       validateFlag = true;
 
+    } else if (arg === '--eval') {
+      evalPath = getArgValue(i);
+      i++;
+
     } else {
       console.error(`${C.red}Error:${C.reset} Unknown option '${arg}'. Use -h or --help for usage.`);
       process.exit(1);
@@ -393,6 +427,12 @@ async function main() {
   // Resolve ageRange
   if (minAge !== undefined || maxAge !== undefined) {
     constraints.ageRange = { min: minAge ?? 0, max: maxAge ?? 100 };
+  }
+
+  // ── Eval mode: score an existing file, generate nothing ──
+  if (evalPath) {
+    runEval(evalPath);
+    return;
   }
 
   // Determine enrichment mode
