@@ -269,6 +269,10 @@ instruction/response pairs (5 persona pairs plus one per narrative),
 `{ instruction, input, output, source }`; `sftPairsToJsonl()` (Python:
 `sft_pairs_to_jsonl()`) serializes to JSONL. Pure functions, no RNG.
 
+v2.1.0 grounded QA: `buildQAPairs(profile)` (Python:
+`build_qa_pairs(profile)`) returns question/answer pairs with `citations`,
+the exact profile field paths each answer was built from. Pure, no RNG.
+
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
 

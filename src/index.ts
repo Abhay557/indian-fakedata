@@ -110,6 +110,8 @@ export { generateFestivals } from './utils/festivals.js';
 export type { FestivalOptions } from './utils/festivals.js';
 export { buildSFTPairs, sftPairsToJsonl } from './utils/sft.js';
 export type { SFTPair } from './utils/sft.js';
+export { buildQAPairs } from './utils/qa.js';
+export type { QAPair } from './utils/qa.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

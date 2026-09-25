@@ -47,6 +47,7 @@ from indian_fakedata.utils.life_events import generate_life_events
 from indian_fakedata.utils.economy import generate_household_economy, emi_for
 from indian_fakedata.utils.festivals import generate_festivals
 from indian_fakedata.utils.sft import build_sft_pairs, sft_pairs_to_jsonl
+from indian_fakedata.utils.qa import build_qa_pairs
 from indian_fakedata.utils.schema import get_profile_schema, validate_profile
 from indian_fakedata.utils.privacy import strip_pii, PII_FIELDS
 
@@ -93,6 +94,7 @@ __all__ = [
     "generate_festivals",
     "build_sft_pairs",
     "sft_pairs_to_jsonl",
+    "build_qa_pairs",
     "get_profile_schema",
     "validate_profile",
     "strip_pii",

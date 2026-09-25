@@ -346,6 +346,11 @@ import { buildSFTPairs, sftPairsToJsonl } from '@abhay557/indian-fakedata';
 
 const pairs = buildSFTPairs(user);
 console.log(sftPairsToJsonl(pairs));
+
+// v2.1.0 item 8: grounded QA with field citations
+import { buildQAPairs } from '@abhay557/indian-fakedata';
+
+console.log(buildQAPairs(user)[0]);
 ```
 
 ###  Python
@@ -371,4 +376,9 @@ from indian_fakedata import build_sft_pairs, sft_pairs_to_jsonl
 
 pairs = build_sft_pairs(user)
 print(sft_pairs_to_jsonl(pairs))
+
+# v2.1.0 item 8: grounded QA with field citations
+from indian_fakedata import build_qa_pairs
+
+print(build_qa_pairs(user)[0])
 ```

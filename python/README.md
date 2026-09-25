@@ -738,6 +738,10 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
 - **SFT pair builder.** `build_sft_pairs()` turns a profile (plus optional
   narratives) into grounded instruction/response pairs, exported as JSONL
   with `sft_pairs_to_jsonl()`.
+- **Grounded QA pairs.** `build_qa_pairs()` turns a profile into
+  question/answer pairs for retrieval and comprehension evaluation. Every
+  answer is templated from profile fields and carries `citations`, the
+  exact field paths it was built from.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude around the state capital, tighter for urban profiles
   and clamped inside the state bounding box. District-approximate, not
