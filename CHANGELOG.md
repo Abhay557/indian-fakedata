@@ -24,6 +24,10 @@ within one version; across versions it is not.
   draws, so seeded output is untouched. `transliterate()` /
   `transliterate()` and `scriptForLanguage()` / `script_for_language()`
   are exported for prompts and free text.
+- **Life events timeline.** Every profile carries `lifeEvents` with dated
+  birth, marriage, children, migration, job-switch and retirement events,
+  cross-checked against age, marital status, child count, migration flag
+  and both existing timelines.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude drawn around the state capital, tighter for urban
   profiles, clamped inside a generous state bounding box. District-level

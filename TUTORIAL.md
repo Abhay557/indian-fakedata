@@ -330,6 +330,8 @@ const script = scriptForLanguage(user.motherTongue); // 'Devanagari', 'Tamil', .
 console.log(transliterate('Pushpa Sharma', script));
 
 console.log(user.geo); // v2.1.0 item 2: { latitude, longitude }, state-clamped
+
+console.log(user.lifeEvents); // v2.1.0 item 3: dated, cross-checked life events
 ```
 
 ###  Python
@@ -343,4 +345,6 @@ script = script_for_language(user["motherTongue"])
 print(transliterate("Pushpa Sharma", script))
 
 print(user["geo"])  # v2.1.0 item 2: {"latitude": ..., "longitude": ...}
+
+print(user["lifeEvents"])  # v2.1.0 item 3: dated, cross-checked life events
 ```

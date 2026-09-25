@@ -63,7 +63,8 @@ export type {
   CulturalProfile,
   Appearance,
   NativeScript,
-  GeoPoint,  EmploymentStage,
+  GeoPoint,
+  LifeEvent,  EmploymentStage,
   LanguageLevel,
   LanguageSkill,
   SkillsProfile,
@@ -99,6 +100,8 @@ export type { SkillsOptions } from './utils/skills.js';
 export { transliterate, scriptForLanguage, containsIndic } from './utils/transliterate.js';
 export type { ScriptName } from './utils/transliterate.js';
 export { generateGeo, stateGeoBounds, stateGeoAnchor } from './utils/geo.js';
+export { generateLifeEvents } from './utils/lifeEvents.js';
+export type { LifeEventsOptions } from './utils/lifeEvents.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

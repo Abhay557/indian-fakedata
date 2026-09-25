@@ -58,6 +58,7 @@ from indian_fakedata.utils.employment import generate_employment_timeline
 from indian_fakedata.utils.skills import generate_skills
 from indian_fakedata.utils.transliterate import transliterate, script_for_language
 from indian_fakedata.utils.geo import generate_geo
+from indian_fakedata.utils.life_events import generate_life_events
 
 
 def _generate_uuid(rng):
@@ -362,6 +363,19 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         socio["age"], socio["education"], socio["occupation"],
         employment_sector, mother_tongue, second_language,
         path["areaType"], skills_rng,
+    )
+
+    # Post-assembly v2.1.0 addition (item 3) — life events timeline on its
+    # own isolated stream. Reads the finished profile (age, marriage,
+    # children, migration, job history) and emits dated, cross-checked
+    # events at the end of the profile.
+    life_rng = create_rng("v210:life:" + profile["id"])
+    profile["lifeEvents"] = generate_life_events(
+        socio["age"], date_of_birth, socio["maritalStatus"],
+        number_of_children, spouse_name, migration["isMigrant"],
+        migration.get("migrationOriginState"),
+        path.get("stateName", path["stateId"]), district,
+        employment_sector, profile.get("employmentTimeline") or [], life_rng,
     )
 
     return profile

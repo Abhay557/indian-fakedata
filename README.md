@@ -334,7 +334,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.1,
     "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-09-25T12:57:47.811753",
+  "generatedAt": "2026-09-25T13:15:01.795493",
   "seed": 7,
   "skills": {
     "technical": [
@@ -365,7 +365,44 @@ Unlike traditional mock generators that produce impossible demographic combinati
         "writing": "intermediate"
       }
     ]
-  }
+  },
+  "lifeEvents": [
+    {
+      "year": 1986,
+      "event": "born",
+      "detail": "Born in Guntur."
+    },
+    {
+      "year": 2004,
+      "event": "migrated",
+      "detail": "Migrated from Karnataka to Andhra Pradesh."
+    },
+    {
+      "year": 2007,
+      "event": "job_started",
+      "detail": "Started working as Receptionist."
+    },
+    {
+      "year": 2009,
+      "event": "job_changed",
+      "detail": "Changed job to Sales Executive."
+    },
+    {
+      "year": 2009,
+      "event": "married",
+      "detail": "Married Kishan Das."
+    },
+    {
+      "year": 2010,
+      "event": "child_born",
+      "detail": "Birth of child 1."
+    },
+    {
+      "year": 2022,
+      "event": "job_changed",
+      "detail": "Changed job to IT Support Executive."
+    }
+  ]
 }
 ```
 ---
@@ -654,6 +691,10 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
   (Devanagari, Bengali, Gujarati, Gurmukhi, Kannada, Malayalam, Tamil,
   Telugu, Odia; Latin passthrough otherwise). `transliterate()` and
   `scriptForLanguage()` are exported for prompts and free text.
+- **Life events timeline.** Every profile carries `lifeEvents` with dated
+  birth, marriage, children, migration, job-switch and retirement events,
+  cross-checked against age, marital status, child count, migration flag
+  and both existing timelines.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude around the state capital, tighter for urban profiles
   and clamped inside the state bounding box. District-approximate, not

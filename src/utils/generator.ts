@@ -56,6 +56,7 @@ import { generateEmploymentTimeline } from './employment.js';
 import { generateSkills } from './skills.js';
 import { transliterate, scriptForLanguage } from './transliterate.js';
 import { generateGeo } from './geo.js';
+import { generateLifeEvents } from './lifeEvents.js';
 import {
   generateDiet,
   generateDisability,
@@ -494,6 +495,28 @@ function generateSingleProfile(
       areaType: path.areaType,
     },
     skillsRng
+  );
+
+  // ── Post-assembly v2.1.0 addition (item 3) ─────────────
+  // Life events timeline on its own isolated stream. Reads the finished
+  // profile (age, marriage, children, migration, job history) and emits
+  // dated, cross-checked events at the end of the profile.
+  const lifeRng = createRNG(`v210:life:${profile.id}`);
+  profile.lifeEvents = generateLifeEvents(
+    {
+      age: socio.age,
+      dateOfBirth,
+      maritalStatus: socio.maritalStatus,
+      numberOfChildren,
+      spouseName,
+      isMigrant,
+      migrationOriginState,
+      state: path.stateName,
+      district,
+      employmentSector,
+      employmentTimeline: profile.employmentTimeline ?? [],
+    },
+    lifeRng
   );
 
   return profile;

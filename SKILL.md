@@ -134,7 +134,9 @@ psychology (Big Five, cognitive profile, political leaning), work history
 wages), skills (`skills`: technical/soft lists, certifications, per-language
 speaking/reading/writing levels), native script (`nativeScript`: names,
 district, address transliterated into the mother-tongue script),
-location point (`geo`: approximate latitude/longitude, state-clamped).
+location point (`geo`: approximate latitude/longitude, state-clamped),
+life events (`lifeEvents`: dated birth/marriage/children/migration/job/
+retirement events, cross-checked with the profile).
 `probabilityMetrics`
 shows the chain of probabilities for each draw.
 

@@ -202,6 +202,19 @@ export interface GeoPoint {
 }
 
 /**
+ * A dated life event (v2.1.0, item 3): birth, marriage, children,
+ * migration, job switches, retirement. Years always lie between the
+ * birth year and the generation year.
+ */
+export interface LifeEvent {
+  /** Calendar year of the event */
+  year: number;
+  event: 'born' | 'job_started' | 'job_changed' | 'married' | 'child_born' | 'migrated' | 'retired' | 'widowed' | 'divorced';
+  /** One-line human description */
+  detail: string;
+}
+
+/**
  * Names and address transliterated into the mother-tongue script (v2.1.0).
  * Pure string mapping — no RNG — so it never disturbs seeded output.
  * Mother tongues without a supported script keep Roman values (Latin).
@@ -538,6 +551,8 @@ export interface DemographicProfile {
   employmentTimeline?: EmploymentStage[];
   /** Skills, certifications and language proficiency (v2.0.9) */
   skills?: SkillsProfile;
+  /** Dated life events timeline (v2.1.0, item 3) */
+  lifeEvents?: LifeEvent[];
   /** Descriptive personality traits derived from Big Five scores */
   personalityTraits: PersonalityTraits;
   /** Movie/anime viewing preferences */
