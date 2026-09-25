@@ -32,37 +32,103 @@ TITLES = {
     "government": [
         "Primary School Teacher", "Clerk (LDC)", "Police Constable", "Postman",
         "Railway Ticket Collector", "Anganwadi Worker", "Staff Nurse (GNM)",
-        "Junior Engineer", "Patwari", "Bus Conductor",
+        "Junior Engineer", "Patwari", "Bus Conductor", "Gram Panchayat Secretary",
+        "Forest Guard", "Health Visitor (ANM)", "Data Entry Operator (Govt)",
+        "Lineman (Electricity Board)", "Sanitary Inspector",
     ],
     "public_sector": [
         "Bank Clerk", "LIC Agent", "Railway Guard", "BSNL Technician",
         "Post Office Assistant", "Bank Peon", "Insurance Assistant",
+        "Railway Booking Clerk", "Bank Cashier", "Postman (GDS)",
+        "Customer Service Associate (Bank)", "Recovery Agent",
     ],
     "private": [
         "Sales Executive", "Software Engineer", "Accountant",
         "Customer Support Associate", "Delivery Partner", "Security Guard",
         "Data Entry Operator", "Marketing Executive", "Electrician",
-        "Receptionist",
+        "Receptionist", "HR Executive", "Quality Analyst",
+        "Telecaller", "Warehouse Supervisor", "Pharmacy Assistant",
+        "Logistics Coordinator",
     ],
     "self_employed": [
         "Kirana Shop Owner", "Tailor", "Tea Stall Owner", "Auto Rickshaw Driver",
         "Barber", "Carpenter", "Mason", "Vegetable Vendor",
-        "Mobile Repair Shop Owner", "Dairy Farmer",
+        "Mobile Repair Shop Owner", "Dairy Farmer", "Dhaba Owner",
+        "Photocopy/Printing Shop Owner", "Tour Guide", "Poultry Farmer",
+        "Beauty Parlour Owner", "Cycle Repair Mechanic",
     ],
     "informal": [
         "Daily Wage Labourer", "Construction Worker", "Domestic Help",
         "Farm Labourer", "Street Vendor", "Loader/Unloader", "Painter",
-        "Plumber Helper",
+        "Plumber Helper", "Brick Kiln Worker", "Rag Picker",
+        "Rickshaw Puller", "Hotel Waiter (Dhaba)", "Gardener (Mali)",
+        "Watchman",
     ],
     "household_industry": [
         "Handloom Weaver", "Potter", "Bidi Roller", "Papad Maker",
-        "Embroidery Worker", "Basket Weaver",
+        "Embroidery Worker", "Basket Weaver", "Carpet Weaver",
+        "Jewellery Polisher", "Incense Stick Maker", "Pickle Maker",
     ],
     "cultivator": [
         "Paddy Farmer", "Wheat Farmer", "Sugarcane Farmer", "Vegetable Grower",
-        "Tenant Farmer", "Orchard Keeper",
+        "Tenant Farmer", "Orchard Keeper", "Cotton Farmer", "Mustard Farmer",
+        "Fish Farmer", "Sugarcane Cutter",
     ],
 }
+
+# Job titles per field of study (matches educationDetails.fieldOfStudy).
+# The most recent spell draws from here so the education timeline and the
+# employment timeline agree with each other.
+FIELD_TITLES = {
+    "Engineering/Technology": [
+        "Junior Engineer", "Site Engineer", "Maintenance Technician",
+        "Draughtsman", "Quality Engineer", "Workshop Supervisor",
+        "Diploma Trainee", "Service Engineer",
+    ],
+    "Computer Science/IT": [
+        "Software Engineer", "Computer Operator", "IT Support Executive",
+        "Data Entry Operator", "Web Designer", "System Administrator",
+        "QA Tester", "Technical Support Associate",
+    ],
+    "Medicine/Health": [
+        "Staff Nurse (GNM)", "Lab Technician", "Pharmacist",
+        "Health Worker (ASHA)", "Ward Assistant", "Physiotherapy Assistant",
+        "ANM Nurse", "Blood Bank Technician",
+    ],
+    "Education/B.Ed": [
+        "Primary School Teacher", "Secondary School Teacher", "Private Tutor",
+        "Anganwadi Worker", "Coaching Institute Teacher", "Librarian",
+    ],
+    "Commerce/Business": [
+        "Accountant", "Tally Operator", "Bank Clerk", "Sales Executive",
+        "Cashier", "Billing Assistant", "Purchase Assistant",
+    ],
+    "Management/MBA": [
+        "Marketing Executive", "HR Executive", "Branch Manager",
+        "Business Development Executive", "Operations Supervisor",
+        "Customer Relationship Manager",
+    ],
+    "Law": [
+        "Junior Advocate", "Legal Assistant", "Court Clerk",
+        "Documentation Assistant", "Notary Assistant",
+    ],
+    "Agriculture": [
+        "Agricultural Extension Worker", "Soil Testing Assistant",
+        "Seed Production Assistant", "Dairy Supervisor", "Paddy Farmer",
+        "Nursery Worker",
+    ],
+    "Science": [
+        "Lab Assistant", "Research Assistant", "Science Teacher",
+        "Quality Control Assistant", "Survey Assistant",
+    ],
+    "Arts/Humanities": [
+        "Clerk (LDC)", "Content Writer (Hindi)", "Social Worker",
+        "Library Assistant", "Data Entry Operator", "Receptionist",
+    ],
+}
+
+# Doctor-grade titles need a professional degree, not just any graduate
+DOCTOR_TITLES = ["Doctor (MBBS)", "Medical Officer (PHC)"]
 
 EMPLOYER_TYPE = {
     "government": "government",
@@ -88,7 +154,7 @@ def _occupation_for_sampled_sector(sector):
 
 def generate_employment_timeline(age, education, occupation, employment_sector,
                                  annual_income_inr, district, area_type, gender,
-                                 rng, current_year=None):
+                                 rng, current_year=None, field_of_study=None):
     """
     Generate a chronological employment history (list of dicts).
 
@@ -144,6 +210,21 @@ def generate_employment_timeline(age, education, occupation, employment_sector,
         titles = TITLES.get(sector, TITLES["private"])
         stage_occupation = _occupation_for_sampled_sector(sector)
 
+    # Field-of-study match (v2.1.0): when the profile studied a known field
+    # and works as other_worker (or has a sampled non-worker history), the
+    # most recent spell draws from that field's titles — so a BTech graduate
+    # works as an engineer, not a medical teacher. Farm/craft occupations
+    # keep their own pools (occupation beats field there). Doctor-grade
+    # titles additionally need a professional degree.
+    # Same draw count either way (one uniform pick per spell), so existing
+    # stream positions never shift.
+    field_titles = None
+    if (field_of_study and field_of_study in FIELD_TITLES
+            and occupation in ("other_worker", "non_worker")):
+        field_titles = list(FIELD_TITLES[field_of_study])
+        if field_of_study == "Medicine/Health" and education == "professional_degree":
+            field_titles += DOCTOR_TITLES
+
     # number of job spells grows with tenure: mostly 1-2, up to 4
     spells = 1
     if tenure >= 5:
@@ -177,7 +258,7 @@ def generate_employment_timeline(age, education, occupation, employment_sector,
         done = last and not retired
 
         stage = {
-            "jobTitle": uniform_sample(titles, rng),
+            "jobTitle": uniform_sample(field_titles if (last and field_titles) else titles, rng),
             "sector": sector,
             "occupation": stage_occupation,
             "employerType": EMPLOYER_TYPE.get(sector, "private"),

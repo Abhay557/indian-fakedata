@@ -2,7 +2,9 @@
 
 from indian_fakedata import generate
 from indian_fakedata.core.sampler import create_rng
-from indian_fakedata.utils.employment import generate_employment_timeline
+from indian_fakedata.utils.employment import (
+    generate_employment_timeline, FIELD_TITLES, DOCTOR_TITLES,
+)
 
 
 def test_every_profile_has_employment_timeline():
@@ -72,7 +74,7 @@ def test_cultivators_get_farm_titles():
     import re
     rows = generate(count=40, seed=9, constraints={"occupation": "cultivator",
                                                   "ageRange": {"min": 25, "max": 50}})
-    pat = re.compile(r"Farmer|Grower|Keeper")
+    pat = re.compile(r"Farm|Grow|Keeper|Cutter")
     stages = 0
     for r in rows:
         for s in r.get("employmentTimeline") or []:
@@ -100,3 +102,47 @@ def test_timeline_sits_below_occupation_not_at_end():
     keys = list(p.keys())
     assert keys.index("employmentTimeline") == keys.index("occupation") + 1
     assert keys.index("employmentTimeline") < keys.index("seed")
+
+
+def test_current_job_matches_field_of_study():
+    import re
+    base = dict(age=30, education="graduate", occupation="other_worker",
+                employment_sector="private", annual_income_inr=360000,
+                district="Lucknow", area_type="urban", gender="male")
+    # BTech-style graduate works as an engineer, never a teacher/nurse
+    eng = generate_employment_timeline(field_of_study="Engineering/Technology",
+                                       rng=create_rng(21), **base)
+    assert len(eng) > 0
+    assert re.search(r"Engineer|Technician|Draughtsman|Supervisor|Trainee",
+                     eng[-1]["jobTitle"])
+    # medicine without a professional degree: no doctor titles
+    med = generate_employment_timeline(field_of_study="Medicine/Health",
+                                       rng=create_rng(22), **base)
+    assert not re.search(r"Doctor|Medical Officer", med[-1]["jobTitle"])
+    # B.Ed graduate teaches
+    bed = generate_employment_timeline(field_of_study="Education/B.Ed",
+                                       rng=create_rng(23), **base)
+    assert re.search(r"Teacher|Tutor|Anganwadi|Librarian", bed[-1]["jobTitle"])
+    # professional degree unlocks the doctor pool
+    doc = generate_employment_timeline(field_of_study="Medicine/Health",
+                                       rng=create_rng(24),
+                                       **{**base, "education": "professional_degree"})
+    assert doc[-1]["jobTitle"] in FIELD_TITLES["Medicine/Health"] + DOCTOR_TITLES
+
+
+def test_current_job_from_field_pool_in_the_wild():
+    rows = generate(count=500, seed=21)
+    checked = 0
+    for r in rows:
+        field = r["educationDetails"].get("fieldOfStudy")
+        tl = r.get("employmentTimeline") or []
+        if not field or field not in FIELD_TITLES or not tl:
+            continue
+        if r["occupation"] not in ("other_worker", "non_worker"):
+            continue
+        pool = list(FIELD_TITLES[field])
+        if field == "Medicine/Health" and r["education"] == "professional_degree":
+            pool += DOCTOR_TITLES
+        assert tl[-1]["jobTitle"] in pool
+        checked += 1
+    assert checked > 0

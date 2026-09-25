@@ -345,6 +345,7 @@ function generateSingleProfile(
       district,
       areaType: path.areaType,
       gender: path.gender,
+      fieldOfStudy: educationDetails.fieldOfStudy,
     },
     featRng
   );

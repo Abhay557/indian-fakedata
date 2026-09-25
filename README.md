@@ -82,7 +82,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "occupation": "other_worker",
   "employmentTimeline": [
     {
-      "jobTitle": "Data Entry Operator",
+      "jobTitle": "Receptionist",
       "sector": "private",
       "occupation": "other_worker",
       "employerType": "private",
@@ -104,7 +104,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
       "endYear": 2022
     },
     {
-      "jobTitle": "Customer Support Associate",
+      "jobTitle": "IT Support Executive",
       "sector": "private",
       "occupation": "other_worker",
       "employerType": "private",
@@ -633,6 +633,10 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
   still mirrors `employmentSector`, so the two always agree. The
   `employmentTimeline` key now sits right below `occupation` instead of at
   the end of the profile.
+- **Jobs match the degree.** The current job title now follows the profile's
+  field of study (a BTech graduate works as an engineer, a B.Ed graduate
+  teaches; doctor titles need a professional degree), and every sector pool
+  grew with more titles. Education and employment timelines finally agree.
 
 ---
 

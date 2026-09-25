@@ -239,7 +239,10 @@ v2.1.0 fixes the employment timeline: stages follow the profile's own
 `occupation` for titles and labels (a cultivator gets farm titles, never
 shop titles); only `non_worker` histories use a sampled past sector.
 `sector` still mirrors `employmentSector`. The key sits right below
-`occupation` in the profile, not at the end.
+`occupation` in the profile, not at the end. Since the same fix, the
+current job title follows `educationDetails.fieldOfStudy` (engineering
+graduates get engineer titles, B.Ed graduates teach, doctor titles need a
+professional degree), and all sector title pools are bigger.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.

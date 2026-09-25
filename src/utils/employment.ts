@@ -29,6 +29,8 @@ export interface EmploymentTimelineOptions {
   district: string;
   areaType: 'urban' | 'rural';
   gender: Gender;
+  /** Field of study (higher education) — drives the current job title */
+  fieldOfStudy?: string;
   /** Defaults to the current calendar year */
   currentYear?: number;
 }
@@ -48,41 +50,109 @@ const WORK_START_AGE: Record<EducationLevel, number> = {
 };
 
 /** Plausible job titles per sector (gender-neutral wording) */
-const TITLES: Record<string, string[]> = {
+export const TITLES: Record<string, string[]> = {
   government: [
     'Primary School Teacher', 'Clerk (LDC)', 'Police Constable', 'Postman',
     'Railway Ticket Collector', 'Anganwadi Worker', 'Staff Nurse (GNM)',
-    'Junior Engineer', 'Patwari', 'Bus Conductor',
+    'Junior Engineer', 'Patwari', 'Bus Conductor', 'Gram Panchayat Secretary',
+    'Forest Guard', 'Health Visitor (ANM)', 'Data Entry Operator (Govt)',
+    'Lineman (Electricity Board)', 'Sanitary Inspector',
   ],
   public_sector: [
     'Bank Clerk', 'LIC Agent', 'Railway Guard', 'BSNL Technician',
     'Post Office Assistant', 'Bank Peon', 'Insurance Assistant',
+    'Railway Booking Clerk', 'Bank Cashier', 'Postman (GDS)',
+    'Customer Service Associate (Bank)', 'Recovery Agent',
   ],
   private: [
     'Sales Executive', 'Software Engineer', 'Accountant',
     'Customer Support Associate', 'Delivery Partner', 'Security Guard',
     'Data Entry Operator', 'Marketing Executive', 'Electrician',
-    'Receptionist',
+    'Receptionist', 'HR Executive', 'Quality Analyst',
+    'Telecaller', 'Warehouse Supervisor', 'Pharmacy Assistant',
+    'Logistics Coordinator',
   ],
   self_employed: [
     'Kirana Shop Owner', 'Tailor', 'Tea Stall Owner', 'Auto Rickshaw Driver',
     'Barber', 'Carpenter', 'Mason', 'Vegetable Vendor',
-    'Mobile Repair Shop Owner', 'Dairy Farmer',
+    'Mobile Repair Shop Owner', 'Dairy Farmer', 'Dhaba Owner',
+    'Photocopy/Printing Shop Owner', 'Tour Guide', 'Poultry Farmer',
+    'Beauty Parlour Owner', 'Cycle Repair Mechanic',
   ],
   informal: [
     'Daily Wage Labourer', 'Construction Worker', 'Domestic Help',
     'Farm Labourer', 'Street Vendor', 'Loader/Unloader', 'Painter',
-    'Plumber Helper',
+    'Plumber Helper', 'Brick Kiln Worker', 'Rag Picker',
+    'Rickshaw Puller', 'Hotel Waiter (Dhaba)', 'Gardener (Mali)',
+    'Watchman',
   ],
   household_industry: [
     'Handloom Weaver', 'Potter', 'Bidi Roller', 'Papad Maker',
-    'Embroidery Worker', 'Basket Weaver',
+    'Embroidery Worker', 'Basket Weaver', 'Carpet Weaver',
+    'Jewellery Polisher', 'Incense Stick Maker', 'Pickle Maker',
   ],
   cultivator: [
     'Paddy Farmer', 'Wheat Farmer', 'Sugarcane Farmer', 'Vegetable Grower',
-    'Tenant Farmer', 'Orchard Keeper',
+    'Tenant Farmer', 'Orchard Keeper', 'Cotton Farmer', 'Mustard Farmer',
+    'Fish Farmer', 'Sugarcane Cutter',
   ],
 };
+
+/**
+ * Job titles per field of study (matches educationDetails.fieldOfStudy).
+ * The current (most recent) spell draws from here so the education
+ * timeline and the employment timeline agree with each other.
+ */
+export const FIELD_TITLES: Record<string, string[]> = {
+  'Engineering/Technology': [
+    'Junior Engineer', 'Site Engineer', 'Maintenance Technician',
+    'Draughtsman', 'Quality Engineer', 'Workshop Supervisor',
+    'Diploma Trainee', 'Service Engineer',
+  ],
+  'Computer Science/IT': [
+    'Software Engineer', 'Computer Operator', 'IT Support Executive',
+    'Data Entry Operator', 'Web Designer', 'System Administrator',
+    'QA Tester', 'Technical Support Associate',
+  ],
+  'Medicine/Health': [
+    'Staff Nurse (GNM)', 'Lab Technician', 'Pharmacist',
+    'Health Worker (ASHA)', 'Ward Assistant', 'Physiotherapy Assistant',
+    'ANM Nurse', 'Blood Bank Technician',
+  ],
+  'Education/B.Ed': [
+    'Primary School Teacher', 'Secondary School Teacher', 'Private Tutor',
+    'Anganwadi Worker', 'Coaching Institute Teacher', 'Librarian',
+  ],
+  'Commerce/Business': [
+    'Accountant', 'Tally Operator', 'Bank Clerk', 'Sales Executive',
+    'Cashier', 'Billing Assistant', 'Purchase Assistant',
+  ],
+  'Management/MBA': [
+    'Marketing Executive', 'HR Executive', 'Branch Manager',
+    'Business Development Executive', 'Operations Supervisor',
+    'Customer Relationship Manager',
+  ],
+  Law: [
+    'Junior Advocate', 'Legal Assistant', 'Court Clerk',
+    'Documentation Assistant', 'Notary Assistant',
+  ],
+  Agriculture: [
+    'Agricultural Extension Worker', 'Soil Testing Assistant',
+    'Seed Production Assistant', 'Dairy Supervisor', 'Paddy Farmer',
+    'Nursery Worker',
+  ],
+  Science: [
+    'Lab Assistant', 'Research Assistant', 'Science Teacher',
+    'Quality Control Assistant', 'Survey Assistant',
+  ],
+  'Arts/Humanities': [
+    'Clerk (LDC)', 'Content Writer (Hindi)', 'Social Worker',
+    'Library Assistant', 'Data Entry Operator', 'Receptionist',
+  ],
+};
+
+/** Doctor-grade titles need a professional degree, not just any graduate */
+export const DOCTOR_TITLES = ['Doctor (MBBS)', 'Medical Officer (PHC)'];
 
 const EMPLOYER_TYPE: Record<string, EmploymentStage['employerType']> = {
   government: 'government',
@@ -167,6 +237,26 @@ export function generateEmploymentTimeline(
     stageOccupation = occupationForSampledSector(sector);
   }
 
+  // Field-of-study match (v2.1.0): when the profile studied a known field
+  // and works as other_worker (or has a sampled non-worker history), the
+  // most recent spell draws from that field's titles — so a BTech graduate
+  // works as an engineer, not a medical teacher. Farm/craft occupations
+  // keep their own pools (occupation beats field there). Doctor-grade
+  // titles additionally need a professional degree.
+  // Same draw count either way (one uniform pick per spell), so existing
+  // stream positions never shift.
+  let fieldTitles: string[] | undefined;
+  if (
+    opts.fieldOfStudy &&
+    FIELD_TITLES[opts.fieldOfStudy] &&
+    (opts.occupation === 'other_worker' || opts.occupation === 'non_worker')
+  ) {
+    fieldTitles = [...FIELD_TITLES[opts.fieldOfStudy]];
+    if (opts.fieldOfStudy === 'Medicine/Health' && opts.education === 'professional_degree') {
+      fieldTitles.push(...DOCTOR_TITLES);
+    }
+  }
+
   // number of job spells grows with tenure: mostly 1-2, up to 4
   let spells = 1;
   if (tenure >= 5) {
@@ -202,7 +292,7 @@ export function generateEmploymentTimeline(
     const done = last && !retired;
 
     timeline.push({
-      jobTitle: uniformSample(titles, rng),
+      jobTitle: uniformSample(last && fieldTitles ? fieldTitles : titles, rng),
       sector: sector as EmploymentSector,
       occupation: stageOccupation,
       employerType: EMPLOYER_TYPE[sector] ?? 'private',

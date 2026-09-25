@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { generate } from '../src/index.js';
-import { generateEmploymentTimeline } from '../src/utils/employment.js';
+import { generateEmploymentTimeline, FIELD_TITLES, DOCTOR_TITLES } from '../src/utils/employment.js';
 import { createRNG } from '../src/core/sampler.js';
 
 describe('employment timeline (v2.0.9)', () => {
@@ -103,7 +103,7 @@ describe('employment timeline (v2.0.9)', () => {
       const tl = r.employmentTimeline ?? [];
       for (const s of tl) {
         expect(s.occupation).toBe('cultivator');
-        expect(s.jobTitle).toMatch(/Farmer|Grower|Keeper/);
+        expect(s.jobTitle).toMatch(/Farm|Grow|Keeper|Cutter/);
         stages++;
       }
     }
@@ -132,5 +132,55 @@ describe('employment timeline (v2.0.9)', () => {
     const keys = Object.keys(p);
     expect(keys.indexOf('employmentTimeline')).toBe(keys.indexOf('occupation') + 1);
     expect(keys.indexOf('employmentTimeline')).toBeLessThan(keys.indexOf('seed'));
+  });
+
+  it('current job matches the field of study (v2.1.0)', () => {
+    const base = {
+      age: 30,
+      education: 'graduate' as const,
+      occupation: 'other_worker' as const,
+      employmentSector: 'private' as const,
+      annualIncomeINR: 360000,
+      district: 'Lucknow',
+      areaType: 'urban' as const,
+      gender: 'male' as const,
+    };
+    // BTech-style graduate works as an engineer, never a teacher/nurse
+    const eng = generateEmploymentTimeline(
+      { ...base, fieldOfStudy: 'Engineering/Technology' }, createRNG(21));
+    expect(eng.length).toBeGreaterThan(0);
+    expect(eng[eng.length - 1].jobTitle).toMatch(/Engineer|Technician|Draughtsman|Supervisor|Trainee/);
+    // medicine without a professional degree: no doctor titles
+    const med = generateEmploymentTimeline(
+      { ...base, fieldOfStudy: 'Medicine/Health' }, createRNG(22));
+    expect(med[med.length - 1].jobTitle).not.toMatch(/Doctor|Medical Officer/);
+    // B.Ed graduate teaches
+    const bed = generateEmploymentTimeline(
+      { ...base, fieldOfStudy: 'Education/B.Ed' }, createRNG(23));
+    expect(bed[bed.length - 1].jobTitle).toMatch(/Teacher|Tutor|Anganwadi|Librarian/);
+    // professional degree unlocks the doctor pool
+    const doc = generateEmploymentTimeline(
+      { ...base, education: 'professional_degree' as const, fieldOfStudy: 'Medicine/Health' },
+      createRNG(24));
+    expect([...FIELD_TITLES['Medicine/Health'], ...DOCTOR_TITLES])
+      .toContain(doc[doc.length - 1].jobTitle);
+  });
+
+  it('current job always comes from the field pool in the wild (v2.1.0)', () => {
+    const rows = generate({ count: 500, seed: 21 });
+    let checked = 0;
+    for (const r of rows) {
+      const field = r.educationDetails.fieldOfStudy;
+      const tl = r.employmentTimeline ?? [];
+      if (!field || !FIELD_TITLES[field] || tl.length === 0) continue;
+      if (r.occupation !== 'other_worker' && r.occupation !== 'non_worker') continue;
+      const pool = [...FIELD_TITLES[field]];
+      if (field === 'Medicine/Health' && r.education === 'professional_degree') {
+        pool.push(...DOCTOR_TITLES);
+      }
+      expect(pool).toContain(tl[tl.length - 1].jobTitle);
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(0);
   });
 });

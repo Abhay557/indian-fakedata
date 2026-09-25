@@ -271,8 +271,9 @@ for enriched_profile in stream:
 
 > v2.1.0 note: timeline stages follow the profile's own `occupation` for
 > titles and labels (a cultivator gets farm titles like "Paddy Farmer",
-> never shop titles). The key sits right below `occupation` in the profile.
-> `sector` mirrors `employmentSector` as before.
+> never shop titles), and the current job follows the field of study, so
+> education and employment timelines agree. The key sits right below
+> `occupation` in the profile. `sector` mirrors `employmentSector` as before.
 
 ###  TypeScript
 ```typescript

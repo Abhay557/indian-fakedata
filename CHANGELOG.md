@@ -14,6 +14,9 @@ within one version; across versions it is not.
   `non_worker` histories sample a past sector. `sector` still mirrors
   `employmentSector`, so the two always agree. The key moved from the end
   of the profile to right below `occupation`; values are unchanged.
+- **Jobs match the degree.** The current timeline spell draws from the
+  profile's field of study, and every sector title pool grew. Doctor-grade
+  titles additionally require a professional degree.
 
 ## 2.0.9
 

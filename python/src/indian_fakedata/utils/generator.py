@@ -254,6 +254,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         socio["age"], socio["education"], socio["occupation"],
         employment_sector, socio["income"], district, path["areaType"],
         path["gender"], feat_rng,
+        field_of_study=edu_details.get("fieldOfStudy"),
     )
 
     # Assemble profile
