@@ -190,6 +190,18 @@ export interface Appearance {
 }
 
 /**
+ * Approximate map point for a profile (v2.1.0, item 2).
+ * District-approximate: near the state capital anchor, clamped inside the
+ * state bounding box. Not rooftop accuracy.
+ */
+export interface GeoPoint {
+  /** Decimal degrees latitude, 4dp */
+  latitude: number;
+  /** Decimal degrees longitude, 4dp */
+  longitude: number;
+}
+
+/**
  * Names and address transliterated into the mother-tongue script (v2.1.0).
  * Pure string mapping — no RNG — so it never disturbs seeded output.
  * Mother tongues without a supported script keep Roman values (Latin).
@@ -443,6 +455,8 @@ export interface DemographicProfile {
   locality: string;
   /** 6-digit PIN code (state-mapped) */
   pinCode: string;
+  /** Approximate map point (state-clamped, district-approximate) */
+  geo: GeoPoint;
 
   // ── Demographics ──────────────────────────────────────
   religion: string;

@@ -62,7 +62,8 @@ export type {
   MoviePreferences,
   CulturalProfile,
   Appearance,
-  NativeScript,  EmploymentStage,
+  NativeScript,
+  GeoPoint,  EmploymentStage,
   LanguageLevel,
   LanguageSkill,
   SkillsProfile,
@@ -97,6 +98,7 @@ export { generateSkills } from './utils/skills.js';
 export type { SkillsOptions } from './utils/skills.js';
 export { transliterate, scriptForLanguage, containsIndic } from './utils/transliterate.js';
 export type { ScriptName } from './utils/transliterate.js';
+export { generateGeo, stateGeoBounds, stateGeoAnchor } from './utils/geo.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
 export { stripPII, PII_FIELDS } from './utils/privacy.js';

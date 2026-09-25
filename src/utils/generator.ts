@@ -55,6 +55,7 @@ import { generateAppearance } from './appearance.js';
 import { generateEmploymentTimeline } from './employment.js';
 import { generateSkills } from './skills.js';
 import { transliterate, scriptForLanguage } from './transliterate.js';
+import { generateGeo } from './geo.js';
 import {
   generateDiet,
   generateDisability,
@@ -343,11 +344,13 @@ function generateSingleProfile(
 
   // ── Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0) ──
   // The id is drawn here — the same stream position as before, so every
-  // value stays identical. The timeline runs on an isolated stream derived
-  // from that id, which lets its key sit with the employment fields below
+  // value stays identical. Employment and geo run on isolated streams
+  // derived from that id, which lets their keys sit in place below
   // instead of at the end of the profile.
   const profileId = generateUUID(rng);
   const featRng = createRNG(`v209:${profileId}`);
+  const geoRng = createRNG(`v210:geo:${profileId}`);
+  const geo = generateGeo(path.stateId, path.areaType, geoRng);
   const employmentTimeline = generateEmploymentTimeline(
     {
       age: socio.age,
@@ -408,6 +411,7 @@ function generateSingleProfile(
     addressLine,
     locality,
     pinCode,
+    geo,
 
     // Demographics
     religion: path.religionLabel,

@@ -42,6 +42,7 @@ from indian_fakedata.utils.skills import generate_skills
 from indian_fakedata.utils.transliterate import (
     transliterate, script_for_language, contains_indic,
 )
+from indian_fakedata.utils.geo import generate_geo, state_geo_bounds, state_geo_anchor
 from indian_fakedata.utils.schema import get_profile_schema, validate_profile
 from indian_fakedata.utils.privacy import strip_pii, PII_FIELDS
 
@@ -79,6 +80,9 @@ __all__ = [
     "transliterate",
     "script_for_language",
     "contains_indic",
+    "generate_geo",
+    "state_geo_bounds",
+    "state_geo_anchor",
     "get_profile_schema",
     "validate_profile",
     "strip_pii",

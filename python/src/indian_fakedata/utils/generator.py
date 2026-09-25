@@ -57,6 +57,7 @@ from indian_fakedata.utils.appearance import generate_appearance
 from indian_fakedata.utils.employment import generate_employment_timeline
 from indian_fakedata.utils.skills import generate_skills
 from indian_fakedata.utils.transliterate import transliterate, script_for_language
+from indian_fakedata.utils.geo import generate_geo
 
 
 def _generate_uuid(rng):
@@ -258,11 +259,13 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
 
     # Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0).
     # The id is drawn here — the same stream position as before, so every
-    # value stays identical. The timeline runs on an isolated stream derived
-    # from that id, which lets its key sit with the employment fields below
+    # value stays identical. Employment and geo run on isolated streams
+    # derived from that id, which lets their keys sit in place below
     # instead of at the end of the profile.
     profile_id = _generate_uuid(rng)
     feat_rng = create_rng("v209:" + profile_id)
+    geo_rng = create_rng("v210:geo:" + profile_id)
+    geo = generate_geo(path["stateId"], path["areaType"], geo_rng)
     employment_timeline = generate_employment_timeline(
         socio["age"], socio["education"], socio["occupation"],
         employment_sector, socio["income"], district, path["areaType"],
@@ -303,6 +306,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "addressLine": addr["addressLine"],
         "locality": addr["locality"],
         "pinCode": pin_code,
+        "geo": geo,
         "religion": path.get("religionLabel", path["religionId"]),
         "caste": path.get("casteLabel", path["casteId"]),
         "socialCategory": path["socialCategory"],

@@ -133,7 +133,8 @@ psychology (Big Five, cognitive profile, political leaning), work history
 (`employmentTimeline`: chronological job spells with title, sector, tenure,
 wages), skills (`skills`: technical/soft lists, certifications, per-language
 speaking/reading/writing levels), native script (`nativeScript`: names,
-district, address transliterated into the mother-tongue script).
+district, address transliterated into the mother-tongue script),
+location point (`geo`: approximate latitude/longitude, state-clamped).
 `probabilityMetrics`
 shows the chain of probabilities for each draw.
 

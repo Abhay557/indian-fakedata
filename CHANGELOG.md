@@ -24,6 +24,11 @@ within one version; across versions it is not.
   draws, so seeded output is untouched. `transliterate()` /
   `transliterate()` and `scriptForLanguage()` / `script_for_language()`
   are exported for prompts and free text.
+- **Geospatial points.** Every profile carries `geo` with an approximate
+  latitude/longitude drawn around the state capital, tighter for urban
+  profiles, clamped inside a generous state bounding box. District-level
+  polygons are not bundled, so points are district-approximate, not
+  rooftop-accurate.
 
 ## 2.0.9
 

@@ -62,6 +62,10 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "addressLine": "492/G, Jayanagar, Guntur",
   "locality": "Jayanagar",
   "pinCode": "500766",
+  "geo": {
+    "latitude": 15.7495,
+    "longitude": 80.2038
+  },
   "religion": "Hindu",
   "caste": "Madiga",
   "socialCategory": "SC",
@@ -311,7 +315,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.1,
     "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-09-25T12:38:39.554556",
+  "generatedAt": "2026-09-25T12:57:47.811753",
   "seed": 7,
   "skills": {
     "technical": [
@@ -626,6 +630,10 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   (Devanagari, Bengali, Gujarati, Gurmukhi, Kannada, Malayalam, Tamil,
   Telugu, Odia; Latin passthrough otherwise). `transliterate()` and
   `script_for_language()` are exported for prompts and free text.
+- **Geospatial points.** Every profile carries `geo` with an approximate
+  latitude/longitude around the state capital, tighter for urban profiles
+  and clamped inside the state bounding box. District-approximate, not
+  rooftop-accurate.
 
 ---
 
