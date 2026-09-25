@@ -315,7 +315,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.1,
     "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-09-25T13:15:01.795493",
+  "generatedAt": "2026-09-25T14:15:00.677812",
   "seed": 7,
   "skills": {
     "technical": [
@@ -383,7 +383,24 @@ Unlike traditional mock generators that produce impossible demographic combinati
       "event": "job_changed",
       "detail": "Changed job to IT Support Executive."
     }
-  ]
+  ],
+  "householdEconomy": {
+    "monthlyBudget": {
+      "food": 46324,
+      "housing": 19007,
+      "transport": 8691,
+      "education": 6372,
+      "health": 8706,
+      "other": 0
+    },
+    "loans": [],
+    "creditHistory": {
+      "score": 782,
+      "activeLoans": 0,
+      "missedPayments12m": 0,
+      "oldestAccountYears": 0
+    }
+  }
 }
 ```
 ---
@@ -671,6 +688,10 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   birth, marriage, children, migration, job-switch and retirement events,
   cross-checked against age, marital status, child count, migration flag
   and both existing timelines.
+- **Household economy kit.** Every profile carries `householdEconomy` with
+  a monthly budget split summing exactly to expenditure, 0-2 affordable
+  loans with real EMI math (total EMI capped at 60% of income), and a
+  credit history whose score bands track missed payments.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude around the state capital, tighter for urban profiles
   and clamped inside the state bounding box. District-approximate, not

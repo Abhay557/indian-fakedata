@@ -59,6 +59,7 @@ from indian_fakedata.utils.skills import generate_skills
 from indian_fakedata.utils.transliterate import transliterate, script_for_language
 from indian_fakedata.utils.geo import generate_geo
 from indian_fakedata.utils.life_events import generate_life_events
+from indian_fakedata.utils.economy import generate_household_economy
 
 
 def _generate_uuid(rng):
@@ -376,6 +377,16 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         migration.get("migrationOriginState"),
         path.get("stateName", path["stateId"]), district,
         employment_sector, profile.get("employmentTimeline") or [], life_rng,
+    )
+
+    # Post-assembly v2.1.0 addition (item 4) — household economy kit on its
+    # own isolated stream. Reads finished income, spending, family and work
+    # fields; emits budget, loans and credit history at the end.
+    econ_rng = create_rng("v210:economy:" + profile["id"])
+    profile["householdEconomy"] = generate_household_economy(
+        socio["age"], socio["income"], monthly_exp, socio["householdSize"],
+        employment_sector, path["areaType"], socio["occupation"],
+        vehicle_type, number_of_children, econ_rng,
     )
 
     return profile

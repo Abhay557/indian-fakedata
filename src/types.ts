@@ -310,6 +310,48 @@ export interface SkillsProfile {
   languages: LanguageSkill[];
 }
 
+/** Loan kinds with Indian-market rates and tenures (v2.1.0, item 4) */
+export type LoanType = 'home' | 'vehicle' | 'personal' | 'agri' | 'gold' | 'business';
+
+export interface Loan {
+  /** Loan kind */
+  type: LoanType;
+  /** Sanctioned principal in INR */
+  principalINR: number;
+  /** Annual interest rate, percent */
+  annualRatePct: number;
+  /** Original tenure in months */
+  tenureMonths: number;
+  /** Equated monthly instalment in INR */
+  emiINR: number;
+  /** Instalments left to pay */
+  remainingMonths: number;
+}
+
+export interface MonthlyBudget {
+  food: number;
+  housing: number;
+  transport: number;
+  education: number;
+  health: number;
+  other: number;
+}
+
+export interface CreditHistory {
+  /** 300-900, banded to missed payments by construction */
+  score: number;
+  activeLoans: number;
+  missedPayments12m: number;
+  oldestAccountYears: number;
+}
+
+/** Household money: budget split, loans, credit history */
+export interface HouseholdEconomy {
+  monthlyBudget: MonthlyBudget;
+  loans: Loan[];
+  creditHistory: CreditHistory;
+}
+
 /** Descriptive personality traits derived from Big Five scores (AI-friendly) */
 export interface PersonalityTraits {
   /** One-sentence personality summary */
@@ -563,6 +605,8 @@ export interface DemographicProfile {
   // ── Household ─────────────────────────────────────────
   householdSize: number;
   householdAssets: HouseholdAssets;
+  /** Monthly budget split, loans and credit history (v2.1.0, item 4) */
+  householdEconomy?: HouseholdEconomy;
 
   // ── Probability Metrics ───────────────────────────────
   probabilityMetrics: ProbabilityMetrics;

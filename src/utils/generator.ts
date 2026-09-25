@@ -57,6 +57,7 @@ import { generateSkills } from './skills.js';
 import { transliterate, scriptForLanguage } from './transliterate.js';
 import { generateGeo } from './geo.js';
 import { generateLifeEvents } from './lifeEvents.js';
+import { generateHouseholdEconomy } from './economy.js';
 import {
   generateDiet,
   generateDisability,
@@ -517,6 +518,26 @@ function generateSingleProfile(
       employmentTimeline: profile.employmentTimeline ?? [],
     },
     lifeRng
+  );
+
+  // ── Post-assembly v2.1.0 addition (item 4) ─────────────
+  // Household economy kit on its own isolated stream. Reads finished
+  // income, spending, family and work fields; emits budget, loans and
+  // credit history at the end of the profile.
+  const econRng = createRNG(`v210:economy:${profile.id}`);
+  profile.householdEconomy = generateHouseholdEconomy(
+    {
+      age: socio.age,
+      annualIncomeINR: socio.income,
+      monthlyExpenditureINR,
+      householdSize: socio.householdSize,
+      employmentSector,
+      areaType: path.areaType,
+      occupation: socio.occupation,
+      vehicleType,
+      numberOfChildren,
+    },
+    econRng
   );
 
   return profile;

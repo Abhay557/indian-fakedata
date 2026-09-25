@@ -44,6 +44,7 @@ from indian_fakedata.utils.transliterate import (
 )
 from indian_fakedata.utils.geo import generate_geo, state_geo_bounds, state_geo_anchor
 from indian_fakedata.utils.life_events import generate_life_events
+from indian_fakedata.utils.economy import generate_household_economy, emi_for
 from indian_fakedata.utils.schema import get_profile_schema, validate_profile
 from indian_fakedata.utils.privacy import strip_pii, PII_FIELDS
 
@@ -85,6 +86,8 @@ __all__ = [
     "state_geo_bounds",
     "state_geo_anchor",
     "generate_life_events",
+    "generate_household_economy",
+    "emi_for",
     "get_profile_schema",
     "validate_profile",
     "strip_pii",

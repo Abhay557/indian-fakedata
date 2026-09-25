@@ -136,7 +136,9 @@ speaking/reading/writing levels), native script (`nativeScript`: names,
 district, address transliterated into the mother-tongue script),
 location point (`geo`: approximate latitude/longitude, state-clamped),
 life events (`lifeEvents`: dated birth/marriage/children/migration/job/
-retirement events, cross-checked with the profile).
+retirement events, cross-checked with the profile),
+household economy (`householdEconomy`: budget split, loans with EMI,
+banded credit history).
 `probabilityMetrics`
 shows the chain of probabilities for each draw.
 

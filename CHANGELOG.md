@@ -28,6 +28,10 @@ within one version; across versions it is not.
   birth, marriage, children, migration, job-switch and retirement events,
   cross-checked against age, marital status, child count, migration flag
   and both existing timelines.
+- **Household economy kit.** Every profile carries `householdEconomy` with
+  a monthly budget split summing exactly to expenditure, 0-2 affordable
+  loans with real EMI math (total EMI capped at 60% of income), and a
+  credit history whose score bands track missed payments.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude drawn around the state capital, tighter for urban
   profiles, clamped inside a generous state bounding box. District-level
