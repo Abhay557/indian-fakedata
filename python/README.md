@@ -315,7 +315,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.1,
     "jointProbability": 1.5631626581537963e-05
   },
-  "generatedAt": "2026-09-25T14:15:00.677812",
+  "generatedAt": "2026-09-25T14:28:00.921251",
   "seed": 7,
   "skills": {
     "technical": [
@@ -400,7 +400,39 @@ Unlike traditional mock generators that produce impossible demographic combinati
       "missedPayments12m": 0,
       "oldestAccountYears": 0
     }
-  }
+  },
+  "festivals": [
+    {
+      "name": "Maha Shivaratri",
+      "date": "2026-02-26",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Holi",
+      "date": "2026-03-08",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Navratri",
+      "date": "2026-10-03",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Dussehra",
+      "date": "2026-10-12",
+      "religion": "Hindu",
+      "regional": false
+    },
+    {
+      "name": "Diwali",
+      "date": "2026-10-20",
+      "religion": "Hindu",
+      "regional": false
+    }
+  ]
 }
 ```
 ---
@@ -692,6 +724,11 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   a monthly budget split summing exactly to expenditure, 0-2 affordable
   loans with real EMI math (total EMI capped at 60% of income), and a
   credit history whose score bands track missed payments.
+- **Festival calendar.** Every profile carries `festivals` with observances
+  dated for the current year, driven by religion and state: pan-Indian
+  festivals from the profile's religion plus regional ones that stay in
+  their states (Pongal, Bihu, Onam, Durga Puja, Chhath, Teej, Baisakhi,
+  Ganesh Chaturthi). Lunisolar dates are typical, not exact.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude around the state capital, tighter for urban profiles
   and clamped inside the state bounding box. District-approximate, not

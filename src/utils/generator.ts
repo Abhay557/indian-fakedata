@@ -58,6 +58,7 @@ import { transliterate, scriptForLanguage } from './transliterate.js';
 import { generateGeo } from './geo.js';
 import { generateLifeEvents } from './lifeEvents.js';
 import { generateHouseholdEconomy } from './economy.js';
+import { generateFestivals } from './festivals.js';
 import {
   generateDiet,
   generateDisability,
@@ -538,6 +539,20 @@ function generateSingleProfile(
       numberOfChildren,
     },
     econRng
+  );
+
+  // ── Post-assembly v2.1.0 addition (item 5) ─────────────
+  // Festival calendar on its own isolated stream. Reads religion, state
+  // and religiosity; emits dated observances at the end of the profile.
+  const festRng = createRNG(`v210:fest:${profile.id}`);
+  profile.festivals = generateFestivals(
+    {
+      religionId: path.religionId,
+      religionLabel: path.religionLabel,
+      stateId: path.stateId,
+      religiosity,
+    },
+    festRng
   );
 
   return profile;

@@ -32,6 +32,11 @@ within one version; across versions it is not.
   a monthly budget split summing exactly to expenditure, 0-2 affordable
   loans with real EMI math (total EMI capped at 60% of income), and a
   credit history whose score bands track missed payments.
+- **Festival calendar.** Every profile carries `festivals` with observances
+  dated for the current year, driven by religion and state: pan-Indian
+  festivals from the profile's religion plus regional ones that stay in
+  their states (Pongal, Bihu, Onam, Durga Puja, Chhath, Teej, Baisakhi,
+  Ganesh Chaturthi). Lunisolar dates are typical, not exact.
 - **Geospatial points.** Every profile carries `geo` with an approximate
   latitude/longitude drawn around the state capital, tighter for urban
   profiles, clamped inside a generous state bounding box. District-level

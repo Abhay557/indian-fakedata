@@ -334,6 +334,8 @@ console.log(user.geo); // v2.1.0 item 2: { latitude, longitude }, state-clamped
 console.log(user.lifeEvents); // v2.1.0 item 3: dated, cross-checked life events
 
 console.log(user.householdEconomy); // v2.1.0 item 4: budget, loans, credit history
+
+console.log(user.festivals); // v2.1.0 item 5: dated observances by religion/state
 ```
 
 ###  Python
@@ -351,4 +353,6 @@ print(user["geo"])  # v2.1.0 item 2: {"latitude": ..., "longitude": ...}
 print(user["lifeEvents"])  # v2.1.0 item 3: dated, cross-checked life events
 
 print(user["householdEconomy"])  # v2.1.0 item 4: budget, loans, credit history
+
+print(user["festivals"])  # v2.1.0 item 5: dated observances by religion/state
 ```

@@ -60,6 +60,7 @@ from indian_fakedata.utils.transliterate import transliterate, script_for_langua
 from indian_fakedata.utils.geo import generate_geo
 from indian_fakedata.utils.life_events import generate_life_events
 from indian_fakedata.utils.economy import generate_household_economy
+from indian_fakedata.utils.festivals import generate_festivals
 
 
 def _generate_uuid(rng):
@@ -387,6 +388,15 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         socio["age"], socio["income"], monthly_exp, socio["householdSize"],
         employment_sector, path["areaType"], socio["occupation"],
         vehicle_type, number_of_children, econ_rng,
+    )
+
+    # Post-assembly v2.1.0 addition (item 5) — festival calendar on its own
+    # isolated stream. Reads religion, state and religiosity; emits dated
+    # observances at the end of the profile.
+    fest_rng = create_rng("v210:fest:" + profile["id"])
+    profile["festivals"] = generate_festivals(
+        path["religionId"], path.get("religionLabel", path["religionId"]),
+        path["stateId"], religiosity_level, fest_rng,
     )
 
     return profile

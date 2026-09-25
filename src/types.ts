@@ -202,11 +202,26 @@ export interface GeoPoint {
 }
 
 /**
+ * A festival observance with a Gregorian date (v2.1.0, item 5).
+ * Dates are typical dates for lunisolar festivals, which shift a few
+ * weeks year to year.
+ */
+export interface Festival {
+  /** Festival name, e.g. 'Diwali' */
+  name: string;
+  /** Date in the current calendar year (YYYY-MM-DD, typical date) */
+  date: string;
+  /** Religion this festival belongs to */
+  religion: string;
+  /** True for state-specific festivals (Pongal, Bihu, ...) */
+  regional: boolean;
+}
+
+/**
  * A dated life event (v2.1.0, item 3): birth, marriage, children,
  * migration, job switches, retirement. Years always lie between the
  * birth year and the generation year.
- */
-export interface LifeEvent {
+ */export interface LifeEvent {
   /** Calendar year of the event */
   year: number;
   event: 'born' | 'job_started' | 'job_changed' | 'married' | 'child_born' | 'migrated' | 'retired' | 'widowed' | 'divorced';
@@ -595,6 +610,8 @@ export interface DemographicProfile {
   skills?: SkillsProfile;
   /** Dated life events timeline (v2.1.0, item 3) */
   lifeEvents?: LifeEvent[];
+  /** Festival calendar with dates (v2.1.0, item 5) */
+  festivals?: Festival[];
   /** Descriptive personality traits derived from Big Five scores */
   personalityTraits: PersonalityTraits;
   /** Movie/anime viewing preferences */

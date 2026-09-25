@@ -138,7 +138,8 @@ location point (`geo`: approximate latitude/longitude, state-clamped),
 life events (`lifeEvents`: dated birth/marriage/children/migration/job/
 retirement events, cross-checked with the profile),
 household economy (`householdEconomy`: budget split, loans with EMI,
-banded credit history).
+banded credit history),
+festivals (`festivals`: dated observances by religion and state).
 `probabilityMetrics`
 shows the chain of probabilities for each draw.
 
