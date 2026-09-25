@@ -630,7 +630,9 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
   employment sector, so a cultivator could show up as "Kirana Shop Owner".
   Titles and occupation labels now follow the profile's own `occupation`;
   only `non_worker` histories fall back to a sampled past sector. `sector`
-  still mirrors `employmentSector`, so the two always agree.
+  still mirrors `employmentSector`, so the two always agree. The
+  `employmentTimeline` key now sits right below `occupation` instead of at
+  the end of the profile.
 
 ---
 

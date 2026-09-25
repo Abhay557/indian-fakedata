@@ -12,7 +12,8 @@ within one version; across versions it is not.
   `other_worker` profiles relabelled `agricultural_labourer`). Stages now
   derive titles and occupation from the profile's own occupation; only
   `non_worker` histories sample a past sector. `sector` still mirrors
-  `employmentSector`, so the two always agree.
+  `employmentSector`, so the two always agree. The key moved from the end
+  of the profile to right below `occupation`; values are unchanged.
 
 ## 2.0.9
 

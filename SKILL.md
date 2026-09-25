@@ -238,7 +238,8 @@ narrative/persona text); `--mask-names` reduces names to initials.
 v2.1.0 fixes the employment timeline: stages follow the profile's own
 `occupation` for titles and labels (a cultivator gets farm titles, never
 shop titles); only `non_worker` histories use a sampled past sector.
-`sector` still mirrors `employmentSector`.
+`sector` still mirrors `employmentSector`. The key sits right below
+`occupation` in the profile, not at the end.
 
 The v2.0.3 generators consume RNG draws appended AFTER all existing draws,
 so they never disturbed pre-existing fields when introduced.
