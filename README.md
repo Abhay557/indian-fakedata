@@ -80,6 +80,40 @@ Unlike traditional mock generators that produce impossible demographic combinati
   "secondLanguage": "Hindi",
   "education": "graduate",
   "occupation": "other_worker",
+  "employmentTimeline": [
+    {
+      "jobTitle": "Data Entry Operator",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2007,
+      "status": "completed",
+      "monthlyWageINR": 48000,
+      "location": "Guntur",
+      "endYear": 2009
+    },
+    {
+      "jobTitle": "Sales Executive",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2009,
+      "status": "completed",
+      "monthlyWageINR": 74200,
+      "location": "Guntur",
+      "endYear": 2022
+    },
+    {
+      "jobTitle": "Customer Support Associate",
+      "sector": "private",
+      "occupation": "other_worker",
+      "employerType": "private",
+      "startYear": 2022,
+      "status": "current",
+      "monthlyWageINR": 102900,
+      "location": "Guntur"
+    }
+  ],
   "employmentSector": "private",
   "maritalStatus": "married",
   "annualIncomeINR": 1235000,
@@ -290,40 +324,6 @@ Unlike traditional mock generators that produce impossible demographic combinati
   },
   "generatedAt": "2026-09-24T14:35:41.864638",
   "seed": 7,
-  "employmentTimeline": [
-    {
-      "jobTitle": "Data Entry Operator",
-      "sector": "private",
-      "occupation": "other_worker",
-      "employerType": "private",
-      "startYear": 2007,
-      "status": "completed",
-      "monthlyWageINR": 48000,
-      "location": "Guntur",
-      "endYear": 2009
-    },
-    {
-      "jobTitle": "Sales Executive",
-      "sector": "private",
-      "occupation": "other_worker",
-      "employerType": "private",
-      "startYear": 2009,
-      "status": "completed",
-      "monthlyWageINR": 74200,
-      "location": "Guntur",
-      "endYear": 2022
-    },
-    {
-      "jobTitle": "Customer Support Associate",
-      "sector": "private",
-      "occupation": "other_worker",
-      "employerType": "private",
-      "startYear": 2022,
-      "status": "current",
-      "monthlyWageINR": 102900,
-      "location": "Guntur"
-    }
-  ],
   "skills": {
     "technical": [
       "Commercial Cooking"

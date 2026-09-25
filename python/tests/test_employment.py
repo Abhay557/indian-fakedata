@@ -93,3 +93,10 @@ def test_informal_other_workers_keep_label():
             assert s["occupation"] == "other_worker"
             checked += 1
     assert checked > 0
+
+
+def test_timeline_sits_below_occupation_not_at_end():
+    p = generate(count=1, seed=42)[0]
+    keys = list(p.keys())
+    assert keys.index("employmentTimeline") == keys.index("occupation") + 1
+    assert keys.index("employmentTimeline") < keys.index("seed")

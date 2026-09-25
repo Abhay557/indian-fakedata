@@ -328,11 +328,32 @@ function generateSingleProfile(
     jointProbability: path.jointProb * surnameProb * socio.educationProb * socio.occupationProb
   };
 
+  // ── Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0) ──
+  // The id is drawn here — the same stream position as before, so every
+  // value stays identical. The timeline runs on an isolated stream derived
+  // from that id, which lets its key sit with the employment fields below
+  // instead of at the end of the profile.
+  const profileId = generateUUID(rng);
+  const featRng = createRNG(`v209:${profileId}`);
+  const employmentTimeline = generateEmploymentTimeline(
+    {
+      age: socio.age,
+      education: socio.education,
+      occupation: socio.occupation,
+      employmentSector,
+      annualIncomeINR: socio.income,
+      district,
+      areaType: path.areaType,
+      gender: path.gender,
+    },
+    featRng
+  );
+
   // ── Step 15: Assemble final profile ───────────────────
   // synthetic + generator markers ship on every profile — wherever this data
   // is exported, it carries proof that it is fake.
   const profile: DemographicProfile = {
-    id: generateUUID(rng),
+    id: profileId,
     synthetic: true,
     generator: `indian-fakedata@${LIB_VERSION}`,
 
@@ -381,6 +402,7 @@ function generateSingleProfile(
     // Socioeconomic
     education: socio.education,
     occupation: socio.occupation,
+    employmentTimeline,
     employmentSector,
     maritalStatus: socio.maritalStatus,
     annualIncomeINR: socio.income,
@@ -436,24 +458,9 @@ function generateSingleProfile(
     seed: rng.seed
   };
 
-  // ── Step 16: v2.0.9 additions ────────────────────────────
-  // Isolated RNG stream derived from the profile id: new features consume
-  // ZERO draws from the main stream, so id + every prior field for a given
-  // seed stay byte-identical to <= 2.0.8 output (including batch order).
-  const featRng = createRNG(`v209:${profile.id}`);
-  profile.employmentTimeline = generateEmploymentTimeline(
-    {
-      age: socio.age,
-      education: socio.education,
-      occupation: socio.occupation,
-      employmentSector,
-      annualIncomeINR: socio.income,
-      district,
-      areaType: path.areaType,
-      gender: path.gender,
-    },
-    featRng
-  );
+  // ── Post-assembly v2.0.9 addition ────────────────────
+  // Skills stay at the end of the profile on their own isolated stream,
+  // so they never disturb any other field for a seed.
   const skillsRng = createRNG(`v209:skills:${profile.id}`);
   profile.skills = generateSkills(
     {

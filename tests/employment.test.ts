@@ -126,4 +126,11 @@ describe('employment timeline (v2.0.9)', () => {
     }
     expect(checked).toBeGreaterThan(0);
   });
+
+  it('employmentTimeline sits right below occupation, not at the end', () => {
+    const p = generate({ count: 1, seed: 42 })[0] as unknown as Record<string, unknown>;
+    const keys = Object.keys(p);
+    expect(keys.indexOf('employmentTimeline')).toBe(keys.indexOf('occupation') + 1);
+    expect(keys.indexOf('employmentTimeline')).toBeLessThan(keys.indexOf('seed'));
+  });
 });

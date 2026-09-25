@@ -243,11 +243,24 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "jointProbability": path.get("jointProb", 0) * surname_prob * socio.get("educationProb", 1) * socio.get("occupationProb", 1),
     }
 
+    # Step 16: Employment timeline (v2.0.9, occupation-keyed in v2.1.0).
+    # The id is drawn here — the same stream position as before, so every
+    # value stays identical. The timeline runs on an isolated stream derived
+    # from that id, which lets its key sit with the employment fields below
+    # instead of at the end of the profile.
+    profile_id = _generate_uuid(rng)
+    feat_rng = create_rng("v209:" + profile_id)
+    employment_timeline = generate_employment_timeline(
+        socio["age"], socio["education"], socio["occupation"],
+        employment_sector, socio["income"], district, path["areaType"],
+        path["gender"], feat_rng,
+    )
+
     # Assemble profile
     # synthetic + generator markers har profile pe hote hain — data jab bhi
     # kahin export ho, apne saath proof le ke jaye ki ye fake hai.
     profile = {
-        "id": _generate_uuid(rng),
+        "id": profile_id,
         "synthetic": True,
         "generator": "indian-fakedata@" + __version__,
         "firstName": first_name,
@@ -282,6 +295,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "secondLanguage": second_language,
         "education": socio["education"],
         "occupation": socio["occupation"],
+        "employmentTimeline": employment_timeline,
         "employmentSector": employment_sector,
         "maritalStatus": socio["maritalStatus"],
         "annualIncomeINR": socio["income"],
@@ -321,16 +335,9 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "seed": rng.seed,
     }
 
-    # Step 16: v2.0.9 additions — isolated RNG stream derived from the
-    # profile id: new features consume ZERO draws from the main stream, so
-    # id + every prior field for a given seed stay byte-identical to
-    # <= 2.0.8 output (including batch order).
-    feat_rng = create_rng("v209:" + profile["id"])
-    profile["employmentTimeline"] = generate_employment_timeline(
-        socio["age"], socio["education"], socio["occupation"],
-        employment_sector, socio["income"], district, path["areaType"],
-        path["gender"], feat_rng,
-    )
+    # Post-assembly v2.0.9 addition — skills stay at the end of the
+    # profile on their own isolated stream, so they never disturb any
+    # other field for a seed.
     skills_rng = create_rng("v209:skills:" + profile["id"])
     profile["skills"] = generate_skills(
         socio["age"], socio["education"], socio["occupation"],
