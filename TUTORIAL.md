@@ -269,6 +269,10 @@ for enriched_profile in stream:
 
 ## 6. New in 2.0.9 (Work History, Skills, Personas, Trust)
 
+> v2.1.0 note: timeline stages follow the profile's own `occupation` for
+> titles and labels (a cultivator gets farm titles like "Paddy Farmer",
+> never shop titles). `sector` mirrors `employmentSector` as before.
+
 ###  TypeScript
 ```typescript
 import {
@@ -278,7 +282,6 @@ import {
 const user = generate({ count: 1, seed: 7 })[0];
 console.log(user.employmentTimeline);  // chronological job spells
 console.log(user.skills);              // skills, certs, language levels
-
 const hindi = generateAgentPersona(user, { language: 'hindi' });
 
 const { valid, errors } = validateProfile(user);

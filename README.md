@@ -35,7 +35,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 {
   "id": "d6e2a61e-e297-4eb4-9866-5fb355fbc2ea",
   "synthetic": true,
-  "generator": "indian-fakedata@2.0.9",
+  "generator": "indian-fakedata@2.1.0",
   "firstName": "Sarwan",
   "lastName": "Das",
   "fatherName": "Shetan Das",
@@ -623,6 +623,14 @@ See [CHANGELOG.md](CHANGELOG.md) for the full 2.0.9 list.
 - **CLI validation.** `--validate` checks every full profile and exits 1
   with errors on stderr for the first invalid record. Runs before any
   shaping, so it composes with `--strip-pii` and `--fields`.
+
+### v2.1.0 — timeline follows occupation
+
+- **Employment timeline fix.** Stages used to pick titles from the
+  employment sector, so a cultivator could show up as "Kirana Shop Owner".
+  Titles and occupation labels now follow the profile's own `occupation`;
+  only `non_worker` histories fall back to a sampled past sector. `sector`
+  still mirrors `employmentSector`, so the two always agree.
 
 ---
 
