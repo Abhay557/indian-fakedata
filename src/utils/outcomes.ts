@@ -174,7 +174,11 @@ function simulateCreditOutcome(
 
   // ── Bias layer (interpolated by biasLevel) ──
   const castePenalty = CASTE_CREDIT_PENALTY[profile.socialCategory] * biasLevel;
-  const religionPenalty = (RELIGION_CREDIT_PENALTY[profile.religion] ?? 0) * biasLevel;
+  // The profile stores the religion as a display label (e.g. "Muslim"),
+  // while the penalty table is keyed by lowercase ids (e.g. "muslim"),
+  // so we normalize before looking it up.
+  const religionKey = String(profile.religion).toLowerCase();
+  const religionPenalty = (RELIGION_CREDIT_PENALTY[religionKey] ?? 0) * biasLevel;
 
   auditTrail['credit_caste_penalty'] = castePenalty;
   auditTrail['credit_religion_penalty'] = religionPenalty;
