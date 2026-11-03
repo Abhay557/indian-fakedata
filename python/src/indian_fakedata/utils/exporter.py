@@ -9,6 +9,7 @@ Uses only Python standard library modules.
 import json
 import csv
 import io
+import os
 
 
 def _flatten_object(obj, prefix=""):
@@ -143,6 +144,8 @@ def save_profiles(profiles, filepath, fmt="json"):
     :param fmt: Output format — 'json', 'jsonl', or 'csv'.
     """
     content = format_profiles(profiles, fmt)
+    parent = os.path.dirname(os.path.abspath(filepath))
+    os.makedirs(parent, exist_ok=True)
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
 
