@@ -17,7 +17,6 @@ import { generateFamily } from './utils/relations.js';
 import { stripPII } from './utils/privacy.js';
 import { validateProfile } from './utils/schema.js';
 import { evaluateDataset } from './utils/eval.js';
-import { LIB_VERSION } from './version.js';
 import {
   flattenObject,
   escapeCSVValue,
@@ -63,8 +62,7 @@ function printHelp() {
   ${C.bold}USAGE:${C.reset}
     indian-fakedata [options]
 
-    ${C.bold}CORE OPTIONS:${C.reset}
-    -v, --version          Print the installed version and exit
+  ${C.bold}CORE OPTIONS:${C.reset}
     -c, --count <n>        Number of profiles to generate ${C.dim}(default: 100)${C.reset}
     -o, --output <path>    File path to save output ${C.dim}(default: stdout)${C.reset}
     -f, --format <fmt>     Output format: json, jsonl, csv ${C.dim}(default: json)${C.reset}
@@ -272,10 +270,6 @@ async function main() {
 
     if (arg === '-h' || arg === '--help') {
       printHelp();
-      process.exit(0);
-
-    } else if (arg === '-v' || arg === '--version') {
-      console.log(LIB_VERSION);
       process.exit(0);
 
     } else if (arg === '-c' || arg === '--count') {

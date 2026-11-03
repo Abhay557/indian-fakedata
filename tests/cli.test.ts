@@ -48,11 +48,6 @@ describe('CLI Streaming Utilities', () => {
 describe('CLI Integration Tests', () => {
   const outputDir = path.resolve('tests/temp-output');
 
-  it('should print the package version with --version', () => {
-    const output = execSync('npx tsx src/cli.ts --version', { stdio: 'pipe' }).toString().trim();
-    expect(output).toMatch(/^\d+\.\d+\.\d+$/);
-  });
-
   it('should run CLI in JSON format successfully', () => {
     const outPath = path.join(outputDir, 'test.json');
     execSync(`npx tsx src/cli.ts -c 10 -o "${outPath}" -f json`, { stdio: 'pipe' });
