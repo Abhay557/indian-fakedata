@@ -4,6 +4,20 @@ Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
 PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
 within one version; across versions it is not.
 
+## 2.1.1
+
+- **Fix: `saveProfilesToFile` / `save_profiles` create parent directories.**
+  Saving to a nested path crashed with `ENOENT` / `FileNotFoundError`
+  despite the docs promising automatic directory creation. Both runtimes
+  now create the parent directory before writing.
+- **Test coverage.** New suites for identifier formats and checksums
+  (including Aadhaar Verhoeff), the outcome bias dial, exporter roundtrips,
+  family name conventions, database integrity and merging, psychology /
+  lifestyle / cultural ranges, agent personas, and stream-vs-batch parity.
+  TypeScript: 362 tests across 47 files. Python: 137 tests across 26 files.
+- Seed behavior is unchanged except on the fixed paths; as always, a new
+  release may change what a given seed produces.
+
 ## 2.1.0
 
 - **Occupation now follows education (breaking).** Occupation used to be
