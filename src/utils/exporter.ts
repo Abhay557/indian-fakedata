@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import { flattenObject, escapeCSVValue } from './cli-stream.js';
 
 /**
@@ -94,5 +95,6 @@ export function formatProfiles(profiles: any[], format: 'json' | 'jsonl' | 'csv'
  */
 export function saveProfilesToFile(profiles: any[], filePath: string, format: 'json' | 'jsonl' | 'csv'): void {
   const content = formatProfiles(profiles, format);
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, content, 'utf8');
 }
