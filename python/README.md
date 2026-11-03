@@ -16,7 +16,7 @@ Unlike traditional mock generators that produce impossible demographic combinati
 {
   "id": "d6e2a61e-e297-4eb4-9866-5fb355fbc2ea",
   "synthetic": true,
-  "generator": "indian-fakedata@2.1.0",
+  "generator": "indian-fakedata@2.1.1",
   "firstName": "Sarwan",
   "lastName": "Das",
   "fatherName": "Shetan Das",
