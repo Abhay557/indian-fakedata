@@ -1,15 +1,15 @@
 {
   "id": "28204509-0e2d-4ff0-86c4-5b4f56844fb3",
   "synthetic": true,
-  "generator": "indian-fakedata@2.1.0",
+  "generator": "indian-fakedata@2.1.1",
   "firstName": "Ankit",
   "lastName": "Verma",
-  "fatherName": "Sobit Verma",
-  "motherName": "Mis Lodhi",
-  "spouseName": "Kherul Verma",
+  "fatherName": "Aaftaab Verma",
+  "motherName": "Anshul Lodhi",
+  "spouseName": "Phul Verma",
   "gender": "male",
   "age": 41,
-  "dateOfBirth": "1985-03-04",
+  "dateOfBirth": "1985-04-16",
   "bloodGroup": "AB+",
   "heightCm": 153.9,
   "weightKg": 44.1,
@@ -297,7 +297,7 @@
     {
       "year": 2012,
       "event": "married",
-      "detail": "Married Kherul Verma."
+      "detail": "Married Phul Verma."
     },
     {
       "year": 2013,
