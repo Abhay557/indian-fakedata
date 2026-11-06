@@ -27,6 +27,16 @@ class DatabaseLoader:
         with open(db_path, "r", encoding="utf-8") as f:
             db = json.load(f)
 
+        # The comprehensive names DB is the source of truth for first names.
+        # default_data.json only carries a small fallback copy, which made
+        # some religions (e.g. Buddhist) draw from a one-name pool.
+        try:
+            names = self.load_names()
+            if isinstance(names, dict):
+                db["firstNames"] = names
+        except (OSError, ValueError):
+            pass
+
         # Merge in custom directory files if provided
         if data_dir and os.path.isdir(data_dir):
             custom_db = {}

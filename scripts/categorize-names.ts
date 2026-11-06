@@ -52,9 +52,26 @@ function cleanName(rawName: string): string {
   return alphabeticOnly.charAt(0).toUpperCase() + alphabeticOnly.slice(1);
 }
 
+// Names that are clearly Muslim and should never land in another
+// religion's list. Exact match only, because substring rules like
+// includes('umar') would also match "Kumar".
+const MUSLIM_ONLY_NAMES = new Set([
+  'danish', 'sajid', 'umar', 'nadim', 'nasir', 'abid', 'gulfam',
+  'tanveer', 'nazim', 'parvez', 'naushad', 'suhail', 'zaheer', 'faiz',
+  'anjum', 'jamshed', 'yasin', 'ashfaq', 'abrar', 'shagufta', 'khurshid',
+  'yusuf', 'shabana', 'sitara', 'mariyam', 'tabassum', 'huma', 'farah',
+  'mumtaz', 'farheen', 'zeba', 'uzma', 'nikhat', 'ishrat', 'zeenat',
+  'misbah', 'iqra', 'mehwish', 'aftab', 'nargis', 'kaif', 'jakir',
+  'shahnawaj', 'sabir', 'mansoor'
+]);
+
 // Classify name by religion based on prefix/suffix rules
 function classifyReligion(name: string, isMale: boolean): keyof NamesDB {
   const lower = name.toLowerCase();
+
+  if (MUSLIM_ONLY_NAMES.has(lower)) {
+    return 'muslim';
+  }
   
   // 1. Sikh Rules
   const sikhSuffixes = ['preet', 'jeet', 'meet', 'seen', 'leen', 'deep', 'bir', 'want', 'pal', 'jit', 'inder', 'vir', 'singh', 'kaur'];
