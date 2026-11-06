@@ -15,9 +15,7 @@ describe('generator edge cases', () => {
   it('supports seed 0 as a valid numeric seed', () => {
     const first = generate({ count: 3, seed: 0 });
     const second = generate({ count: 3, seed: 0 });
-    expect(first.map((p) => ({ ...p, generatedAt: 'same' }))).toEqual(
-      second.map((p) => ({ ...p, generatedAt: 'same' })),
-    );
+    expect(first).toEqual(second);
   });
 
   it('generates different profiles without a seed', () => {

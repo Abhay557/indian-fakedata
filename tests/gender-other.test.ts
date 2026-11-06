@@ -21,9 +21,7 @@ describe('gender "other" profiles', () => {
   it('is deterministic for the same seed', () => {
     const first = generate({ count: 10, seed: 99, constraints: { gender: 'other' } });
     const second = generate({ count: 10, seed: 99, constraints: { gender: 'other' } });
-    expect(first.map((p) => ({ ...p, generatedAt: 'same' }))).toEqual(
-      second.map((p) => ({ ...p, generatedAt: 'same' })),
-    );
+    expect(first).toEqual(second);
   });
 
   it('keeps first names non-empty', () => {

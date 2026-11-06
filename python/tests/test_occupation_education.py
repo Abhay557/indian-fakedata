@@ -32,7 +32,4 @@ def test_explicit_occupation_constraint_wins():
 
 
 def test_deterministic():
-    def strip(rows):
-        return [{k: v for k, v in r.items() if k != "generatedAt"} for r in rows]
-
-    assert strip(generate(count=5, seed=79)) == strip(generate(count=5, seed=79))
+    assert generate(count=5, seed=79) == generate(count=5, seed=79)

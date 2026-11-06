@@ -8,10 +8,7 @@ describe('agent persona reproducibility', () => {
 
     expect(first.persona).toEqual(second.persona);
 
-    // The user objects are identical except for the generatedAt timestamp
-    const firstUser = { ...first.user, generatedAt: 'same' };
-    const secondUser = { ...second.user, generatedAt: 'same' };
-    expect(firstUser).toEqual(secondUser);
+    expect(first.user).toEqual(second.user);
   });
 
   it('different seeds give different personas', () => {

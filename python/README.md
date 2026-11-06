@@ -315,7 +315,6 @@ Unlike traditional mock generators that produce impossible demographic combinati
     "occupationProb": 0.4087193460490463,
     "jointProbability": 6.388948194089085e-05
   },
-  "generatedAt": "2026-09-25T15:55:52.859912",
   "seed": 7,
   "skills": {
     "technical": [

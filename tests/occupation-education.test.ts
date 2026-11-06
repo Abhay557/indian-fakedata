@@ -34,13 +34,8 @@ describe('occupation follows education (v2.1.0, item 6)', () => {
   });
 
   it('stays deterministic', () => {
-    const strip = (rows: unknown[]) =>
-      rows.map(r => {
-        const { generatedAt, ...rest } = r as Record<string, unknown>;
-        return rest;
-      });
     const a = generate({ count: 5, seed: 79 });
     const b = generate({ count: 5, seed: 79 });
-    expect(strip(a)).toEqual(strip(b));
+    expect(a).toEqual(b);
   });
 });

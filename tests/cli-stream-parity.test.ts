@@ -1,19 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { generate, generateStream, generateEnriched, generateEnrichedStream } from '../src/index.js';
 
-// The generatedAt timestamp is set to the wall-clock time of generation,
-// so it can differ by a few milliseconds between two runs. We ignore it
-// when comparing batch output with stream output.
-function withoutGeneratedAt(profiles: any[]) {
-  return profiles.map((p) => ({ ...p, generatedAt: 'same' }));
-}
-
 describe('streaming generation parity', () => {
   it('generateStream yields the same profiles as generate', () => {
     const batch = generate({ count: 20, seed: 99 });
     const streamed = [...generateStream({ count: 20, seed: 99 })];
 
-    expect(withoutGeneratedAt(streamed)).toEqual(withoutGeneratedAt(batch));
+    expect(streamed).toEqual(batch);
   });
 
   it('generateStream respects constraints', () => {
@@ -35,9 +28,7 @@ describe('streaming generation parity', () => {
     const batch = generateEnriched(options);
     const streamed = [...generateEnrichedStream(options)];
 
-    const batchWithoutTimestamps = batch.map((e) => ({ ...e, profile: { ...e.profile, generatedAt: 'same' } }));
-    const streamedWithoutTimestamps = streamed.map((e) => ({ ...e, profile: { ...e.profile, generatedAt: 'same' } }));
-    expect(streamedWithoutTimestamps).toEqual(batchWithoutTimestamps);
+    expect(streamed).toEqual(batch);
   });
 
   it('generateEnrichedStream yields the requested number of profiles', () => {

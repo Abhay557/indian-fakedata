@@ -482,7 +482,6 @@ function generateSingleProfile(
     probabilityMetrics: includeProbabilityMetrics ? probMetrics : {} as ProbabilityMetrics,
 
     // Metadata
-    generatedAt: new Date().toISOString(),
     seed: rng.seed
   };
 

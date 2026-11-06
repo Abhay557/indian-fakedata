@@ -354,7 +354,6 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "householdSize": socio["householdSize"],
         "householdAssets": household_assets,
         "probabilityMetrics": prob_metrics if include_probability_metrics else {},
-        "generatedAt": datetime.now().isoformat(),
         "seed": rng.seed,
     }
 

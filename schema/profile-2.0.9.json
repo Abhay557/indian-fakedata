@@ -25,7 +25,6 @@
     "bankIFSC",
     "bankName",
     "bankAccountNumber",
-    "generatedAt",
     "panNumber",
     "voterIdNumber",
     "age",
@@ -132,9 +131,6 @@
       "type": "string"
     },
     "bankAccountNumber": {
-      "type": "string"
-    },
-    "generatedAt": {
       "type": "string"
     },
     "panNumber": {

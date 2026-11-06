@@ -45,16 +45,5 @@ def test_children_are_younger_than_head():
         assert child["age"] < family["head"]["age"]
 
 
-def _strip_timestamp(member):
-    """The generatedAt timestamp is wall-clock time, so ignore it."""
-    if isinstance(member, dict):
-        return {k: _strip_timestamp(v) for k, v in member.items() if k != "generatedAt"}
-    if isinstance(member, list):
-        return [_strip_timestamp(v) for v in member]
-    return member
-
-
 def test_family_is_reproducible_for_same_seed():
-    first = _strip_timestamp(generate_family(seed=42))
-    second = _strip_timestamp(generate_family(seed=42))
-    assert first == second
+    assert generate_family(seed=42) == generate_family(seed=42)

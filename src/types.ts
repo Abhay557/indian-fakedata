@@ -627,8 +627,6 @@ export interface DemographicProfile {
   probabilityMetrics: ProbabilityMetrics;
 
   // ── Metadata ──────────────────────────────────────────
-  /** ISO 8601 timestamp of generation */
-  generatedAt: string;
   /** Seed used (for reproducibility) */
   seed: number;
   /** Set by stripPII() — this copy had direct identifiers emptied */

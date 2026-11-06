@@ -59,7 +59,7 @@ const REQUIRED_STRINGS = [
   'aadhaarNumber', 'phoneNumber', 'email',
   'state', 'stateCode', 'district', 'addressLine', 'locality', 'pinCode',
   'religion', 'caste', 'motherTongue', 'bankIFSC', 'bankName',
-  'bankAccountNumber', 'generatedAt',
+  'bankAccountNumber',
 ];
 
 /** Required keys that may be empty strings (minors have no PAN/voter ID) */

@@ -110,7 +110,6 @@ describe('Profile Generation', () => {
     expect(profile.householdSize).toBeGreaterThanOrEqual(1);
     expect(profile.householdAssets).toBeTruthy();
     expect(profile.probabilityMetrics).toBeTruthy();
-    expect(profile.generatedAt).toBeTruthy();
     expect(profile.seed).toBeDefined();
   });
 
