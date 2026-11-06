@@ -159,6 +159,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     migration = generate_migration(path["stateId"], path["areaType"], path["gender"], db, rng)
 
     # Step 11: Financial
+    is_adult = socio["age"] >= 18
     monthly_exp = generate_monthly_expenditure(socio["income"], path["areaType"], socio["householdSize"], rng)
     bank = generate_bank_details(rng)
     ration_card = generate_ration_card_type(socio["income"], path["areaType"], rng)
@@ -176,7 +177,8 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
 
     # Step 13: Digital
     digital = generate_digital_access(socio["age"], socio["education"], socio["income"], path["areaType"], rng)
-    upi_id = generate_upi(phone, first_name, rng) if digital["hasSmartphone"] else None
+    generated_upi = generate_upi(phone, first_name, rng) if digital["hasSmartphone"] else None
+    upi_id = generated_upi if is_adult else None
 
     # Step 14: Psychology & Behavior
     religiosity_level = generate_religiosity(
@@ -326,9 +328,9 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
         "disability": disability,
         "isMigrant": migration["isMigrant"],
         "migrationOriginState": migration.get("migrationOriginState"),
-        "bankIFSC": bank["bankIFSC"],
-        "bankName": bank["bankName"],
-        "bankAccountNumber": bank["bankAccountNumber"],
+        "bankIFSC": bank["bankIFSC"] if is_adult else "",
+        "bankName": bank["bankName"] if is_adult else "",
+        "bankAccountNumber": bank["bankAccountNumber"] if is_adult else "",
         "rationCardType": ration_card,
         "healthInsurance": health_insurance,
         "landOwnershipAcres": land,

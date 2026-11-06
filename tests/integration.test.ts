@@ -347,9 +347,13 @@ describe('Leak Detection (No Impossible Combinations)', () => {
     }
   });
 
-  it('should produce positive income and household size', () => {
+  it('should produce positive income for earners and valid household size', () => {
     for (const p of profiles) {
-      expect(p.annualIncomeINR).toBeGreaterThan(0);
+      if (p.age < 15) {
+        expect(p.annualIncomeINR).toBe(0);
+      } else {
+        expect(p.annualIncomeINR).toBeGreaterThan(0);
+      }
       expect(p.householdSize).toBeGreaterThanOrEqual(1);
     }
   });

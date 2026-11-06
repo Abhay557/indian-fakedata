@@ -641,7 +641,7 @@ def resolve_socioeconomic_layers(db, path, constraints, rng):
 
     # Children don't earn independently
     if age < 15:
-        income = max(10000, income // 4)
+        income = 0
 
     # -- Household Assets --
     household_assets = sample_household_assets(

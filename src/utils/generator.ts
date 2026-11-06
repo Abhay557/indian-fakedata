@@ -240,7 +240,11 @@ function generateSingleProfile(
   const monthlyExpenditureINR = generateMonthlyExpenditure(
     socio.income, path.areaType, socio.householdSize, rng
   );
-  const { bankName, bankIFSC, bankAccountNumber } = generateBankDetails(rng);
+  const generatedBank = generateBankDetails(rng);
+  const isAdult = socio.age >= 18;
+  const bankName = isAdult ? generatedBank.bankName : '';
+  const bankIFSC = isAdult ? generatedBank.bankIFSC : '';
+  const bankAccountNumber = isAdult ? generatedBank.bankAccountNumber : '';
   const rationCardType = generateRationCardType(socio.income, path.areaType, rng);
   const healthInsurance = generateHealthInsurance(
     socio.income, employmentSector, path.socialCategory, rng
@@ -262,7 +266,8 @@ function generateSingleProfile(
   const { hasInternetAccess, hasSmartphone, usesSocialMedia } = generateDigitalAccess(
     socio.age, socio.education, socio.income, path.areaType, rng
   );
-  const upiId = hasSmartphone ? generateUPI(phoneNumber, firstName, rng) : undefined;
+  const generatedUpiId = hasSmartphone ? generateUPI(phoneNumber, firstName, rng) : undefined;
+  const upiId = isAdult ? generatedUpiId : undefined;
 
   // ── Step 14: Psychology & Behavior ─────────────────────
   const religiosity = generateReligiosity(

@@ -447,7 +447,7 @@ export function resolveSocioeconomicLayers(
 
   // Children don't earn independently
   if (age < 15) {
-    income = Math.max(10000, Math.floor(income / 4));
+    income = 0;
   }
 
   // ── Household Assets ──────────────────────────────────

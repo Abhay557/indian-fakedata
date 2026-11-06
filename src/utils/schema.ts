@@ -65,6 +65,11 @@ const REQUIRED_STRINGS = [
 /** Required keys that may be empty strings (minors have no PAN/voter ID) */
 const REQUIRED_STRINGS_EMPTY_OK = ['panNumber', 'voterIdNumber'];
 
+/** Minors may not have their own bank account yet */
+const STRINGS_EMPTY_OK_FOR_MINORS = [
+  'bankIFSC', 'bankName', 'bankAccountNumber',
+];
+
 const REQUIRED_NUMBERS = [
   'age', 'heightCm', 'weightKg', 'bmi', 'annualIncomeINR',
   'monthlyExpenditureINR', 'numberOfChildren', 'landOwnershipAcres',
@@ -135,8 +140,12 @@ export function validateProfile(profile: unknown): ProfileValidation {
   }
   const p = profile as Record<string, unknown>;
 
+  const isMinor = typeof p['age'] === 'number' && (p['age'] as number) < 18;
   for (const k of REQUIRED_STRINGS) {
-    if (typeof p[k] !== 'string' || (p[k] as string).length === 0) {
+    const minorBankField = isMinor &&
+      STRINGS_EMPTY_OK_FOR_MINORS.includes(k) &&
+      typeof p[k] === 'string';
+    if (!minorBankField && (typeof p[k] !== 'string' || (p[k] as string).length === 0)) {
       errors.push(`missing or empty string field: ${k}`);
     }
   }

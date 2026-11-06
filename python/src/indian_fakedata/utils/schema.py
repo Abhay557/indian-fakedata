@@ -61,6 +61,9 @@ REQUIRED_STRINGS = [
 # Required keys that may be empty strings (minors have no PAN/voter ID)
 REQUIRED_STRINGS_EMPTY_OK = ["panNumber", "voterIdNumber"]
 
+# Minors may not have their own bank account yet
+STRINGS_EMPTY_OK_FOR_MINORS = ("bankIFSC", "bankName", "bankAccountNumber")
+
 REQUIRED_NUMBERS = [
     "age", "heightCm", "weightKg", "bmi", "annualIncomeINR",
     "monthlyExpenditureINR", "numberOfChildren", "landOwnershipAcres",
@@ -130,8 +133,12 @@ def validate_profile(profile):
         return {"valid": False, "errors": ["profile must be a dict"]}
     p = profile
 
+    age = p.get("age")
+    is_minor = isinstance(age, (int, float)) and not isinstance(age, bool) and age < 18
     for k in REQUIRED_STRINGS:
-        if not isinstance(p.get(k), str) or not p.get(k):
+        minor_bank_field = (is_minor and k in STRINGS_EMPTY_OK_FOR_MINORS
+                            and isinstance(p.get(k), str))
+        if not minor_bank_field and (not isinstance(p.get(k), str) or not p.get(k)):
             errors.append(f"missing or empty string field: {k}")
     for k in REQUIRED_STRINGS_EMPTY_OK:
         if not isinstance(p.get(k), str):
