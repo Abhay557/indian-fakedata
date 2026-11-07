@@ -216,4 +216,22 @@ describe('--fields / --stats (v2.0.9)', () => {
     expect(report.sampleSize).toBe(60);
     expect(report.qualityScore).toBeGreaterThanOrEqual(70);
   });
+
+  it('CLI rejects invalid counts and age ranges', () => {
+    const cases = [
+      { args: '-c 1.5', message: '--count must be a positive integer' },
+      { args: '--minAge 101', message: '--minAge must be an integer between 0 and 100' },
+      { args: '--minAge 50 --maxAge 20', message: '--minAge cannot be greater than --maxAge' },
+    ];
+
+    for (const testCase of cases) {
+      let stderr = '';
+      try {
+        execSync(`npx tsx src/cli.ts ${testCase.args}`, { stdio: 'pipe' });
+      } catch (err: any) {
+        stderr = String(err.stderr ?? '');
+      }
+      expect(stderr).toContain(testCase.message);
+    }
+  });
 });

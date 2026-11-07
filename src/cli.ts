@@ -273,8 +273,8 @@ async function main() {
       process.exit(0);
 
     } else if (arg === '-c' || arg === '--count') {
-      count = parseInt(getArgValue(i), 10);
-      if (isNaN(count) || count <= 0) {
+      count = Number(getArgValue(i));
+      if (!Number.isInteger(count) || count <= 0) {
         console.error(`${C.red}Error:${C.reset} --count must be a positive integer.`);
         process.exit(1);
       }
@@ -334,16 +334,16 @@ async function main() {
       }
       constraints.areaType = val as any; i++;
     } else if (arg === '--minAge') {
-      minAge = parseInt(getArgValue(i), 10);
-      if (isNaN(minAge) || minAge < 0) {
-        console.error(`${C.red}Error:${C.reset} --minAge must be a non-negative integer.`);
+      minAge = Number(getArgValue(i));
+      if (!Number.isInteger(minAge) || minAge < 0 || minAge > 100) {
+        console.error(`${C.red}Error:${C.reset} --minAge must be an integer between 0 and 100.`);
         process.exit(1);
       }
       i++;
     } else if (arg === '--maxAge') {
-      maxAge = parseInt(getArgValue(i), 10);
-      if (isNaN(maxAge) || maxAge < 0) {
-        console.error(`${C.red}Error:${C.reset} --maxAge must be a non-negative integer.`);
+      maxAge = Number(getArgValue(i));
+      if (!Number.isInteger(maxAge) || maxAge < 0 || maxAge > 100) {
+        console.error(`${C.red}Error:${C.reset} --maxAge must be an integer between 0 and 100.`);
         process.exit(1);
       }
       i++;
@@ -425,6 +425,10 @@ async function main() {
   }
 
   // Resolve ageRange
+  if (minAge !== undefined && maxAge !== undefined && minAge > maxAge) {
+    console.error(`${C.red}Error:${C.reset} --minAge cannot be greater than --maxAge.`);
+    process.exit(1);
+  }
   if (minAge !== undefined || maxAge !== undefined) {
     constraints.ageRange = { min: minAge ?? 0, max: maxAge ?? 100 };
   }

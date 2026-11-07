@@ -172,6 +172,20 @@ def main():
         print_help()
         sys.exit(0)
 
+    if args.count <= 0:
+        print("Error: --count must be a positive integer.", file=sys.stderr)
+        sys.exit(1)
+    if args.minAge is not None and not 0 <= args.minAge <= 100:
+        print("Error: --minAge must be an integer between 0 and 100.", file=sys.stderr)
+        sys.exit(1)
+    if args.maxAge is not None and not 0 <= args.maxAge <= 100:
+        print("Error: --maxAge must be an integer between 0 and 100.", file=sys.stderr)
+        sys.exit(1)
+    if (args.minAge is not None and args.maxAge is not None
+            and args.minAge > args.maxAge):
+        print("Error: --minAge cannot be greater than --maxAge.", file=sys.stderr)
+        sys.exit(1)
+
     # Compile constraints
     constraints = {}
     if args.religion: constraints["religion"] = args.religion
@@ -184,7 +198,10 @@ def main():
     if args.occupation: constraints["occupation"] = args.occupation
     if args.maritalStatus: constraints["maritalStatus"] = args.maritalStatus
     if args.minAge is not None or args.maxAge is not None:
-        constraints["ageRange"] = {"min": args.minAge or 0, "max": args.maxAge or 100}
+        constraints["ageRange"] = {
+            "min": args.minAge if args.minAge is not None else 0,
+            "max": args.maxAge if args.maxAge is not None else 100,
+        }
 
     include_probability_metrics = not args.no_metrics
 

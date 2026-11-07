@@ -1,5 +1,7 @@
 """Small checks for generator edge cases."""
-from indian_fakedata import generate
+import pytest
+
+from indian_fakedata import generate, generate_stream
 
 
 def test_defaults_to_one_profile():
@@ -40,3 +42,27 @@ def test_other_gender_profiles_work():
         assert profile["gender"] == "other"
         assert profile["firstName"]
         assert profile["lastName"]
+
+
+@pytest.mark.parametrize("bad_count", [1.5, -1, "10", True])
+def test_bad_count_raises(bad_count):
+    with pytest.raises(ValueError, match="non-negative integer"):
+        generate(count=bad_count, seed=1)
+    with pytest.raises(ValueError, match="non-negative integer"):
+        list(generate_stream(count=bad_count, seed=1))
+
+
+@pytest.mark.parametrize("age_range", [
+    {"min": 50, "max": 20},
+    {"min": -1, "max": 20},
+    {"min": 0, "max": 101},
+    {"min": 0.5, "max": 20},
+])
+def test_bad_age_range_raises(age_range):
+    with pytest.raises(ValueError, match="ageRange"):
+        generate(count=1, seed=1, constraints={"ageRange": age_range})
+
+
+def test_islam_alias_works():
+    profile = generate(count=1, seed=1, constraints={"religion": "Islam"})[0]
+    assert profile["religion"] == "Muslim"

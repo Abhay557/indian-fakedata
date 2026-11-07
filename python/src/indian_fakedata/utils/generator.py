@@ -393,6 +393,30 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     return profile
 
 
+def _validate_count(count):
+    if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+        raise ValueError(
+            f"Generator error: count must be a non-negative integer, got {count!r}"
+        )
+
+
+def _validate_age_range(constraints):
+    age_range = constraints.get("ageRange")
+    if not age_range:
+        return
+    lo = age_range.get("min", 0)
+    hi = age_range.get("max", 100)
+    valid_types = (
+        isinstance(lo, int) and not isinstance(lo, bool)
+        and isinstance(hi, int) and not isinstance(hi, bool)
+    )
+    if not valid_types or lo < 0 or hi > 100 or lo > hi:
+        raise ValueError(
+            "Constraint error: ageRange must satisfy 0 <= min <= max <= 100, "
+            f"got {lo}-{hi}"
+        )
+
+
 def generate(count=1, seed=None, constraints=None, include_probability_metrics=True):
     """
     Generate one or more demographically consistent profiles.
@@ -411,6 +435,8 @@ def generate(count=1, seed=None, constraints=None, include_probability_metrics=T
     """
     if constraints is None:
         constraints = {}
+    _validate_count(count)
+    _validate_age_range(constraints)
 
     rng = create_rng(seed)
     db = load_database()
@@ -430,6 +456,8 @@ def generate_stream(count=1, seed=None, constraints=None, include_probability_me
     """
     if constraints is None:
         constraints = {}
+    _validate_count(count)
+    _validate_age_range(constraints)
 
     rng = create_rng(seed)
     db = load_database()

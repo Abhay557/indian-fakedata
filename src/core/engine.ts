@@ -40,6 +40,17 @@ import {
 // Constraint Mask Engine
 // ─────────────────────────────────────────────────────────────
 
+/** Common names people use for religions, mapped to database ids. */
+const RELIGION_ALIASES: Record<string, string> = {
+  islam: 'muslim',
+  islamic: 'muslim',
+  hinduism: 'hindu',
+  sikhism: 'sikh',
+  christianity: 'christian',
+  buddhism: 'buddhist',
+  jainism: 'jain',
+};
+
 /**
  * Resolves a complete demographic path through the hierarchical tree,
  * applying constraints.
@@ -71,7 +82,8 @@ export function resolveTreePath(
   let religionProb: number;
 
   if (constraints.religion) {
-    const key = normalizeKey(constraints.religion);
+    const rawKey = normalizeKey(constraints.religion);
+    const key = RELIGION_ALIASES[rawKey] ?? rawKey;
     const match = findKeyMatch(Object.keys(db.religions), key);
     if (!match) throw new Error(`Constraint error: religion "${constraints.religion}" not found in database`);
     religionId = match;

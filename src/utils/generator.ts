@@ -103,6 +103,28 @@ function generateUUID(rng: ReturnType<typeof createRNG>): string {
   return uuid;
 }
 
+/** Reject counts that cannot be used as a loop bound. */
+function validateCount(count: unknown): asserts count is number {
+  if (typeof count !== 'number' || !Number.isInteger(count) || count < 0) {
+    throw new Error(
+      `Generator error: count must be a non-negative integer, got ${JSON.stringify(count)}`
+    );
+  }
+}
+
+/** Reject age ranges that are backwards or outside 0-100. */
+function validateAgeRange(constraints: GenerationConstraints): void {
+  const range = constraints.ageRange;
+  if (!range) return;
+  const { min, max } = range;
+  if (!Number.isInteger(min) || !Number.isInteger(max) ||
+    min < 0 || max > 100 || min > max) {
+    throw new Error(
+      `Constraint error: ageRange must satisfy 0 <= min <= max <= 100, got ${min}-${max}`
+    );
+  }
+}
+
 /**
  * Generate one or more demographically consistent profiles.
  * Now produces 40+ fields per profile.
@@ -132,6 +154,9 @@ export function generate(options: GeneratorOptions = {}): DemographicProfile[] {
     includeProbabilityMetrics = true,
     dataDir
   } = options;
+
+  validateCount(count);
+  validateAgeRange(constraints);
 
   const rng = createRNG(seed);
   const db = loadDatabase(dataDir);
@@ -560,6 +585,9 @@ export function* generateStream(options: GeneratorOptions = {}): Generator<Demog
     includeProbabilityMetrics = true,
     dataDir
   } = options;
+
+  validateCount(count);
+  validateAgeRange(constraints);
 
   const rng = createRNG(seed);
   const db = loadDatabase(dataDir);

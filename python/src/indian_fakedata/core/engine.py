@@ -27,6 +27,17 @@ def normalize_key(s: str) -> str:
         return ""
     return re.sub(r'[\s\-_]+', '_', s.lower()).strip()
 
+
+RELIGION_ALIASES = {
+    "islam": "muslim",
+    "islamic": "muslim",
+    "hinduism": "hindu",
+    "sikhism": "sikh",
+    "christianity": "christian",
+    "buddhism": "buddhist",
+    "jainism": "jain",
+}
+
 def find_key_match(keys, target):
     """Find a key match in a list of keys, allowing flexible matching"""
     if not target:
@@ -284,6 +295,7 @@ def resolve_tree_path(db, constraints, rng):
     religions_db = db.get("religions", {})
     if constraint_religion:
         key = normalize_key(constraint_religion)
+        key = RELIGION_ALIASES.get(key, key)
         match = find_key_match(list(religions_db.keys()), key)
         if not match:
             raise ValueError(f"Constraint error: religion '{constraint_religion}' not found in database")

@@ -117,3 +117,23 @@ def test_cli_eval_scores_a_file(tmp_path):
     report = json.loads(res.stdout)
     assert report["sampleSize"] == 60
     assert report["qualityScore"] >= 70
+
+
+def test_cli_rejects_bad_count_and_ages():
+    cases = [
+        (("--count", "0"), "--count must be a positive integer"),
+        (("--minAge", "101"), "--minAge must be an integer between 0 and 100"),
+        (("--minAge", "50", "--maxAge", "20"), "--minAge cannot be greater than --maxAge"),
+    ]
+    for args, message in cases:
+        res = run_cli(*args)
+        assert res.returncode == 1
+        assert message in res.stderr
+
+
+def test_cli_accepts_zero_max_age():
+    res = run_cli("--count", "2", "--seed", "7", "--minAge", "0",
+                  "--maxAge", "0", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
+    assert all(row["age"] == 0 for row in rows)
