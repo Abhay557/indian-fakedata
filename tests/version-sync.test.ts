@@ -31,4 +31,11 @@ describe('version sync', () => {
     expect(pyVersion).toBe(pkg.version);
     expect(pyproject).toBe(pkg.version);
   });
+
+  it('keeps the npm and PyPI READMEs identical', () => {
+    const root = read('README.md').replace(/\r\n/g, '\n');
+    const python = read('python/README.md').replace(/\r\n/g, '\n');
+
+    expect(python).toBe(root);
+  });
 });

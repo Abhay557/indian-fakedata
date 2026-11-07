@@ -4,6 +4,13 @@ Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
 PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
 within one version; across versions it is not.
 
+## 2.2.1
+
+- **Fixed: npm and PyPI README mismatch.** Both package pages are now generated
+  from the same root README, and a test fails if `README.md` and
+  `python/README.md` drift apart. There are no runtime changes; seeded output is
+  unchanged.
+
 ## 2.2.0
 
 - **Changed: batch profiles now get unique seeds.** Every profile in a batch
