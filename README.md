@@ -2,6 +2,7 @@
 
 ![Indian Fake Data Generator](https://raw.githubusercontent.com/Abhay557/indian-fakedata/main/hero.png)
 
+[![CI](https://github.com/Abhay557/indian-fakedata/actions/workflows/ci.yml/badge.svg)](https://github.com/Abhay557/indian-fakedata/actions/workflows/ci.yml)
 [![NPM Version](https://img.shields.io/npm/v/@abhay557/indian-fakedata?logo=npm&color=brightgreen)](https://www.npmjs.com/package/@abhay557/indian-fakedata)
 [![PyPI Version](https://img.shields.io/pypi/v/indian-fakedata?logo=pypi&color=blue)](https://pypi.org/project/indian-fakedata/)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
