@@ -15,6 +15,12 @@ describe('mother tongue constraint', () => {
     }
   });
 
+  it('rejects an unknown language', () => {
+    expect(() =>
+      generate({ seed: 12, constraints: { motherTongue: 'klingon' } })
+    ).toThrow(/Unknown mother tongue/);
+  });
+
   it('keeps the normal sampling when no constraint is given', () => {
     const languages = new Set(
       generate({ count: 50, seed: 12 }).map(p => p.motherTongue)
