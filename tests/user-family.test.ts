@@ -145,6 +145,37 @@ describe('generateFamily', () => {
     if (family.parents.mother) expect(family.parents.mother.age).toBeGreaterThan(family.head.age);
   });
 
+  it('never marries a male below 21', () => {
+    const users = generateUsers({
+      count: 100,
+      seed: 404,
+      constraints: { gender: 'male', ageRange: { min: 18, max: 20 } },
+    });
+    expect(users.every((user) => user.maritalStatus === 'never_married')).toBe(true);
+  });
+
+  it('leaves a legal-age gap between generations', () => {
+    for (let seed = 0; seed < 20; seed++) {
+      const family = generateFamily({
+        seed,
+        constraints: { ageRange: { min: 20, max: 60 } },
+      });
+      const head = family.head;
+      if (family.parents.father) {
+        expect(family.parents.father.age - head.age).toBeGreaterThanOrEqual(21);
+      }
+      if (family.parents.mother) {
+        expect(family.parents.mother.age - head.age).toBeGreaterThanOrEqual(18);
+      }
+      for (const child of family.children) {
+        expect(head.age - child.age).toBeGreaterThanOrEqual(head.gender === 'male' ? 21 : 18);
+      }
+      if (family.spouse?.gender === 'male') {
+        expect(family.spouse.age).toBeGreaterThanOrEqual(21);
+      }
+    }
+  });
+
   it('spouse gender is opposite to the head', () => {
     const family = generateFamily({ seed: '011' });
     if (family.spouse) {

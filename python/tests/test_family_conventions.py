@@ -47,3 +47,25 @@ def test_children_are_younger_than_head():
 
 def test_family_is_reproducible_for_same_seed():
     assert generate_family(seed=42) == generate_family(seed=42)
+
+
+def test_male_profiles_never_marry_below_21():
+    profiles = generate_users(
+        count=100, seed=404,
+        constraints={"gender": "male", "ageRange": {"min": 18, "max": 20}},
+    )
+    assert all(p["maritalStatus"] == "never_married" for p in profiles)
+
+
+def test_generations_have_a_legal_age_gap():
+    for seed in range(20):
+        family = generate_family(seed=seed, constraints={"ageRange": {"min": 20, "max": 60}})
+        head = family["head"]
+        assert family["parents"]["father"]["age"] - head["age"] >= 21
+        assert family["parents"]["mother"]["age"] - head["age"] >= 18
+        min_parent_age = 21 if head["gender"] == "male" else 18
+        for child in family["children"]:
+            assert head["age"] - child["age"] >= min_parent_age
+        spouse = family["spouse"]
+        if spouse and spouse["gender"] == "male":
+            assert spouse["age"] >= 21
