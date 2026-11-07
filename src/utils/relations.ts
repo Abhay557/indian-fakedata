@@ -148,7 +148,7 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
     constraints: {
       ...community,
       gender: 'male',
-      ageRange: { min: fatherAge - 2, max: fatherAge + 2 },
+      ageRange: { min: Math.max(0, fatherAge - 2), max: Math.min(100, fatherAge + 2) },
       maritalStatus: 'married'
     },
     includeProbabilityMetrics: options.includeProbabilityMetrics,
@@ -165,7 +165,7 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
     constraints: {
       ...community,
       gender: 'female',
-      ageRange: { min: motherAge - 2, max: motherAge + 2 },
+      ageRange: { min: Math.max(0, motherAge - 2), max: Math.min(100, motherAge + 2) },
       maritalStatus: 'married'
     },
     includeProbabilityMetrics: options.includeProbabilityMetrics,
@@ -194,7 +194,7 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
       constraints: {
         ...community,
         gender: childGender,
-        ageRange: { min: Math.max(0, childAge - 2), max: childAge + 2 },
+        ageRange: { min: Math.max(0, childAge - 2), max: Math.min(100, childAge + 2) },
         maritalStatus: 'never_married'
       },
       includeProbabilityMetrics: options.includeProbabilityMetrics,
@@ -217,7 +217,7 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
       constraints: {
         ...community,
         gender: siblingGender,
-        ageRange: { min: Math.max(0, siblingAge - 2), max: siblingAge + 2 }
+        ageRange: { min: Math.max(0, siblingAge - 2), max: Math.min(100, siblingAge + 2) }
       },
       includeProbabilityMetrics: options.includeProbabilityMetrics,
       dataDir: options.dataDir
