@@ -106,6 +106,14 @@ def test_cli_strip_pii_redacts_narrative_text():
     assert row["profile"]["aadhaarNumber"] == ""
 
 
+def test_cli_mother_tongue_pins_language():
+    res = run_cli("--count", "2", "--seed", "7", "--motherTongue", "tamil",
+                  "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    rows = [json.loads(line) for line in res.stdout.strip().split("\n")]
+    assert all(row["motherTongue"] == "Tamil" for row in rows)
+
+
 def test_cli_validate_passes_clean_output():
     res = run_cli("--count", "3", "--seed", "7", "--validate", "--format", "jsonl")
     assert res.returncode == 0, res.stderr

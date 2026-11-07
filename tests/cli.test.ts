@@ -181,6 +181,17 @@ describe('--fields / --stats (v2.0.9)', () => {
     }
   });
 
+  it('CLI --motherTongue pins the language', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'language.json');
+    execSync(
+      `npx tsx src/cli.ts -c 2 --seed 7 --motherTongue tamil -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    for (const row of content) expect(row.motherTongue).toBe('Tamil');
+  });
+
   it('CLI --validate passes clean output', () => {
     const outputDir = path.resolve('tests/temp-output');
     const outPath = path.join(outputDir, 'valid.json');
