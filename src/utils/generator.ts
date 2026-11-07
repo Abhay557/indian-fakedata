@@ -242,7 +242,10 @@ function generateSingleProfile(
   const { addressLine, locality } = generateAddress(district, path.areaType, rng);
 
   // ── Step 7: Language ──────────────────────────────────
-  const motherTongue = selectMotherTongue(db, path.stateId, rng);
+  const requestedTongue = constraints.motherTongue?.trim();
+  const motherTongue = requestedTongue
+    ? requestedTongue.charAt(0).toUpperCase() + requestedTongue.slice(1)
+    : selectMotherTongue(db, path.stateId, rng);
   const secondLanguage = selectSecondLanguage(db, path.stateId, motherTongue, socio.education, rng);
 
   // ── Step 8: Employment ────────────────────────────────

@@ -95,6 +95,7 @@ function printHelp() {
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
     --religion <string>        Fix religion ${C.dim}(Hindu, Muslim, Christian, Sikh, Buddhist, Jain)${C.reset}
     --state <string>           Fix state ${C.dim}(e.g., Maharashtra, Tamil Nadu, Punjab)${C.reset}
+    --motherTongue <lang>      Fix mother tongue ${C.dim}(e.g., Tamil, Bengali)${C.reset}
     --gender <gender>          Fix gender: male, female, other
     --caste <string>           Fix caste/community ${C.dim}(e.g., Brahmin, Maratha, Jat)${C.reset}
     --socialCategory <cat>     Fix social category: SC, ST, OBC, General
@@ -330,6 +331,8 @@ async function main() {
       constraints.religion = getArgValue(i); i++;
     } else if (arg === '--state') {
       constraints.state = getArgValue(i); i++;
+    } else if (arg === '--motherTongue') {
+      constraints.motherTongue = getArgValue(i); i++;
     } else if (arg === '--gender') {
       const val = getArgValue(i).toLowerCase();
       if (!validGenders.includes(val)) {

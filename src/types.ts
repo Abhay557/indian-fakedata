@@ -663,6 +663,8 @@ export interface GenerationConstraints {
   religion?: string;
   /** Fix the state (e.g. "Kerala", "Punjab") */
   state?: string;
+  /** Fix the mother tongue (e.g. "Tamil", "Bengali") */
+  motherTongue?: string;
   /** Fix the gender */
   gender?: Gender;
   /** Fix the caste/community */

@@ -67,6 +67,7 @@ def print_help():
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
     --religion <string>        Fix religion {C["dim"]}(Hindu, Muslim, Christian, Sikh, Buddhist, Jain){C["reset"]}
     --state <string>           Fix state {C["dim"]}(e.g., Maharashtra, Tamil Nadu, Punjab){C["reset"]}
+    --motherTongue <lang>      Fix mother tongue {C["dim"]}(e.g., Tamil, Bengali){C["reset"]}
     --gender <gender>          Fix gender: male, female, other
     --caste <string>           Fix caste/community {C["dim"]}(e.g., Brahmin, Maratha, Jat){C["reset"]}
     --socialCategory <cat>     Fix social category: SC, ST, OBC, General
@@ -146,6 +147,7 @@ def main():
     # Constraints
     parser.add_argument("--religion", type=str, default=None)
     parser.add_argument("--state", type=str, default=None)
+    parser.add_argument("--motherTongue", type=str, default=None)
     parser.add_argument("--gender", type=str, default=None)
     parser.add_argument("--caste", type=str, default=None)
     parser.add_argument("--socialCategory", type=str, default=None)
@@ -211,6 +213,7 @@ def main():
     constraints = {}
     if args.religion: constraints["religion"] = args.religion
     if args.state: constraints["state"] = args.state
+    if args.motherTongue: constraints["motherTongue"] = args.motherTongue
     if args.gender: constraints["gender"] = args.gender
     if args.caste: constraints["caste"] = args.caste
     if args.socialCategory: constraints["socialCategory"] = args.socialCategory

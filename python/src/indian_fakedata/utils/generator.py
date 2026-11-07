@@ -138,7 +138,11 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     addr = generate_address(district, path["areaType"], rng)
 
     # Step 7: Language
-    mother_tongue = select_mother_tongue(db, path["stateId"], rng)
+    requested_tongue = str(constraints.get("motherTongue") or "").strip()
+    mother_tongue = (
+        requested_tongue.capitalize()
+        if requested_tongue else select_mother_tongue(db, path["stateId"], rng)
+    )
     second_language = select_second_language(db, path["stateId"], mother_tongue, socio["education"], rng)
 
     # Step 8: Employment
