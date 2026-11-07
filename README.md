@@ -547,6 +547,9 @@ Filter generated profiles to specific demographic slices:
 | `--occupation <sector>` | `cultivator`, `other_worker`, `non_worker`, etc. |
 | `--maritalStatus <status>` | `never_married`, `married`, `widowed`, etc. |
 
+`--motherTongue` must be a language present in the database. Unknown values
+fail with an error instead of silently falling back to Hindi.
+
 ### Enrichment Layers (Progressive Depth)
 
 | Flag | Description |

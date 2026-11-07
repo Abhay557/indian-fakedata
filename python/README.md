@@ -446,7 +446,7 @@ Filter generated profiles to specific demographic slices:
 |------|--------|
 | `--religion <string>` | `Hindu`, `Muslim`, `Christian`, `Sikh`, `Buddhist`, `Jain` |
 | `--state <string>` | e.g. `Maharashtra`, `Tamil Nadu`, `Punjab` |
-| `--motherTongue <lang>` | e.g. `Tamil`, `Bengali`, `Hindi` |
+| `--motherTongue <lang>` | e.g. `Tamil`, `Bengali`, `Hindi` (must be in the database) |
 | `--gender <gender>` | `male`, `female`, `other` |
 | `--caste <string>` | e.g. `Brahmin`, `Maratha`, `Jat` |
 | `--socialCategory <cat>` | `SC`, `ST`, `OBC`, `General` |

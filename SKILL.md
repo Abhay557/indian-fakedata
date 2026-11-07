@@ -50,7 +50,8 @@ indian-fakedata [options]
 ### Constraints (any combination)
 
 `--religion` (Hindu, Muslim, Christian, Sikh, Buddhist, Jain), `--state`,
-`--motherTongue`, `--gender` (male/female/other), `--caste`, `--socialCategory`
+`--motherTongue` (must be a language in the database), `--gender`
+(male/female/other), `--caste`, `--socialCategory`
 (SC/ST/OBC/General), `--areaType` (urban/rural), `--minAge`/`--maxAge` (0–100),
 `--education`, `--occupation`, `--maritalStatus`.
 
