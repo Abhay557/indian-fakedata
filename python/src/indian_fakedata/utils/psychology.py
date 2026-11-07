@@ -14,10 +14,9 @@ Sources:
 - Interests: BARC India viewership, ICC surveys
 """
 
-import math
 from indian_fakedata.core.sampler import (
-    weighted_sample, weighted_sample_from_record, bernoulli_sample,
-    gaussian_sample, uniform_sample,
+    weighted_sample_from_record, bernoulli_sample,
+    gaussian_sample,
 )
 
 

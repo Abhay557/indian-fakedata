@@ -9,11 +9,9 @@ Implements the constraint masking engine that ensures consistent profiles. Handl
 """
 
 import re
-import math
 from indian_fakedata.core.sampler import (
     weighted_sample,
     weighted_sample_from_record,
-    uniform_sample,
     bernoulli_sample,
     age_sample,
     household_size_sample,

@@ -13,7 +13,6 @@ def _renderings(value):
     if isinstance(value, float):
         return [str(value)]
     if isinstance(value, int):
-        import math
         n = int(round(value))
         s = str(abs(n))
         if len(s) <= 3:

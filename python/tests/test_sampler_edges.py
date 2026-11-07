@@ -1,5 +1,4 @@
 """Simple checks for the random number helpers."""
-import math
 
 import pytest
 
@@ -14,7 +13,6 @@ from indian_fakedata.core.sampler import (
     normalize_seed,
     uniform_sample,
     weighted_sample,
-    weighted_sample_from_record,
 )
 
 

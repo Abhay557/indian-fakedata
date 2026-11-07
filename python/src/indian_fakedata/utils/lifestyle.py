@@ -15,7 +15,7 @@ Generates correlated lifestyle attributes:
 import math
 from indian_fakedata.core.sampler import (
     weighted_sample_from_record, weighted_sample, bernoulli_sample,
-    gaussian_sample, log_normal_sample, uniform_sample,
+    gaussian_sample, log_normal_sample,
 )
 
 

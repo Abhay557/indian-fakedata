@@ -70,7 +70,6 @@ def test_cli_stats_prints_summary_to_stderr():
 
 
 def test_cli_strip_pii_empties_identifiers():
-    import re
     res = run_cli("--count", "3", "--seed", "7", "--strip-pii", "--format", "jsonl")
     assert res.returncode == 0, res.stderr
     rows = [json.loads(line) for line in res.stdout.strip().split("\n")]

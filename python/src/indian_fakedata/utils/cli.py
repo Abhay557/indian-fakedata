@@ -8,7 +8,6 @@ backed by Census 2011 data using attention-like context masking.
 import sys
 import argparse
 import json
-from datetime import datetime
 
 from indian_fakedata._version import __version__
 from indian_fakedata.utils.generator import generate_stream, generate_enriched_stream

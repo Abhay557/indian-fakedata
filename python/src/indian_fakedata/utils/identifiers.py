@@ -7,7 +7,7 @@ real-world patterns with valid checksums where applicable.
 """
 
 import math
-from indian_fakedata.core.sampler import weighted_sample, uniform_sample, gaussian_sample, bernoulli_sample
+from indian_fakedata.core.sampler import weighted_sample, uniform_sample, gaussian_sample
 
 # ─── Verhoeff Tables for Aadhaar Checksum ─────────────────────
 
@@ -181,7 +181,6 @@ def generate_email(first_name, last_name, rng):
 
 # ─── Date of Birth ─────────────────────────────────────────────
 
-import calendar
 
 
 def generate_dob(age, rng):

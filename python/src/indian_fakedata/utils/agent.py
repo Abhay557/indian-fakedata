@@ -12,7 +12,6 @@ Designed for:
  - Persona-based evaluation of LLMs for Indian contexts
 """
 
-import math
 
 from indian_fakedata.utils.festivals import profile_festivals
 

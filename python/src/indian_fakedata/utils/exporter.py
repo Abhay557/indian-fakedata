@@ -7,8 +7,6 @@ Uses only Python standard library modules.
 """
 
 import json
-import csv
-import io
 import os
 
 

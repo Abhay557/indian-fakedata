@@ -58,6 +58,7 @@ from indian_fakedata._version import __version__
 __author__ = "Abhay Mourya"
 
 __all__ = [
+    "__version__",
     # Generation
     "generate",
     "generate_stream",
