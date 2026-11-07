@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { generate, stripPII, redactPII, validateProfile, PII_FIELDS } from '../src/index.js';
+import {
+  generate,
+  generateFamily,
+  stripPII,
+  stripFamilyPII,
+  redactPII,
+  validateProfile,
+  PII_FIELDS,
+} from '../src/index.js';
 
 describe('stripPII (v2.0.9)', () => {
   it('empties direct identifiers but keeps shape and provenance', () => {
@@ -34,6 +42,28 @@ describe('stripPII (v2.0.9)', () => {
     expect(clean.nativeScript.firstName).toContain('.');
     expect(clean.nativeScript.firstName).not.toBe(p.nativeScript.firstName);
     expect(clean.nativeScript.lastName).not.toBe(p.nativeScript.lastName);
+  });
+
+  it('strips every member of a family unit', () => {
+    const family = generateFamily({ seed: 7 });
+    const originalPhone = family.head.phoneNumber;
+    const clean = stripFamilyPII(family);
+    const members = [
+      clean.head,
+      clean.spouse,
+      clean.parents.father,
+      clean.parents.mother,
+      ...clean.children,
+      ...clean.siblings,
+    ].filter(Boolean);
+
+    expect(members.length).toBeGreaterThan(1);
+    for (const member of members) {
+      expect(member!.aadhaarNumber).toBe('');
+      expect(member!.phoneNumber).toBe('');
+      expect(member!.piiStripped).toBe(true);
+    }
+    expect(family.head.phoneNumber).toBe(originalPhone);
   });
 
   it('redacts identifiers from generated text', () => {

@@ -2,7 +2,9 @@
 
 from indian_fakedata import (
     generate,
+    generate_family,
     strip_pii,
+    strip_family_pii,
     redact_pii,
     validate_profile,
     PII_FIELDS,
@@ -39,6 +41,28 @@ def test_mask_names_replaces_with_initials():
     assert "." in clean["nativeScript"]["firstName"]
     assert clean["nativeScript"]["firstName"] != p["nativeScript"]["firstName"]
     assert clean["nativeScript"]["lastName"] != p["nativeScript"]["lastName"]
+
+
+def test_strips_every_member_of_a_family_unit():
+    family = generate_family(seed=7)
+    original_phone = family["head"]["phoneNumber"]
+    clean = strip_family_pii(family)
+    members = [
+        clean["head"],
+        clean.get("spouse"),
+        clean["parents"].get("father"),
+        clean["parents"].get("mother"),
+        *clean["children"],
+        *clean["siblings"],
+    ]
+    members = [member for member in members if member]
+
+    assert len(members) > 1
+    for member in members:
+        assert member["aadhaarNumber"] == ""
+        assert member["phoneNumber"] == ""
+        assert member["piiStripped"] is True
+    assert family["head"]["phoneNumber"] == original_phone
 
 
 def test_redacts_identifiers_from_generated_text():
