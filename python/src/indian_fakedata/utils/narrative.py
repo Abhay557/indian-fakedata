@@ -201,6 +201,26 @@ def generate_medical_consultation(profile, outcomes):
     bmi = profile.get("bmi", 22.0)
     cdate = datetime.now().strftime("%d/%m/%Y")
 
+    risk_score = health.get("healthRiskScore", 30)
+    if risk_score > 60:
+        plan = (
+            "1. Urgent follow-up investigations required\n"
+            "2. Lifestyle modification counseling\n"
+            "3. Referral to specialist recommended"
+        )
+    elif risk_score > 35:
+        plan = (
+            "1. Routine blood work and BP monitoring\n"
+            "2. Dietary counseling\n"
+            "3. Follow-up in 3 months"
+        )
+    else:
+        plan = (
+            "1. No immediate intervention required\n"
+            "2. Continue healthy lifestyle\n"
+            "3. Annual health screening recommended"
+        )
+
     content = f"""
 OUTPATIENT CONSULTATION RECORD
 {'District Hospital / Private Clinic' if profile.get("areaType") == 'urban' else 'Primary Health Centre (PHC) / Community Health Centre'}
@@ -250,7 +270,7 @@ Healthcare Access   : {int(round(health.get("healthcareAccessProbability", 0.6) 
 
 PLAN
 ─────
-{'1. Urgent follow-up investigations required\n2. Lifestyle modification counseling\n3. Referral to specialist recommended' if health.get("healthRiskScore", 30) > 60 else '1. Routine blood work and BP monitoring\n2. Dietary counseling\n3. Follow-up in 3 months' if health.get("healthRiskScore", 30) > 35 else '1. No immediate intervention required\n2. Continue healthy lifestyle\n3. Annual health screening recommended'}
+{plan}
 
 Doctor's Signature: _________________________ Date: {cdate}
 """.strip()
