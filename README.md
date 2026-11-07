@@ -674,6 +674,8 @@ Contributions are welcome. Please read [CONTRIBUTING.md](https://github.com/Abha
 | `npm run dev` | Run `src/index.ts` via tsx |
 | `npm run cli` | Run `src/cli.ts` via tsx |
 | `npm test` | Run vitest test suite |
+| `npm run benchmark -- 10000` | Measure TypeScript stream throughput |
+| `python python/scripts/benchmark.py 10000` | Measure Python stream throughput |
 | `npm run demo` | Run demo script |
 | `npm run lint` | Type-check without emitting |
 
