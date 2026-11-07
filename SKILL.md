@@ -17,7 +17,7 @@ Current version: **2.1.1** (both). Zero runtime dependencies.
 ## 1. Install
 
 ```bash
-# TypeScript / Node (requires Node >= 18)
+# TypeScript / Node (requires Node >= 18; ESM only, use import)
 npm install @abhay557/indian-fakedata
 
 # Python (requires Python 3.8+)

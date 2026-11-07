@@ -47,7 +47,8 @@ This repository provides **two native implementations**:
 npm install @abhay557/indian-fakedata
 ```
 
-Requires **Node.js >= 18**.
+Requires **Node.js >= 18**. The package is ESM-only: use `import`, not
+`require()`.
 
 ### Python
 
