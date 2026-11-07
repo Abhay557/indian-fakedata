@@ -671,6 +671,7 @@ Contributions are welcome. Please read [CONTRIBUTING.md](https://github.com/Abha
 | Command | Description |
 | ------- | ----------- |
 | `npm run build` | Compile TypeScript to `dist/` |
+| `npm run build:docs` | Rebuild the browser bundle in `docs/assets/lib.js` |
 | `npm run dev` | Run `src/index.ts` via tsx |
 | `npm run cli` | Run `src/cli.ts` via tsx |
 | `npm test` | Run vitest test suite |
