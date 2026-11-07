@@ -41,6 +41,8 @@ This repository provides **two native implementations**:
 
 ## Installation
 
+Current release: **2.2.0** on npm and PyPI.
+
 ### Node.js / TypeScript
 
 ```bash

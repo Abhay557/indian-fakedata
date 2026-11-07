@@ -406,6 +406,8 @@ Unlike traditional mock generators that produce impossible demographic combinati
 
 ## Installation
 
+Current release: **2.2.0** on PyPI.
+
 ```bash
 pip install indian-fakedata
 ```
