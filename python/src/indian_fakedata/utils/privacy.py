@@ -19,6 +19,8 @@ identifiers it requires are gone) — validate BEFORE stripping.
 Pure function: no RNG, no I/O, input is never mutated.
 """
 
+import re
+
 #: Direct-identifier fields emptied by strip_pii
 PII_FIELDS = [
     "aadhaarNumber",
@@ -41,10 +43,62 @@ _NAME_FIELDS = [
 ]
 
 
+_REDACTED = "[REDACTED]"
+
+_PII_TEXT_PATTERNS = [
+    re.compile(r"\b\d{4}\s?\d{4}\s?\d{4}\b"),
+    re.compile(r"\b[A-Z]{5}\d{4}[A-Z]\b"),
+    re.compile(r"\b[A-Z]{3}\d{7}\b"),
+    re.compile(r"(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}\b"),
+    re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\b"),
+]
+
+
 def _to_initials(name):
     if name is None:
         return None
     return " ".join(w[0] + "." for w in str(name).split() if w)
+
+
+def _replace_token(text, value, replacement):
+    if not value:
+        return text
+    pattern = re.compile(r"(?<![\w])" + re.escape(value) + r"(?![\w])", re.UNICODE)
+    return pattern.sub(replacement, text)
+
+
+def _profile_text_pii(profile, mask_names):
+    items = []
+    for field in PII_FIELDS:
+        value = profile.get(field)
+        if isinstance(value, str) and value:
+            items.append((value, _REDACTED))
+    native = profile.get("nativeScript") or {}
+    if native.get("addressLine"):
+        items.append((native["addressLine"], _REDACTED))
+    if mask_names:
+        names = [profile.get(field) for field in _NAME_FIELDS]
+        names.extend([native.get("firstName"), native.get("lastName")])
+        for name in names:
+            if isinstance(name, str) and name:
+                items.append((name, _to_initials(name)))
+    return sorted(items, key=lambda item: len(item[0]), reverse=True)
+
+
+def redact_pii(text, profile=None, mask_names=False):
+    """Redact direct identifiers from generated text.
+
+    Pass the profile the text came from so exact values such as the address
+    and bank account can be removed; common identifier patterns are always
+    caught. Pure function: no RNG, no I/O.
+    """
+    out = text
+    if profile:
+        for value, replacement in _profile_text_pii(profile, mask_names):
+            out = _replace_token(out, value, replacement)
+    for pattern in _PII_TEXT_PATTERNS:
+        out = pattern.sub(_REDACTED, out)
+    return out
 
 
 def strip_pii(profile, mask_names=False):

@@ -14,7 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import { generateStream, generateEnrichedStream } from './utils/generator.js';
 import { generateFamily } from './utils/relations.js';
-import { stripPII } from './utils/privacy.js';
+import { stripPII, redactPII } from './utils/privacy.js';
 import { validateProfile } from './utils/schema.js';
 import { evaluateDataset } from './utils/eval.js';
 import { LIB_VERSION } from './version.js';
@@ -80,7 +80,7 @@ function printHelp() {
                            to stderr after generation
     --strip-pii            Empty direct identifiers (Aadhaar/PAN/voter/phone/
                            email/bank-account/UPI/PIN/geo/address) in output.
-                           Sanitizes profile fields only, not narrative or
+                           Also redacts identifier patterns in narrative and
                            persona text
     --mask-names           With --strip-pii, reduce names to initials
     --validate             Validate every full profile with validateProfile;
@@ -515,13 +515,25 @@ async function main() {
   const shape = (record: any) =>
     selectedFields.length > 0 ? pickRecordFields(record, selectedFields) : record;
   // Strip identifiers for output only; stats always count the full record.
-  // Sanitizes profile fields, not narrative/persona text.
-  const sanitize = (record: any) => {    if (!stripPIIFlag) return record;
+  // Also redacts generated text so narratives/personas do not leak IDs.
+  const redactRecord = (value: any, profile: any): any => {
+    if (typeof value === 'string') return redactPII(value, profile, { maskNames });
+    if (Array.isArray(value)) return value.map(v => redactRecord(v, profile));
+    if (value && typeof value === 'object') {
+      const out: any = {};
+      for (const [key, v] of Object.entries(value)) out[key] = redactRecord(v, profile);
+      return out;
+    }
+    return value;
+  };
+  const sanitize = (record: any) => {
+    if (!stripPIIFlag) return record;
     if (record && typeof record === 'object' && record.profile) {
-      return { ...record, profile: stripPII(record.profile, { maskNames }) };
+      const profile = stripPII(record.profile, { maskNames });
+      return redactRecord({ ...record, profile }, record.profile);
     }
     if (record && typeof record === 'object' && 'firstName' in record) {
-      return stripPII(record, { maskNames });
+      return redactRecord(stripPII(record, { maskNames }), record);
     }
     return record;
   };

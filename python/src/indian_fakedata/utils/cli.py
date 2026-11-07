@@ -52,7 +52,7 @@ def print_help():
                            to stderr after generation
     --strip-pii            Empty direct identifiers (Aadhaar/PAN/voter/phone/
                            email/bank-account/UPI/PIN/geo/address) in output.
-                           Sanitizes profile fields only, not narrative or
+                           Also redacts identifier patterns in narrative and
                            persona text
     --mask-names           With --strip-pii, reduce names to initials
     --validate             Validate every full profile with validate_profile;
@@ -237,24 +237,36 @@ def main():
         pick_record_fields, create_stats_counters,
         update_stats_counters, format_stats_counters,
     )
-    from indian_fakedata.utils.privacy import strip_pii
+    from indian_fakedata.utils.privacy import strip_pii, redact_pii
     from indian_fakedata.utils.schema import validate_profile
     stats = create_stats_counters()
 
     def shape(record):
         return pick_record_fields(record, selected_fields) if selected_fields else record
 
+    def redact_record(value, profile):
+        if isinstance(value, str):
+            return redact_pii(value, profile, mask_names=args.mask_names)
+        if isinstance(value, list):
+            return [redact_record(item, profile) for item in value]
+        if isinstance(value, dict):
+            return {key: redact_record(item, profile) for key, item in value.items()}
+        return value
+
     def sanitize(record):
         # Strip identifiers for output only; stats always count the full
-        # record. Sanitizes profile fields, not narrative/persona text.
+        # record. Also redacts generated text so narratives/personas do not
+        # leak IDs.
         if not args.strip_pii:
             return record
         if isinstance(record, dict) and isinstance(record.get("profile"), dict):
             out = dict(record)
             out["profile"] = strip_pii(record["profile"], mask_names=args.mask_names)
-            return out
+            return redact_record(out, record["profile"])
         if isinstance(record, dict) and "firstName" in record:
-            return strip_pii(record, mask_names=args.mask_names)
+            return redact_record(
+                strip_pii(record, mask_names=args.mask_names), record
+            )
         return record
 
     def check_valid(record, label):

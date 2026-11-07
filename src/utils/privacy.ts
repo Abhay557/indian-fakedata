@@ -54,6 +54,80 @@ function toInitials(name: string | undefined): string | undefined {
     .join(' ');
 }
 
+const REDACTED = '[REDACTED]';
+
+const PII_TEXT_PATTERNS: RegExp[] = [
+  /\b\d{4}\s?\d{4}\s?\d{4}\b/g,
+  /\b[A-Z]{5}\d{4}[A-Z]\b/g,
+  /\b[A-Z]{3}\d{7}\b/g,
+  /(?<!\d)(?:\+91[\s-]?)?[6-9]\d{9}\b/g,
+  /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\b/g,
+];
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceToken(text: string, value: string, replacement: string): string {
+  if (!value) return text;
+  const pattern = new RegExp(
+    `(?<![\\p{L}\\p{N}])${escapeRegExp(value)}(?![\\p{L}\\p{N}])`,
+    'gu'
+  );
+  return text.replace(pattern, replacement);
+}
+
+function profileTextPII(
+  profile: DemographicProfile,
+  maskNames: boolean
+): Array<{ value: string; replacement: string }> {
+  const items: Array<{ value: string; replacement: string }> = [];
+  for (const f of PII_FIELDS) {
+    const value = (profile as unknown as Record<string, unknown>)[f];
+    if (typeof value === 'string' && value) {
+      items.push({ value, replacement: REDACTED });
+    }
+  }
+  if (profile.nativeScript?.addressLine) {
+    items.push({ value: profile.nativeScript.addressLine, replacement: REDACTED });
+  }
+  if (maskNames) {
+    const names = [
+      ...NAME_FIELDS.map(f => (profile as unknown as Record<string, unknown>)[f]),
+      profile.nativeScript?.firstName,
+      profile.nativeScript?.lastName,
+    ];
+    for (const name of names) {
+      if (typeof name === 'string' && name) {
+        items.push({ value: name, replacement: toInitials(name) ?? REDACTED });
+      }
+    }
+  }
+  return items.sort((a, b) => b.value.length - a.value.length);
+}
+
+/**
+ * Redact direct identifiers from generated text (narratives, personas, etc.).
+ * Pass the profile the text was generated from so exact values such as the
+ * address and bank account can be removed; common patterns are always caught.
+ */
+export function redactPII(
+  text: string,
+  profile?: DemographicProfile,
+  options: StripPIIOptions = {}
+): string {
+  let out = text;
+  if (profile) {
+    for (const item of profileTextPII(profile, options.maskNames ?? false)) {
+      out = replaceToken(out, item.value, item.replacement);
+    }
+  }
+  for (const pattern of PII_TEXT_PATTERNS) {
+    out = out.replace(pattern, REDACTED);
+  }
+  return out;
+}
+
 /**
  * Return a sanitised copy of the profile safe for sharing/demos.
  * The input object is never modified.

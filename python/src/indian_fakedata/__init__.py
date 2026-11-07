@@ -50,7 +50,7 @@ from indian_fakedata.utils.sft import build_sft_pairs, sft_pairs_to_jsonl
 from indian_fakedata.utils.qa import build_qa_pairs
 from indian_fakedata.utils.eval import evaluate_dataset, check_consistency
 from indian_fakedata.utils.schema import get_profile_schema, validate_profile
-from indian_fakedata.utils.privacy import strip_pii, PII_FIELDS
+from indian_fakedata.utils.privacy import strip_pii, redact_pii, PII_FIELDS
 
 from indian_fakedata._version import __version__
 __author__ = "Abhay Mourya"
@@ -102,6 +102,7 @@ __all__ = [
     "get_profile_schema",
     "validate_profile",
     "strip_pii",
+    "redact_pii",
     "PII_FIELDS",
 ]
 
