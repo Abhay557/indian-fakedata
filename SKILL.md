@@ -50,9 +50,9 @@ indian-fakedata [options]
 ### Constraints (any combination)
 
 `--religion` (Hindu, Muslim, Christian, Sikh, Buddhist, Jain), `--state`,
-`--gender` (male/female/other), `--caste`, `--socialCategory` (SC/ST/OBC/General),
-`--areaType` (urban/rural), `--minAge`/`--maxAge` (0–100), `--education`,
-`--occupation`, `--maritalStatus`.
+`--motherTongue`, `--gender` (male/female/other), `--caste`, `--socialCategory`
+(SC/ST/OBC/General), `--areaType` (urban/rural), `--minAge`/`--maxAge` (0–100),
+`--education`, `--occupation`, `--maritalStatus`.
 
 ### Enrichment layers
 
