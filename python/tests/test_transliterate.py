@@ -33,6 +33,14 @@ def test_common_names_in_devanagari():
     assert transliterate("Swati", "Devanagari") == "स्वती"
 
 
+def test_common_irregular_spellings():
+    assert transliterate("Verma", "Devanagari") == "वर्मा"
+    assert transliterate("Krishna", "Devanagari") == "कृष्ण"
+    assert transliterate("Mourya", "Devanagari") == "मौर्या"
+    assert transliterate("Jaunpur", "Devanagari") == "जौनपुर"
+    assert transliterate("Ghazipur", "Devanagari") == "गाज़ीपुर"
+
+
 def test_documented_approximations():
     assert transliterate("Prakash", "Devanagari") == "प्रकश"
     assert transliterate("Kumar", "Devanagari") == "कुमर"

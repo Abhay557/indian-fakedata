@@ -38,6 +38,14 @@ describe('transliteration engine (v2.1.0, item 1)', () => {
     expect(transliterate('Swati', 'Devanagari')).toBe('स्वती');
   });
 
+  it('handles common irregular spellings', () => {
+    expect(transliterate('Verma', 'Devanagari')).toBe('वर्मा');
+    expect(transliterate('Krishna', 'Devanagari')).toBe('कृष्ण');
+    expect(transliterate('Mourya', 'Devanagari')).toBe('मौर्या');
+    expect(transliterate('Jaunpur', 'Devanagari')).toBe('जौनपुर');
+    expect(transliterate('Ghazipur', 'Devanagari')).toBe('गाज़ीपुर');
+  });
+
   it('documents known approximations (pronunciation-faithful)', () => {
     // medial vowel length is unpredictable from plain ASCII
     expect(transliterate('Prakash', 'Devanagari')).toBe('प्रकश');
