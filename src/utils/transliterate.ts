@@ -22,6 +22,8 @@ interface ScriptTable {
   virama: string;
   anusvara: string;
   nukta: string | null;
+  /** Retroflex ṇa, used for ṣṇ clusters (Krishna, Vishnu) */
+  retroflexN: string;
   /** Word-final bare-letter overrides, e.g. Malayalam chillu */
   finalForms?: Record<string, string>;
   /** Vocalic R for word-initial ri + consonant (Rishi, Ritu) */
@@ -47,7 +49,7 @@ const DEVANAGARI: ScriptTable = {
     ksh: 'क्ष', gy: 'ज्ञ', x: 'क्ष',
     f: 'फ', z: 'ज', q: 'क',
   },
-  virama: '्', anusvara: 'ं', nukta: '़', vocalicR: 'ऋ', vocalicRSign: 'ृ',
+  virama: '्', anusvara: 'ं', nukta: '़', retroflexN: 'ण', vocalicR: 'ऋ', vocalicRSign: 'ृ',
 };
 
 const BENGALI: ScriptTable = {
@@ -63,7 +65,7 @@ const BENGALI: ScriptTable = {
     ksh: 'ক্ষ', gy: 'জ্ঞ', x: 'ক্ষ',
     f: 'ফ', z: 'জ', q: 'ক',
   },
-  virama: '্', anusvara: 'ং', nukta: null, vocalicR: 'ঋ', vocalicRSign: 'ৃ',
+  virama: '্', anusvara: 'ং', nukta: null, retroflexN: 'ণ', vocalicR: 'ঋ', vocalicRSign: 'ৃ',
 };
 
 const GUJARATI: ScriptTable = {
@@ -79,7 +81,7 @@ const GUJARATI: ScriptTable = {
     ksh: 'ક્ષ', gy: 'જ્ઞ', x: 'ક્ષ',
     f: 'ફ', z: 'જ', q: 'ક',
   },
-  virama: '્', anusvara: 'ં', nukta: null, vocalicR: 'ઋ', vocalicRSign: 'ૃ',
+  virama: '્', anusvara: 'ં', nukta: null, retroflexN: 'ણ', vocalicR: 'ઋ', vocalicRSign: 'ૃ',
 };
 
 const GURMUKHI: ScriptTable = {
@@ -95,7 +97,7 @@ const GURMUKHI: ScriptTable = {
     ksh: 'ਕਸ਼', gy: 'ਗਯ', x: 'ਕਸ',
     f: 'ਫ', z: 'ਜ਼', q: 'ਕ',
   },
-  virama: '੍', anusvara: 'ੰ', nukta: '਼', vocalicR: 'ਰਿ', vocalicRSign: null,
+  virama: '੍', anusvara: 'ੰ', nukta: '਼', retroflexN: 'ਣ', vocalicR: 'ਰਿ', vocalicRSign: null,
   dropNghH: true, binduGhForNgh: true,
 };
 
@@ -112,7 +114,7 @@ const KANNADA: ScriptTable = {
     ksh: 'ಕ್ಷ', gy: 'ಜ್ಞ', x: 'ಕ್ಷ',
     f: 'ಫ', z: 'ಜ', q: 'ಕ',
   },
-  virama: '್', anusvara: 'ಂ', nukta: null, vocalicR: 'ಋ', vocalicRSign: 'ೃ',
+  virama: '್', anusvara: 'ಂ', nukta: null, retroflexN: 'ಣ', vocalicR: 'ಋ', vocalicRSign: 'ೃ',
 };
 
 const MALAYALAM: ScriptTable = {
@@ -128,7 +130,7 @@ const MALAYALAM: ScriptTable = {
     ksh: 'ക്ഷ', gy: 'ജ്ഞ', x: 'ക്ഷ',
     f: 'ഫ', z: 'ജ', q: 'ക',
   },
-  virama: '്', anusvara: 'ം', nukta: null, vocalicR: 'ഋ', vocalicRSign: 'ൃ',
+  virama: '്', anusvara: 'ം', nukta: null, retroflexN: 'ണ', vocalicR: 'ഋ', vocalicRSign: 'ൃ',
   finalForms: { n: 'ൻ', r: 'ർ', l: 'ൽ' },
 };
 
@@ -145,7 +147,7 @@ const TAMIL: ScriptTable = {
     ksh: 'க்ஷ', gy: 'க்ய', x: 'க்ஸ',
     f: 'ஃப', z: 'ஜ', q: 'க',
   },
-  virama: '்', anusvara: 'ங்', nukta: null, vocalicR: 'ரி', vocalicRSign: null,
+  virama: '்', anusvara: 'ங்', nukta: null, retroflexN: 'ண', vocalicR: 'ரி', vocalicRSign: null,
   dropNghH: true,
 };
 
@@ -162,7 +164,7 @@ const TELUGU: ScriptTable = {
     ksh: 'క్ష', gy: 'జ్ఞ', x: 'క్ష',
     f: 'ఫ', z: 'జ', q: 'క',
   },
-  virama: '్', anusvara: 'ం', nukta: null, vocalicR: 'ఋ', vocalicRSign: 'ృ',
+  virama: '్', anusvara: 'ం', nukta: null, retroflexN: 'ణ', vocalicR: 'ఋ', vocalicRSign: 'ృ',
 };
 
 const ODIA: ScriptTable = {
@@ -178,7 +180,7 @@ const ODIA: ScriptTable = {
     ksh: 'କ୍ଷ', gy: 'ଜ୍ଞ', x: 'କ୍ସ',
     f: 'ଫ', z: 'ଜ', q: 'କ',
   },
-  virama: '୍', anusvara: 'ଂ', nukta: null, vocalicR: 'ଋ', vocalicRSign: 'ୃ',
+  virama: '୍', anusvara: 'ଂ', nukta: null, retroflexN: 'ଣ', vocalicR: 'ଋ', vocalicRSign: 'ୃ',
 };
 
 /** Supported script names */
@@ -227,12 +229,33 @@ const CONSONANTS = new Set('bcdfghjklmnpqrstvwxyz'.split(''));
 /** Roman clusters that take anusvara before them (nasal + plosive/sibilant) */
 const ANUSVARA_BEFORE = new Set([
   'k', 'kh', 'g', 'gh', 'c', 'ch', 'j', 'jh',
-  't', 'th', 'd', 'dh', 'p', 'ph', 'b', 'bh', 's', 'sh', 'h',
+  't', 'th', 'd', 'dh', 'ph', 'b', 'bh', 's', 'sh', 'h',
 ]);
+
+/**
+ * English spellings that are not phonetic. Each value is a respelling the
+ * regular engine already renders correctly (Verma → varma, Krishna → krishn).
+ */
+const PHONETIC_OVERRIDES: Array<[RegExp, string]> = [
+  [/^verma$/, 'varma'],
+  [/^ghazipur$/, 'gaazeepur'],
+  [/^ghaziabad$/, 'gaaziyaabaad'],
+  [/^krishna$/, 'krishn'],
+  [/^krishna(?=[bcdfghjklmnpqrstvwxyz])/, 'krishn'],
+];
+
+function normalizePronunciation(run: string): string {
+  let out = run;
+  for (const [pattern, replacement] of PHONETIC_OVERRIDES) {
+    out = out.replace(pattern, replacement);
+  }
+  return out;
+}
 
 function isVowelKey(s: string, i: number): string | null {
   for (const len of [2, 1]) {
     const chunk = s.slice(i, i + len);
+    if (chunk === 'ou') return 'au';
     if (chunk === 'aa' || chunk === 'ai' || chunk === 'au' ||
         chunk === 'ee' || chunk === 'oo' || VOWELS.has(chunk)) {
       return chunk;
@@ -283,11 +306,14 @@ function transliterateRun(run: string, t: ScriptTable): string {
   let i = 0;
   const n = run.length;
   let afterVocalicR = false;
+  let afterSsa = false;
   const atStart = () => out === '';
 
   while (i < n) {
     const justHadVocalicR = afterVocalicR;
+    const justHadSsa = afterSsa;
     afterVocalicR = false;
+    afterSsa = false;
     // initial s + r + i → Sanskritic Sru (Srishti)
     if (atStart() && run.startsWith('sri', i) && i + 3 <= n) {
       if (t.vocalicRSign) {
@@ -303,6 +329,16 @@ function transliterateRun(run: string, t: ScriptTable): string {
       out += t.vocalicR;
       afterVocalicR = true;
       i += 2;
+      continue;
+    }
+    // word-initial kri + consonant → k + vocalic R (Krishna, Kritika)
+    if (atStart() && run.startsWith('kri', i) && i + 3 < n && CONSONANTS.has(run[i + 3])) {
+      if (t.vocalicRSign) {
+        out += t.consonants['k'] + t.vocalicRSign;
+      } else {
+        out += t.consonants['k'] + t.virama + t.consonants['r'] + t.signs['i'];
+      }
+      i += 3;
       continue;
     }
     // ngh → anusvara + ha (Singh); Tamil drops the ha, Gurmukhi
@@ -361,7 +397,10 @@ function transliterateRun(run: string, t: ScriptTable): string {
         const nk = isConsonantKey(run, i + 2);
         return nk === 'p' || nk === 't' || nk === 'k' || nk === 'n';
       })());
-      let letter = (useSsa ? t.consonants['ssa'] : undefined) ?? t.consonants[ck] ?? ck;
+      const retroflexN = ck === 'n' && justHadSsa;
+      let letter = retroflexN
+        ? t.retroflexN
+        : (useSsa ? t.consonants['ssa'] : undefined) ?? t.consonants[ck] ?? ck;
       // Tamil s before a vowel is ச (Singh, Suresh), before a consonant ஸ் (Stanley)
       if (t === TAMIL && ck === 's') {
         letter = isVowelKey(run, i + 1) ? 'ச' : 'ஸ';
@@ -399,7 +438,7 @@ function transliterateRun(run: string, t: ScriptTable): string {
       // (Medial vowel length is unpredictable from plain ASCII, so final
       // aspirates stay bare too: Nath reads fine either way.)
       const isFinal = i + ck.length === n;
-      if (isFinal && t.finalForms && t.finalForms[ck]) {
+      if (isFinal && !retroflexN && t.finalForms && t.finalForms[ck]) {
         out += t.finalForms[ck];
       } else {
         out += letter;
@@ -409,6 +448,7 @@ function transliterateRun(run: string, t: ScriptTable): string {
           if (nk && needsHalant(ck, nk)) out += t.virama;
         }
       }
+      if (useSsa) afterSsa = true;
       i += ck.length;
       continue;
     }
@@ -427,7 +467,8 @@ export function transliterate(text: string, script: ScriptName): string {
   if (script === 'Latin' || !text) return text;
   const t = TABLES[script];
   if (!t) return text;
-  return text.replace(/[A-Za-z]+/g, run => transliterateRun(run.toLowerCase(), t));
+  return text.replace(/[A-Za-z]+/g, run =>
+    transliterateRun(normalizePronunciation(run.toLowerCase()), t));
 }
 
 /** Does this text contain Indic-script characters from the supported blocks? */

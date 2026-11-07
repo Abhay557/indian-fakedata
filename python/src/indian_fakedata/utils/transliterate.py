@@ -27,7 +27,7 @@ DEVANAGARI = {
         "ksh": "क्ष", "gy": "ज्ञ", "x": "क्ष",
         "f": "फ", "z": "ज", "q": "क",
     },
-    "virama": "्", "anusvara": "ं", "nukta": "़", "vocalicR": "ऋ", "vocalicRSign": "ृ",
+    "virama": "्", "anusvara": "ं", "nukta": "़", "retroflexN": "ण", "vocalicR": "ऋ", "vocalicRSign": "ृ",
 }
 
 BENGALI = {
@@ -43,7 +43,7 @@ BENGALI = {
         "ksh": "ক্ষ", "gy": "জ্ঞ", "x": "ক্ষ",
         "f": "ফ", "z": "জ", "q": "ক",
     },
-    "virama": "্", "anusvara": "ং", "nukta": None, "vocalicR": "ঋ", "vocalicRSign": "ৃ",
+    "virama": "্", "anusvara": "ং", "nukta": None, "retroflexN": "ণ", "vocalicR": "ঋ", "vocalicRSign": "ৃ",
 }
 
 GUJARATI = {
@@ -59,7 +59,7 @@ GUJARATI = {
         "ksh": "ક્ષ", "gy": "જ્ઞ", "x": "ક્ષ",
         "f": "ફ", "z": "જ", "q": "ક",
     },
-    "virama": "્", "anusvara": "ં", "nukta": None, "vocalicR": "ઋ", "vocalicRSign": "ૃ",
+    "virama": "્", "anusvara": "ં", "nukta": None, "retroflexN": "ણ", "vocalicR": "ઋ", "vocalicRSign": "ૃ",
 }
 
 GURMUKHI = {
@@ -75,7 +75,7 @@ GURMUKHI = {
         "ksh": "ਕਸ਼", "gy": "ਗਯ", "x": "ਕਸ",
         "f": "ਫ", "z": "ਜ਼", "q": "ਕ",
     },
-    "virama": "੍", "anusvara": "ੰ", "nukta": "਼", "vocalicR": "ਰਿ", "vocalicRSign": None,
+    "virama": "੍", "anusvara": "ੰ", "nukta": "਼", "retroflexN": "ਣ", "vocalicR": "ਰਿ", "vocalicRSign": None,
     "dropNghH": True, "binduGhForNgh": True,
 }
 
@@ -92,7 +92,7 @@ KANNADA = {
         "ksh": "ಕ್ಷ", "gy": "ಜ್ಞ", "x": "ಕ್ಷ",
         "f": "ಫ", "z": "ಜ", "q": "ಕ",
     },
-    "virama": "್", "anusvara": "ಂ", "nukta": None, "vocalicR": "ಋ", "vocalicRSign": "ೃ",
+    "virama": "್", "anusvara": "ಂ", "nukta": None, "retroflexN": "ಣ", "vocalicR": "ಋ", "vocalicRSign": "ೃ",
 }
 
 MALAYALAM = {
@@ -108,7 +108,7 @@ MALAYALAM = {
         "ksh": "ക്ഷ", "gy": "ജ്ഞ", "x": "ക്ഷ",
         "f": "ഫ", "z": "ജ", "q": "ക",
     },
-    "virama": "്", "anusvara": "ം", "nukta": None, "vocalicR": "ഋ", "vocalicRSign": "ൃ",
+    "virama": "്", "anusvara": "ം", "nukta": None, "retroflexN": "ണ", "vocalicR": "ഋ", "vocalicRSign": "ൃ",
     "finalForms": {"n": "ൻ", "r": "ർ", "l": "ൽ"},
 }
 
@@ -125,7 +125,7 @@ TAMIL = {
         "ksh": "க்ஷ", "gy": "க்ய", "x": "க்ஸ",
         "f": "ஃப", "z": "ஜ", "q": "க",
     },
-    "virama": "்", "anusvara": "ங்", "nukta": None, "vocalicR": "ரி", "vocalicRSign": None,
+    "virama": "்", "anusvara": "ங்", "nukta": None, "retroflexN": "ண", "vocalicR": "ரி", "vocalicRSign": None,
     "dropNghH": True,
 }
 
@@ -142,7 +142,7 @@ TELUGU = {
         "ksh": "క్ష", "gy": "జ్ఞ", "x": "క్ష",
         "f": "ఫ", "z": "జ", "q": "క",
     },
-    "virama": "్", "anusvara": "ం", "nukta": None, "vocalicR": "ఋ", "vocalicRSign": "ృ",
+    "virama": "్", "anusvara": "ం", "nukta": None, "retroflexN": "ణ", "vocalicR": "ఋ", "vocalicRSign": "ృ",
 }
 
 ODIA = {
@@ -158,7 +158,7 @@ ODIA = {
         "ksh": "କ୍ଷ", "gy": "ଜ୍ଞ", "x": "କ୍ସ",
         "f": "ଫ", "z": "ଜ", "q": "କ",
     },
-    "virama": "୍", "anusvara": "ଂ", "nukta": None, "vocalicR": "ଋ", "vocalicRSign": "ୃ",
+    "virama": "୍", "anusvara": "ଂ", "nukta": None, "retroflexN": "ଣ", "vocalicR": "ଋ", "vocalicRSign": "ୃ",
 }
 
 TABLES = {
@@ -202,13 +202,32 @@ _CONSONANTS = set("bcdfghjklmnpqrstvwxyz")
 # Roman clusters that take anusvara before them (nasal + plosive/sibilant)
 _ANUSVARA_BEFORE = {
     "k", "kh", "g", "gh", "c", "ch", "j", "jh",
-    "t", "th", "d", "dh", "p", "ph", "b", "bh", "s", "sh", "h",
+    "t", "th", "d", "dh", "ph", "b", "bh", "s", "sh", "h",
 }
+
+# English spellings that are not phonetic. Each value is a respelling the
+# regular engine already renders correctly (Verma -> varma, Krishna -> krishn).
+_PHONETIC_OVERRIDES = (
+    (re.compile(r"^verma$"), "varma"),
+    (re.compile(r"^ghazipur$"), "gaazeepur"),
+    (re.compile(r"^ghaziabad$"), "gaaziyaabaad"),
+    (re.compile(r"^krishna$"), "krishn"),
+    (re.compile(r"^krishna(?=[bcdfghjklmnpqrstvwxyz])"), "krishn"),
+)
+
+
+def _normalize_pronunciation(run):
+    out = run
+    for pattern, replacement in _PHONETIC_OVERRIDES:
+        out = pattern.sub(replacement, out)
+    return out
 
 
 def _vowel_key(s, i):
     for length in (2, 1):
         chunk = s[i:i + length]
+        if chunk == "ou":
+            return "au"
         if chunk in ("aa", "ai", "au", "ee", "oo") or chunk in _VOWELS:
             return chunk
     return None
@@ -252,13 +271,16 @@ def _transliterate_run(run, t):
     out = []
     i, n = 0, len(run)
     after_vocalic_r = False
+    after_ssa = False
 
     def at_start():
         return len(out) == 0
 
     while i < n:
         just_had_vocalic_r = after_vocalic_r
+        just_had_ssa = after_ssa
         after_vocalic_r = False
+        after_ssa = False
         # initial s + r + i -> Sanskritic Sru (Srishti)
         if at_start() and run.startswith("sri", i) and i + 3 <= n:
             if t.get("vocalicRSign"):
@@ -274,6 +296,16 @@ def _transliterate_run(run, t):
             out.append(t["vocalicR"])
             after_vocalic_r = True
             i += 2
+            continue
+        # word-initial kri + consonant -> k + vocalic R (Krishna, Kritika)
+        if (at_start() and run.startswith("kri", i) and i + 3 < n
+                and run[i + 3] in _CONSONANTS):
+            if t.get("vocalicRSign"):
+                out.append(t["consonants"]["k"] + t["vocalicRSign"])
+            else:
+                out.append(t["consonants"]["k"] + t["virama"] +
+                           t["consonants"]["r"] + t["signs"]["i"])
+            i += 3
             continue
         # ngh -> anusvara + ha (Singh); Tamil drops ha, Gurmukhi uses bindi + gha
         if run.startswith("ngh", i):
@@ -325,7 +357,9 @@ def _transliterate_run(run, t):
             # sh right after vocalic R too (Rishi)
             use_ssa = ck == "sh" and (just_had_vocalic_r or (
                 _consonant_key(run, i + 2) in ("p", "t", "k", "n")))
-            letter = t["consonants"].get("ssa" if use_ssa else ck, ck)
+            retroflex_n = ck == "n" and just_had_ssa
+            letter = (t["retroflexN"] if retroflex_n
+                      else t["consonants"].get("ssa" if use_ssa else ck, ck))
             # nukta consonants where supported (Faiz, Qasim)
             if ck in ("f", "z", "q") and t.get("nukta"):
                 letter += t["nukta"]
@@ -351,7 +385,7 @@ def _transliterate_run(run, t):
                     i += len(ck) + 1 + len(rv)
                     continue
             is_final = i + len(ck) == n
-            if is_final and t.get("finalForms", {}).get(ck):
+            if is_final and not retroflex_n and t.get("finalForms", {}).get(ck):
                 out.append(t["finalForms"][ck])
             else:
                 out.append(letter)
@@ -359,6 +393,8 @@ def _transliterate_run(run, t):
                     nk = _consonant_key(run, i + len(ck))
                     if nk and _needs_halant(ck, nk):
                         out.append(t["virama"])
+            if use_ssa:
+                after_ssa = True
             i += len(ck)
             continue
         i += 1
@@ -378,7 +414,7 @@ def transliterate(text, script):
         return text
 
     def _conv(m):
-        return _transliterate_run(m.group(0).lower(), t)
+        return _transliterate_run(_normalize_pronunciation(m.group(0).lower()), t)
 
     return re.sub(r"[A-Za-z]+", _conv, text)
 
