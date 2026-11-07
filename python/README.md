@@ -434,6 +434,8 @@ Run with no arguments to display the full help menu.
 | `--seed <value>` | `-s` | Reproducibility seed (number or string, e.g. `011`) | random |
 | `--no-metrics` | | Exclude probability metrics from output | included |
 | `--family` | | Generate a full household (head + spouse + parents + children + siblings) from one seed; json/jsonl only | off |
+| `--version` | `-v` | Show the installed version | |
+| `--check-latest` | | Check PyPI for a newer release | |
 | `--help` | `-h` | Show help screen | |
 
 ### Demographic Constraints

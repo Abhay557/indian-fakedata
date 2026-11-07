@@ -44,6 +44,8 @@ indian-fakedata [options]
 | `--seed <value>` | `-s` | Seed (number **or string**, e.g. `011`) | random |
 | `--no-metrics` | | Exclude probability metrics | included |
 | `--family` | | Full household from one seed (json/jsonl only) | off |
+| `--version` | `-v` | Show installed version | |
+| `--check-latest` | | Check npm/PyPI for a newer release | |
 
 ### Constraints (any combination)
 
