@@ -438,12 +438,13 @@ def generate(count=1, seed=None, constraints=None, include_probability_metrics=T
     _validate_count(count)
     _validate_age_range(constraints)
 
-    rng = create_rng(seed)
+    base_seed = normalize_seed(seed)
     db = load_database()
 
     profiles = []
-    for _ in range(count):
-        profile = _generate_single_profile(db, constraints, rng, include_probability_metrics)
+    for index in range(count):
+        profile_rng = create_rng((base_seed + index) & 0xFFFFFFFF)
+        profile = _generate_single_profile(db, constraints, profile_rng, include_probability_metrics)
         profiles.append(profile)
 
     return profiles
@@ -459,11 +460,12 @@ def generate_stream(count=1, seed=None, constraints=None, include_probability_me
     _validate_count(count)
     _validate_age_range(constraints)
 
-    rng = create_rng(seed)
+    base_seed = normalize_seed(seed)
     db = load_database()
 
-    for _ in range(count):
-        yield _generate_single_profile(db, constraints, rng, include_probability_metrics)
+    for index in range(count):
+        profile_rng = create_rng((base_seed + index) & 0xFFFFFFFF)
+        yield _generate_single_profile(db, constraints, profile_rng, include_probability_metrics)
 
 
 def get_distribution_summary(profiles):

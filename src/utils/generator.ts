@@ -158,12 +158,13 @@ export function generate(options: GeneratorOptions = {}): DemographicProfile[] {
   validateCount(count);
   validateAgeRange(constraints);
 
-  const rng = createRNG(seed);
+  const baseSeed = normalizeSeed(seed);
   const db = loadDatabase(dataDir);
 
   const profiles: DemographicProfile[] = [];
   for (let i = 0; i < count; i++) {
-    const profile = generateSingleProfile(db, constraints, rng, includeProbabilityMetrics);
+    const profileRng = createRNG((baseSeed + i) >>> 0);
+    const profile = generateSingleProfile(db, constraints, profileRng, includeProbabilityMetrics);
     profiles.push(profile);
   }
 
@@ -589,11 +590,12 @@ export function* generateStream(options: GeneratorOptions = {}): Generator<Demog
   validateCount(count);
   validateAgeRange(constraints);
 
-  const rng = createRNG(seed);
+  const baseSeed = normalizeSeed(seed);
   const db = loadDatabase(dataDir);
 
   for (let i = 0; i < count; i++) {
-    yield generateSingleProfile(db, constraints, rng, includeProbabilityMetrics);
+    const profileRng = createRNG((baseSeed + i) >>> 0);
+    yield generateSingleProfile(db, constraints, profileRng, includeProbabilityMetrics);
   }
 }
 

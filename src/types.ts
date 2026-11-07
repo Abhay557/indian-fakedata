@@ -627,7 +627,7 @@ export interface DemographicProfile {
   probabilityMetrics: ProbabilityMetrics;
 
   // ── Metadata ──────────────────────────────────────────
-  /** Seed used (for reproducibility) */
+  /** Seed for this profile. In a batch, profile i uses the base seed + i. */
   seed: number;
   /** Set by stripPII() — this copy had direct identifiers emptied */
   piiStripped?: boolean;
