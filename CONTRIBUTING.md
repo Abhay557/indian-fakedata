@@ -137,10 +137,16 @@ Failing checks will block the merge.
 
 Maintainers cut releases in lockstep:
 
-1. Bump `version` in `package.json` and `python/pyproject.toml`
-   (and `__init__.py`).
-2. TypeScript: `npm publish` (runs `prepublishOnly` build).
-3. Python: build `python/dist/` and upload to PyPI.
-4. Bump the website's documented version if it shows one.
+1. Move the `Unreleased` notes in `CHANGELOG.md` under the new version.
+2. Bump all four version sources together: `package.json`, `src/version.ts`,
+   `python/pyproject.toml`, and `python/src/indian_fakedata/_version.py`.
+3. Run `npm test`, `python -m pytest -q`, and `npm run lint`. The version-sync
+   tests fail if the four sources disagree.
+4. Rebuild the browser bundle with `npm run build:docs` and regenerate the
+   Python playground samples with `python scripts/precompute-samples.py`.
+   The docs freshness tests fail if either is stale.
+5. TypeScript: `npm publish` (runs `prepublishOnly` build).
+6. Python: build `python/dist/` and upload to PyPI.
+7. Update any version shown on the website.
 
 PRs do not need to bump versions; maintainers handle that at release time.
