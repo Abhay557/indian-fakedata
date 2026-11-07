@@ -10,9 +10,11 @@ import argparse
 import json
 from datetime import datetime
 
+from indian_fakedata._version import __version__
 from indian_fakedata.utils.generator import generate_stream, generate_enriched_stream
 from indian_fakedata.utils.exporter import _flatten_enriched, _escape_csv_value, _flatten_object
 from indian_fakedata.utils.eval import evaluate_dataset
+from indian_fakedata.utils.version_check import check_latest_version
 
 C = {
     "reset": "\033[0m",
@@ -58,6 +60,8 @@ def print_help():
                            exits 1. Runs before --strip-pii/--fields shaping
     --eval <path>          Score a .json/.jsonl file with the eval harness
                            (quality score, drift, validity); generates nothing
+    -v, --version          Show the installed version
+    --check-latest         Check PyPI for a newer release
     -h, --help             Show this help screen
 
   {C["bold"]}DEMOGRAPHIC CONSTRAINTS:{C["reset"]}
@@ -130,6 +134,8 @@ def main():
 
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-h", "--help", action="store_true")
+    parser.add_argument("-v", "--version", action="store_true")
+    parser.add_argument("--check-latest", action="store_true")
     parser.add_argument("-c", "--count", type=int, default=100)
     parser.add_argument("-o", "--output", type=str, default=None)
     parser.add_argument("-f", "--format", type=str, default="json", choices=["json", "jsonl", "csv"])
@@ -170,6 +176,21 @@ def main():
 
     if args.help:
         print_help()
+        sys.exit(0)
+
+    if args.version:
+        print(f"indian-fakedata {__version__}")
+        sys.exit(0)
+
+    if args.check_latest:
+        result = check_latest_version()
+        if result.get("error"):
+            print(f"Error: Could not check latest version: {result['error']}", file=sys.stderr)
+            sys.exit(1)
+        if result["updateAvailable"]:
+            print(f"Update available: {result['current']} -> {result['latest']}")
+        else:
+            print(f"indian-fakedata {result['current']} is up to date.")
         sys.exit(0)
 
     if args.count <= 0:

@@ -17,6 +17,8 @@ import { generateFamily } from './utils/relations.js';
 import { stripPII } from './utils/privacy.js';
 import { validateProfile } from './utils/schema.js';
 import { evaluateDataset } from './utils/eval.js';
+import { LIB_VERSION } from './version.js';
+import { checkLatestVersion } from './utils/version-check.js';
 import {
   flattenObject,
   escapeCSVValue,
@@ -86,6 +88,8 @@ function printHelp() {
                            exits 1. Runs before --strip-pii/--fields shaping
     --eval <path>          Score a .json/.jsonl file with the eval harness
                            (quality score, drift, validity); generates nothing
+    -v, --version          Show the installed version
+    --check-latest         Check npm for a newer release
     -h, --help             Show this help screen
 
   ${C.bold}DEMOGRAPHIC CONSTRAINTS:${C.reset}
@@ -270,6 +274,23 @@ async function main() {
 
     if (arg === '-h' || arg === '--help') {
       printHelp();
+      process.exit(0);
+
+    } else if (arg === '-v' || arg === '--version') {
+      console.log(`indian-fakedata ${LIB_VERSION}`);
+      process.exit(0);
+
+    } else if (arg === '--check-latest') {
+      const result = await checkLatestVersion();
+      if (result.error) {
+        console.error(`${C.red}Error:${C.reset} Could not check latest version: ${result.error}`);
+        process.exit(1);
+      }
+      if (result.updateAvailable) {
+        console.log(`Update available: ${result.current} -> ${result.latest}`);
+      } else {
+        console.log(`indian-fakedata ${result.current} is up to date.`);
+      }
       process.exit(0);
 
     } else if (arg === '-c' || arg === '--count') {

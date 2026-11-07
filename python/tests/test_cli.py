@@ -119,6 +119,12 @@ def test_cli_eval_scores_a_file(tmp_path):
     assert report["qualityScore"] >= 70
 
 
+def test_cli_prints_installed_version():
+    res = run_cli("--version")
+    assert res.returncode == 0
+    assert res.stdout.strip().startswith("indian-fakedata ")
+
+
 def test_cli_rejects_bad_count_and_ages():
     cases = [
         (("--count", "0"), "--count must be a positive integer"),

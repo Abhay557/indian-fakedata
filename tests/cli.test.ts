@@ -217,6 +217,13 @@ describe('--fields / --stats (v2.0.9)', () => {
     expect(report.qualityScore).toBeGreaterThanOrEqual(70);
   });
 
+  it('CLI prints the installed version', () => {
+    const out = execSync('npx tsx src/cli.ts --version', {
+      stdio: 'pipe', encoding: 'utf-8',
+    }).trim();
+    expect(out).toMatch(/^indian-fakedata \d+\.\d+\.\d+$/);
+  });
+
   it('CLI rejects invalid counts and age ranges', () => {
     const cases = [
       { args: '-c 1.5', message: '--count must be a positive integer' },
