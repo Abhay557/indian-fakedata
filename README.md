@@ -656,13 +656,21 @@ See **[TUTORIAL.md](https://github.com/Abhay557/indian-fakedata/blob/main/TUTORI
 
 The generator is tuned to match public survey data. The numbers inside the package are **close estimates based on published reports**, not the raw census tables. The original spreadsheets are in [`data/`](https://github.com/Abhay557/indian-fakedata/tree/main/data) for reference, but they are not included in the package when it is built.
 
-1. **Census of India 2011 (D-Series & C-Series Tables):** Used as the reference for religion shares, state populations, and mother tongue frequencies. The numbers are hand-adjusted estimates.
-2. **National Family Health Survey (NFHS-5):** Published statistics for dietary preferences, BMI, blood groups, and height/weight by age.
-3. **MSME Census:** Community-level occupational sectors, vocational rates, industry divisions.
-4. **Public identifier formats (UIDAI, RTO, and others):** Structural syntax for Aadhaar, Voter ID, PAN, IFSC, and RTO registrations. Aadhaar numbers use a true Verhoeff checksum; PAN's 10th character is self-consistent but **not** the official check digit.
-5. **CSDS/Lokniti Election Studies:** Political leanings and religiosity index biases.
+| Source | Used for | Confidence |
+| ------ | -------- | ---------- |
+| Census of India 2011, D-Series and C-Series tables | Religion shares, state populations, mother-tongue frequencies | Medium: hand-adjusted aggregates with a 2011 baseline |
+| National Family Health Survey (NFHS-5) | Dietary preferences, BMI, blood groups, height and weight by age | Medium: published aggregates, synthetic individual variation |
+| MSME Census | Occupation sectors, vocational rates, industry divisions | Low to medium: coarse calibration |
+| Public identifier formats (UIDAI, RTO, and others) | Aadhaar, Voter ID, PAN, IFSC, and RTO syntax | High for format only; values are synthetic |
+| CSDS and Lokniti election studies | Political leaning and religiosity biases | Low: broad directional signal only |
 
-> **Note:** All data is synthetic mock data. Names, IDs, and numbers are randomly generated and do not correspond to any real individuals.
+Aadhaar numbers use a true Verhoeff checksum. PAN's 10th character is
+self-consistent but **not** the official check digit.
+
+> **Note:** All data is synthetic mock data. Names, IDs, and numbers are
+> randomly generated and do not correspond to any real individuals. The
+> distributions are approximations, not a statistical model validated against
+> every subgroup.
 
 ---
 
