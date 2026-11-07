@@ -171,7 +171,8 @@ def get_default_occupation_dist(gender, area_type):
 
 def sample_marital_status(age, gender, rng):
     """Sample marital status conditioned on age and gender"""
-    if age < 18:
+    legal_marriage_age = 21 if gender == "male" else 18
+    if age < legal_marriage_age:
         return "never_married"
         
     if age < 25:

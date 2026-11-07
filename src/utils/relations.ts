@@ -110,14 +110,15 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
   // ── Spouse ────────────────────────────────────────────────
   if (head.maritalStatus === 'married' || head.maritalStatus === 'widowed') {
     const spouseGender: Gender = head.gender === 'male' ? 'female' : 'male';
+    const spouseMinAge = Math.max(spouseGender === 'male' ? 21 : 18, head.age - 5);
     const spouse = generate({
       seed: roleSeed(base, 'spouse'),
       constraints: {
         ...community,
         gender: spouseGender,
         ageRange: {
-          min: clamp(head.age - 5, 18, 100),
-          max: clamp(head.age + 5, 18, 100)
+          min: spouseMinAge,
+          max: Math.max(spouseMinAge, clamp(head.age + 5, 18, 100))
         },
         maritalStatus: 'married'
       },
@@ -135,10 +136,11 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
   }
 
   // ── Parents ───────────────────────────────────────────────
-  // Father: head.age + 20..45; Mother: head.age + 16..40
+  // Father: head.age + 21..45; Mother: head.age + 18..40. The +2 slack
+  // keeps the sampled ±2 window on the legal side of each gap.
   const parentRng = createRNG(roleSeed(base, 'parents'));
-  const fatherAge = clamp(head.age + 20 + Math.round(parentRng.next() * 25), 38, 100);
-  const motherAge = clamp(head.age + 16 + Math.round(parentRng.next() * 24), 34, 100);
+  const fatherAge = clamp(head.age + 23 + Math.round(parentRng.next() * 22), 41, 100);
+  const motherAge = clamp(head.age + 20 + Math.round(parentRng.next() * 20), 38, 100);
 
   const fatherTokens = head.fatherName?.split(' ') ?? [];
   const motherTokens = head.motherName?.split(' ') ?? [];
@@ -183,8 +185,11 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
   if (head.motherName) father.spouseName = head.motherName;
 
   // ── Children ──────────────────────────────────────────────
-  const childCount = head.maritalStatus === 'never_married' ? 0 : head.numberOfChildren;
-  const maxChildAge = clamp(head.age - 16, 0, 100);
+  const minParentAge = head.gender === 'male' ? 21 : 18;
+  const childCount = head.maritalStatus === 'never_married' || head.age < minParentAge
+    ? 0
+    : head.numberOfChildren;
+  const maxChildAge = clamp(head.age - minParentAge, 0, 100);
   for (let i = 0; i < childCount; i++) {
     const childRng = createRNG(roleSeed(base, 'child', i));
     const childAge = clamp(Math.max(0, maxChildAge - Math.round(childRng.next() * 8)), 0, maxChildAge);
@@ -194,7 +199,10 @@ export function generateFamily(options: FamilyOptions = {}): FamilyUnit {
       constraints: {
         ...community,
         gender: childGender,
-        ageRange: { min: Math.max(0, childAge - 2), max: Math.min(100, childAge + 2) },
+        ageRange: {
+          min: Math.max(0, childAge - 2),
+          max: Math.min(100, childAge + 2, head.age - minParentAge)
+        },
         maritalStatus: 'never_married'
       },
       includeProbabilityMetrics: options.includeProbabilityMetrics,

@@ -62,14 +62,15 @@ def generate_family(seed=None, constraints=None, max_siblings=2,
     # ── Spouse ────────────────────────────────────────────────
     if head.get("maritalStatus") in ("married", "widowed"):
         spouse_gender = "female" if head["gender"] == "male" else "male"
+        spouse_min_age = max(21 if spouse_gender == "male" else 18, head["age"] - 5)
         spouse = generate(
             count=1, seed=_role_seed(base, "spouse"),
             constraints={
                 **community,
                 "gender": spouse_gender,
                 "ageRange": {
-                    "min": _clamp(head["age"] - 5, 18, 100),
-                    "max": _clamp(head["age"] + 5, 18, 100),
+                    "min": spouse_min_age,
+                    "max": max(spouse_min_age, _clamp(head["age"] + 5, 18, 100)),
                 },
                 "maritalStatus": "married",
             },
@@ -83,8 +84,8 @@ def generate_family(seed=None, constraints=None, max_siblings=2,
 
     # ── Parents ───────────────────────────────────────────────
     parent_rng = create_rng(_role_seed(base, "parents"))
-    father_age = _clamp(head["age"] + 20 + int(round(parent_rng.next() * 25)), 38, 100)
-    mother_age = _clamp(head["age"] + 16 + int(round(parent_rng.next() * 24)), 34, 100)
+    father_age = _clamp(head["age"] + 23 + int(round(parent_rng.next() * 22)), 41, 100)
+    mother_age = _clamp(head["age"] + 20 + int(round(parent_rng.next() * 20)), 38, 100)
 
     father_tokens = (head.get("fatherName") or "").split()
     mother_tokens = (head.get("motherName") or "").split()
@@ -123,8 +124,13 @@ def generate_family(seed=None, constraints=None, max_siblings=2,
         father["spouseName"] = head["motherName"]
 
     # ── Children ──────────────────────────────────────────────
-    child_count = 0 if head.get("maritalStatus") == "never_married" else head.get("numberOfChildren", 0)
-    max_child_age = _clamp(head["age"] - 16, 0, 100)
+    min_parent_age = 21 if head["gender"] == "male" else 18
+    child_count = (
+        0
+        if head.get("maritalStatus") == "never_married" or head["age"] < min_parent_age
+        else head.get("numberOfChildren", 0)
+    )
+    max_child_age = _clamp(head["age"] - min_parent_age, 0, 100)
     for i in range(child_count):
         child_rng = create_rng(_role_seed(base, "child", i))
         child_age = _clamp(
@@ -135,7 +141,10 @@ def generate_family(seed=None, constraints=None, max_siblings=2,
             count=1, seed=_role_seed(base, "child", i),
             constraints={
                 **community, "gender": child_gender,
-                "ageRange": {"min": max(0, child_age - 2), "max": min(100, child_age + 2)},
+                "ageRange": {
+                    "min": max(0, child_age - 2),
+                    "max": min(100, child_age + 2, head["age"] - min_parent_age),
+                },
                 "maritalStatus": "never_married",
             },
             include_probability_metrics=include_probability_metrics,

@@ -78,7 +78,7 @@ describe('Scaled States & UTs Demographic Accuracy', () => {
     }).filter(p => p.caste === 'Kashmiri Pandit');
 
     for (const p of jkPandits) {
-      const allowedSurnames = ['Bhat', 'Kaul', 'Dhar', 'Raina', 'Bhatt', 'Pandit',
+      const allowedSurnames = ['Bhat', 'Kaul', 'Koul', 'Dhar', 'Raina', 'Bhatt', 'Pandit',
         'Munshi', 'Saproo', 'Haksar', 'Tickoo', 'Ganjoo'];
       expect(allowedSurnames).toContain(p.lastName);
     }

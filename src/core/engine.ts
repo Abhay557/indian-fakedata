@@ -627,7 +627,8 @@ function getDefaultOccupationDist(
 
 /** Sample marital status conditioned on age and gender */
 function sampleMaritalStatus(age: number, gender: Gender, rng: SeededRNG): MaritalStatus {
-  if (age < 18) return 'never_married';
+  const legalMarriageAge = gender === 'male' ? 21 : 18;
+  if (age < legalMarriageAge) return 'never_married';
   
   // Marriage probability increases with age
   let marriedProb: number;
