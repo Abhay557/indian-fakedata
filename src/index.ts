@@ -116,7 +116,7 @@ export { evaluateDataset, checkConsistency } from './utils/eval.js';
 export type { EvalReport, DriftResult } from './utils/eval.js';
 export { getProfileSchema, validateProfile } from './utils/schema.js';
 export type { ProfileValidation } from './utils/schema.js';
-export { stripPII, redactPII, PII_FIELDS } from './utils/privacy.js';
+export { stripPII, stripFamilyPII, redactPII, PII_FIELDS } from './utils/privacy.js';
 export type { StripPIIOptions } from './utils/privacy.js';
 
 // note for someone who is reading this code

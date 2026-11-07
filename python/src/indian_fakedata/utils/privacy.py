@@ -125,3 +125,26 @@ def strip_pii(profile, mask_names=False):
     copy["nativeScript"] = native
     copy["piiStripped"] = True
     return copy
+
+
+def strip_family_pii(family, mask_names=False):
+    """Return a sanitised copy of every member in a family dict."""
+    clean = {}
+    for key, value in family.items():
+        if key == "parents" and isinstance(value, dict):
+            clean[key] = {
+                role: strip_pii(member, mask_names=mask_names)
+                if isinstance(member, dict) else member
+                for role, member in value.items()
+            }
+        elif isinstance(value, list):
+            clean[key] = [
+                strip_pii(member, mask_names=mask_names)
+                if isinstance(member, dict) else member
+                for member in value
+            ]
+        elif isinstance(value, dict) and "firstName" in value:
+            clean[key] = strip_pii(value, mask_names=mask_names)
+        else:
+            clean[key] = value
+    return clean

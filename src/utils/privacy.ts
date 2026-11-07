@@ -18,6 +18,7 @@
  */
 
 import type { DemographicProfile } from '../types.js';
+import type { FamilyUnit } from './relations.js';
 
 export interface StripPIIOptions {
   /** Replace names with initials (default false — names are kept for joins) */
@@ -161,4 +162,24 @@ export function stripPII(
 
   copy.piiStripped = true;
   return copy;
+}
+
+/** Return a sanitised copy of every member in a family unit. */
+export function stripFamilyPII(
+  family: FamilyUnit,
+  options: StripPIIOptions = {}
+): FamilyUnit {
+  const clean = (profile?: DemographicProfile) =>
+    profile ? stripPII(profile, options) : undefined;
+
+  return {
+    head: clean(family.head)!,
+    spouse: clean(family.spouse),
+    parents: {
+      father: clean(family.parents.father),
+      mother: clean(family.parents.mother),
+    },
+    children: family.children.map(child => clean(child)!),
+    siblings: family.siblings.map(sibling => clean(sibling)!),
+  };
 }
