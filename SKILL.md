@@ -238,9 +238,10 @@ The canonical file ships at `schema/profile-2.0.9.json` (both test suites
 assert it matches the function output).
 
 v2.0.9 sharing: `stripPII(profile)` (Python: `strip_pii(profile)`) empties
-Aadhaar/PAN/voter/phone/email/bank-account/UPI/street-address, keeps shape
-and provenance, adds `piiStripped: true`. `maskNames: true`
-(`mask_names=True`) reduces names to initials. Validate before stripping.
+Aadhaar/PAN/voter/phone/email/bank-account/UPI/PIN/geo/street-address (Roman
+and native script), keeps shape and provenance, adds `piiStripped: true`.
+`maskNames: true` (`mask_names=True`) reduces names to initials. Validate
+before stripping.
 
 CLI: `--strip-pii` sanitizes profile fields in CLI output (not
 narrative/persona text); `--mask-names` reduces names to initials.

@@ -657,8 +657,9 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   / `generator` provenance markers. Zero dependencies, works on plain dicts.
   The canonical schema is also committed as `schema/profile-2.0.9.json`.
 - **PII stripping.** `strip_pii(profile)` returns a share-safe copy with
-  Aadhaar, PAN, voter ID, phone, email, bank account, UPI ID and the street
-  address emptied (same shape, `piiStripped: true` marker, provenance kept).
+  Aadhaar, PAN, voter ID, phone, email, bank account, UPI ID, PIN code,
+  geo coordinates and street address lines (Roman and native script) emptied
+  (same shape, `piiStripped: true` marker, provenance kept).
   `mask_names=True` reduces names to initials. Validate before stripping.
 - **CLI privacy.** `--strip-pii` empties identifiers in CLI output (profile
   fields only, not narrative/persona text); `--mask-names` reduces names
