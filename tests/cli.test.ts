@@ -191,6 +191,21 @@ describe('--fields / --stats (v2.0.9)', () => {
     expect(fs.existsSync(outPath)).toBe(true);
   });
 
+  it('CLI --strip-pii redacts narrative text', () => {
+    const outputDir = path.resolve('tests/temp-output');
+    const outPath = path.join(outputDir, 'stripped-narrative.json');
+    execSync(
+      `npx tsx src/cli.ts -c 1 --seed 7 --strip-pii --narrative loan_application -o "${outPath}" -f json`,
+      { stdio: 'pipe' }
+    );
+    const content = JSON.parse(fs.readFileSync(outPath, 'utf-8'));
+    const narrative = content[0].narratives[0].content;
+    expect(narrative).toContain('[REDACTED]');
+    expect(narrative).not.toMatch(/\b\d{4}\s?\d{4}\s?\d{4}\b/);
+    expect(narrative).not.toMatch(/\+91[\s-]?[6-9]\d{9}/);
+    expect(content[0].profile.aadhaarNumber).toBe('');
+  });
+
   it('CLI --strip-pii --validate passes (validates full data, strips output)', () => {    const outputDir = path.resolve('tests/temp-output');
     const outPath = path.join(outputDir, 'stripvalid.json');
     execSync(

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { generate, stripPII, validateProfile, PII_FIELDS } from '../src/index.js';
+import { generate, stripPII, redactPII, validateProfile, PII_FIELDS } from '../src/index.js';
 
 describe('stripPII (v2.0.9)', () => {
   it('empties direct identifiers but keeps shape and provenance', () => {
@@ -34,6 +34,46 @@ describe('stripPII (v2.0.9)', () => {
     expect(clean.nativeScript.firstName).toContain('.');
     expect(clean.nativeScript.firstName).not.toBe(p.nativeScript.firstName);
     expect(clean.nativeScript.lastName).not.toBe(p.nativeScript.lastName);
+  });
+
+  it('redacts identifiers from generated text', () => {
+    const p = generate({ count: 1, seed: 61 })[0];
+    const spacedAadhaar = p.aadhaarNumber.replace(/(.{4})/g, '$1 ').trim();
+    const text = [
+      `Aadhaar: ${p.aadhaarNumber} (${spacedAadhaar})`,
+      `PAN: ${p.panNumber}`,
+      `Voter: ${p.voterIdNumber}`,
+      `Phone: +91 ${p.phoneNumber}`,
+      `Email: ${p.email}`,
+      `Account: ${p.bankAccountNumber}`,
+      `Address: ${p.addressLine}`,
+      `PIN: ${p.pinCode}`,
+      p.upiId ? `UPI: ${p.upiId}` : '',
+    ].join('\n');
+
+    const clean = redactPII(text, p);
+    expect(clean).toContain('[REDACTED]');
+    for (const value of [
+      p.aadhaarNumber, p.panNumber, p.voterIdNumber, p.phoneNumber,
+      p.email, p.bankAccountNumber, p.addressLine, p.pinCode, p.upiId,
+    ]) {
+      if (value) expect(clean).not.toContain(value);
+    }
+  });
+
+  it('redacts identifier patterns without a profile', () => {
+    const clean = redactPII('Call 9876543210 or mail a@b.com');
+    expect(clean).toBe('Call [REDACTED] or mail [REDACTED]');
+  });
+
+  it('maskNames applies to generated text too', () => {
+    const p = generate({ count: 1, seed: 61 })[0];
+    const clean = redactPII(`Hello ${p.firstName} ${p.lastName}`, p, {
+      maskNames: true,
+    });
+    expect(clean).not.toContain(p.firstName);
+    expect(clean).not.toContain(p.lastName);
+    expect(clean).toContain(`${p.firstName[0]}.`);
   });
 
   it('stripped copies intentionally fail strict validation', () => {

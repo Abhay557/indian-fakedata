@@ -1,6 +1,12 @@
 """Regression tests for the v2.0.9 strip_pii helper."""
 
-from indian_fakedata import generate, strip_pii, validate_profile, PII_FIELDS
+from indian_fakedata import (
+    generate,
+    strip_pii,
+    redact_pii,
+    validate_profile,
+    PII_FIELDS,
+)
 
 
 def test_empties_identifiers_keeps_shape_and_provenance():
@@ -33,6 +39,44 @@ def test_mask_names_replaces_with_initials():
     assert "." in clean["nativeScript"]["firstName"]
     assert clean["nativeScript"]["firstName"] != p["nativeScript"]["firstName"]
     assert clean["nativeScript"]["lastName"] != p["nativeScript"]["lastName"]
+
+
+def test_redacts_identifiers_from_generated_text():
+    p = generate(count=1, seed=61)[0]
+    spaced = " ".join(p["aadhaarNumber"][i:i + 4] for i in range(0, 12, 4))
+    text = "\n".join([
+        f"Aadhaar: {p['aadhaarNumber']} ({spaced})",
+        f"PAN: {p['panNumber']}",
+        f"Voter: {p['voterIdNumber']}",
+        f"Phone: +91 {p['phoneNumber']}",
+        f"Email: {p['email']}",
+        f"Account: {p['bankAccountNumber']}",
+        f"Address: {p['addressLine']}",
+        f"PIN: {p['pinCode']}",
+        f"UPI: {p.get('upiId') or ''}",
+    ])
+    clean = redact_pii(text, p)
+    assert "[REDACTED]" in clean
+    for value in [
+        p["aadhaarNumber"], p["panNumber"], p["voterIdNumber"],
+        p["phoneNumber"], p["email"], p["bankAccountNumber"],
+        p["addressLine"], p["pinCode"], p.get("upiId"),
+    ]:
+        if value:
+            assert value not in clean
+
+
+def test_redacts_patterns_without_profile():
+    clean = redact_pii("Call 9876543210 or mail a@b.com")
+    assert clean == "Call [REDACTED] or mail [REDACTED]"
+
+
+def test_mask_names_applies_to_generated_text():
+    p = generate(count=1, seed=61)[0]
+    clean = redact_pii(f"Hello {p['firstName']} {p['lastName']}", p, mask_names=True)
+    assert p["firstName"] not in clean
+    assert p["lastName"] not in clean
+    assert p["firstName"][0] + "." in clean
 
 
 def test_stripped_copies_fail_strict_validation():

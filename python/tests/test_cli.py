@@ -93,6 +93,19 @@ def test_cli_strip_pii_mask_names():
         assert re.match(r"^[A-Z]\.$", row["firstName"]) or "." in row["firstName"]
 
 
+def test_cli_strip_pii_redacts_narrative_text():
+    import re
+    res = run_cli("--count", "1", "--seed", "7", "--strip-pii",
+                  "--narrative", "loan_application", "--format", "jsonl")
+    assert res.returncode == 0, res.stderr
+    row = json.loads(res.stdout.strip())
+    narrative = row["narratives"][0]["content"]
+    assert "[REDACTED]" in narrative
+    assert not re.search(r"\b\d{4}\s?\d{4}\s?\d{4}\b", narrative)
+    assert not re.search(r"\+91[\s-]?[6-9]\d{9}", narrative)
+    assert row["profile"]["aadhaarNumber"] == ""
+
+
 def test_cli_validate_passes_clean_output():
     res = run_cli("--count", "3", "--seed", "7", "--validate", "--format", "jsonl")
     assert res.returncode == 0, res.stderr
