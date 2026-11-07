@@ -2,9 +2,10 @@
  * PII Stripping Helper (v2.0.9)
  *
  * `stripPII` returns a share-safe copy of a profile with direct identifiers
- * emptied: Aadhaar, PAN, voter ID, phone, email, bank account number, UPI ID
- * and the street-level address line. Names are kept by default (personas and
- * narratives join on them) unless `maskNames` is set.
+ * emptied: Aadhaar, PAN, voter ID, phone, email, bank account number, UPI ID,
+ * PIN code, geo coordinates and both the Roman and native-script street
+ * address lines. Names are kept by default (personas and narratives join on
+ * them) unless `maskNames` is set.
  *
  * Emptied fields stay present as "" so CSV/JSON shapes and column order are
  * unchanged downstream. A `piiStripped: true` marker records that the copy
@@ -33,6 +34,7 @@ export const PII_FIELDS = [
   'bankAccountNumber',
   'upiId',
   'addressLine',
+  'pinCode',
 ] as const;
 
 const NAME_FIELDS = [
@@ -66,6 +68,9 @@ export function stripPII(
     (copy as unknown as Record<string, unknown>)[f] = '';
   }
 
+  copy.geo = { latitude: 0, longitude: 0 };
+  copy.nativeScript = { ...copy.nativeScript, addressLine: '' };
+
   if (options.maskNames) {
     for (const f of NAME_FIELDS) {
       const v = (copy as unknown as Record<string, unknown>)[f];
@@ -73,6 +78,11 @@ export function stripPII(
         (copy as unknown as Record<string, unknown>)[f] = toInitials(v);
       }
     }
+    copy.nativeScript = {
+      ...copy.nativeScript,
+      firstName: toInitials(copy.nativeScript.firstName) ?? '',
+      lastName: toInitials(copy.nativeScript.lastName) ?? '',
+    };
   }
 
   copy.piiStripped = true;

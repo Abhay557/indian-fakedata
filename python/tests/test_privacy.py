@@ -8,6 +8,9 @@ def test_empties_identifiers_keeps_shape_and_provenance():
     clean = strip_pii(p)
     for f in PII_FIELDS:
         assert clean[f] == ""
+    assert clean["geo"] == {"latitude": 0, "longitude": 0}
+    assert clean["nativeScript"]["addressLine"] == ""
+    assert len(p["nativeScript"]["addressLine"]) > 0
     assert clean["piiStripped"] is True
     # provenance retained
     assert clean["synthetic"] is True
@@ -27,6 +30,9 @@ def test_mask_names_replaces_with_initials():
     assert clean["firstName"] == p["firstName"][0] + "."
     assert p["lastName"] not in clean["lastName"]
     assert "." in clean["fatherName"]
+    assert "." in clean["nativeScript"]["firstName"]
+    assert clean["nativeScript"]["firstName"] != p["nativeScript"]["firstName"]
+    assert clean["nativeScript"]["lastName"] != p["nativeScript"]["lastName"]
 
 
 def test_stripped_copies_fail_strict_validation():

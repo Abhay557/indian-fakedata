@@ -51,7 +51,7 @@ def print_help():
                            (religion/state/gender/area/education/occupation)
                            to stderr after generation
     --strip-pii            Empty direct identifiers (Aadhaar/PAN/voter/phone/
-                           email/bank-account/UPI/street-address) in output.
+                           email/bank-account/UPI/PIN/geo/address) in output.
                            Sanitizes profile fields only, not narrative or
                            persona text
     --mask-names           With --strip-pii, reduce names to initials

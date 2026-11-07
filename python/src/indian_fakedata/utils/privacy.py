@@ -5,8 +5,9 @@ Mirrors the TypeScript implementation (src/utils/privacy.ts).
 
 ``strip_pii`` returns a share-safe copy of a profile dict with direct
 identifiers emptied: Aadhaar, PAN, voter ID, phone, email, bank account
-number, UPI ID and the street-level address line. Names are kept by default
-(personas and narratives join on them) unless ``mask_names`` is set.
+number, UPI ID, PIN code, geo coordinates and both the Roman and native-script
+street address lines. Names are kept by default (personas and narratives join
+on them) unless ``mask_names`` is set.
 
 Emptied fields stay present as "" so CSV/JSON shapes and column order are
 unchanged downstream. A ``piiStripped: True`` marker records that the copy
@@ -28,6 +29,7 @@ PII_FIELDS = [
     "bankAccountNumber",
     "upiId",
     "addressLine",
+    "pinCode",
 ]
 
 _NAME_FIELDS = [
@@ -55,10 +57,17 @@ def strip_pii(profile, mask_names=False):
     for f in PII_FIELDS:
         copy[f] = ""
 
+    copy["geo"] = {"latitude": 0, "longitude": 0}
+    native = dict(copy.get("nativeScript") or {})
+    native["addressLine"] = ""
+
     if mask_names:
         for f in _NAME_FIELDS:
             if isinstance(copy.get(f), str):
                 copy[f] = _to_initials(copy[f])
+        native["firstName"] = _to_initials(native.get("firstName", ""))
+        native["lastName"] = _to_initials(native.get("lastName", ""))
 
+    copy["nativeScript"] = native
     copy["piiStripped"] = True
     return copy

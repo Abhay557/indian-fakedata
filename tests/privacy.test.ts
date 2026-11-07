@@ -9,6 +9,9 @@ describe('stripPII (v2.0.9)', () => {
     for (const f of PII_FIELDS) {
       expect(clean[f as keyof typeof clean]).toBe('');
     }
+    expect(clean.geo).toEqual({ latitude: 0, longitude: 0 });
+    expect(clean.nativeScript.addressLine).toBe('');
+    expect(p.nativeScript.addressLine.length).toBeGreaterThan(0);
     expect(clean.piiStripped).toBe(true);
     // provenance retained
     expect(clean.synthetic).toBe(true);
@@ -28,6 +31,9 @@ describe('stripPII (v2.0.9)', () => {
     expect(clean.firstName).toBe(`${p.firstName[0]}.`);
     expect(clean.lastName).not.toContain(p.lastName);
     expect(clean.fatherName).toContain('.');
+    expect(clean.nativeScript.firstName).toContain('.');
+    expect(clean.nativeScript.firstName).not.toBe(p.nativeScript.firstName);
+    expect(clean.nativeScript.lastName).not.toBe(p.nativeScript.lastName);
   });
 
   it('stripped copies intentionally fail strict validation', () => {
