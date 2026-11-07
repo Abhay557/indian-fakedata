@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "build:docs": "esbuild src/index.ts --bundle --minify --format=iife --global-name=IndianFakeData --platform=browser --alias:fs=./docs/stubs/fs.ts --alias:path=./docs/stubs/path.ts --outfile=docs/assets/lib.js",
     "dev": "tsx src/index.ts",
     "cli": "tsx src/cli.ts",
     "test": "vitest run",
