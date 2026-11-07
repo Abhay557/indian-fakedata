@@ -126,6 +126,30 @@ export function selectSurname(
   return sampleFromNameList(genericSurnames, rng);
 }
 
+function titleCaseLanguage(name: string): string {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+/**
+ * Resolve a requested mother tongue against the languages in the database.
+ */
+export function resolveMotherTongue(
+  db: CompiledDatabase,
+  requested: string
+): string {
+  const target = requested.trim().toLowerCase();
+  for (const state of Object.values(db.states)) {
+    for (const language of Object.keys(state.languageDistribution ?? {})) {
+      if (language.toLowerCase() === target) {
+        return titleCaseLanguage(language);
+      }
+    }
+  }
+  throw new Error(
+    `Unknown mother tongue "${requested}". Use a language from the database, such as Hindi, Tamil, or Bengali.`
+  );
+}
+
 /**
  * Select a mother tongue based on state's language distribution.
  */
@@ -145,8 +169,7 @@ export function selectMotherTongue(
   const items = entries.map(([lang, weight]) => ({ name: lang, weight }));
   const { item } = weightedSample(items, rng);
   
-  // Capitalize first letter
-  return item.name.charAt(0).toUpperCase() + item.name.slice(1);
+  return titleCaseLanguage(item.name);
 }
 
 /**

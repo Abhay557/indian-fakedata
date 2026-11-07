@@ -27,8 +27,8 @@ _db_loader = DatabaseLoader()
 load_database = _db_loader.load_database
 load_names = _db_loader.load_names
 from indian_fakedata.utils.names import (
-    select_first_name, select_surname, select_mother_tongue,
-    select_second_language, select_district,
+    select_first_name, select_surname, resolve_mother_tongue,
+    select_mother_tongue, select_second_language, select_district,
 )
 from indian_fakedata.utils.identifiers import (
     generate_aadhaar, generate_pan, generate_voter_id,
@@ -140,7 +140,7 @@ def _generate_single_profile(db, constraints, rng, include_probability_metrics):
     # Step 7: Language
     requested_tongue = str(constraints.get("motherTongue") or "").strip()
     mother_tongue = (
-        requested_tongue.capitalize()
+        resolve_mother_tongue(db, requested_tongue)
         if requested_tongue else select_mother_tongue(db, path["stateId"], rng)
     )
     second_language = select_second_language(db, path["stateId"], mother_tongue, socio["education"], rng)

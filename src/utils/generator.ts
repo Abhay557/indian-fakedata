@@ -31,6 +31,7 @@ import { loadDatabase } from '../database/index.js';
 import {
   selectFirstName,
   selectSurname,
+  resolveMotherTongue,
   selectMotherTongue,
   selectSecondLanguage,
   selectDistrict
@@ -244,7 +245,7 @@ function generateSingleProfile(
   // ── Step 7: Language ──────────────────────────────────
   const requestedTongue = constraints.motherTongue?.trim();
   const motherTongue = requestedTongue
-    ? requestedTongue.charAt(0).toUpperCase() + requestedTongue.slice(1)
+    ? resolveMotherTongue(db, requestedTongue)
     : selectMotherTongue(db, path.stateId, rng);
   const secondLanguage = selectSecondLanguage(db, path.stateId, motherTongue, socio.education, rng);
 

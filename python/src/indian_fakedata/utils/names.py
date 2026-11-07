@@ -120,6 +120,19 @@ def select_surname(db, caste_id, gender, rng):
     return _sample_from_name_list(generic_surnames, rng)
 
 
+def resolve_mother_tongue(db, requested):
+    """Resolve a requested mother tongue against the database."""
+    target = requested.strip().lower()
+    for state in db.get("states", {}).values():
+        for language in (state.get("languageDistribution") or {}):
+            if language.lower() == target:
+                return language[0].upper() + language[1:]
+    raise ValueError(
+        f'Unknown mother tongue "{requested}". Use a language from the database, '
+        "such as Hindi, Tamil, or Bengali."
+    )
+
+
 def select_mother_tongue(db, state_id, rng):
     """Select a mother tongue based on state's language distribution."""
     state_data = db.get("states", {}).get(state_id)
