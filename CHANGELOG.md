@@ -4,27 +4,32 @@ Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
 PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
 within one version; across versions it is not.
 
-## Unreleased
+## 2.2.0
 
-- **Batch profiles now get unique seeds.** Every profile in a batch uses
-  `baseSeed + index` and reports its own `seed`, so any single profile can be
-  regenerated on its own. The first profile is unchanged; later profiles in a
-  `count > 1` batch differ from earlier releases. This applies to both batch
+- **Changed: batch profiles now get unique seeds.** Every profile in a batch
+  uses `baseSeed + index` and reports its own `seed`, so any single profile can
+  be regenerated on its own. The first profile is unchanged; later profiles in
+  a `count > 1` batch differ from earlier releases. This applies to both batch
   and stream generation.
-- **Mother-tongue constraint.** `constraints.motherTongue` and the CLI flag
-  `--motherTongue <lang>` pin the language and its native script.
-- **CLI version checks.** `-v` / `--version` prints the installed version and
-  `--check-latest` checks npm or PyPI for a newer release.
-- **Stronger PII stripping.** Location fields (`pinCode`, `geo`,
+- **Added: mother-tongue constraint.** `constraints.motherTongue` and the CLI
+  flag `--motherTongue <lang>` pin the language and its native script. Unknown
+  language names now fail with an error instead of falling back silently.
+- **Added: CLI version checks.** `-v` / `--version` prints the installed
+  version and `--check-latest` checks npm or PyPI for a newer release.
+- **Added: stronger PII stripping.** Location fields (`pinCode`, `geo`,
   native-script address), native-script names, narrative text and whole
   families can now be stripped or redacted. `stripFamilyPII` /
   `strip_family_pii` cover every member of a generated family.
-- **Trust and packaging.** CI runs both runtimes on supported Node and Python
-  versions, a test keeps the four version sources in sync, and Python ships a
-  `py.typed` marker.
-- **Docs and benchmarks.** The browser bundle is rebuilt from current source
-  and checked by tests against generator output. Benchmark scripts measure
-  stream throughput in both runtimes.
+- **Added: trust and packaging.** CI runs both runtimes on supported Node and
+  Python versions, Ruff and mypy check the Python package, a shared contract
+  keeps the TS and Python APIs aligned, a test keeps the four version sources
+  in sync, and Python ships a `py.typed` marker.
+- **Added: docs and benchmarks.** The browser bundle is rebuilt from current
+  source and checked by tests against generator output. Benchmark scripts
+  measure stream throughput in both runtimes.
+- **Fixed: Python 3.8 syntax.** The medical narrative used an f-string
+  expression that Python 3.8–3.11 reject; the text is now assembled before
+  formatting so the advertised Python 3.8 support is real.
 
 ## 2.1.1
 
