@@ -40,7 +40,7 @@ dev = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-indian_fakedata = ["database/*.json"]
+indian_fakedata = ["database/*.json", "py.typed"]
 
 [project.scripts]
 indian-fakedata = "indian_fakedata.utils.cli:main"
