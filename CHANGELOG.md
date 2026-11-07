@@ -4,6 +4,28 @@ Both runtimes (`@abhay557/indian-fakedata` on npm, `indian-fakedata` on
 PyPI) are versioned and released in lockstep. Reproducibility is guaranteed
 within one version; across versions it is not.
 
+## Unreleased
+
+- **Batch profiles now get unique seeds.** Every profile in a batch uses
+  `baseSeed + index` and reports its own `seed`, so any single profile can be
+  regenerated on its own. The first profile is unchanged; later profiles in a
+  `count > 1` batch differ from earlier releases. This applies to both batch
+  and stream generation.
+- **Mother-tongue constraint.** `constraints.motherTongue` and the CLI flag
+  `--motherTongue <lang>` pin the language and its native script.
+- **CLI version checks.** `-v` / `--version` prints the installed version and
+  `--check-latest` checks npm or PyPI for a newer release.
+- **Stronger PII stripping.** Location fields (`pinCode`, `geo`,
+  native-script address), native-script names, narrative text and whole
+  families can now be stripped or redacted. `stripFamilyPII` /
+  `strip_family_pii` cover every member of a generated family.
+- **Trust and packaging.** CI runs both runtimes on supported Node and Python
+  versions, a test keeps the four version sources in sync, and Python ships a
+  `py.typed` marker.
+- **Docs and benchmarks.** The browser bundle is rebuilt from current source
+  and checked by tests against generator output. Benchmark scripts measure
+  stream throughput in both runtimes.
+
 ## 2.1.1
 
 - **Fix: `saveProfilesToFile` / `save_profiles` create parent directories.**
