@@ -30,6 +30,9 @@ within one version; across versions it is not.
 - **Fixed: Python 3.8 syntax.** The medical narrative used an f-string
   expression that Python 3.8–3.11 reject; the text is now assembled before
   formatting so the advertised Python 3.8 support is real.
+- **Fixed: stable probabilities across Python versions.** Weighted sampling
+  uses `math.fsum` so normalized probabilities and documentation samples match
+  on Python 3.8–3.13 instead of drifting on 3.12's changed float summation.
 
 ## 2.1.1
 

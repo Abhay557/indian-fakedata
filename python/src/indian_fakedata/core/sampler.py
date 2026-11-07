@@ -105,7 +105,7 @@ def weighted_sample(items, rng):
         else:
             weights.append(getattr(item, "weight", 0))
             
-    total_weight = sum(weights)
+    total_weight = math.fsum(weights)
     if total_weight <= 0:
         raise ValueError("weighted_sample: total weight must be positive")
 
