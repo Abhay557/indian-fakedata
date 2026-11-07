@@ -26,6 +26,7 @@
     "cli": "tsx src/cli.ts",
     "test": "vitest run",
     "test:watch": "vitest",
+    "benchmark": "tsx scripts/benchmark.ts",
     "demo": "tsx scripts/demo.ts",
     "download-census": "node scripts/download-census.js",
     "lint": "tsc --noEmit",
