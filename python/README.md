@@ -661,8 +661,10 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   geo coordinates and street address lines (Roman and native script) emptied
   (same shape, `piiStripped: true` marker, provenance kept).
   `mask_names=True` reduces names to initials. Validate before stripping.
-- **CLI privacy.** `--strip-pii` empties identifiers in CLI output (profile
-  fields only, not narrative/persona text); `--mask-names` reduces names
+  `redact_pii(text, profile)` applies the same rules to narrative, persona
+  and other generated text.
+- **CLI privacy.** `--strip-pii` empties identifiers in CLI output and
+  redacts them from narrative/persona text; `--mask-names` reduces names
   to initials.
 - **CLI validation.** `--validate` checks every full profile and exits 1
   with errors on stderr for the first invalid record. Runs before any

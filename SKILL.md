@@ -243,10 +243,11 @@ v2.0.9 sharing: `stripPII(profile)` (Python: `strip_pii(profile)`) empties
 Aadhaar/PAN/voter/phone/email/bank-account/UPI/PIN/geo/street-address (Roman
 and native script), keeps shape and provenance, adds `piiStripped: true`.
 `maskNames: true` (`mask_names=True`) reduces names to initials. Validate
-before stripping.
+before stripping. `redactPII(text, profile)` (`redact_pii(...)`) applies the
+same rules to narrative, persona and other generated text.
 
-CLI: `--strip-pii` sanitizes profile fields in CLI output (not
-narrative/persona text); `--mask-names` reduces names to initials.
+CLI: `--strip-pii` sanitizes profile fields and redacts narrative/persona
+text; `--mask-names` reduces names to initials.
 
 v2.1.0 fixes the employment timeline: stages follow the profile's own
 `occupation` for titles and labels (a cultivator gets farm titles, never
