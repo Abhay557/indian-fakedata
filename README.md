@@ -82,7 +82,7 @@ user = generate_user(seed=7)
 indian-fakedata -c 1000 -f csv -o profiles.csv
 ```
 
-> **Seeds:** the same seed always gives the same profile, as long as you use the same version and the same language (Node or Python). The two languages use random numbers differently, so one seed gives different results in each. A new release can also change what a seed gives. See the [Changelog](https://github.com/Abhay557/indian-fakedata/blob/main/CHANGELOG.md).
+> **Seeds:** the same seed always gives the same profile, as long as you use the same version and the same language (Node or Python). The two languages use random numbers differently, so one seed gives different results in each. A new release can also change what a seed gives. In a batch, each profile uses the base seed plus its index, so a profile's `seed` field reproduces that profile on its own. See the [Changelog](https://github.com/Abhay557/indian-fakedata/blob/main/CHANGELOG.md).
 
 ---
 

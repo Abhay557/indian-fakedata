@@ -101,6 +101,8 @@ indian-fakedata -c 50000 -f jsonl -o tn.jsonl --state "Tamil Nadu" --religion Hi
   person/family *within one implementation* (TS or Python). The two runtimes
   draw RNG streams differently, so a seed does NOT produce identical output
   across Python and Node. Do not claim cross-runtime equivalence.
+- **Batch seeds**: profile `i` uses `base seed + i`, so every profile has its
+  own seed. Passing that field back as `seed` regenerates that profile alone.
 - `generateUser({ seed: 7 })` reproduces the README "Output Sample" profile
   (Pushpa Sharma, Maharashtra, Kolhapur) in the Python implementation.
 
