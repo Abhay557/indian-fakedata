@@ -245,6 +245,8 @@ and native script), keeps shape and provenance, adds `piiStripped: true`.
 `maskNames: true` (`mask_names=True`) reduces names to initials. Validate
 before stripping. `redactPII(text, profile)` (`redact_pii(...)`) applies the
 same rules to narrative, persona and other generated text.
+`stripFamilyPII(family)` (`strip_family_pii(family)`) cleans every member of
+a family result.
 
 CLI: `--strip-pii` sanitizes profile fields and redacts narrative/persona
 text; `--mask-names` reduces names to initials.

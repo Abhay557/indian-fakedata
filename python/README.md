@@ -662,7 +662,8 @@ See [CHANGELOG.md](../CHANGELOG.md) for the full 2.0.9 list.
   (same shape, `piiStripped: true` marker, provenance kept).
   `mask_names=True` reduces names to initials. Validate before stripping.
   `redact_pii(text, profile)` applies the same rules to narrative, persona
-  and other generated text.
+  and other generated text. `strip_family_pii(family)` cleans every member
+  of a `generate_family()` result.
 - **CLI privacy.** `--strip-pii` empties identifiers in CLI output and
   redacts them from narrative/persona text; `--mask-names` reduces names
   to initials.
