@@ -692,6 +692,19 @@ Contributions are welcome. Please read [CONTRIBUTING.md](https://github.com/Abha
 | `npm run demo` | Run demo script |
 | `npm run lint` | Type-check without emitting |
 
+### Benchmarks
+
+Sample stream throughput for 5,000 profiles with seed 42 on one Windows
+laptop. Run the scripts above on your own machine for realistic numbers.
+
+| Runtime | Profiles per second |
+| ------- | -------------------: |
+| TypeScript | about 7,100 |
+| Python | about 990 |
+
+For large datasets, use streaming output and write each profile as it arrives
+instead of keeping the whole batch in memory.
+
 ---
 
 ## For AI Agents
